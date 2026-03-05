@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eric J's Field Notes | AEMT Prep</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="quiz-container">
-        <h1>Eric J's Field Notes</h1>
+        <h1>Eric J's Field Notes <span class="material-icons" style="font-size: 1.2em; color: var(--accent-blue);">health_and_safety</span></h1>
         <h2 class="subtitle">AEMT Foundation Prep</h2>
         
         <div id="setup-area">
             <p style="text-align: center; margin-bottom: 30px;">Select your study mode for Chapters 1-6.</p>
-            <button class="mode-btn" onclick="startQuiz('review')">Option 1: Review Mode (Instant Feedback)</button>
+            <button class="mode-btn" onclick="startQuiz('review')">
+                <span class="material-icons">menu_book</span> Option 1: Review Mode
+            </button>
             <div style="height: 20px;"></div>
-            <button class="mode-btn" onclick="startQuiz('exam')">Option 2: Exam Mode (60 Min Timer)</button>
+            <button class="mode-btn" onclick="startQuiz('exam')">
+                <span class="material-icons">timer</span> Option 2: Exam Mode
+            </button>
         </div>
 
         <div id="quiz-area" style="display:none;">
@@ -36,12 +41,12 @@
                 <p id="pass-status"></p>
             </div>
 
-            <div id="subscription-zone" style="margin-top: 30px; text-align: center;">
-                <p style="font-weight: bold; color: var(--primary-blue);">Get the next Chapter Analysis in your inbox:</p>
+            <div id="subscription-zone" style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #eee;">
+                <p style="font-weight: bold; margin-bottom: 15px;">Subscribe for Chapter Analysis & Field Notes:</p>
                 <iframe src="https://ericjm.substack.com/embed" width="100%" height="320" style="border: 1px solid #EEE; background: white; border-radius: 12px;" frameborder="0" scrolling="no"></iframe>
             </div>
 
-            <button onclick="location.reload()" style="margin-top: 20px;">Restart Quiz Session</button>
+            <button onclick="location.reload()" style="margin-top: 20px; background: var(--primary-blue);">Restart Session</button>
         </div>
     </div>
     <script src="script.js"></script>
