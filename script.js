@@ -41,7 +41,7 @@ let currentIdx = 0;
 let score = 0;
 let mode = '';
 let timerInterval;
-let timeLeft = 1800; // 30 minutes
+let timeLeft = 1800; // 30 minutes in seconds
 
 function startQuiz(selectedMode) {
     mode = selectedMode;
@@ -57,15 +57,15 @@ function startQuiz(selectedMode) {
 }
 
 function startTimer() {
+    // Reset timer just in case
+    timeLeft = 1800; 
+    
+    // Update display immediately
+    updateTimerDisplay();
+
     timerInterval = setInterval(() => {
         timeLeft--;
-        let mins = Math.floor(timeLeft / 60);
-        let secs = timeLeft % 60;
-        // Make sure this ID matches your HTML exactly
-        const timerElem = document.getElementById('timer-display') || document.getElementById('timer');
-        if (timerElem) {
-            timerElem.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
+        updateTimerDisplay();
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
@@ -73,6 +73,16 @@ function startTimer() {
             showResults();
         }
     }, 1000);
+}
+
+function updateTimerDisplay() {
+    let mins = Math.floor(timeLeft / 60);
+    let secs = timeLeft % 60;
+    // This ID must match the span in index.html exactly
+    const display = document.getElementById('timer-display');
+    if (display) {
+        display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
 }
 
 function showQuestion() {
