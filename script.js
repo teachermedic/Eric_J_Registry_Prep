@@ -82,6 +82,115 @@ function handleAction() {
         alert("Please select an answer.");
         return;
     }
+    // (Keep the quizData array you have at the top of the file)
+// Below the quizData array, paste this:
+
+let currentIdx = 0;
+let score = 0;
+let mode = '';
+let timerInterval;
+let timeLeft = 1800; // 30 minutes in seconds
+
+function startQuiz(selectedMode) {
+    mode = selectedMode;
+    document.getElementById('setup-area').style.display = 'none';
+    document.getElementById('quiz-area').style.display = 'block';
+
+    if (mode === 'exam') {
+        quizData.sort(() => Math.random() - 0.5); // Shuffle for exam
+        document.getElementById('timer-container').style.display = 'block';
+        startTimer();
+    }
+    showQuestion();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time is up! Let's see your results.");
+            showResults();
+        }
+    }, 1000);
+}
+
+function showQuestion() {
+    const data = quizData[currentIdx];
+    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${quizData.length}`;
+    document.getElementById('question-text').innerText = data.q;
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    document.getElementById('feedback').innerText = '';
+
+    data.options.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = "option-item";
+        const input = document.createElement('input');
+        input.type = data.type === 'single' ? 'radio' : 'checkbox';
+        input.name = "option";
+        input.value = opt;
+        input.id = opt;
+        
+        const label = document.createElement('label');
+        label.htmlFor = opt;
+        label.innerText = opt;
+
+        div.appendChild(input);
+        div.appendChild(label);
+        container.appendChild(div);
+    });
+}
+
+function handleAction() {
+    const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
+    if (selected.length === 0) return alert("Please select an answer.");
+
+    const correct = quizData[currentIdx].answer;
+    const isCorrect = selected.length === correct.length && selected.every(val => correct.includes(val));
+
+    if (mode === 'review') {
+        const fb = document.getElementById('feedback');
+        fb.innerText = isCorrect ? "Correct!" : `Incorrect. Answer: ${correct.join(", ")}`;
+        fb.style.color = isCorrect ? "#27ae60" : "#e74c3c";
+        if (isCorrect) score++;
+        
+        const btn = document.getElementById('action-btn');
+        btn.innerText = "Next Question";
+        btn.onclick = () => {
+            currentIdx++;
+            if(currentIdx < quizData.length) { 
+                showQuestion(); 
+                btn.innerText = "Submit Answer"; 
+                btn.onclick = handleAction; 
+            } else { showResults(); }
+        };
+    } else {
+        if (isCorrect) score++;
+        currentIdx++;
+        currentIdx < quizData.length ? showQuestion() : showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timerInterval);
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('results-area').style.display = 'block';
+    
+    const total = quizData.length;
+    const percent = Math.round((score / total) * 100);
+    
+    document.getElementById('score-display').innerText = `Score: ${score} / ${total}`;
+    document.getElementById('percentage-display').innerText = `Percentage: ${percent}%`;
+    
+    const passElem = document.getElementById('pass-status');
+    passElem.innerText = percent >= 70 ? "PASSED" : "RE-STUDY RECOMMENDED";
+    passElem.style.color = percent >= 70 ? "#27ae60" : "#e74c3c";
+}
 
     const correct = quizData[currentIdx].answer;
     const isCorrect = selected.length === correct.length && selected.every(val => correct.includes(val));
