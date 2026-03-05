@@ -116,3 +116,15 @@ function showResults() {
     document.getElementById('results-area').style.display = 'block';
     document.getElementById('score-display').innerText = `Final Score: ${score} / 25`;
 }
+// ... (keep the quizData array from the previous response)
+
+function showResults() {
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('results-area').style.display = 'block';
+    
+    const totalQuestions = quizData.length;
+    const percentage = Math.round((score / totalQuestions) * 100);
+    
+    document.getElementById('score-display').innerText = `Correct Answers: ${score} / ${totalQuestions}`;
+    document.getElementById('percentage-display').innerText = `Final Grade: ${percentage}%`;
+}
