@@ -1,4 +1,4 @@
-/* Professional AEMT Quiz Styling */
+/* Professional AEMT Theme - Large Font Version */
 :root {
     --primary-blue: #2c3e50;
     --accent-blue: #3498db;
@@ -9,118 +9,106 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: var(--light-gray);
     margin: 0;
     display: flex;
     justify-content: center;
     padding: 20px;
+    font-size: 20px; /* Large base font for readability */
+    line-height: 1.6;
 }
 
 #quiz-container {
     background-color: var(--white);
-    max-width: 600px;
+    max-width: 800px; /* Slightly wider for large text layout */
     width: 100%;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 50px 40px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
 h1 {
     color: var(--primary-blue);
     text-align: center;
-    font-size: 1.5rem;
-    border-bottom: 2px solid var(--accent-blue);
-    padding-bottom: 10px;
+    font-size: 2.5rem; /* Large Brand Title */
+    margin-bottom: 10px;
 }
 
-/* Progress Bar text */
 #progress {
-    font-size: 0.9rem;
-    color: #7f8c8d;
+    font-size: 1.2rem;
+    color: #95a5a6;
     margin-bottom: 20px;
-    text-align: right;
+    text-align: center;
+    font-weight: bold;
 }
 
 #question-text {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 25px;
-    color: #333;
+    font-size: 1.6rem; /* Very clear question text */
+    font-weight: 700;
+    margin-bottom: 35px;
+    color: var(--primary-blue);
 }
 
-/* Options container */
 .option-item {
-    background: var(--white);
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    padding: 15px;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    border: 3px solid #edf2f7;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    padding: 22px;
     display: flex;
     align-items: center;
+    transition: 0.2s ease-in-out;
 }
 
 .option-item:hover {
     border-color: var(--accent-blue);
-    background-color: #f0f7ff;
+    background-color: #f8fbff;
 }
 
 .option-item input {
-    margin-right: 15px;
-    transform: scale(1.3); /* Larger for mobile tapping */
+    margin-right: 20px;
+    width: 25px;
+    height: 25px; /* Extra large checkboxes/radios */
+    cursor: pointer;
 }
 
 .option-item label {
+    font-size: 1.3rem; /* Large option text */
     cursor: pointer;
     width: 100%;
-    font-size: 1rem;
 }
 
-/* Main action button */
 button {
     width: 100%;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 22px;
+    margin-top: 25px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: var(--primary-blue);
     color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.4rem;
+    font-weight: 800;
     cursor: pointer;
-    transition: background 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-button:hover {
-    background-color: var(--accent-blue);
-}
-
-#setup-area button {
-    margin-bottom: 10px;
-    background-color: var(--accent-blue);
+button:active {
+    transform: translateY(2px);
 }
 
 #feedback {
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 8px;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 1.3rem;
     font-weight: bold;
     text-align: center;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 480px) {
-    #quiz-container {
-        padding: 15px;
-    }
-    
-    h1 {
-        font-size: 1.2rem;
-    }
-
-    #question-text {
-        font-size: 1.1rem;
-    }
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    #quiz-container { padding: 30px 20px; }
+    h1 { font-size: 1.8rem; }
+    #question-text { font-size: 1.3rem; }
 }
+
