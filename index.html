@@ -10,19 +10,28 @@
 <body>
     <div id="quiz-container">
         <h1>Eric J's Field Notes <span class="material-icons" style="font-size: 1.2em; color: var(--accent-blue);">health_and_safety</span></h1>
-        <h2 class="subtitle">AEMT Foundation Prep</h2>
+        <h2 class="subtitle">AEMT Foundation & Patho Prep</h2>
         
         <div id="setup-area">
             <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
             
+            <div style="margin-bottom: 20px; text-align: center;">
+                <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
+                <select id="topic-select" style="width: 90%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem;">
+                    <option value="All">Comprehensive (All Content)</option>
+                    <option value="Foundations">Foundations (Chapters 1-6)</option>
+                    <option value="Pathophysiology">Pathophysiology (Chapter 7)</option>
+                </select>
+            </div>
+
             <div id="slider-box">
                 <label for="question-slider">
-                    Number of Questions: <span id="question-count-label">30</span>
+                    Questions: <span id="question-count-label">30</span>
                 </label>
-                <input type="range" id="question-slider" min="10" max="60" value="30" step="5" oninput="updateSliderLabel(this.value)">
+                <input type="range" id="question-slider" min="5" max="60" value="30" step="5" oninput="updateSliderLabel(this.value)">
                 <p id="time-estimate">
                     <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
-                    Estimated Time: <span id="time-estimate-label">60</span> minutes
+                    Estimated Pacing: <span id="time-estimate-label">60</span> minutes
                 </p>
             </div>
 
@@ -53,12 +62,12 @@
                 <p id="pass-status"></p>
             </div>
 
-            <div id="subscription-zone">
-                <p style="font-weight: bold; margin-bottom: 15px;">If you like this content subscribe to Eric J's Field Notes for More:</p>
+            <div id="subscription-zone" style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #eee;">
+                <p style="font-weight: bold; margin-bottom: 15px;">Join the Field Notes Cohort:</p>
                 <iframe src="https://ericjm.substack.com/embed" width="100%" height="320" style="border: 1px solid #EEE; background: white; border-radius: 12px;" frameborder="0" scrolling="no"></iframe>
             </div>
 
-            <button onclick="location.reload()" style="margin-top: 20px; background: var(--primary-blue);">Restart Session</button>
+            <button onclick="location.reload()" style="margin-top: 20px; background: var(--primary-blue);">New Session</button>
         </div>
     </div>
     <script src="script.js"></script>
