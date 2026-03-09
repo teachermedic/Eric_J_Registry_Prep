@@ -17,7 +17,7 @@
             
             <div style="margin-bottom: 20px; text-align: center;">
                 <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
-                <select id="topic-select" style="width: 90%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem;">
+                <select id="topic-select" onchange="adjustSliderRange()" style="width: 90%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem;">
                     <option value="All">Comprehensive (All Content)</option>
                     <option value="Foundations">Foundations (Chapters 1-6)</option>
                     <option value="Pathophysiology">Pathophysiology (Chapter 7)</option>
@@ -28,7 +28,7 @@
                 <label for="question-slider">
                     Questions: <span id="question-count-label">30</span>
                 </label>
-                <input type="range" id="question-slider" min="5" max="60" value="30" step="5" oninput="updateSliderLabel(this.value)">
+                <input type="range" id="question-slider" min="5" max="70" value="30" step="5" oninput="updateSliderLabel(this.value)">
                 <p id="time-estimate">
                     <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
                     Estimated Pacing: <span id="time-estimate-label">60</span> minutes
