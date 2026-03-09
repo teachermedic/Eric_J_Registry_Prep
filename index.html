@@ -1,174 +1,76 @@
-// 1. ACCESS CONTROL & CONFIG
-function adjustSliderRange() {
-    const topic = document.getElementById('topic-select').value;
-    const slider = document.getElementById('question-slider');
-    const availableCount = topic === "All" ? quizData.length : quizData.filter(i => i.section === topic).length;
-    slider.max = availableCount;
-    if (parseInt(slider.value) > availableCount) slider.value = availableCount;
-    updateSliderLabel(slider.value);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric J's Field Notes | AEMT Prep</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Eric J's Field Notes <span class="material-icons" style="font-size: 1.2em; color: var(--accent-blue);">health_and_safety</span></h1>
+        <h2 class="subtitle">AEMT Foundation, Patho & Medical Prep</h2>
+        
+        <div id="setup-area">
+            <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
+            
+            <div style="margin-bottom: 20px; text-align: center;">
+                <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
+                <select id="topic-select" onchange="adjustSliderRange()" style="width: 95%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem; cursor: pointer;">
+                    <option value="All">Comprehensive (All Content)</option>
+                    <option value="Foundations">Foundations (Chapters 1-6)</option>
+                    <option value="Pathophysiology">Pathophysiology (Chapter 7)</option>
+                    <option value="Medical">Medical Emergencies (Chapters 16-25)</option>
+                </select>
+            </div>
 
-function updateSliderLabel(val) {
-    document.getElementById('question-count-label').innerText = val;
-    document.getElementById('time-estimate-label').innerText = val * 2;
-}
+            <div id="slider-box">
+                <label for="question-slider">
+                    Questions: <span id="question-count-label">30</span>
+                </label>
+                <input type="range" id="question-slider" min="5" max="105" value="30" step="5" oninput="updateSliderLabel(this.value)">
+                <p id="time-estimate">
+                    <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
+                    Estimated Pacing: <span id="time-estimate-label">60</span> minutes
+                </p>
+            </div>
 
-// 2. QUESTION BANK (Total: 105 Items)
-const quizData = [
-    // --- FOUNDATIONS (60 Items) ---
-    { q: "Accidental Death and Disability (1966) is famously known as:", options: ["The Orange Book", "The White Paper", "The EMS Charter", "The NHTSA Guide"], answer: ["The White Paper"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "This paper identified accidental death as a 'neglected disease' and spurred EMS growth." },
-    // ... [Previous 60 Foundations questions remain here]
+            <button class="mode-btn" onclick="startQuiz('review')">
+                <span class="material-icons">menu_book</span> Option 1: Review Mode
+            </button>
+            <div style="height: 15px;"></div>
+            <button class="mode-btn" onclick="startQuiz('exam')">
+                <span class="material-icons">timer</span> Option 2: Exam Mode
+            </button>
+        </div>
 
-    // --- PATHOPHYSIOLOGY & ELECTROLYTES (30 Items) ---
-    { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
-    // ... [Previous 30 Patho questions remain here]
+        <div id="quiz-area" style="display:none;">
+            <div id="timer-container">Time Remaining: <span id="timer-display">00:00</span></div>
+            <div id="progress"></div>
+            <div id="question-text"></div>
+            <div id="options-container"></div>
+            <button id="action-btn" onclick="handleAction()">Submit Answer</button>
+            <div id="feedback"></div>
+        </div>
 
-    // --- MEDICAL EMERGENCIES (Integrated New Questions) ---
-    {
-        q: "A 68-year-old male with a history of COPD presents with acute dyspnea and cyanosis. Which finding would most strongly suggest he is relying on his hypoxic drive?",
-        options: ["Elevated CO2 levels", "Low SpO2 despite high-flow O2", "Respiration stimulated by low O2 rather than high CO2", "Sudden onset of pulmonary edema"],
-        answer: ["Respiration stimulated by low O2 rather than high CO2"],
-        type: "single", category: "Ch 17: Respiratory", section: "Medical",
-        rationale: "Hypoxic drive is a 'backup system' where the body uses chemoreceptors to stimulate breathing based on low oxygen levels because the brain has become insensitive to high CO2."
-    },
-    {
-        q: "Which signs are indicative of a patient in severe respiratory distress? (Select all that apply)",
-        options: ["Tripod position", "Two-word dyspnea", "Pulse oximetry of 96% on room air", "Use of accessory muscles"],
-        answer: ["Tripod position", "Two-word dyspnea", "Use of accessory muscles"],
-        type: "multiple", category: "Ch 17: Respiratory", section: "Medical",
-        rationale: "Severe distress is characterized by physical positioning (tripod), speaking difficulty, and extra muscular effort."
-    },
-    {
-        q: "What is the primary physiological goal of administering aspirin in suspected Acute Coronary Syndrome (ACS)?",
-        options: ["Immediate pain relief", "Prevent further aggregation of platelets", "Dissolve an existing thrombus", "Decrease myocardial oxygen demand"],
-        answer: ["Prevent further aggregation of platelets"],
-        type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-        rationale: "Aspirin prevents platelets from clumping together, which helps keep a clot from getting larger."
-    },
-    {
-        q: "A patient presents with sharp, tearing chest pain radiating to the back and a blood pressure discrepancy between arms. This is most consistent with:",
-        options: ["Acute Myocardial Infarction", "Aortic Dissection", "Congestive Heart Failure", "Spontaneous Pneumothorax"],
-        answer: ["Aortic Dissection"],
-        type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-        rationale: "Aortic dissection typically presents as sudden, 'tearing' pain radiating to the back with unequal radial pulses or BPs."
-    },
-    
-    {
-        q: "Which conditions can mimic the symptoms of a stroke? (Select all that apply)",
-        options: ["Hypoglycemia", "Postictal state", "Epidural hematoma", "Hypertension"],
-        answer: ["Hypoglycemia", "Postictal state", "Epidural hematoma"],
-        type: "multiple", category: "Ch 19: Neurologic", section: "Medical",
-        rationale: "Low blood sugar, the recovery phase of a seizure, and intracranial bleeds can all present with focal neurologic deficits."
-    },
-    {
-        q: "What is the hallmark sign of the postictal state following a generalized tonic-clonic seizure?",
-        options: ["Immediate return to baseline", "Progressive airway narrowing", "Altered mental status with gradual improvement", "Continued muscle rigidity"],
-        answer: ["Altered mental status with gradual improvement"],
-        type: "single", category: "Ch 19: Neurologic", section: "Medical",
-        rationale: "The postictal state is a recovery period characterized by confusion or lethargy that slowly resolves."
-    },
-    {
-        q: "A patient with a history of chronic NSAID use complains of sudden severe epigastric pain and hematemesis. Which is most likely?",
-        options: ["Diverticulitis", "Peptic Ulcer Disease", "Cholecystitis", "Appendicitis"],
-        answer: ["Peptic Ulcer Disease"],
-        type: "single", category: "Ch 20: GI/GU", section: "Medical",
-        rationale: "NSAIDs are a major risk factor for peptic ulcers, which can cause upper GI bleeding (hematemesis)."
-    },
-    {
-        q: "Which of the following are potential causes of an 'acute abdomen'? (Select all that apply)",
-        options: ["Pancreatitis", "Ectopic pregnancy", "Peritonitis", "Chronic renal failure"],
-        answer: ["Pancreatitis", "Ectopic pregnancy", "Peritonitis"],
-        type: "multiple", category: "Ch 20: GI/GU", section: "Medical",
-        rationale: "An acute abdomen refers to sudden onset pain; chronic renal failure is a long-term (chronic) condition."
-    },
-    {
-        q: "A Type 1 diabetic is found unresponsive with deep, rapid respirations and a fruity breath odor. This pattern is known as:",
-        options: ["Cheyne-Stokes", "Kussmaul", "Biot's", "Agonal"],
-        answer: ["Kussmaul"],
-        type: "single", category: "Ch 21: Endocrine", section: "Medical",
-        rationale: "Kussmaul respirations are the body's attempt to blow off CO2 to compensate for metabolic acidosis in DKA."
-    },
-    {
-        q: "Which are contraindications for oral glucose? (Select all that apply)",
-        options: ["Unconscious", "Unable to swallow", "BGL of 55 mg/dL", "Stroke"],
-        answer: ["Unconscious", "Unable to swallow"],
-        type: "multiple", category: "Ch 21: Endocrine", section: "Medical",
-        rationale: "A patient must be awake and able to protect their own airway to receive oral glucose without risk of aspiration."
-    },
-    {
-        q: "What is the primary difference between an allergic reaction and anaphylaxis?",
-        options: ["Skin involvement", "Systemic multi-system failure and life-threatening compromise", "Second exposure requirement", "Insect sting cause"],
-        answer: ["Systemic multi-system failure and life-threatening compromise"],
-        type: "single", category: "Ch 22: Immunology", section: "Medical",
-        rationale: "Anaphylaxis is defined by the presence of life-threatening respiratory or circulatory compromise."
-    },
-    
-    {
-        q: "Which signs would you expect in an opioid overdose? (Select all that apply)",
-        options: ["Pinpoint pupils", "Respiratory depression", "Tachycardia", "Altered mental status"],
-        answer: ["Pinpoint pupils", "Respiratory depression", "Altered mental status"],
-        type: "multiple", category: "Ch 23: Toxicology", section: "Medical",
-        rationale: "The opioid toxidrome consists of the 'triad': CNS depression, respiratory depression, and miosis (pinpoint pupils)."
-    },
-    {
-        q: "When managing a patient with agitated delirium, what is the AEMT's primary priority?",
-        options: ["Diagnosing the cause", "Chemical restraint", "Personal safety and defusing the situation", "Full secondary assessment"],
-        answer: ["Personal safety and defusing the situation"],
-        type: "single", category: "Ch 24: Psychiatric", section: "Medical",
-        rationale: "Safety is paramount; you must ensure the scene is safe before attempting clinical interventions."
-    },
-    {
-        q: "A 22-year-old female has severe lower abdominal pain and spotting; last period was 6 weeks ago. Suspect:",
-        options: ["Pelvic Inflammatory Disease", "Ectopic Pregnancy", "Endometriosis", "Ovarian Cyst"],
-        answer: ["Ectopic Pregnancy"],
-        type: "single", category: "Ch 25: Gynecologic", section: "Medical",
-        rationale: "Any female of childbearing age with abdominal pain and spotting is an ectopic pregnancy until proven otherwise."
-    },
-    {
-        q: "Cyanosis is a sign of which physiological state?",
-        options: ["Hyperglycemia", "Inadequate oxygenation of the blood", "Internal hemorrhage", "CO exposure"],
-        answer: ["Inadequate oxygenation of the blood"],
-        type: "single", category: "Ch 16: Overview", section: "Medical",
-        rationale: "Cyanosis is the bluish discoloration of skin resulting from poor circulation or inadequate oxygenation."
-    }
-];
+        <div id="results-area" style="display:none;">
+            <h2>Assessment Complete</h2>
+            <div id="final-results-card">
+                <p id="score-display"></p>
+                <p id="percentage-display"></p>
+                <div id="category-breakdown"></div>
+                <p id="pass-status"></p>
+            </div>
 
-// --- QUIZ LOGIC ---
-let sessionQuestions = [];
-let currentIdx = 0;
-let score = 0;
-let mode = '';
-let timerInterval;
-let timeLeft = 0;
-let categoryStats = {};
+            <div id="subscription-zone" style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #eee;">
+                <p style="font-weight: bold; margin-bottom: 15px;">Join the Field Notes Cohort:</p>
+                <iframe src="https://ericjm.substack.com/embed" width="100%" height="320" style="border: 1px solid #EEE; background: white; border-radius: 12px;" frameborder="0" scrolling="no"></iframe>
+            </div>
 
-function startQuiz(selectedMode) {
-    mode = selectedMode;
-    const selectedTopic = document.getElementById('topic-select').value;
-    const numToPull = parseInt(document.getElementById('question-slider').value);
-    
-    let filteredBank = selectedTopic === "All" ? [...quizData] : quizData.filter(i => i.section === selectedTopic);
-    const finalPull = Math.min(numToPull, filteredBank.length);
-
-    document.getElementById('setup-area').style.display = 'none';
-    document.getElementById('quiz-area').style.display = 'block';
-
-    const history = JSON.parse(localStorage.getItem('eric_field_notes_history') || "{}");
-    let sortedBank = filteredBank.sort((a, b) => {
-        const failA = history[a.q] ? history[a.q].fail : 0;
-        const failB = history[b.q] ? history[b.q].fail : 0;
-        return failB - failA;
-    });
-
-    sessionQuestions = sortedBank.slice(0, finalPull);
-
-    if (mode === 'exam') {
-        sessionQuestions.sort(() => Math.random() - 0.5);
-        timeLeft = sessionQuestions.length * 2 * 60; 
-        document.getElementById('timer-container').style.display = 'block';
-        startTimer();
-    }
-    showQuestion();
-}
-
-// ... [Keep your remaining functions: startTimer, showQuestion, handleAction, showResults] ...
+            <button onclick="location.reload()" style="margin-top: 20px; background: var(--primary-blue);">New Session</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
