@@ -1,5 +1,5 @@
 const quizData = [
-    // --- FOUNDATIONS (Chapters 1-6) ---
+    // --- FOUNDATIONS (CHAPTERS 1-6) ---
     { q: "Accidental Death and Disability (1966) is famously known as:", options: ["The Orange Book", "The White Paper", "The EMS Charter", "The NHTSA Guide"], answer: ["The White Paper"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "This paper identified accidental death as a 'neglected disease' and spurred EMS growth." },
     { q: "Which EMS level is trained in IV therapy and limited advanced meds?", options: ["EMR", "EMT", "AEMT", "Paramedic"], answer: ["AEMT"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "AEMTs bridge basic and advanced life support." },
     { q: "What is the primary way to prevent disease transmission?", options: ["Gloves", "Handwashing", "Gowns", "Masks"], answer: ["Handwashing"], type: "single", category: "Ch 2: Safety", section: "Foundations", rationale: "Hand hygiene is the #1 clinical defense." },
@@ -7,328 +7,53 @@ const quizData = [
     { q: "In SBAR, what does 'B' stand for?", options: ["Basic Info", "Background", "Body System", "Blood Pressure"], answer: ["Background"], type: "single", category: "Ch 4: Communications", section: "Foundations", rationale: "SBAR = Situation, Background, Assessment, Recommendation." },
     { q: "What does the prefix 'hypo-' mean?", options: ["Above", "Below", "Fast", "Slow"], answer: ["Below"], type: "single", category: "Ch 5: Terminology", section: "Foundations", rationale: "Hypo (low/below) vs Hyper (high/above)." },
     { q: "Which lifting technique uses the legs and an upright back?", options: ["Power grip", "Power lift", "Deadlift", "Shoulder lift"], answer: ["Power lift"], type: "single", category: "Ch 6: Lifting", section: "Foundations", rationale: "Legs are strongest; back must remain straight." },
+    { q: "Who is responsible for the daily oversight of an EMS system?", options: ["Fire Chief", "Mayor", "Medical Director", "Shift Supervisor"], answer: ["Medical Director"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "The Medical Director provides the legal authority and oversight for clinical care." },
+    { q: "What does CQI stand for?", options: ["Clinical Quality Insurance", "Continuous Quality Improvement", "Critical Quality Indicator", "Cardiac Quality Initiative"], answer: ["Continuous Quality Improvement"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "CQI is a circular process used to improve patient care through internal/external reviews." },
+    { q: "Online medical direction is defined as:", options: ["Protocols", "Standing orders", "Real-time radio/phone consultation", "Monthly meetings"], answer: ["Real-time radio/phone consultation"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "Online direction is immediate/real-time; Offline is via protocols/standing orders." },
+    { q: "The ADA (Americans with Disabilities Act) protects which group?", options: ["Only wheelchair users", "Patients only", "Qualified workers with disabilities", "Physicians only"], answer: ["Qualified workers with disabilities"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "The ADA ensures equal opportunity for qualified individuals with disabilities in employment." },
+    { q: "Which of the following is an example of 'Public Health'?", options: ["Doing a 12-lead ECG", "Vaccination programs", "Lifting a patient", "Giving ASA"], answer: ["Vaccination programs"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "Public health focuses on prevention across a population." },
+    { q: "The highest level of EMS training is:", options: ["EMT", "AEMT", "Paramedic", "Physician"], answer: ["Paramedic"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "Paramedic is the highest prehospital licensure level." },
+    { q: "What is the goal of EMS Research?", options: ["To prove EMS is the best", "Evidence-based medicine", "To justify higher pay", "To sell equipment"], answer: ["Evidence-based medicine"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "Research ensures treatments are based on proven clinical outcomes." },
+    { q: "NREMT serves what primary purpose?", options: ["Legal advocacy", "National standard for certification", "Employment agency", "Billing"], answer: ["National standard for certification"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "NREMT provides a national standard of competency." },
+    { q: "When should an N95 or HEPA respirator be worn?", options: ["Vomiting", "Bleeding", "Suspected Tuberculosis (TB)", "Broken leg"], answer: ["Suspected Tuberculosis (TB)"], type: "single", category: "Ch 2: Safety & Wellness", section: "Foundations", rationale: "Airborne pathogens like TB require high-level filtration." },
+    { q: "Which route of transmission involves a person touching a contaminated object?", options: ["Direct contact", "Indirect contact", "Airborne", "Vector-borne"], answer: ["Indirect contact"], type: "single", category: "Ch 2: Safety & Wellness", section: "Foundations", rationale: "Indirect contact uses a 'fomite' (contaminated object) to move the pathogen." },
+    { q: "What is the first priority at every emergency scene?", options: ["Patient care", "Documentation", "Personal safety", "Family support"], answer: ["Personal safety"], type: "single", category: "Ch 2: Safety & Wellness", section: "Foundations", rationale: "You cannot help the patient if you become a victim yourself." },
+    { q: "Which of these is a 'Vector' for disease?", options: ["Stethoscope", "Mosquito", "Air", "Water"], answer: ["Mosquito"], type: "single" , category: "Ch 2: Safety & Wellness", section: "Foundations", rationale: "A vector is a living organism that transmits disease." },
+    { q: "The process of killing most, but not all, microorganisms is:", options: ["Cleaning", "Disinfecting", "Sterilizing", "Wiping"], answer: ["Disinfecting"], type: "single", category: "Ch 2: Safety & Wellness", section: "Foundations", rationale: "Disinfection kills many pathogens; sterilization kills all forms of life." },
 
-    // --- PATHOPHYSIOLOGY (Chapter 7) ---
+    // --- PATHOPHYSIOLOGY (CHAPTER 7) ---
     { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
     { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
-    { q: "A pulmonary embolism causes which type of shock?", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Obstructive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "A physical block to flow is obstructive shock." },
+    { q: "A pulmonary embolism causes which type of shock?", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Obstructive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "A physical block to flow (embolism, tension pneumo) is obstructive." },
+    { q: "What happens to the Sodium-Potassium pump during severe shock?", options: ["Speeds up", "Fails due to lack of ATP", "Switches to calcium", "Remains normal"], answer: ["Fails due to lack of ATP"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without ATP (energy), cellular pumps fail, leading to cell death." },
+    { q: "Which are signs of COMPENSATED shock?", options: ["Thirst", "Narrowing pulse pressure", "Tachycardia", "Hypotension"], answer: ["Thirst", "Narrowing pulse pressure", "Tachycardia"], type: "multiple", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Hypotension is the key sign of DECOMPENSATED shock." },
+    { q: "The Fick Principle describes components necessary for:", options: ["Lifting", "Oxygen reaching cells", "Legal duty", "Radio use"], answer: ["Oxygen reaching cells"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Fick Principle: O2 in air, working pump, enough RBCs." },
+    { q: "Which receptor causes vasoconstriction during the stress response?", options: ["Alpha-1", "Beta-1", "Beta-2", "Muscarinic"], answer: ["Alpha-1"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Alpha-1 constriction pushes blood to the core." },
+    { q: "Stroke Volume is defined as:", options: ["HR x BP", "Blood ejected per contraction", "Total body volume", "Flow speed"], answer: ["Blood ejected per contraction"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Cardiac Output = Stroke Volume x Heart Rate." },
+    { q: "In an adult, Decompensated Shock is often indicated by a systolic BP below:", options: ["120 mmHg", "100 mmHg", "90 mmHg", "60 mmHg"], answer: ["90 mmHg"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "90 mmHg is the classic threshold for decompensation." },
+    { q: "A patient with severe renal failure is most at risk for which of the following? (Select all that apply)", options: ["Hyperkalemia", "Hypermagnesemia", "Hypercalcemia", "Hyperphosphatemia"], answer: ["Hyperkalemia", "Hypermagnesemia", "Hyperphosphatemia"], type: "multiple", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Renal failure leads to decreased excretion of potassium, magnesium, and phosphate." },
+    { q: "Metaplasia is defined as:", options: ["Decrease in cell size", "Increase in cell number", "Reversible replacement of one cell type with another", "Alteration in size and shape"], answer: ["Reversible replacement of one cell type with another"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Metaplasia is the reversible adaptation where one adult cell type is replaced by another." },
 
-    // --- CH 16: MEDICAL OVERVIEW ---
-    {
-      q: "When evaluating the Nature of Illness (NOI), what is the AEMT's primary goal during the scene size-up and initial encounter?",
-      options: ["Determine the exact diagnosis", "Identify life-threats and determine if the patient is medical or trauma", "Complete a full head-to-toe assessment", "Administer symptom-specific medications"],
-      answer: ["Identify life-threats and determine if the patient is medical or trauma"],
-      type: "single", category: "Ch 16: Medical Overview", section: "Medical",
-      rationale: "The NOI helps focus the assessment, but the primary goal remains identifying life-threats and the general category of the emergency."
-    },
-    {
-      q: "Which of the following patients should be considered high-priority for immediate transport? (Select all that apply)",
-      options: ["A patient with a GCS of 15 and stable vital signs", "A patient with an obstructed airway that cannot be cleared", "A patient with signs of poor perfusion or shock", "A patient who is unresponsive and cannot follow commands"],
-      answer: ["A patient with an obstructed airway that cannot be cleared", "A patient with signs of poor perfusion or shock", "A patient who is unresponsive and cannot follow commands"],
-      type: "multiple", category: "Ch 16: Medical Overview", section: "Medical",
-      rationale: "Unresponsiveness, airway obstruction, and poor perfusion are critical findings requiring immediate transport."
-    },
-
-    // --- CH 17: RESPIRATORY EMERGENCIES ---
-    {
-      q: "How does Continuous Positive Airway Pressure (CPAP) improve oxygenation in a patient with acute pulmonary edema?",
-      options: ["By increasing heart rate to improve cardiac output", "By forcing fluid out of the alveoli and back into the pulmonary capillaries", "By providing 100% oxygen via a closed system", "By causing systemic vasodilation to lower blood pressure"],
-      answer: ["By forcing fluid out of the alveoli and back into the pulmonary capillaries"],
-      type: "single", category: "Ch 17: Respiratory", section: "Medical",
-      rationale: "CPAP uses extrinsic PEEP to push interstitial fluid from the alveoli back into the vasculature, improving gas exchange."
-    },
+    // --- MEDICAL (CHAPTERS 16-25) ---
+    { q: "When evaluating the Nature of Illness (NOI), what is the AEMT's primary goal during size-up?", options: ["Determine exact diagnosis", "Identify life-threats and determine medical vs trauma", "Complete full head-to-toe", "Administer medications"], answer: ["Identify life-threats and determine medical vs trauma"], type: "single", category: "Ch 16: Overview", section: "Medical", rationale: "The NOI helps focus the assessment on the general category and threats." },
+    { q: "Which findings are associated with the 'Alarm' stage of the GAS? (Select all that apply)", options: ["Release of catecholamines", "Decreased HR", "Increased blood glucose", "Exhaustion"], answer: ["Release of catecholamines", "Increased blood glucose"], type: "multiple", category: "Ch 7: Patho", section: "Medical", rationale: "The alarm stage involves the fight-or-flight response, increasing HR and glucose." },
+    { q: "How does CPAP improve oxygenation in pulmonary edema?", options: ["Increasing HR", "Forcing fluid out of alveoli and into capillaries", "Providing 100% O2", "Causing vasodilation"], answer: ["Forcing fluid out of alveoli and into capillaries"], type: "single", category: "Ch 17: Respiratory", section: "Medical", rationale: "CPAP uses pressure to push fluid from the air sacs back into the bloodstream." },
     
-    {
-      q: "A 60-year-old male with COPD presents with pursed-lip breathing, a barrel chest, and extreme thinness. These findings are most characteristic of:",
-      options: ["Chronic Bronchitis", "Emphysema", "Pneumonia", "Pulmonary Embolism"],
-      answer: ["Emphysema"],
-      type: "single", category: "Ch 17: Respiratory", section: "Medical",
-      rationale: "Emphysema (often called 'pink puffers') involves destruction of alveoli and air trapping, leading to a barrel chest and thin appearance due to high work of breathing."
-    },
-    {
-      q: "Which of the following are classic risk factors for a Pulmonary Embolism? (Select all that apply)",
-      options: ["Recent long-distance travel", "Oral contraceptive use", "Recent surgery or immobilization", "Active smoking history"],
-      answer: ["Recent long-distance travel", "Oral contraceptive use", "Recent surgery or immobilization", "Active smoking history"],
-      type: "multiple", category: "Ch 17: Respiratory", section: "Medical",
-      rationale: "Virchow's Triad (stasis, hypercoagulability, and vessel wall injury) drives PE risk; all listed factors contribute to these conditions."
-    },
+    { q: "A 60-year-old male with emphysema likely presents with:", options: ["Barrel chest", "Extreme thinness", "Pursed-lip breathing", "Chronic productive cough"], answer: ["Barrel chest", "Extreme thinness", "Pursed-lip breathing"], type: "multiple", category: "Ch 17: Respiratory", section: "Medical", rationale: "Emphysema (pink puffers) involves air trapping (barrel chest) and high energy use (thinness)." },
+    { q: "Classic risk factors for Pulmonary Embolism include: (Select all that apply)", options: ["Recent surgery", "Oral contraceptives", "Long-distance travel", "Immobilization"], answer: ["Recent surgery", "Oral contraceptives", "Long-distance travel", "Immobilization"], type: "multiple", category: "Ch 17: Respiratory", section: "Medical", rationale: "These factors represent elements of Virchow's Triad (stasis and hypercoagulability)." },
     
-    {
-      q: "A patient presents with sudden onset sharp chest pain, decreased breath sounds on the right side, and tachycardia. There is no history of trauma. You should suspect:",
-      options: ["Spontaneous Pneumothorax", "Acute Myocardial Infarction", "Tension Pneumothorax", "Pericarditis"],
-      answer: ["Spontaneous Pneumothorax"],
-      type: "single", category: "Ch 17: Respiratory", section: "Medical",
-      rationale: "Sudden pleuritic pain and unilateral decreased breath sounds in a non-trauma patient are classic for a spontaneous pneumothorax."
-    },
-    {
-      q: "What is the primary physiological trigger for breathing in a healthy individual without chronic lung disease?",
-      options: ["Low oxygen levels in the blood", "High carbon dioxide levels in the blood", "Low pH of the cerebrospinal fluid", "High bicarbonate levels in the blood"],
-      answer: ["High carbon dioxide levels in the blood"],
-      type: "single", category: "Ch 17: Respiratory", section: "Medical",
-      rationale: "The healthy respiratory drive is triggered by the brain's sensitivity to rising CO2 levels."
-    },
-
-    // --- CH 18: CARDIOVASCULAR EMERGENCIES ---
-    {
-      q: "What is the primary goal of administering Aspirin to a patient with suspected Acute Coronary Syndrome?",
-      options: ["To provide immediate pain relief", "To dissolve the existing thrombus in the coronary artery", "To prevent further aggregation of platelets at the site of plaque rupture", "To lower the patient's blood pressure"],
-      answer: ["To prevent further aggregation of platelets at the site of plaque rupture"],
-      type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-      rationale: "Aspirin is an antiplatelet agent; it prevents the clot from getting larger by making platelets 'less sticky.'"
-    },
-    {
-      q: "A patient presents with JVD, peripheral edema, and an enlarged liver. These are hallmark signs of:",
-      options: ["Left-sided heart failure", "Right-sided heart failure", "Acute Myocardial Infarction", "Aortic Dissection"],
-      answer: ["Right-sided heart failure"],
-      type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-      rationale: "Right-sided heart failure causes blood to back up into the systemic circulation, leading to JVD and dependent edema."
-    },
+    { q: "What is the primary goal of Aspirin in suspected ACS?", options: ["Pain relief", "Dissolve the thrombus", "Prevent further platelet aggregation", "Lower BP"], answer: ["Prevent further platelet aggregation"], type: "single", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "Aspirin makes platelets 'slippery' so they don't grow the existing clot." },
+    { q: "Hallmark signs of right-sided heart failure include:", options: ["JVD", "Peripheral edema", "Pulmonary edema", "Enlarged liver"], answer: ["JVD", "Peripheral edema", "Enlarged liver"], type: "multiple", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "Right-sided failure causes backup into the body (systemic), whereas left-sided backs up into the lungs." },
     
-
-[Image of right-sided heart failure symptoms]
-
-    {
-      q: "Which symptoms are commonly associated with an Abdominal Aortic Aneurysm (AAA) that is beginning to leak? (Select all that apply)",
-      options: ["Sudden, severe back or abdominal pain", "A pulsating mass in the abdomen", "Unequal femoral pulses", "Crushing substernal chest pressure"],
-      answer: ["Sudden, severe back or abdominal pain", "A pulsating mass in the abdomen", "Unequal femoral pulses"],
-      type: "multiple", category: "Ch 18: Cardiovascular", section: "Medical",
-      rationale: "AAA presents with abdominal/back pain and a pulsating mass. Substernal pressure is associated with thoracic issues or MI."
-    },
-    {
-      q: "In the cardiac conduction system, which structure acts as the 'gatekeeper' to slow down the impulse before it enters the ventricles?",
-      options: ["SA Node", "AV Node", "Bundle of His", "Purkinje Fibers"],
-      answer: ["AV Node"],
-      type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-      rationale: "The AV node delays the electrical impulse to allow the ventricles time to fill with blood from the atria."
-    },
+    { q: "Which conduction structure is the 'gatekeeper' of the heart?", options: ["SA Node", "AV Node", "Bundle of His", "Purkinje Fibers"], answer: ["AV Node"], type: "single", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "The AV node delays the impulse to allow for ventricular filling." },
     
-
-[Image of cardiac conduction system]
-
-    {
-      q: "You are treating a patient with suspected MI who is hypotensive (BP 88/54). Which medication is CONTRAINDICATED?",
-      options: ["Aspirin", "Oxygen", "Nitroglycerin", "Fentanyl"],
-      answer: ["Nitroglycerin"],
-      type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
-      rationale: "Nitroglycerin is a potent vasodilator and should not be given to patients with a systolic BP below 90-100 mmHg."
-    },
-
-    // --- CH 19: NEUROLOGIC EMERGENCIES ---
-    {
-      q: "By definition, the symptoms of a Transient Ischemic Attack (TIA) must resolve within what time frame?",
-      options: ["1 hour", "12 hours", "24 hours", "48 hours"],
-      answer: ["24 hours"],
-      type: "single", category: "Ch 19: Neurologic", section: "Medical",
-      rationale: "A TIA is a temporary blockage; neurological deficits must resolve completely within 24 hours."
-    },
-    {
-      q: "Which of the following are components of the 'AEIOU-TIPS' mnemonic for altered mental status? (Select all that apply)",
-      options: ["Epilepsy", "Insulin", "Overdose", "Trauma"],
-      answer: ["Epilepsy", "Insulin", "Overdose", "Trauma"],
-      type: "multiple", category: "Ch 19: Neurologic", section: "Medical",
-      rationale: "The mnemonic covers Alcohol/Acidosis, Epilepsy/Endocrine/Electrolytes, Insulin, Opiates/Overdose, Uremia, Trauma/Temperature, Infection, Psychogenic/Poisoning, Stroke/Shock/Seizure."
-    },
-    {
-      q: "A patient is unresponsive to voice but withdraws from painful stimuli, has no eye opening, and makes incomprehensible sounds. What is their GCS score?",
-      options: ["6", "8", "9", "11"],
-      answer: ["8"],
-      type: "single", category: "Ch 19: Neurologic", section: "Medical",
-      rationale: "Eye: 1 (none), Verbal: 2 (incomprehensible), Motor: 4 (withdraws from pain) = 7. If choosing 8, verify motor 'withdraws' vs 'localizes'."
-    },
-    {
-      q: "Which type of seizure is characterized by a brief lapse of consciousness, often seen as 'staring into space' with no loss of muscle tone?",
-      options: ["Generalized tonic-clonic", "Absence seizure", "Simple partial seizure", "Status epilepticus"],
-      answer: ["Absence seizure"],
-      type: "single", category: "Ch 19: Neurologic", section: "Medical",
-      rationale: "Absence seizures (petit mal) are brief and involve minimal movement, common in children."
-    },
-    {
-      q: "A 'thunderclap' headache followed by rapid loss of consciousness is highly suspicious for which condition?",
-      options: ["Ischemic stroke", "Subarachnoid hemorrhage", "Bacterial meningitis", "Classic migraine"],
-      answer: ["Subarachnoid hemorrhage"],
-      type: "single", category: "Ch 19: Neurologic", section: "Medical",
-      rationale: "A subarachnoid hemorrhage often causes the 'worst headache of life' due to arterial bleeding into the subarachnoid space."
-    },
-
-    // --- CH 20: GI AND UROLOGIC EMERGENCIES ---
-    {
-      q: "Referred pain to the right shoulder is a classic sign of which abdominal condition?",
-      options: ["Appendicitis", "Cholecystitis", "Pancreatitis", "Diverticulitis"],
-      answer: ["Cholecystitis"],
-      type: "single", category: "Ch 20: GI/Urologic", section: "Medical",
-      rationale: "Inflammation of the gallbladder (cholecystitis) can irritate the diaphragm, causing referred pain to the right shoulder."
-    },
-    {
-      q: "A patient with chronic renal failure presents with severe muscle weakness and palpitations after missing two dialysis sessions. What electrolyte imbalance is most likely?",
-      options: ["Hypernatremia", "Hyperkalemia", "Hypocalcemia", "Hypomagnesemia"],
-      answer: ["Hyperkalemia"],
-      type: "single", category: "Ch 20: GI/Urologic", section: "Medical",
-      rationale: "Dialysis removes potassium; when missed, life-threatening levels of potassium (hyperkalemia) can build up, affecting heart rhythm."
-    },
-    {
-      q: "Which findings are consistent with peritonitis? (Select all that apply)",
-      options: ["Abdominal rigidity", "Rebound tenderness", "Fever", "Frequent watery diarrhea"],
-      answer: ["Abdominal rigidity", "Rebound tenderness", "Fever"],
-      type: "multiple", category: "Ch 20: GI/Urologic", section: "Medical",
-      rationale: "Peritonitis (inflammation of the abdominal lining) causes 'board-like' rigidity, rebound tenderness, and systemic signs of infection like fever."
-    },
-    {
-      q: "A patient complains of sudden onset, 'tearing' abdominal pain that radiates to the back and describes it as the worst pain they have ever felt. You should prioritize:",
-      options: ["Pain management with narcotics", "Assessing for a pulsating abdominal mass and unequal pulses", "Administering oral glucose", "Checking for Murphy's sign"],
-      answer: ["Assessing for a pulsating abdominal mass and unequal pulses"],
-      type: "single", category: "Ch 20: GI/Urologic", section: "Medical",
-      rationale: "These are signs of an Aortic Dissection or leaking AAA, which are immediate surgical emergencies."
-    },
-    {
-      q: "Bright red blood in the stool, typically indicating a lower GI bleed, is known as:",
-      options: ["Hematemesis", "Melena", "Hematochezia", "Hemoptysis"],
-      answer: ["Hematochezia"],
-      type: "single", category: "Ch 20: GI/Urologic", section: "Medical",
-      rationale: "Hematochezia is bright red blood in the stool. Melena is dark, tarry stool (upper GI). Hematemesis is vomiting blood."
-    },
-
-    // --- CH 21: ENDOCRINE AND HEMATOLOGIC EMERGENCIES ---
-    {
-      q: "Which clinical finding is unique to Diabetic Ketoacidosis (DKA) compared to Hyperglycemic Hyperosmolar Nonketotic Syndrome (HHNS)?",
-      options: ["Extreme hyperglycemia (>600 mg/dL)", "Altered mental status", "Kussmaul respirations", "Severe dehydration"],
-      answer: ["Kussmaul respirations"],
-      type: "single", category: "Ch 21: Endocrine/Hem", section: "Medical",
-      rationale: "Kussmaul respirations occur only in DKA as the body tries to compensate for metabolic acidosis; HHNS does not typically involve significant ketoacidosis."
-    },
+    { q: "Symptoms of TIA must resolve within:", options: ["1 hour", "12 hours", "24 hours", "48 hours"], answer: ["24 hours"], type: "single", category: "Ch 19: Neurologic", section: "Medical", rationale: "By definition, TIA symptoms are temporary and must resolve within one day." },
+    { q: "Referred pain to the right shoulder is characteristic of:", options: ["Appendicitis", "Cholecystitis", "Pancreatitis", "Diverticulitis"], answer: ["Cholecystitis"], type: "single", category: "Ch 20: GI/GU", section: "Medical", rationale: "Gallbladder inflammation can irritate the phrenic nerve, causing shoulder pain." },
+    { q: "Kussmaul respirations are unique to which condition?", options: ["HHNS", "DKA", "Hypoglycemia", "Stroke"], answer: ["DKA"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "Kussmaul breathing is the body's attempt to compensate for metabolic acidosis." },
     
-    {
-      q: "A patient with Sickle Cell Disease is in severe pain. What is the underlying pathophysiology of a 'vaso-occlusive crisis'?",
-      options: ["Acute blood loss from internal bleeding", "Misshapen red blood cells getting stuck in small blood vessels", "A sudden drop in the total number of white blood cells", "The destruction of platelets by the spleen"],
-      answer: ["Misshapen red blood cells getting stuck in small blood vessels"],
-      type: "single", category: "Ch 21: Endocrine/Hem", section: "Medical",
-      rationale: "Sickled RBCs are rigid and clog capillaries, leading to tissue ischemia and extreme pain."
-    },
-    {
-      q: "Which of the following are contraindications for the administration of oral glucose? (Select all that apply)",
-      options: ["The patient is unconscious", "The patient is unable to swallow", "The patient's blood glucose is 45 mg/dL", "The patient has a suspected stroke"],
-      answer: ["The patient is unconscious", "The patient is unable to swallow"],
-      type: "multiple", category: "Ch 21: Endocrine/Hem", section: "Medical",
-      rationale: "Airway protection is the priority. If a patient cannot swallow or is unconscious, oral glucose is an aspiration risk."
-    },
-    {
-      q: "Polyuria, polydipsia, and polyphagia are the 'classic triad' of which condition?",
-      options: ["Hypoglycemia", "Hyperglycemia", "Sickle Cell Crisis", "Hypothyroidism"],
-      answer: ["Hyperglycemia"],
-      type: "single", category: "Ch 21: Endocrine/Hem", section: "Medical",
-      rationale: "These represent excessive urination, thirst, and hunger associated with high blood glucose."
-    },
-
-    // --- CH 22: IMMUNOLOGIC EMERGENCIES ---
-    {
-      q: "What are the two most definitive clinical criteria that differentiate anaphylaxis from a simple allergic reaction?",
-      options: ["Hives and itching", "Nausea and abdominal cramping", "Airway compromise and hypotension", "Localized swelling and tachycardia"],
-      answer: ["Airway compromise and hypotension"],
-      type: "single", category: "Ch 22: Immunologic", section: "Medical",
-      rationale: "Anaphylaxis is systemic and life-threatening, specifically involving respiratory failure or circulatory shock."
-    },
-    {
-      q: "Epinephrine causes which of the following physiological effects? (Select all that apply)",
-      options: ["Vasoconstriction", "Bronchodilation", "Increased heart rate", "Decreased capillary permeability"],
-      answer: ["Vasoconstriction", "Bronchodilation", "Increased heart rate", "Decreased capillary permeability"],
-      type: "multiple", category: "Ch 22: Immunologic", section: "Medical",
-      rationale: "Epi stimulates Alpha-1 (vasoconstriction), Beta-1 (HR), and Beta-2 (bronchodilation) and stabilizes mast cells."
-    },
-    {
-      q: "A biphasic reaction in anaphylaxis refers to:",
-      options: ["A reaction involving both the skin and the respiratory system", "A recurrence of symptoms after initial resolution without further exposure", "A reaction that only occurs after the second exposure to an allergen", "When a patient requires two doses of Epinephrine"],
-      answer: ["A recurrence of symptoms after initial resolution without further exposure"],
-      type: "single", category: "Ch 22: Immunologic", section: "Medical",
-      rationale: "Up to 20% of anaphylaxis patients experience a 'second wave' of symptoms hours after the initial reaction."
-    },
-    {
-      q: "Which of the following chemical mediators is primarily responsible for the vasodilation and increased capillary permeability seen in anaphylaxis?",
-      options: ["Insulin", "Histamine", "Dopamine", "Acetylcholine"],
-      answer: ["Histamine"],
-      type: "single", category: "Ch 22: Immunologic", section: "Medical",
-      rationale: "Histamine is released by mast cells and basophils, causing the classic signs of allergic and anaphylactic reactions."
-    },
-
-    // --- CH 23: TOXICOLOGY ---
-    {
-      q: "A patient presents with pinpoint pupils, shallow respirations (4/min), and a GCS of 3. Which toxidrome is most likely?",
-      options: ["Sympathomimetic", "Anticholinergic", "Opioid", "Cholinergic"],
-      answer: ["Opioid"],
-      type: "single", category: "Ch 23: Toxicology", section: "Medical",
-      rationale: "The 'Opioid Triad' consists of CNS depression, respiratory depression, and miosis (pinpoint pupils)."
-    },
+    { q: "Define the 'Opioid Triad':", options: ["Pinpoint pupils", "Respiratory depression", "Tachycardia", "Altered mental status"], answer: ["Pinpoint pupils", "Respiratory depression", "Altered mental status"], type: "multiple", category: "Ch 23: Toxicology", section: "Medical", rationale: "The three signs of opioid overdose are pinpoint pupils (miosis), slow/shallow breathing, and unconsciousness." },
     
-    {
-      q: "Why is pulse oximetry unreliable in a patient with suspected carbon monoxide (CO) poisoning?",
-      options: ["CO causes the blood to turn dark blue, which the sensor cannot read", "The pulse oximeter cannot distinguish between oxyhemoglobin and carboxyhemoglobin", "CO prevents the patient from breathing, so there is no pulse", "CO causes severe vasoconstriction in the fingers"],
-      answer: ["The pulse oximeter cannot distinguish between oxyhemoglobin and carboxyhemoglobin"],
-      type: "single", category: "Ch 23: Toxicology", section: "Medical",
-      rationale: "Pulse oximeters see the hemoglobin is saturated but can't tell if it's with oxygen or CO."
-    },
-    {
-      q: "Which of the following are symptoms of the Cholinergic toxidrome (e.g., organophosphate poisoning)? (Select all that apply)",
-      options: ["Salivation", "Lacrimation (tearing)", "Urination", "Defecation"],
-      answer: ["Salivation", "Lacrimation (tearing)", "Urination", "Defecation"],
-      type: "multiple", category: "Ch 23: Toxicology", section: "Medical",
-      rationale: "The mnemonic SLUDGEM (Salivation, Lacrimation, Urination, Defecation, GI upset, Emesis, Miosis) covers these symptoms."
-    },
-    
-    {
-      q: "Which of the following is an ABSOLUTE contraindication for the administration of activated charcoal?",
-      options: ["The patient is 12 years old", "The patient has ingested a corrosive acid or base", "The patient has a history of asthma", "The ingestion occurred 45 minutes ago"],
-      answer: ["The patient has ingested a corrosive acid or base"],
-      type: "single", category: "Ch 23: Toxicology", section: "Medical",
-      rationale: "Activated charcoal should not be given for corrosives (it can hide burns during endoscopy) or if the patient cannot protect their airway."
-    },
-
-    // --- CH 24: PSYCHIATRIC EMERGENCIES ---
-    {
-      q: "What is the primary responsibility of an AEMT when responding to a patient in a behavioral crisis?",
-      options: ["To diagnose the specific mental health disorder", "To ensure the safety of themselves, their partner, and the patient", "To provide immediate chemical restraint", "To convince the patient that their hallucinations are not real"],
-      answer: ["To ensure the safety of themselves, their partner, and the patient"],
-      type: "single", category: "Ch 24: Psychiatric", section: "Medical",
-      rationale: "Safety is the priority in all psychiatric calls. You cannot treat the patient if the scene is unsafe."
-    },
-    {
-      q: "A patient presenting with hyperthermia, tachycardia, extreme agitation, and supernatural strength is likely experiencing:",
-      options: ["Acute Psychosis", "Agitated Delirium", "Generalized Anxiety Disorder", "Post-Traumatic Stress Disorder"],
-      answer: ["Agitated Delirium"],
-      type: "single", category: "Ch 24: Psychiatric", section: "Medical",
-      rationale: "Agitated (or excited) delirium is a medical emergency often involving stimulants, presenting with metabolic acidosis and hyperthermia."
-    },
-
-    // --- CH 25: GYNECOLOGIC EMERGENCIES ---
-    {
-      q: "A 24-year-old female presents with severe lower abdominal pain and vaginal spotting. Her last menstrual period was 7 weeks ago. You must assume:",
-      options: ["Pelvic Inflammatory Disease", "Ectopic Pregnancy", "Mittelschmerz", "Ovarian Cyst"],
-      answer: ["Ectopic Pregnancy"],
-      type: "single", category: "Ch 25: Gynecologic", section: "Medical",
-      rationale: "Abdominal pain and bleeding in a female of child-bearing age is an ectopic pregnancy until proven otherwise in the ER."
-    },
-    
-
-[Image of ectopic pregnancy anatomy]
-
-    {
-      q: "Which symptoms are characteristic of Pelvic Inflammatory Disease (PID)? (Select all that apply)",
-      options: ["Foul-smelling vaginal discharge", "A 'shuffling' gait when walking", "Severe lower abdominal pain", "Fever and chills"],
-      answer: ["Foul-smelling vaginal discharge", "A 'shuffling' gait when walking", "Severe lower abdominal pain", "Fever and chills"],
-      type: "multiple", category: "Ch 25: Gynecologic", section: "Medical",
-      rationale: "PID is an infection of the upper reproductive tract; the 'PID shuffle' is a common sign due to pain during movement."
-    },
-    {
-      q: "When treating a victim of sexual assault, the AEMT's medical priority is to:",
-      options: ["Gather evidence for the police", "Examine the genitalia in detail", "Address life-threats and provide psychological support", "Interview the patient about the suspect's identity"],
-      answer: ["Address life-threats and provide psychological support"],
-      type: "single", category: "Ch 25: Gynecologic", section: "Medical",
-      rationale: "The AEMT's role is medical treatment and support; evidence collection is the role of specialized nurses (SANEs) at the hospital."
-    },
-    {
-      q: "A patient describes sharp, localized abdominal pain that occurs mid-cycle during ovulation. This is known as:",
-      options: ["Endometriosis", "Amenorrhea", "Mittelschmerz", "Dysmenorrhea"],
-      answer: ["Mittelschmerz"],
-      type: "single", category: "Ch 25: Gynecologic", section: "Medical",
-      rationale: "Mittelschmerz is German for 'middle pain' and refers to the discomfort some women feel during ovulation."
-    }
+    { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Ch 25: Gynecologic", section: "Medical", rationale: "Mittelschmerz is the sharp, localized pain felt during the middle of the menstrual cycle." }
 ];
 
 // --- QUIZ LOGIC ---
@@ -343,17 +68,13 @@ let categoryStats = {};
 function adjustSliderRange() {
     const topic = document.getElementById('topic-select').value;
     const slider = document.getElementById('question-slider');
+    const availableCount = topic === "All" ? quizData.length : quizData.filter(i => i.section === topic).length;
     
-    // Count questions
-    const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
-    const count = filtered.length;
-    
-    slider.max = count;
-    if (parseInt(slider.value) > count) {
-        slider.value = count;
+    slider.max = availableCount;
+    if (parseInt(slider.value) > availableCount || parseInt(slider.value) === 0) {
+        slider.value = availableCount > 10 ? 10 : availableCount;
     }
     updateSliderLabel(slider.value);
-    console.log("Slider Updated. Topic:", topic, "Available Questions:", count);
 }
 
 function updateSliderLabel(val) {
@@ -366,7 +87,7 @@ function startQuiz(selectedMode) {
     const selectedTopic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
     let filteredBank = selectedTopic === "All" ? [...quizData] : quizData.filter(i => i.section === selectedTopic);
-    
+
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
 
@@ -473,5 +194,4 @@ function showResults() {
     document.getElementById('pass-status').innerHTML = percent >= 70 ? "<b style='color:green'>PASSED</b>" : "<b style='color:red'>RE-STUDY REQUIRED</b>";
 }
 
-// THE UNLOCK COMMAND
 window.onload = adjustSliderRange;
