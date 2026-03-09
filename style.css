@@ -8,7 +8,9 @@
 }
 
 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: var(--light-gray); margin: 0; display: flex; justify-content: center; padding: 20px; font-size: 20px; }
+
 #quiz-container { background-color: var(--white); max-width: 800px; width: 100%; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
 h1 { color: var(--primary-blue); text-align: center; font-size: 2.2rem; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .subtitle { text-align: center; color: #7f8c8d; font-weight: 400; margin-bottom: 30px; font-size: 1.2rem; }
 
@@ -17,7 +19,9 @@ h1 { color: var(--primary-blue); text-align: center; font-size: 2.2rem; margin-b
 input[type=range] { width: 80%; cursor: pointer; accent-color: var(--accent-blue); }
 
 .mode-btn { display: flex; align-items: center; justify-content: center; gap: 12px; }
+
 #timer-container { display: none; font-family: monospace; font-size: 1.8rem; background: #fff5f5; padding: 15px; border-radius: 10px; border: 2px solid var(--error-red); text-align: center; margin-bottom: 20px; color: var(--error-red); font-weight: bold; }
+
 #question-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; color: #222; line-height: 1.4; }
 
 .option-item { border: 2px solid #edf2f7; border-radius: 10px; margin-bottom: 12px; padding: 18px; display: flex; align-items: center; cursor: pointer; }
@@ -25,6 +29,7 @@ input[type=range] { width: 80%; cursor: pointer; accent-color: var(--accent-blue
 .option-item input { width: 25px; height: 25px; margin-right: 15px; flex-shrink: 0; }
 
 button { width: 100%; padding: 20px; border: none; border-radius: 12px; background-color: var(--primary-blue); color: white; font-size: 1.3rem; font-weight: bold; cursor: pointer; }
+
 #final-results-card { background: #f8f9fa; padding: 30px; border-radius: 12px; border: 1px solid #ddd; text-align: center; }
 #category-breakdown { text-align: left; margin: 20px 0; font-size: 1rem; border-top: 1px solid #ccc; padding-top: 15px; line-height: 1.8; }
 #feedback { margin-top: 20px; padding: 20px; border-radius: 10px; font-size: 1rem; border: 1px solid #ddd; }
