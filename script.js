@@ -247,3 +247,5 @@ function showResults() {
     document.getElementById('category-breakdown').innerHTML = breakdownHTML;
     document.getElementById('pass-status').innerHTML = percent >= 70 ? "<b style='color:green'>PASSED</b>" : "<b style='color:red'>RE-STUDY REQUIRED</b>";
 }
+// THIS LINE IS THE FIX FOR THE SLIDER
+window.onload = adjustSliderRange;
