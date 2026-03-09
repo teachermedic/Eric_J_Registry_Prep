@@ -343,13 +343,17 @@ let categoryStats = {};
 function adjustSliderRange() {
     const topic = document.getElementById('topic-select').value;
     const slider = document.getElementById('question-slider');
-    const availableCount = topic === "All" ? quizData.length : quizData.filter(i => i.section === topic).length;
     
-    slider.max = availableCount;
-    if (parseInt(slider.value) > availableCount) {
-        slider.value = availableCount;
+    // Count questions
+    const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
+    const count = filtered.length;
+    
+    slider.max = count;
+    if (parseInt(slider.value) > count) {
+        slider.value = count;
     }
     updateSliderLabel(slider.value);
+    console.log("Slider Updated. Topic:", topic, "Available Questions:", count);
 }
 
 function updateSliderLabel(val) {
@@ -362,8 +366,7 @@ function startQuiz(selectedMode) {
     const selectedTopic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
     let filteredBank = selectedTopic === "All" ? [...quizData] : quizData.filter(i => i.section === selectedTopic);
-    const finalPull = Math.min(numToPull, filteredBank.length);
-
+    
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
 
@@ -374,7 +377,7 @@ function startQuiz(selectedMode) {
         return failB - failA;
     });
 
-    sessionQuestions = sortedBank.slice(0, finalPull);
+    sessionQuestions = sortedBank.slice(0, numToPull);
     if (mode === 'exam') {
         sessionQuestions.sort(() => Math.random() - 0.5);
         timeLeft = sessionQuestions.length * 2 * 60; 
@@ -424,23 +427,22 @@ function handleAction() {
     const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
     if (selected.length === 0) return alert("Select an answer.");
     const q = sessionQuestions[currentIdx];
-    
-    const correctCheck = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
+    const isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
     
     let history = JSON.parse(localStorage.getItem('eric_field_notes_history') || "{}");
     if (!history[q.q]) history[q.q] = { pass: 0, fail: 0 };
-    correctCheck ? history[q.q].pass++ : history[q.q].fail++;
+    isCorrect ? history[q.q].pass++ : history[q.q].fail++;
     localStorage.setItem('eric_field_notes_history', JSON.stringify(history));
 
     if (!categoryStats[q.category]) categoryStats[q.category] = { correct: 0, total: 0 };
     categoryStats[q.category].total++;
-    if (correctCheck) categoryStats[q.category].correct++;
+    if (isCorrect) categoryStats[q.category].correct++;
 
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
-        fb.innerHTML = correctCheck ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> Answer: ${q.answer.join(", ")}`;
+        fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> Answer: ${q.answer.join(", ")}`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
-        if (correctCheck) score++;
+        if (isCorrect) score++;
         const btn = document.getElementById('action-btn');
         btn.innerText = "Next Question";
         btn.onclick = () => {
@@ -449,7 +451,7 @@ function handleAction() {
             else showResults();
         };
     } else {
-        if (correctCheck) score++;
+        if (isCorrect) score++;
         currentIdx++;
         currentIdx < sessionQuestions.length ? showQuestion() : showResults();
     }
@@ -471,4 +473,5 @@ function showResults() {
     document.getElementById('pass-status').innerHTML = percent >= 70 ? "<b style='color:green'>PASSED</b>" : "<b style='color:red'>RE-STUDY REQUIRED</b>";
 }
 
+// THE UNLOCK COMMAND
 window.onload = adjustSliderRange;
