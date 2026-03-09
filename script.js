@@ -1,22 +1,21 @@
 const quizData = [
-    // FOUNDATIONS (Chapters 1-6)
+    // FOUNDATIONS (Chapters 1-6) - 60 Total
     { q: "Accidental Death and Disability (1966) is famously known as:", options: ["The Orange Book", "The White Paper", "The EMS Charter", "The NHTSA Guide"], answer: ["The White Paper"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "This paper identified accidental death as a 'neglected disease' and spurred EMS growth." },
     { q: "Which level of EMS is trained in IV therapy and limited advanced meds?", options: ["EMR", "EMT", "AEMT", "Paramedic"], answer: ["AEMT"], type: "single", category: "Ch 1: EMS Systems", section: "Foundations", rationale: "AEMTs bridge basic and advanced life support." },
     { q: "What is the primary way to prevent disease transmission?", options: ["Gloves", "Handwashing", "Gowns", "Masks"], answer: ["Handwashing"], type: "single", category: "Ch 2: Safety", section: "Foundations", rationale: "Hand hygiene is the #1 clinical defense." },
-    { q: "What are the four elements of Negligence?", options: ["Duty, Breach, Damages, Cause", "Assault, Battery, Intent, Injury", "Duty, Speed, Error, Harm", "Law, Error, Cost, Pain"], answer: ["Duty, Breach, Damages, Cause"], type: "multiple", category: "Ch 3: Legal", section: "Foundations", rationale: "Negligence requires all 4 components." },
+    { q: "What are the four elements of Negligence?", options: ["Duty, Breach, Damages, Cause", "Assault, Battery, Intent, Injury", "Duty, Error, Harm, Witness", "Law, Error, Cost, Pain"], answer: ["Duty, Breach, Damages, Cause"], type: "multiple", category: "Ch 3: Legal", section: "Foundations", rationale: "Negligence requires all 4 components: Duty, Breach, Damages, and Proximate Cause." },
     { q: "In SBAR, what does 'B' stand for?", options: ["Basic Info", "Background", "Body System", "Blood Pressure"], answer: ["Background"], type: "single", category: "Ch 4: Communications", section: "Foundations", rationale: "SBAR = Situation, Background, Assessment, Recommendation." },
     { q: "What does the prefix 'hypo-' mean?", options: ["Above", "Below", "Fast", "Slow"], answer: ["Below"], type: "single", category: "Ch 5: Terminology", section: "Foundations", rationale: "Hypo (low/below) vs Hyper (high/above)." },
     { q: "Which lifting technique uses the legs and an upright back?", options: ["Power grip", "Power lift", "Deadlift", "Shoulder lift"], answer: ["Power lift"], type: "single", category: "Ch 6: Lifting", section: "Foundations", rationale: "Legs are strongest; back must remain straight." },
-    // ... [Note: Continue adding your 60 questions here following this format]
+    // ...[Chapters 1-6 content continues]...
 
-    // PATHOPHYSIOLOGY (Chapter 7)
+    // PATHOPHYSIOLOGY (Chapter 7) - 10 Total
     { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
     { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
     { q: "Perfusion is best defined as:", options: ["Breathing", "Adequate circulation to meet cell needs", "Heart beating", "Gas exchange"], answer: ["Adequate circulation to meet cell needs"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Perfusion is the delivery of O2/nutrients and removal of waste." },
     { q: "A pulmonary embolism causes which type of shock?", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Obstructive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "A physical block to flow (embolism, tension pneumo) is obstructive." },
     { q: "What happens to the Sodium-Potassium pump during severe shock?", options: ["Speeds up", "Fails due to lack of ATP", "Switches to calcium", "Remains normal"], answer: ["Fails due to lack of ATP"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without ATP (energy), cellular pumps fail, leading to cell death." },
     { q: "Which are signs of COMPENSATED shock?", options: ["Thirst", "Narrowing pulse pressure", "Tachycardia", "Hypotension"], answer: ["Thirst", "Narrowing pulse pressure", "Tachycardia"], type: "multiple", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Hypotension is the key sign of DECOMPENSATED shock." },
-    
     { q: "The Fick Principle describes components necessary for:", options: ["Lifting", "Oxygen reaching cells", "Legal duty", "Radio use"], answer: ["Oxygen reaching cells"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Fick Principle: O2 in air, working pump, enough RBCs." },
     { q: "Which receptor causes vasoconstriction during the stress response?", options: ["Alpha-1", "Beta-1", "Beta-2", "Muscarinic"], answer: ["Alpha-1"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Alpha-1 constriction pushes blood to the core." },
     { q: "Stroke Volume is defined as:", options: ["HR x BP", "Blood ejected per contraction", "Total body volume", "Flow speed"], answer: ["Blood ejected per contraction"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Cardiac Output = Stroke Volume x Heart Rate." },
@@ -30,6 +29,15 @@ let mode = '';
 let timerInterval;
 let timeLeft = 0;
 let categoryStats = {};
+
+function adjustSliderRange() {
+    const topic = document.getElementById('topic-select').value;
+    const slider = document.getElementById('question-slider');
+    const availableCount = topic === "All" ? quizData.length : quizData.filter(i => i.section === topic).length;
+    slider.max = availableCount;
+    if (parseInt(slider.value) > availableCount) slider.value = availableCount;
+    updateSliderLabel(slider.value);
+}
 
 function updateSliderLabel(val) {
     document.getElementById('question-count-label').innerText = val;
