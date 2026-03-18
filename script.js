@@ -23,7 +23,6 @@ const quizData = [
 
     // --- PATHOPHYSIOLOGY ---
     { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
-    
     { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
     { q: "A pulmonary embolism causes which type of shock?", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Obstructive"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "A physical block to flow (embolism, tension pneumo) is obstructive." },
     { q: "What happens to the Sodium-Potassium pump during severe shock?", options: ["Speeds up", "Fails due to lack of ATP", "Switches to calcium", "Remains normal"], answer: ["Fails due to lack of ATP"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Without ATP (energy), cellular pumps fail, leading to cell death." },
@@ -35,26 +34,34 @@ const quizData = [
     { q: "A patient with severe renal failure is most at risk for which of the following? (Select all that apply)", options: ["Hyperkalemia", "Hypermagnesemia", "Hypercalcemia", "Hyperphosphatemia"], answer: ["Hyperkalemia", "Hypermagnesemia", "Hyperphosphatemia"], type: "multiple", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Renal failure leads to decreased excretion of potassium, magnesium, and phosphate." },
     { q: "Metaplasia is defined as:", options: ["Decrease in cell size", "Increase in cell number", "Reversible replacement of one cell type with another", "Alteration in size and shape"], answer: ["Reversible replacement of one cell type with another"], type: "single", category: "Ch 7: Patho", section: "Pathophysiology", rationale: "Metaplasia is the reversible adaptation where one adult cell type is replaced by another." },
 
-   // --- MEDICAL ---
+    // --- MEDICAL ---
     { q: "When evaluating the Nature of Illness (NOI), what is the AEMT's primary goal during size-up?", options: ["Determine exact diagnosis", "Identify life-threats and determine medical vs trauma", "Complete full head-to-toe", "Administer medications"], answer: ["Identify life-threats and determine medical vs trauma"], type: "single", category: "Ch 16: Overview", section: "Medical", rationale: "The NOI helps focus the assessment on the general category and threats." },
     { q: "Which findings are associated with the 'Alarm' stage of the GAS? (Select all that apply)", options: ["Release of catecholamines", "Decreased HR", "Increased blood glucose", "Exhaustion"], answer: ["Release of catecholamines", "Increased blood glucose"], type: "multiple", category: "Ch 7: Patho", section: "Medical", rationale: "The alarm stage involves the fight-or-flight response, increasing HR and glucose." },
     { q: "How does CPAP improve oxygenation in pulmonary edema?", options: ["Increasing HR", "Forcing fluid out of alveoli and into capillaries", "Improves blood pressure", "Causing vasodilation"], answer: ["Forcing fluid out of alveoli and into capillaries"], type: "single", category: "Ch 17: Respiratory", section: "Medical", rationale: "CPAP uses pressure to push fluid from the air sacs back into the bloodstream." },
-    
     { q: "A 60-year-old male with emphysema likely presents with:", options: ["Barrel chest", "Extreme thinness", "Pursed-lip breathing", "Chronic productive cough"], answer: ["Barrel chest", "Extreme thinness", "Pursed-lip breathing"], type: "multiple", category: "Ch 17: Respiratory", section: "Medical", rationale: "Emphysema (pink puffers) involves air trapping (barrel chest) and high energy use (thinness)." },
     { q: "Classic risk factors for Pulmonary Embolism include: (Select all that apply)", options: ["Recent surgery", "Oral contraceptives", "Long-distance travel", "Immobilization"], answer: ["Recent surgery", "Oral contraceptives", "Long-distance travel", "Immobilization"], type: "multiple", category: "Ch 17: Respiratory", section: "Medical", rationale: "These factors represent elements of Virchow's Triad (stasis and hypercoagulability)." },
-    
     { q: "What is the primary goal of Aspirin in suspected ACS?", options: ["Pain relief", "Dissolve the thrombus", "Prevent further platelet aggregation", "Lower BP"], answer: ["Prevent further platelet aggregation"], type: "single", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "Aspirin makes platelets 'slippery' so they don't grow the existing clot." },
     { q: "Hallmark signs of right-sided heart failure include:", options: ["JVD", "Peripheral edema", "Pulmonary edema", "Enlarged liver"], answer: ["JVD", "Peripheral edema", "Enlarged liver"], type: "multiple", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "Right-sided failure causes backup into the body (systemic), whereas left-sided backs up into the lungs." },
-    
     { q: "Which conduction structure is the 'gatekeeper' of the heart?", options: ["SA Node", "AV Node", "Bundle of His", "Purkinje Fibers"], answer: ["AV Node"], type: "single", category: "Ch 18: Cardiovascular", section: "Medical", rationale: "The AV node delays the impulse to allow for ventricular filling." },
     { q: "Symptoms of TIA must resolve within:", options: ["1 hour", "12 hours", "24 hours", "48 hours"], answer: ["24 hours"], type: "single", category: "Ch 19: Neurologic", section: "Medical", rationale: "By definition, TIA symptoms are temporary and must resolve within one day." },
     { q: "Referred pain to the right shoulder is characteristic of:", options: ["Appendicitis", "Cholecystitis", "Pancreatitis", "Diverticulitis"], answer: ["Cholecystitis"], type: "single", category: "Ch 20: GI/GU", section: "Medical", rationale: "Gallbladder inflammation can irritate the phrenic nerve, causing shoulder pain." },
     { q: "Kussmaul respirations are unique to which condition?", options: ["HHNS", "DKA", "Hypoglycemia", "Stroke"], answer: ["DKA"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "Kussmaul breathing is the body's attempt to compensate for metabolic acidosis." },
     { q: "Define the 'Opioid Triad':", options: ["Pinpoint pupils", "Respiratory depression", "Tachycardia", "Altered mental status"], answer: ["Pinpoint pupils", "Respiratory depression", "Altered mental status"], type: "multiple", category: "Ch 23: Toxicology", section: "Medical", rationale: "The three signs of opioid overdose are pinpoint pupils (miosis), slow/shallow breathing, and unconsciousness." },
-    { q: "A 9 year old presents with lethargy, polyuria, and tachypnea. pt's mother states the patient has been more sleepy over the past 2 days. Which of the following is the MOST probable cause?", options: ["High blood glucose", "Low blood glucose", "Influenza", "Stroke"], answer: ["High blood glucose"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "DKA most often occurs in IDDM (Type 1) and presents with high glucose, lethargy, tachypnea, and polyuria. Polyuria is a definitive sign of high glucose levels." },
-    { q: "A 54 year old is found lethargic with rapid, deep respirations, and high glucose. How should you manage this patient?", options: ["Ventilate with PPV using a BVM to slow the respirations", "Open and secure the airway", "Hyperventilate the patient with a BVM", "Check the patient's pupils"], answer: ["Open and secure the airway"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "In an unresponsive patient, your primary priority is always the Airway. Secure the airway first before moving to other interventions." },
-    { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Ch 25: Gynecologic", section: "Medical", rationale: "Mittelschmerz is the sharp, localized pain felt during the middle of the menstrual cycle (ovulation)." }
+    { q: "A 9 year old presents with lethargy, polyuria, and tachypnea. pt's mother states the patient has been more sleepy over the past 2 days. Which is the MOST probable cause?", options: ["High blood glucose", "Low blood glucose", "Influenza", "Stroke"], answer: ["High blood glucose"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "DKA presents with high glucose, lethargy, tachypnea, and polyuria." },
+    { q: "A 54 year old is found lethargic with rapid, deep respirations, and high glucose. How should you manage this patient?", options: ["Ventilate with PPV using a BVM", "Open and secure the airway", "Hyperventilate with a BVM", "Check the patient's pupils"], answer: ["Open and secure the airway"], type: "single", category: "Ch 21: Endocrine", section: "Medical", rationale: "In an unresponsive patient, your primary priority is always the Airway. Secure it before other interventions." },
+    { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Ch 25: Gynecologic", section: "Medical", rationale: "Mittelschmerz is the sharp, localized pain felt during ovulation." },
+    { q: "A patient with a history of severe 'water intoxication' is at risk for which imbalance?", options: ["Hypernatremia", "Hyponatremia", "Hyperkalemia", "Hypocalcemia"], answer: ["Hyponatremia"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Excessive water intake dilutes sodium levels, leading to hyponatremia." },
+    { q: "Which of the following is a classic field finding for a patient with severe Hypernatremia (high sodium)?", options: ["Excessive salivation", "Altered mental status and extreme thirst", "Bradypnea", "Hypothermia"], answer: ["Altered mental status and extreme thirst"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Hypernatremia pulls water out of the cells, shrinking brain cells and causing confusion." },
+    { q: "You are assessing a patient with chronic renal failure who missed dialysis. Which EKG change suggests Hyperkalemia?", options: ["Narrow QRS", "Peaked T-waves", "Shortened PR", "Prominent U-waves"], answer: ["Peaked T-waves"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "High potassium interferes with cardiac repolarization, classically presenting as tented T-waves." },
+    { q: "A patient presents with generalized weakness. They take powerful diuretics for CHF without supplements. Suspect:", options: ["Hyperkalemia", "Hypokalemia", "Hypercalcemia", "Hypermagnesemia"], answer: ["Hypokalemia"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Diuretics often cause the kidneys to excrete excessive potassium." },
+    { q: "Tapping the patient's facial nerve and observing a twitch (Chvostek's sign) indicates:", options: ["Trousseau's sign", "Chvostek's sign", "Murphy's sign", "Cullen's sign"], answer: ["Chvostek's sign"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "This is a hallmark of hypocalcemia, indicating neuromuscular excitability." },
+    { q: "Which of the following conditions is most likely to cause Hypercalcemia in a field patient?", options: ["Vitamin D deficiency", "Prolonged immobility or bone cancer", "Laxative use", "Hyperventilation"], answer: ["Prolonged immobility or bone cancer"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Bone breakdown releases calcium into the bloodstream." },
+    { q: "A patient with chronic alcoholism presents with tremors. Which imbalance is common?", options: ["Hypermagnesemia", "Hypomagnesemia", "Hypernatremia", "Hypercalcemia"], answer: ["Hypomagnesemia"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Chronic alcohol use leads to poor intake and high urinary excretion of magnesium." },
+    { q: "Overuse of magnesium-containing antacids or laxatives can lead to:", options: ["Hypermagnesemia", "Prolonged fasting", "Excessive caffeine", "Severe burns"], answer: ["Hypermagnesemia"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Excessive consumption of magnesium-rich medications can cause toxic levels." },
+    { q: "A patient hyperventilating from anxiety complains of 'tingling fingers.' This indicates:", options: ["Relative hypocalcemia", "Actual hypernatremia", "Hypomagnesemia", "Hyperkalemia"], answer: ["Relative hypocalcemia"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Alkalosis causes calcium to bind to albumin, creating a temporary low calcium state." },
+    { q: "What is a major risk factor for crush syndrome hyperkalemia?", options: ["Sudden release of a heavy object", "Eating bananas", "Minor bruising", "Dehydration"], answer: ["Sudden release of a heavy object"], type: "single", category: "Ch 7: Patho", section: "Medical", rationale: "Releasing the limb floods the system with trapped intracellular potassium." }
 ];
+
 // --- QUIZ LOGIC ---
 let sessionQuestions = [];
 let currentIdx = 0;
@@ -65,28 +72,36 @@ let timeLeft = 0;
 let categoryStats = {};
 
 function adjustSliderRange() {
-    const topic = document.getElementById('topic-select').value;
+    const topicSelect = document.getElementById('topic-select');
     const slider = document.getElementById('question-slider');
+    
+    if (!topicSelect || !slider) return;
+
+    const topic = topicSelect.value;
     const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
     const availableCount = filtered.length;
     
     slider.max = availableCount;
+    // Force the slider back if it is out of bounds
     if (parseInt(slider.value) > availableCount || parseInt(slider.value) === 0) {
-        slider.value = availableCount > 10 ? 10 : availableCount;
+        slider.value = availableCount > 20 ? 20 : availableCount;
     }
     updateSliderLabel(slider.value);
 }
 
 function updateSliderLabel(val) {
-    document.getElementById('question-count-label').innerText = val;
-    document.getElementById('time-estimate-label').innerText = val * 2;
+    const label = document.getElementById('question-count-label');
+    const timeLabel = document.getElementById('time-estimate-label');
+    if (label) label.innerText = val;
+    if (timeLabel) timeLabel.innerText = val * 2;
 }
 
 function startQuiz(selectedMode) {
     mode = selectedMode;
-    const selectedTopic = document.getElementById('topic-select').value;
+    const topic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
-    let filteredBank = selectedTopic === "All" ? [...quizData] : quizData.filter(i => i.section === selectedTopic);
+    
+    let filteredBank = topic === "All" ? [...quizData] : quizData.filter(i => i.section === topic);
 
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
