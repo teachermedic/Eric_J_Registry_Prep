@@ -181,11 +181,20 @@ function adjustSliderRange() {
     const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
     const availableCount = filtered.length;
     
+    // This unlocks the slider to the full length of your bank
     slider.max = availableCount;
-    // Fix: If slider is at 0 or higher than available, reset to 20 or max
-    if (parseInt(slider.value) > availableCount || parseInt(slider.value) === 0) {
+    
+    // If the slider is at 20 but you have 130, this lets it move
+    if (parseInt(slider.value) > availableCount || parseInt(slider.value) <= 20) {
         slider.value = availableCount > 20 ? 20 : availableCount;
     }
+    updateSliderLabel(slider.value);
+}
+
+// Add this to the very bottom of your script.js file
+window.onload = function() {
+    adjustSliderRange();
+};
     updateSliderLabel(slider.value);
 }
 
