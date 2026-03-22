@@ -27,15 +27,15 @@
             </div>
 
             <div id="slider-box">
-                <label for="question-slider">
-                    Questions: <span id="question-count-label">20</span>
-                </label>
-                <input type="range" id="question-slider" min="5" max="250" value="20" step="5" oninput="updateSliderLabel(this.value)">
-                <p id="time-estimate">
-                    <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
-                    Estimated Pacing: <span id="time-estimate-label">40</span> minutes
-                </p>
-            </div>
+    <label for="question-slider">
+        Questions: <span id="question-count-label">20</span>
+    </label>
+    <input type="range" id="question-slider" min="5" max="300" value="20" step="5" oninput="updateSliderLabel(this.value)">
+    <p id="time-estimate">
+        <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
+        Estimated Pacing: <span id="time-estimate-label">40</span> minutes
+    </p>
+</div>
 
             <button class="mode-btn" onclick="startQuiz('review')">
                 <span class="material-icons">menu_book</span> Option 1: Review Mode
