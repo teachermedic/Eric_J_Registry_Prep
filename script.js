@@ -60,6 +60,120 @@ const quizData = [
     { q: "Traumatic Asphyxia is caused by:", options: ["Neck compression", "Severe sudden crushing force to the chest", "Drowning", "Carbon Monoxide"], answer: ["Severe sudden crushing force to the chest"], type: "single", category: "Ch 31: Chest", section: "Trauma", rationale: "Chest compression forces blood back into the neck and face, causing bulging eyes and purple skin." },
     { q: "An AEMT should suspect a 'scaphoid' abdomen in which condition?", options: ["Liver laceration", "Diaphragmatic rupture", "Pregnancy", "Spleen rupture"], answer: ["Diaphragmatic rupture"], type: "single", category: "Ch 32: Abdomen", section: "Trauma", rationale: "If abdominal contents move into the chest through a hole in the diaphragm, the abdomen will appear hollow (scaphoid)." }
     // ... Additional questions can be added here following this same syntax.
+// --- ADDITIONAL FOUNDATIONS (CH 1-6) ---
+  {
+    q: "Which document establishes the 'Scope of Practice' for an AEMT within a specific state?",
+    options: ["NHTSA National Standard Curriculum", "The State EMS Office / Medical Practice Act", "The NREMT Handbook", "The Federal Department of Transportation"],
+    answer: ["The State EMS Office / Medical Practice Act"],
+    type: "single", category: "Ch 1: EMS Systems", section: "Foundations",
+    rationale: "While NHTSA provides a national model, the actual legal 'Scope of Practice' is defined by state-specific legislation and the State EMS Office."
+  },
+  {
+    q: "A patient refuses care but appears to have a life-threatening injury and is currently altered. Under which legal doctrine can you treat this patient?",
+    options: ["Expressed Consent", "Informed Consent", "Implied Consent", "Involuntary Consent"],
+    answer: ["Implied Consent"],
+    type: "single", category: "Ch 3: Legal", section: "Foundations",
+    rationale: "Implied consent applies when a patient is unable to give expressed consent due to being unconscious or significantly altered, and a life-threat exists."
+  },
+  {
+    q: "You are ordered by a physician to give a medication that you know is outside your scope of practice. What is your best course of action?",
+    options: ["Administer the medication as ordered by the higher authority", "Respectfully refuse and notify the physician it is outside your scope", "Administer half the dose to be safe", "Document that the doctor told you to do it and proceed"],
+    answer: ["Respectfully refuse and notify the physician it is outside your scope"],
+    type: "single", category: "Ch 3: Legal", section: "Foundations",
+    rationale: "An AEMT is legally responsible for their own actions. You cannot perform a skill or give a med outside your state-defined scope, regardless of who orders it."
+  },
+  {
+    q: "What is the difference between Libel and Slander?",
+    options: ["Libel is spoken; Slander is written", "Libel is written; Slander is spoken", "Libel is a physical act; Slander is verbal", "There is no legal difference"],
+    answer: ["Libel is written; Slander is spoken"],
+    type: "single", category: "Ch 3: Legal", section: "Foundations",
+    rationale: "Libel is the act of defaming someone in writing; Slander is the act of defaming someone verbally."
+  },
+  {
+    q: "In the 'Five Stages of Grief,' which stage involves a patient trying to make a deal to postpone the inevitable?",
+    options: ["Denial", "Bargaining", "Anger", "Depression"],
+    answer: ["Bargaining"],
+    type: "single", category: "Ch 2: Wellness", section: "Foundations",
+    rationale: "Bargaining is the third stage of the Kübler-Ross model where the patient tries to negotiate for more time."
+  },
+
+  // --- ADDITIONAL PATHOPHYSIOLOGY: ACID-BASE BALANCE (CH 7) ---
+  {
+    q: "A patient has been hypoventilating due to an opioid overdose. Which acid-base imbalance is most likely occurring?",
+    options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Alkalosis", "Metabolic Acidosis"],
+    answer: ["Respiratory Acidosis"],
+    type: "single", category: "Ch 7: Patho", section: "Pathophysiology",
+    rationale: "Hypoventilation causes the retention of CO2. Since CO2 is an acid (it turns into carbonic acid in the blood), the pH drops, causing respiratory acidosis."
+  },
+  
+
+[Image of respiratory acidosis vs alkalosis chart]
+
+  {
+    q: "An AEMT is treating a patient with DKA who is breathing rapidly (Kussmaul's). This respiratory pattern is an attempt to compensate for which condition?",
+    options: ["Metabolic Acidosis", "Metabolic Alkalosis", "Respiratory Acidosis", "Hypoxemia"],
+    answer: ["Metabolic Acidosis"],
+    type: "single", category: "Ch 7: Patho", section: "Pathophysiology",
+    rationale: "In DKA, the body produces ketones (acids). The lungs try to 'blow off' CO2 (acid) through rapid, deep breathing to raise the pH back to normal."
+  },
+  {
+    q: "Which of the following is the primary chemical buffer system in the human body?",
+    options: ["The Protein Buffer System", "The Bicarbonate Buffer System", "The Phosphate Buffer System", "The Hemoglobin Buffer System"],
+    answer: ["The Bicarbonate Buffer System"],
+    type: "single", category: "Ch 7: Patho", section: "Pathophysiology",
+    rationale: "The Bicarbonate-Carbonic Acid buffer system is the fastest and most important extracellular buffer for maintaining blood pH."
+  },
+  {
+    q: "A patient is hyperventilating due to extreme anxiety. Their EtCO2 is 22 mmHg. Which acid-base state are they in?",
+    options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Acidosis", "Normal pH"],
+    answer: ["Respiratory Alkalosis"],
+    type: "single", category: "Ch 7: Patho", section: "Pathophysiology",
+    rationale: "Blowing off too much CO2 (hypocapnia) removes acid from the blood, causing the pH to rise into an alkalotic state."
+  },
+  {
+    q: "What is the normal pH range of human arterial blood?",
+    options: ["7.0 - 7.1", "7.35 - 7.45", "7.45 - 7.55", "6.8 - 7.8"],
+    answer: ["7.35 - 7.45"],
+    type: "single", category: "Ch 7: Patho", section: "Pathophysiology",
+    rationale: "The body must maintain a tight pH window between 7.35 and 7.45 for cellular enzymes to function."
+  },
+
+  // --- ADDITIONAL MEDICAL (CH 16-25) ---
+  {
+    q: "A patient presents with a sudden onset of facial droop, arm drift, and slurred speech. These symptoms resolved completely in 45 minutes. What did this patient experience?",
+    options: ["Ischemic Stroke", "Hemorrhagic Stroke", "Transient Ischemic Attack (TIA)", "Hypoglycemic event"],
+    answer: ["Transient Ischemic Attack (TIA)"],
+    type: "single", category: "Ch 19: Neurologic", section: "Medical",
+    rationale: "A TIA (mini-stroke) involves stroke-like symptoms that resolve completely without permanent damage, usually within 24 hours."
+  },
+  {
+    q: "Which type of seizure involves the entire brain and is characterized by a loss of consciousness and alternating muscle contraction/relaxation?",
+    options: ["Absence Seizure", "Simple Partial Seizure", "Generalized Tonic-Clonic Seizure", "Complex Partial Seizure"],
+    answer: ["Generalized Tonic-Clonic Seizure"],
+    type: "single", category: "Ch 19: Neurologic", section: "Medical",
+    rationale: "Formerly known as 'grand mal,' these seizures involve the whole brain and the classic jerking motions (tonicity and clonicity)."
+  },
+  {
+    q: "A patient describes their abdominal pain as 'tearing' and says it radiates straight through to their back. Their BP is 190/110 in the right arm and 140/90 in the left arm. Suspect:",
+    options: ["Acute Myocardial Infarction", "Aortic Dissection", "Kidney Stones", "Cholecystitis"],
+    answer: ["Aortic Dissection"],
+    type: "single", category: "Ch 18: Cardiovascular", section: "Medical",
+    rationale: "The 'tearing' sensation and a significant difference in blood pressure between arms are classic signs of a thoracic aortic dissection."
+  },
+  {
+    q: "Which medication is typically the first-line AEMT intervention for a patient in active, life-threatening anaphylaxis?",
+    options: ["Diphenhydramine (Benadryl) IV", "Albuterol via Nebulizer", "Epinephrine 1:1,000 IM", "Methylprednisolone (Solu-Medrol)"],
+    answer: ["Epinephrine 1:1,000 IM"],
+    type: "single", category: "Ch 22: Immunology", section: "Medical",
+    rationale: "Epinephrine is the only medication that works fast enough to reverse the life-threatening bronchoconstriction and vasodilation of anaphylaxis."
+  },
+  {
+    q: "A patient has a 'moon-face' appearance, a 'buffalo hump' on their back, and high blood glucose. These are hallmark signs of:",
+    options: ["Addison's Disease", "Cushing's Syndrome", "Grave's Disease", "Myxedema"],
+    answer: ["Cushing's Syndrome"],
+    type: "single", category: "Ch 21: Endocrine", section: "Medical",
+    rationale: "Cushing's is caused by an overproduction of cortisol (hyperadrenalism), leading to weight gain in specific areas (face and upper back)."
+  }
 ];
 
 // --- LOGIC ---
