@@ -149,29 +149,41 @@ input[type=range] { width: 90%; }
 #new-session-btn:active {
     transform: translateY(0);
 }
+body { 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+    background-color: var(--light-gray); 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; /* This stacks the banner on top of the quiz */
+    align-items: center;    /* This keeps the quiz centered */
+    padding: 0 0 20px 0;    /* Removed top padding so banner hits the edge */
+    font-size: 18px; 
+}
+
+/* Discreet, slim banner */
 .ad-banner {
-    background-color: #fff9c4; /* Light amber/yellow */
-    color: #5d4037;           /* Deep brown text for legibility */
-    text-align: center;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border-bottom: 1px solid #fbc02d;
     width: 100%;
-    box-sizing: border-box;
+    background-color: #eeeeee; /* Neutral light gray */
+    color: #777777;           /* Subdued text color */
+    text-align: center;
+    padding: 6px 0;           /* Very thin */
+    font-size: 12px;          /* Small and out of the way */
+    border-bottom: 1px solid #dddddd;
+    letter-spacing: 0.5px;
 }
 
 .ad-banner a {
-    color: var(--accent-blue);
-    text-decoration: underline;
-    transition: color 0.2s ease;
+    color: #555555;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .ad-banner a:hover {
-    color: var(--primary-blue);
+    text-decoration: underline;
 }
 
-/* Add a little breathing room to the top of your container */
-#quiz-container {
-    margin-top: 20px;
+/* Give the quiz a little room below the banner */
+#quiz-container { 
+    margin-top: 30px; 
+    /* ... rest of your existing quiz-container code ... */
 }
