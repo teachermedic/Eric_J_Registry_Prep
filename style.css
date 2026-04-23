@@ -149,3 +149,29 @@ input[type=range] { width: 90%; }
 #new-session-btn:active {
     transform: translateY(0);
 }
+.ad-banner {
+    background-color: #fff9c4; /* Light amber/yellow */
+    color: #5d4037;           /* Deep brown text for legibility */
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-bottom: 1px solid #fbc02d;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ad-banner a {
+    color: var(--accent-blue);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.ad-banner a:hover {
+    color: var(--primary-blue);
+}
+
+/* Add a little breathing room to the top of your container */
+#quiz-container {
+    margin-top: 20px;
+}
