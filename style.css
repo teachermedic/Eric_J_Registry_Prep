@@ -22,9 +22,42 @@ input[type=range] { width: 90%; }
 /* ... previous code ... */
 } 
 
-/* Your new button code starts here */
+/* 1. Fix the root selector at the top of your file */
+:root {
+    --primary-blue: #2c3e50;
+    --accent-blue: #3498db;
+    --success-green: #27ae60;
+    --error-red: #e74c3c;
+    --light-gray: #f4f7f6;
+    --white: #ffffff;
+}
+
+/* 2. Paste this at the VERY bottom to style the New Session button */
 #new-session-btn {
-    display: block;
-    width: 90%;
-    /* etc... */
+    display: block;          /* Allows centering */
+    width: 90%;              /* Fat target for mobile */
+    max-width: 450px;        /* Prevents it from being too wide on desktop */
+    margin: 40px auto 20px;  /* Centers it and adds space above */
+    padding: 20px;
+    
+    background-color: #ADD8E6; /* The Light Blue you requested */
+    color: #003366;            /* Dark Blue text for high contrast */
+    
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+#new-session-btn:hover {
+    background-color: #87CEEB; /* Slightly darker on hover */
+    transform: translateY(-2px);
+}
+
+#new-session-btn:active {
+    transform: translateY(0);
 }
