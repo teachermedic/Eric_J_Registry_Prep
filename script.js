@@ -93,13 +93,18 @@ function adjustSliderRange() {
     if (!topicSelect || !slider) return;
 
     const topic = topicSelect.value;
+    // This looks for an exact match between dropdown value and section name
     const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
     const availableCount = filtered.length;
     
+    // Update the slider boundaries
     slider.max = availableCount;
+    
+    // If the slider was at 20 but the module only has 10, snap it down to 10
     if (parseInt(slider.value) > availableCount) {
         slider.value = availableCount;
     }
+    
     updateSliderLabel(slider.value);
 }
 
