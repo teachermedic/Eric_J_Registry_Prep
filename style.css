@@ -7,41 +7,102 @@
     --white: #ffffff;
 }
 
-body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--light-gray); margin: 0; display: flex; justify-content: center; padding: 20px; font-size: 18px; }
-#quiz-container { background: var(--white); max-width: 800px; width: 100%; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-h1 { color: var(--primary-blue); text-align: center; }
-.subtitle { text-align: center; color: #666; font-size: 1rem; margin-bottom: 20px; }
-#slider-box { background: #eef2f3; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
-#question-count-label { font-weight: bold; color: var(--accent-blue); font-size: 1.5rem; }
-input[type=range] { width: 90%; }
-.mode-btn { background: var(--primary-blue); color: white; padding: 15px; border: none; border-radius: 8px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-.mode-btn:hover { background: var(--accent-blue); }
-.option-item { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; }
-.option-item:hover { background: #f9f9f9; border-color: var(--accent-blue); }
-#feedback { margin-top: 15px; padding: 15px; border-radius: 8px; background: #fffde7; border: 1px solid #ffe082; }
-/* ... previous code ... */
-} 
-
-/* 1. Fix the root selector at the top of your file */
-:root {
-    --primary-blue: #2c3e50;
-    --accent-blue: #3498db;
-    --success-green: #27ae60;
-    --error-red: #e74c3c;
-    --light-gray: #f4f7f6;
-    --white: #ffffff;
+body { 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+    background-color: var(--light-gray); 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+    font-size: 18px; 
 }
 
-/* 2. Paste this at the VERY bottom to style the New Session button */
+#quiz-container { 
+    background: var(--white); 
+    max-width: 800px; 
+    width: 100%; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+}
+
+h1 { color: var(--primary-blue); text-align: center; }
+
+.subtitle { 
+    text-align: center; 
+    color: #666; 
+    font-size: 1rem; 
+    margin-bottom: 20px; 
+}
+
+#slider-box { 
+    background: #eef2f3; 
+    padding: 15px; 
+    border-radius: 8px; 
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+#question-count-label { 
+    font-weight: bold; 
+    color: var(--accent-blue); 
+    font-size: 1.5rem; 
+}
+
+input[type=range] { width: 90%; }
+
+.mode-btn { 
+    background: var(--primary-blue); 
+    color: white; 
+    padding: 15px; 
+    border: none; 
+    border-radius: 8px; 
+    width: 100%; 
+    font-size: 1.1rem; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    margin-bottom: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px; 
+}
+
+.mode-btn:hover { background: var(--accent-blue); }
+
+.option-item { 
+    border: 2px solid #ddd; 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin-bottom: 10px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+}
+
+.option-item:hover { 
+    background: #f9f9f9; 
+    border-color: var(--accent-blue); 
+}
+
+#feedback { 
+    margin-top: 15px; 
+    padding: 15px; 
+    border-radius: 8px; 
+    background: #fffde7; 
+    border: 1px solid #ffe082; 
+}
+
+/* New Session Button Styles */
 #new-session-btn {
-    display: block;          /* Allows centering */
-    width: 90%;              /* Fat target for mobile */
-    max-width: 450px;        /* Prevents it from being too wide on desktop */
-    margin: 40px auto 20px;  /* Centers it and adds space above */
+    display: block;          
+    width: 90%;              
+    max-width: 450px;        
+    margin: 40px auto 20px;  
     padding: 20px;
     
-    background-color: #ADD8E6; /* The Light Blue you requested */
-    color: #003366;            /* Dark Blue text for high contrast */
+    background-color: #ADD8E6; 
+    color: #003366;            
     
     font-size: 1.2rem;
     font-weight: bold;
@@ -54,8 +115,9 @@ input[type=range] { width: 90%; }
 }
 
 #new-session-btn:hover {
-    background-color: #87CEEB; /* Slightly darker on hover */
+    background-color: #87CEEB; 
     transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 #new-session-btn:active {
