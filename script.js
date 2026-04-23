@@ -187,13 +187,40 @@ function handleAction() {
 }
 
 function showResults() {
+    // 1. Stop the timer and swap views
     clearInterval(timerInterval);
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
-    const percent = Math.round((score / sessionQuestions.length) * 100);
-    document.getElementById('score-display').innerText = `Score: ${score} / ${sessionQuestions.length} (${percent}%)`;
-}
 
+    // 2. Calculate final stats
+    const percent = Math.round((score / sessionQuestions.length) * 100);
+    const topic = document.getElementById('topic-select').value;
+
+    // 3. Prepare the data payload
+    const quizStats = {
+        module: topic,
+        score: score,
+        total: sessionQuestions.length,
+        percentage: percent,
+        timestamp: new Date().toLocaleString()
+    };
+
+    // 4. Send the data to your Google Sheet
+    fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
+        method: 'POST',
+        mode: 'no-cors', 
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(quizStats)
+    });
+
+    // 5. Update the UI for the user
+    document.getElementById('score-display').innerText = `Score: ${score} / ${sessionQuestions.length} (${percent}%)`;
+} // <--- Only one brace here!
+
+// THIS INITIALIZES THE SLIDER WHEN THE PAGE LOADS
 window.onload = function() {
     adjustSliderRange();
 };
