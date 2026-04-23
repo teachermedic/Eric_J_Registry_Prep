@@ -149,31 +149,32 @@ input[type=range] { width: 90%; }
 #new-session-btn:active {
     transform: translateY(0);
 }
+/* Update your body to stack vertically */
 body { 
     font-family: 'Helvetica Neue', Arial, sans-serif; 
     background-color: var(--light-gray); 
     margin: 0; 
     display: flex; 
-    flex-direction: column; /* This stacks the banner on top of the quiz */
-    align-items: center;    /* This keeps the quiz centered */
-    padding: 0 0 20px 0;    /* Removed top padding so banner hits the edge */
+    flex-direction: column; /* THIS FIXES THE SIDE-BY-SIDE ISSUE */
+    align-items: center;    /* Keeps everything centered */
+    padding: 0 0 20px 0;    /* No top padding so banner hits the edge */
     font-size: 18px; 
 }
 
-/* Discreet, slim banner */
+/* Discreet, slim utility banner */
 .ad-banner {
     width: 100%;
-    background-color: #eeeeee; /* Neutral light gray */
-    color: #777777;           /* Subdued text color */
+    background-color: #f5f5f5; /* Very light, neutral gray */
+    color: #888888;           /* Subdued text */
     text-align: center;
-    padding: 6px 0;           /* Very thin */
-    font-size: 12px;          /* Small and out of the way */
-    border-bottom: 1px solid #dddddd;
+    padding: 8px 0;           /* Thin and professional */
+    font-size: 13px;          /* Small but readable */
+    border-bottom: 1px solid #e0e0e0;
     letter-spacing: 0.5px;
 }
 
 .ad-banner a {
-    color: #555555;
+    color: #3498db;           /* Keep the link consistent with your blue */
     text-decoration: none;
     font-weight: bold;
 }
@@ -182,8 +183,13 @@ body {
     text-decoration: underline;
 }
 
-/* Give the quiz a little room below the banner */
+/* Space between banner and quiz */
 #quiz-container { 
     margin-top: 30px; 
-    /* ... rest of your existing quiz-container code ... */
+    background: var(--white); 
+    max-width: 800px; 
+    width: 95%; /* Better for mobile */
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
 }
