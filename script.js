@@ -39,6 +39,11 @@ const quizData = [
     { q: "Tapping the patient's facial nerve and observing a twitch (Chvostek's sign) indicates:", options: ["Trousseau's sign", "Chvostek's sign", "Murphy's sign", "Cullen's sign"], answer: ["Chvostek's sign"], type: "single", category: "Neuromuscular", section: "Medical", rationale: "This is a hallmark of hypocalcemia, indicating neuromuscular excitability." },
     { q: "A 54 year old is found lethargic with rapid, deep respirations, and high glucose. How should you manage this patient?", options: ["Ventilate with PPV using a BVM", "Open and secure the airway", "Hyperventilate", "Check pupils"], answer: ["Open and secure the airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "In an unresponsive patient, the primary priority is always the Airway." },
     { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecologic", section: "Medical", rationale: "Mittelschmerz is the sharp, localized pain felt during ovulation." },
+    
+    // TYPE-IN EXAMPLES
+    { q: "What is the standard adult dose of Epinephrine 1:1,000 for anaphylaxis? (Provide value and units, e.g., 0.5 mg)", options: [], answer: ["0.3 mg"], type: "text", category: "Pharmacology", section: "Medical", rationale: "Adult dose is 0.3 mg IM." },
+    { q: "Provide the medical term for 'Shortness of Breath.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Medical", rationale: "Dyspnea is the clinical term for difficulty breathing." },
+    { q: "What is the target EtCO2 range for a patient in respiratory distress?", options: [], answer: ["35-45"], type: "text", category: "Respiratory", section: "Medical", rationale: "Normal EtCO2 is 35-45 mmHg." },
 
     // --- TRAUMA & ENVIRONMENTAL ---
     { q: "Which collision in a motor vehicle accident is most likely to cause a 'coup-contrecoup' brain injury?", options: ["First", "Second", "Third (organs vs body wall)", "Fourth"], answer: ["Third (organs vs body wall)"], type: "single", category: "MOI", section: "Trauma", rationale: "The third collision involves the organs striking the interior body wall." },
@@ -151,29 +156,59 @@ function showQuestion() {
     container.innerHTML = '';
     document.getElementById('feedback').innerText = '';
 
-    data.options.forEach(opt => {
-        const div = document.createElement('div');
-        div.className = "option-item";
+    if (data.type === 'text') {
         const input = document.createElement('input');
-        input.type = data.type === 'single' ? 'radio' : 'checkbox';
-        input.name = "option";
-        input.value = opt;
-        input.id = opt;
-        const label = document.createElement('label');
-        label.htmlFor = opt;
-        label.innerText = opt;
-        div.appendChild(input);
-        div.appendChild(label);
-        div.onclick = () => input.click();
-        container.appendChild(div);
-    });
+        input.type = "text";
+        input.id = "text-answer";
+        input.placeholder = "Type your answer here...";
+        input.style.width = "100%";
+        input.style.padding = "15px";
+        input.style.borderRadius = "8px";
+        input.style.border = "2px solid #ddd";
+        input.style.fontSize = "1.1rem";
+        container.appendChild(input);
+        input.focus();
+        
+        // Allow Enter key to submit
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                handleAction();
+            }
+        });
+    } else {
+        data.options.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = "option-item";
+            const input = document.createElement('input');
+            input.type = data.type === 'single' ? 'radio' : 'checkbox';
+            input.name = "option";
+            input.value = opt;
+            input.id = opt;
+            const label = document.createElement('label');
+            label.htmlFor = opt;
+            label.innerText = opt;
+            div.appendChild(input);
+            div.appendChild(label);
+            div.onclick = () => input.click();
+            container.appendChild(div);
+        });
+    }
 }
 
 function handleAction() {
-    const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
-    if (selected.length === 0) return alert("Select an answer.");
     const q = sessionQuestions[currentIdx];
-    const isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
+    let isCorrect = false;
+    let selected = [];
+
+    if (q.type === 'text') {
+        const inputVal = document.getElementById('text-answer').value.trim().toLowerCase();
+        selected = [inputVal];
+        isCorrect = q.answer.some(ans => ans.toLowerCase().trim() === inputVal);
+    } else {
+        selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
+        if (selected.length === 0) return alert("Select an answer.");
+        isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
+    }
     
     if (isCorrect) score++;
 
