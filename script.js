@@ -59,22 +59,21 @@ const quizData = [
     { q: "What is the priority treatment for an open pelvic fracture?", options: ["Splint the legs", "Apply a pelvic binder", "Apply a tourniquet", "Apply a traction splint"], answer: ["Apply a pelvic binder"], type: "single", category: "Ch 33: Ortho", section: "Trauma", rationale: "Pelvic binders reduce internal volume and stabilize the fracture to limit bleeding." },
     { q: "What is the target Mean Arterial Pressure (MAP) for 'permissive hypotension' in internal trauma?", options: ["40-50 mmHg", "60-65 mmHg", "80-90 mmHg", "110-120 mmHg"], answer: ["60-65 mmHg"], type: "single", category: "Ch 14: Shock", section: "Trauma", rationale: "Targeting a lower MAP (60-65) helps maintain vital perfusion without 'popping the clot'." },
     { q: "A patient in 'Heat Stroke' is distinguished by which clinical finding?", options: ["Tachycardia", "Hot skin", "Altered Mental Status", "Muscle cramps"], answer: ["Altered Mental Status"], type: "single", category: "Ch 34: Environmental", section: "Trauma", rationale: "CNS dysfunction is the hallmark differentiator of Heat Stroke." },
-    { q: "A patient with a traumatic brain injury (TBI) presents with a 'blown' pupil on the right side. This is:", options: ["Oculomotor nerve compression", "Optic nerve damage", "Sympathetic surge", "Normal variation"], answer: ["Oculomotor nerve compression"], type: "single", category: "Ch 30: Head/Spine", section: "Trauma", rationale: "Increased ICP forces the brain against the skull, compressing the oculomotor nerve." },
+    { q: "A patient with a traumatic brain injury (TBI) presents with a 'blown' pupil on the right side. This is:", options: ["Oculomotor nerve compression", "Optic nerve damage", "Sympathetic surge", "Normal variation"], answer: ["Oculomotor nerve compression"], type: "single", category: "Ch 30: Head/Spine", section: "Trauma", rationale: "Increased ICP compresses the third cranial nerve." },
     { q: "In the 6 Ps, which finding is typically the LATEST to develop?", options: ["Pain", "Pallor", "Pulselessness", "Paresthesia"], answer: ["Pulselessness"], type: "single", category: "Ch 33: Ortho", section: "Trauma", rationale: "Pulselessness is a very late sign of compartment syndrome or arterial injury." },
     { q: "A patient's toes fan out when the sole of the foot is stroked. In an adult, this is called:", options: ["Cushing's sign", "Babinski's sign", "Kehr's sign", "Murphy's sign"], answer: ["Babinski's sign"], type: "single", category: "Ch 30: Head/Spine", section: "Trauma", rationale: "A positive Babinski reflex in an adult indicates upper motor neuron or brain injury." },
     { q: "Spinal shock is best defined as:", options: ["Neurogenic hypotension", "Temporary loss of all reflexes below the level of injury", "Severe bradycardia", "Permanent paralysis"], answer: ["Temporary loss of all reflexes below the level of injury"], type: "single", category: "Ch 30: Head/Spine", section: "Trauma", rationale: "Spinal shock is a temporary physiologic state that occurs immediately after injury." },
     { q: "A 'Greenstick' fracture is most commonly seen in which population?", options: ["Geriatric", "Adult", "Pediatric", "Athletes"], answer: ["Pediatric"], type: "single", category: "Ch 33: Ortho", section: "Trauma", rationale: "Pediatric bones are more flexible and often 'bend' or partially break on one side." },
-    { q: "Which gas law explains the 'Mammalian Diving Reflex'?", options: ["Boyle's Law", "Henry's Law", "Dalton's Law", "Charles's Law"], answer: ["Boyle's Law"], type: "single", category: "Ch 34: Environmental", section: "Trauma", rationale: "Actually, the diving reflex is a physiological response, but Boyle's Law explains the pressure effects on the body during the dive." }
+    { q: "Which gas law explains the 'Mammalian Diving Reflex'?", options: ["Boyle's Law", "Henry's Law", "Dalton's Law", "Charles's Law"], answer: ["Boyle's Law"], type: "single", category: "Ch 34: Environmental", section: "Trauma", rationale: "Boyle's Law explains the pressure effects on the body during the dive." }
 ];
 
-// --- QUIZ LOGIC ---
+// --- QUIZ ENGINE LOGIC ---
 let sessionQuestions = [];
 let currentIdx = 0;
 let score = 0;
 let mode = '';
 let timerInterval;
 let timeLeft = 0;
-let categoryStats = {};
 
 function adjustSliderRange() {
     const topicSelect = document.getElementById('topic-select');
@@ -187,16 +186,13 @@ function handleAction() {
 }
 
 function showResults() {
-    // 1. Stop the timer and swap views
     clearInterval(timerInterval);
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
-    // 2. Calculate final stats
     const percent = Math.round((score / sessionQuestions.length) * 100);
     const topic = document.getElementById('topic-select').value;
 
-    // 3. Prepare the data payload
     const quizStats = {
         module: topic,
         score: score,
@@ -205,27 +201,18 @@ function showResults() {
         timestamp: new Date().toLocaleString()
     };
 
-    // 4. Send the data to your Google Sheet
+    // Tracking post to Google Sheet
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
         cache: 'no-cache',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(quizStats)
     });
 
-    // 5. Update the UI for the user
     document.getElementById('score-display').innerText = `Score: ${score} / ${sessionQuestions.length} (${percent}%)`;
-} // <--- Only one brace here!
+}
 
-// THIS INITIALIZES THE SLIDER WHEN THE PAGE LOADS
-window.onload = function() {
-    adjustSliderRange();
-};
-
-// THIS IS THE MOST IMPORTANT PART: RUNS ONCE WHEN PAGE LOADS
 window.onload = function() {
     adjustSliderRange();
 };
