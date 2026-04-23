@@ -19,3 +19,12 @@ input[type=range] { width: 90%; }
 .option-item { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; }
 .option-item:hover { background: #f9f9f9; border-color: var(--accent-blue); }
 #feedback { margin-top: 15px; padding: 15px; border-radius: 8px; background: #fffde7; border: 1px solid #ffe082; }
+/* ... previous code ... */
+} 
+
+/* Your new button code starts here */
+#new-session-btn {
+    display: block;
+    width: 90%;
+    /* etc... */
+}
