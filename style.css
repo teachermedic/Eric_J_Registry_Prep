@@ -70,6 +70,12 @@ input[type=range] { width: 90%; }
 
 .mode-btn:hover { background: var(--accent-blue); }
 
+#quiz-area { text-align: left; }
+
+#progress { margin-bottom: 10px; font-weight: bold; color: #555; }
+
+#question-text { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-blue); }
+
 .option-item { 
     border: 2px solid #ddd; 
     padding: 15px; 
@@ -85,15 +91,35 @@ input[type=range] { width: 90%; }
     border-color: var(--accent-blue); 
 }
 
+#action-btn { 
+    background: var(--success-green); 
+    color: white; 
+    padding: 15px; 
+    border: none; 
+    border-radius: 8px; 
+    width: 100%; 
+    font-size: 1.1rem; 
+    cursor: pointer; 
+    margin-top: 10px; 
+}
+
 #feedback { 
     margin-top: 15px; 
     padding: 15px; 
     border-radius: 8px; 
     background: #fffde7; 
     border: 1px solid #ffe082; 
+    line-height: 1.5;
 }
 
-/* New Session Button Styles */
+#timer-container {
+    text-align: right;
+    font-weight: bold;
+    color: var(--error-red);
+    margin-bottom: 10px;
+}
+
+/* --- THE NEW SESSION BUTTON --- */
 #new-session-btn {
     display: block;          
     width: 90%;              
@@ -101,8 +127,8 @@ input[type=range] { width: 90%; }
     margin: 40px auto 20px;  
     padding: 20px;
     
-    background-color: #ADD8E6; 
-    color: #003366;            
+    background-color: #ADD8E6; /* Light Blue */
+    color: #003366;            /* Dark Blue text */
     
     font-size: 1.2rem;
     font-weight: bold;
@@ -122,56 +148,4 @@ input[type=range] { width: 90%; }
 
 #new-session-btn:active {
     transform: translateY(0);
-}
-.featured-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--white);
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    margin-top: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
-}
-
-.featured-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.card-image {
-    height: 200px;
-    background-image: url('https://substackcdn.com/陣/images/8ec1be68-5282-49d7-8461-825048455502_1280x720.png'); /* Post Featured Image */
-    background-size: cover;
-    background-position: center;
-}
-
-.card-content {
-    padding: 20px;
-    text-align: left;
-}
-
-.card-content h3 {
-    margin: 0 0 8px 0;
-    color: var(--primary-blue);
-    font-size: 1.25rem;
-}
-
-.card-content p {
-    font-size: 0.95rem;
-    color: #555;
-    margin: 0 0 15px 0;
-    line-height: 1.4;
-}
-
-.read-more {
-    color: var(--accent-blue);
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.9rem;
 }
