@@ -61,7 +61,29 @@ const quizData = [
     { q: "Twitching facial nerve (Chvostek's sign) indicates:", options: ["Hypocalcemia", "Hypercalcemia", "Hypokalemia", "Hyperkalemia"], answer: ["Hypocalcemia"], type: "single", category: "Assessment", section: "Medical", rationale: "Indicates neuromuscular excitability." },
     { q: "Lethargic patient, rapid deep respirations, high glucose. First priority?", options: ["BVM", "Open/secure airway", "Hyperventilate", "Check pupils"], answer: ["Open/secure airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "Airway is always first." },
     { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecology", section: "Medical", rationale: "Localized pain during ovulation." },
-
+{ 
+    q: "Compare the clinical presentations of Diabetic Ketoacidosis (DKA) and Hyperosmolar Hyperglycemic Nonketotic Syndrome (HHNS) by checking the appropriate boxes.",
+    type: "grid",
+    category: "Endocrine",
+    section: "Medical",
+    rows: [
+        "Fruity or Acetone breath odor",
+        "Blood glucose levels typically > 600 mg/dL",
+        "Kussmaul respirations present",
+        "Most commonly associated with Type 2 Diabetes",
+        "Significant production of ketones"
+    ],
+    cols: ["DKA", "HHNS"],
+    answer: [
+        "Fruity or Acetone breath odor|DKA",
+        "Blood glucose levels typically > 600 mg/dL|HHNS",
+        "Kussmaul respirations present|DKA",
+        "Most commonly associated with Type 2 Diabetes|HHNS",
+        "Significant production of ketones|DKA"
+    ],
+    rationale: "DKA involves the breakdown of fats (ketogenesis) because the body has no insulin, leading to fruity breath and Kussmaul breathing. HHNS involves extreme hyperglycemia without significant ketosis, usually in Type 2 patients.",
+    cheatSheet: "DIABETIC TRIAGE: DKA = Acidosis, Ketones, Kussmaul. HHNS = Extreme Sugar (>600), Extreme Dehydration, No Ketones."
+},
     // --- CARDIAC CHAIN ---
     { q: "[CARDIAC PART 1] A 68-year-old female with 'heavy' chest pressure and nausea. Pale/diaphoretic. BP 140/90. Initial priority?", options: ["324mg Aspirin", "12-lead ECG", "O2", "Establish IV"], answer: ["324mg Aspirin"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Early Aspirin is the highest priority.", cheatSheet: "ACS PRIORITY: Aspirin -> 12 Lead -> Nitro." },
     { q: "[CARDIAC PART 2] The patient develops extreme dyspnea and crackles. SpO2 88%, BP 188/100. Next step?", options: ["Albuterol", "CPAP at 5 cmH2O", "BVM", "NRB Mask"], answer: ["CPAP at 5 cmH2O"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Crackles + HTN = Pulmonary Edema.", cheatSheet: "CPAP: Awake, Patent Airway, Tachypnea." },
@@ -103,7 +125,29 @@ const quizData = [
     { q: "Spinal shock definition:", options: ["Neurogenic hypotension", "Temporary loss of reflexes", "Bradycardia", "Paralysis"], answer: ["Temporary loss of reflexes"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Temporary physiologic state." },
     { q: "Greenstick fracture population:", options: ["Geriatric", "Adult", "Pediatric", "Athletes"], answer: ["Pediatric"], type: "single", category: "Ortho", section: "Trauma", rationale: "Flexible bones." },
     { q: "Mammalian Diving Reflex law:", options: ["Boyle's", "Henry's", "Dalton's", "Charles's"], answer: ["Boyle's"], type: "single", category: "Environmental", section: "Trauma", rationale: "Pressure effects law." },
-
+{ 
+    q: "Identify the signs and symptoms associated with the two main stages of heat-related illness.",
+    type: "grid",
+    category: "Environmental",
+    section: "Trauma",
+    rows: [
+        "Altered Mental Status or Coma",
+        "Skin is cool, clammy, and diaphoretic",
+        "Skin is hot, red, and potentially dry",
+        "Muscle cramps and nausea",
+        "Core temperature typically above 104°F (40°C)"
+    ],
+    cols: ["Heat Exhaustion", "Heat Stroke"],
+    answer: [
+        "Altered Mental Status or Coma|Heat Stroke",
+        "Skin is cool, clammy, and diaphoretic|Heat Exhaustion",
+        "Skin is hot, red, and potentially dry|Heat Stroke",
+        "Muscle cramps and nausea|Heat Exhaustion",
+        "Core temperature typically above 104°F (40°C)|Heat Stroke"
+    ],
+    rationale: "The presence of AMS is the primary differentiator. Heat Stroke is a true life-threat involving a failure of the body's thermoregulatory system.",
+    cheatSheet: "HEAT AXIS: Heat Exhaustion = Wet/Dizzy/Normal Mentation. Heat Stroke = Hot/Dry (or wet)/AMS/Deadly."
+}
     // --- TRAUMA CHAIN ---
     { q: "[TRAUMA PART 1] Massive pulsing bleed from right thigh in MVA. First action?", options: ["O2", "Tourniquet", "Trauma Assessment", "C-Spine"], answer: ["Tourniquet"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "X-ABC logic.", cheatSheet: "MARCH: Massive Hemorrhage first." },
     { q: "[TRAUMA PART 2] Bleeding controlled. Absent breath sounds R, JVD, BP 88/60. Suspect?", options: ["Simple Pneumo", "Hemothorax", "Tension Pneumothorax", "Tamponade"], answer: ["Tension Pneumothorax"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Absent sounds + JVD + Hypotension.", cheatSheet: "TENSION: Obstructive Shock." },
