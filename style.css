@@ -238,3 +238,33 @@ body {
 .high-mastery { background-color: var(--success-green); }
 .mid-mastery { background-color: #fbc02d; }
 .low-mastery { background-color: var(--error-red); }
+
+/* --- MATRIX / GRID QUESTION STYLES --- */
+.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.matrix-table th, .matrix-table td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.matrix-table th {
+    background-color: var(--light-gray);
+    color: var(--primary-blue);
+}
+
+.matrix-row-label {
+    text-align: left !important;
+    font-weight: bold;
+    background-color: #fafafa;
+}
+
+.matrix-check {
+    transform: scale(1.3);
+    cursor: pointer;
+}
