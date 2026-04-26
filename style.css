@@ -193,3 +193,48 @@ body {
     border-radius: 12px; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
 }
+/* --- PERFORMANCE PROFILE STYLES --- */
+#category-breakdown {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid var(--light-gray);
+    text-align: left;
+}
+
+#category-breakdown h3 {
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.category-stat {
+    margin-bottom: 15px;
+}
+
+.category-label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.stat-bar-bg {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease-in-out;
+}
+
+/* Mastery Colors */
+.high-mastery { background-color: var(--success-green); }
+.mid-mastery { background-color: #fbc02d; }
+.low-mastery { background-color: var(--error-red); }
