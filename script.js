@@ -61,7 +61,10 @@ const quizData = [
     { q: "Tapping the patient's facial nerve and observing a twitch (Chvostek's sign) indicates:", options: ["Trousseau's sign", "Chvostek's sign", "Murphy's sign", "Cullen's sign"], answer: ["Chvostek's sign"], type: "single", category: "Neuromuscular", section: "Medical", rationale: "This is a hallmark of hypocalcemia, indicating neuromuscular excitability." },
     { q: "A 54 year old is found lethargic with rapid, deep respirations, and high glucose. How should you manage this patient?", options: ["Ventilate with PPV using a BVM", "Open and secure the airway", "Hyperventilate", "Check pupils"], answer: ["Open and secure the airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "In an unresponsive patient, the primary priority is always the Airway." },
     { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecologic", section: "Medical", rationale: "Mittelschmerz is the sharp, localized pain felt during ovulation." },
-    
+    // --- EVOLVING SCENARIO: CARDIAC CHAIN ---
+    { q: "[CARDIAC PART 1] A 68-year-old female complains of 'heavy' chest pressure and nausea. She is pale and diaphoretic. Vitals: BP 140/90, HR 92, SpO2 94%. Initial priority?", options: ["Administer 324mg Aspirin", "Perform a 12-lead ECG", "Administer O2", "Establish IV"], answer: ["Administer 324mg Aspirin"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Early Aspirin prevents further clot formation.", cheatSheet: "ACS PRIORITY: Aspirin (Anti-platelet) -> 12 Lead -> Nitro (Preload reduction) -> Morphine/Fentanyl (Pain)." },
+    { q: "[CARDIAC PART 2] The patient is now in the ambulance. She develops extreme dyspnea and crackles in the bases. SpO2 88%, BP 188/100. Next step?", options: ["Albuterol", "CPAP at 5 cmH2O", "BVM", "NRB Mask"], answer: ["CPAP at 5 cmH2O"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Crackles + Hypertension = Pulmonary Edema. CPAP is the gold standard.", cheatSheet: "CPAP CRITERIA: Awake/Cooperative, Patent Airway, Tachypnea, Use of accessory muscles." },
+    { q: "[CARDIAC PART 3] The patient becomes lethargic and cannot follow commands. RR is 6, HR 110. You should:", options: ["Increase CPAP", "Remove CPAP and begin BVM", "Administer Nitro", "Check Glucose"], answer: ["Remove CPAP and begin BVM"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "CPAP is contraindicated if the patient cannot protect their own airway or follow commands.", cheatSheet: "CPAP CONTRAINDICATIONS: Unconscious, Respiratory Arrest, Pneumothorax, Facial Trauma." },
     // TYPE-IN EXAMPLES
     { q: "What is the standard adult dose of Epinephrine 1:1,000 for anaphylaxis? (Provide value and units, e.g., 0.5 mg)", options: [], answer: ["0.3 mg"], type: "text", category: "Pharmacology", section: "Medical", rationale: "Adult dose is 0.3 mg IM." },
     { q: "Provide the medical term for 'Shortness of Breath.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Medical", rationale: "Dyspnea is the clinical term for difficulty breathing." },
@@ -94,7 +97,10 @@ const quizData = [
     { q: "Spinal shock is best defined as:", options: ["Neurogenic hypotension", "Temporary loss of all reflexes below the level of injury", "Severe bradycardia", "Permanent paralysis"], answer: ["Temporary loss of all reflexes below the level of injury"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Spinal shock is a temporary physiologic state that occurs immediately after injury." },
     { q: "A 'Greenstick' fracture is most commonly seen in which population?", options: ["Geriatric", "Adult", "Pediatric", "Athletes"], answer: ["Pediatric"], type: "single", category: "Ortho", section: "Trauma", rationale: "Pediatric bones are more flexible and often 'bend' or partially break on one side." },
     { q: "Which gas law explains the 'Mammalian Diving Reflex'?", options: ["Boyle's Law", "Henry's Law", "Dalton's Law", "Charles's Law"], answer: ["Boyle's Law"], type: "single", category: "Environmental", section: "Trauma", rationale: "Boyle's Law explains the pressure effects on the body during the dive." },
-
+// --- EVOLVING SCENARIO: TRAUMA CHAIN ---
+    { q: "[TRAUMA PART 1] High-speed MVC. 24-year-old male is pale and tachypneic with a pulsing arterial bleed from his right thigh. First action?", options: ["Apply O2", "Apply Tourniquet", "Rapid Trauma Assessment", "C-Spine"], answer: ["Apply Tourniquet"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "X-ABC: Exsanguinating hemorrhage is addressed first.", cheatSheet: "MARCH: Massive Hemorrhage, Airway, Respiration, Circulation, Head/Hypothermia." },
+    { q: "[TRAUMA PART 2] Bleeding is controlled. Patient has absent breath sounds on the right, JVD, and BP is 88/60. Suspect?", options: ["Simple Pneumo", "Hemothorax", "Tension Pneumothorax", "Tamponade"], answer: ["Tension Pneumothorax"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Absent sounds + JVD + Hypotension = Tension Pneumo.", cheatSheet: "TENSION PNEUMO: Life-threatening obstructive shock requiring immediate decompression." },
+    { q: "[TRAUMA PART 3] Immediate priority intervention for this patient?", options: ["BVM", "Needle Decompression", "Occlusive Dressing", "Rapid Transport"], answer: ["Needle Decompression"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Needle decompression relieves pressure to restore cardiac output.", cheatSheet: "DECOMPRESSION SITES: 2nd ICS Mid-clavicular OR 4th/5th ICS Anterior-axillary." },
     // --- OB/GYN & PEDIATRICS ---
     { q: "A patient in her 3rd trimester presents with painless, bright red vaginal bleeding. This is most likely:", options: ["Abruptio Placentae", "Placenta Previa", "Ectopic Pregnancy", "Preeclampsia"], answer: ["Placenta Previa"], type: "single", category: "OB", section: "OBPeds", rationale: "Placenta Previa is characterized by painless, bright red bleeding." },
     { q: "Which finding differentiates Eclampsia from Preeclampsia?", options: ["Hypertension", "Proteinuria", "Seizures", "Peripheral Edema"], answer: ["Seizures"], type: "single", category: "OB", section: "OBPeds", rationale: "Eclampsia is defined as the onset of seizures in a patient with preeclampsia." },
@@ -106,6 +112,9 @@ const quizData = [
     { q: "An infant presents with a 'seal-bark' cough and low-grade fever. This is most indicative of:", options: ["Croup", "Epiglottitis", "Pneumonia", "Pertussis"], answer: ["Croup"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Croup (laryngotracheobronchitis) typically presents with a barking cough and stridor." },
     { q: "In an infant, a sunken fontanelle is a sign of:", options: ["Increased Intracranial Pressure", "Dehydration", "Meningitis", "Normal development"], answer: ["Dehydration"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Sunken fontanelles suggest severe dehydration and hypovolemia." },
     { q: "Upon assessment of a delivering mother, you see the umbilical cord protruding from the vagina. How should you manage this?", options: ["Pull the cord to speed delivery", "Place the mother in knee-chest position and elevate the hips", "Push the cord back into the vagina", "Clamp and cut the cord immediately"], answer: ["Place the mother in knee-chest position and elevate the hips"], type: "single", category: "OB", section: "OBPeds", rationale: "Prolapsed cord management requires taking pressure off the cord by positioning and manual displacement." }
+// --- EVOLVING SCENARIO: PEDS CHAIN ---
+    { q: "[PEDS PART 1] Using PAT, a 2-year-old is limp, pale, and grunting. Status?", options: ["Distress", "Failure", "Compensated Shock", "Decompensated Shock"], answer: ["Failure"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Limp (Appearance) + Grunting (Breathing) = Failure.", cheatSheet: "PAT TRIANGLE: Appearance, Work of Breathing, Circulation. 2+ abnormal = Unstable." },
+    { q: "[PEDS PART 2] Child begins a tonic-clonic seizure. History of high fever. Priority?", options: ["Midazolam", "Ice Packs", "Protect Airway/Prevent Injury", "Insert OPA"], answer: ["Protect Airway/Prevent Injury"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Airway safety is first during active seizure.", cheatSheet: "SEIZURE GOALS: Airway, Oxygen, Safety. DO NOT put objects in mouth." },
 ];
 
 // --- QUIZ ENGINE LOGIC ---
@@ -115,7 +124,7 @@ let score = 0;
 let mode = '';
 let timerInterval;
 let timeLeft = 0;
-let categoryStats = {}; // New variable to track performance by topic
+let categoryStats = {};
 
 function adjustSliderRange() {
     const topicSelect = document.getElementById('topic-select');
@@ -148,17 +157,31 @@ function startQuiz(selectedMode) {
 
     if (filteredBank.length === 0) return alert("No questions found!");
 
+    // --- SMART CHAIN SHUFFLE ---
+    let units = [];
+    let seenChains = new Set();
+
+    filteredBank.forEach(q => {
+        if (q.chainID) {
+            if (!seenChains.has(q.chainID)) {
+                const chain = filteredBank.filter(item => item.chainID === q.chainID);
+                units.push(chain); // Staple the packet
+                seenChains.add(q.chainID);
+            }
+        } else {
+            units.push([q]); // Single card
+        }
+    });
+
+    units.sort(() => Math.random() - 0.5);
+    sessionQuestions = units.flat().slice(0, numToPull);
+
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
 
-    sessionQuestions = filteredBank.sort(() => Math.random() - 0.5).slice(0, numToPull);
-    
-    // Initialize the performance tracker for this specific session
     categoryStats = {};
     sessionQuestions.forEach(q => {
-        if (!categoryStats[q.category]) {
-            categoryStats[q.category] = { total: 0, correct: 0 };
-        }
+        if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
         categoryStats[q.category].total++;
     });
 
@@ -192,19 +215,14 @@ function showQuestion() {
         const input = document.createElement('input');
         input.type = "text";
         input.id = "text-answer";
-        input.placeholder = "Type your answer here...";
+        input.placeholder = "Type your answer...";
+        input.className = "text-input-field"; // Add this class to CSS for styling
         input.style.width = "100%";
         input.style.padding = "15px";
-        input.style.borderRadius = "8px";
-        input.style.border = "2px solid #ddd";
-        input.style.fontSize = "1.1rem";
         input.style.boxSizing = "border-box";
         container.appendChild(input);
         input.focus();
-        
-        input.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") handleAction();
-        });
+        input.addEventListener("keypress", (e) => { if (e.key === "Enter") handleAction(); });
     } else {
         data.options.forEach(opt => {
             const div = document.createElement('div');
@@ -240,13 +258,18 @@ function handleAction() {
     
     if (isCorrect) {
         score++;
-        categoryStats[q.category].correct++; // Tally for the report card
+        categoryStats[q.category].correct++;
     }
 
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
         fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> Answer: ${q.answer.join(", ")}`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
+        
+        if (q.cheatSheet) {
+            fb.innerHTML += `<br><button onclick="alert('${q.cheatSheet}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
+        }
+
         const btn = document.getElementById('action-btn');
         btn.innerText = "Next Question";
         btn.onclick = () => {
@@ -255,9 +278,7 @@ function handleAction() {
                 showQuestion(); 
                 btn.innerText = "Submit Answer"; 
                 btn.onclick = handleAction; 
-            } else {
-                showResults();
-            }
+            } else { showResults(); }
         };
     } else {
         currentIdx++;
@@ -271,53 +292,29 @@ function showResults() {
     document.getElementById('results-area').style.display = 'block';
 
     const percent = Math.round((score / sessionQuestions.length) * 100);
-    const topic = document.getElementById('topic-select').value;
-
     document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
     document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
 
-    // Render the Performance Profile Report Card
     const breakdown = document.getElementById('category-breakdown');
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
     for (const [cat, data] of Object.entries(categoryStats)) {
         const catPercent = Math.round((data.correct / data.total) * 100);
-        let masteryClass = 'low-mastery';
-        if (catPercent >= 75) masteryClass = 'high-mastery';
-        else if (catPercent >= 50) masteryClass = 'mid-mastery';
-
-        const statDiv = document.createElement('div');
-        statDiv.className = 'category-stat';
-        statDiv.innerHTML = `
-            <div class="category-label">
-                <span>${cat}</span>
-                <span>${data.correct}/${data.total} (${catPercent}%)</span>
-            </div>
-            <div class="stat-bar-bg">
-                <div class="stat-bar-fill ${masteryClass}" style="width: ${catPercent}%"></div>
-            </div>
-        `;
-        breakdown.appendChild(statDiv);
+        let masteryClass = catPercent >= 75 ? 'high-mastery' : (catPercent >= 50 ? 'mid-mastery' : 'low-mastery');
+        breakdown.innerHTML += `
+            <div class="category-stat">
+                <div class="category-label"><span>${cat}</span><span>${catPercent}%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill ${masteryClass}" style="width: ${catPercent}%"></div></div>
+            </div>`;
     }
-
-    // Google Sheets Tracking
-    const quizStats = {
-        module: topic,
-        score: score,
-        total: sessionQuestions.length,
-        percentage: percent,
-        timestamp: new Date().toLocaleString()
-    };
 
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
         cache: 'no-cache',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(quizStats)
+        body: JSON.stringify({ module: document.getElementById('topic-select').value, score, total: sessionQuestions.length, percentage: percent, timestamp: new Date().toLocaleString() })
     });
 }
 
-window.onload = function() {
-    adjustSliderRange();
-};
+window.onload = () => { adjustSliderRange(); };
