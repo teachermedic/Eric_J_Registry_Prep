@@ -225,7 +225,29 @@ function showQuestion() {
     container.innerHTML = '';
     document.getElementById('feedback').innerText = '';
 
-    if (data.type === 'text') {
+    if (data.type === 'grid') {
+        // --- MATRIX ENGINE ---
+        let table = document.createElement('table');
+        table.className = "matrix-table";
+        
+        // Header Row
+        let header = `<tr><th>Sign/Symptom</th>`;
+        data.cols.forEach(col => { header += `<th>${col}</th>`; });
+        header += `</tr>`;
+        table.innerHTML = header;
+
+        // Content Rows
+        data.rows.forEach(row => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<td class="matrix-row-label">${row}</td>`;
+            data.cols.forEach(col => {
+                tr.innerHTML += `<td><input type="checkbox" class="matrix-check" data-row="${row}" data-col="${col}"></td>`;
+            });
+            table.appendChild(tr);
+        });
+        container.appendChild(table);
+
+    } else if (data.type === 'text') {
         const input = document.createElement('input');
         input.type = "text";
         input.id = "text-answer";
@@ -237,6 +259,7 @@ function showQuestion() {
         input.focus();
         input.addEventListener("keypress", (e) => { if (e.key === "Enter") handleAction(); });
     } else {
+        // ... Standard Single/Multiple Logic ...
         data.options.forEach(opt => {
             const div = document.createElement('div');
             div.className = "option-item";
@@ -260,7 +283,16 @@ function handleAction() {
     const q = sessionQuestions[currentIdx];
     let isCorrect = false;
 
-    if (q.type === 'text') {
+    if (q.type === 'grid') {
+        // Check Every Row/Col pair
+        const checks = Array.from(document.querySelectorAll('.matrix-check'));
+        const userAnswers = checks.filter(c => c.checked).map(c => `${c.dataset.row}|${c.dataset.col}`);
+        
+        // Compare against answer list
+        isCorrect = userAnswers.length === q.answer.length && 
+                    userAnswers.every(val => q.answer.includes(val));
+
+    } else if (q.type === 'text') {
         const inputVal = document.getElementById('text-answer').value.trim().toLowerCase();
         isCorrect = q.answer.some(ans => ans.toLowerCase().trim() === inputVal);
     } else {
@@ -276,7 +308,7 @@ function handleAction() {
 
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
-        fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> Answer: ${q.answer.join(", ")}`;
+        fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> See rationale below.`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
         
         if (q.cheatSheet) {
