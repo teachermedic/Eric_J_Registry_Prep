@@ -115,6 +115,7 @@ let score = 0;
 let mode = '';
 let timerInterval;
 let timeLeft = 0;
+let categoryStats = {}; // New variable to track performance by topic
 
 function adjustSliderRange() {
     const topicSelect = document.getElementById('topic-select');
@@ -151,6 +152,15 @@ function startQuiz(selectedMode) {
     document.getElementById('quiz-area').style.display = 'block';
 
     sessionQuestions = filteredBank.sort(() => Math.random() - 0.5).slice(0, numToPull);
+    
+    // Initialize the performance tracker for this specific session
+    categoryStats = {};
+    sessionQuestions.forEach(q => {
+        if (!categoryStats[q.category]) {
+            categoryStats[q.category] = { total: 0, correct: 0 };
+        }
+        categoryStats[q.category].total++;
+    });
 
     if (mode === 'exam') {
         timeLeft = sessionQuestions.length * 2 * 60; 
@@ -188,14 +198,12 @@ function showQuestion() {
         input.style.borderRadius = "8px";
         input.style.border = "2px solid #ddd";
         input.style.fontSize = "1.1rem";
+        input.style.boxSizing = "border-box";
         container.appendChild(input);
         input.focus();
         
-        // Allow Enter key to submit
         input.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                handleAction();
-            }
+            if (event.key === "Enter") handleAction();
         });
     } else {
         data.options.forEach(opt => {
@@ -220,19 +228,20 @@ function showQuestion() {
 function handleAction() {
     const q = sessionQuestions[currentIdx];
     let isCorrect = false;
-    let selected = [];
 
     if (q.type === 'text') {
         const inputVal = document.getElementById('text-answer').value.trim().toLowerCase();
-        selected = [inputVal];
         isCorrect = q.answer.some(ans => ans.toLowerCase().trim() === inputVal);
     } else {
-        selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
+        const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
         if (selected.length === 0) return alert("Select an answer.");
         isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
     }
     
-    if (isCorrect) score++;
+    if (isCorrect) {
+        score++;
+        categoryStats[q.category].correct++; // Tally for the report card
+    }
 
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
@@ -264,6 +273,34 @@ function showResults() {
     const percent = Math.round((score / sessionQuestions.length) * 100);
     const topic = document.getElementById('topic-select').value;
 
+    document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
+    document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
+
+    // Render the Performance Profile Report Card
+    const breakdown = document.getElementById('category-breakdown');
+    breakdown.innerHTML = '<h3>Performance Profile</h3>';
+
+    for (const [cat, data] of Object.entries(categoryStats)) {
+        const catPercent = Math.round((data.correct / data.total) * 100);
+        let masteryClass = 'low-mastery';
+        if (catPercent >= 75) masteryClass = 'high-mastery';
+        else if (catPercent >= 50) masteryClass = 'mid-mastery';
+
+        const statDiv = document.createElement('div');
+        statDiv.className = 'category-stat';
+        statDiv.innerHTML = `
+            <div class="category-label">
+                <span>${cat}</span>
+                <span>${data.correct}/${data.total} (${catPercent}%)</span>
+            </div>
+            <div class="stat-bar-bg">
+                <div class="stat-bar-fill ${masteryClass}" style="width: ${catPercent}%"></div>
+            </div>
+        `;
+        breakdown.appendChild(statDiv);
+    }
+
+    // Google Sheets Tracking
     const quizStats = {
         module: topic,
         score: score,
@@ -279,8 +316,6 @@ function showResults() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(quizStats)
     });
-
-    document.getElementById('score-display').innerText = `Score: ${score} / ${sessionQuestions.length} (${percent}%)`;
 }
 
 window.onload = function() {
