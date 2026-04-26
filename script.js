@@ -108,7 +108,32 @@ const quizData = [
     { q: "[TRAUMA PART 1] Massive pulsing bleed from right thigh in MVA. First action?", options: ["O2", "Tourniquet", "Trauma Assessment", "C-Spine"], answer: ["Tourniquet"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "X-ABC logic.", cheatSheet: "MARCH: Massive Hemorrhage first." },
     { q: "[TRAUMA PART 2] Bleeding controlled. Absent breath sounds R, JVD, BP 88/60. Suspect?", options: ["Simple Pneumo", "Hemothorax", "Tension Pneumothorax", "Tamponade"], answer: ["Tension Pneumothorax"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Absent sounds + JVD + Hypotension.", cheatSheet: "TENSION: Obstructive Shock." },
     { q: "[TRAUMA PART 3] Priority intervention for this trauma patient?", options: ["BVM", "Needle Decompression", "Occlusive Dressing", "Transport"], answer: ["Needle Decompression"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Restore output.", cheatSheet: "SITES: 2nd ICS Mid-clavicular." },
-
+{ 
+    q: "Differentiate between the clinical findings for a Concussion and a Subdural Hematoma by checking the appropriate boxes.",
+    type: "grid",
+    category: "Neurology",
+    section: "Medical",
+    rows: [
+        "Temporary loss of consciousness",
+        "Symptoms may appear days or weeks later",
+        "Gradual increase in Intracranial Pressure",
+        "Rapid recovery of neurological function",
+        "Nausea, vomiting, and headache"
+    ],
+    cols: ["Concussion", "Subdural Hematoma"],
+    // Format: "Row Name|Column Name"
+    answer: [
+        "Temporary loss of consciousness|Concussion",
+        "Temporary loss of consciousness|Subdural Hematoma",
+        "Symptoms may appear days or weeks later|Subdural Hematoma",
+        "Gradual increase in Intracranial Pressure|Subdural Hematoma",
+        "Rapid recovery of neurological function|Concussion",
+        "Nausea, vomiting, and headache|Concussion",
+        "Nausea, vomiting, and headache|Subdural Hematoma"
+    ],
+    rationale: "Concussions typically involve a rapid recovery of function. Subdural hematomas involve venous bleeding that causes a gradual, often delayed, increase in ICP.",
+    cheatSheet: "SUBDURAL VS CONCUSSION: Subdurals are VENOUS (slower). Epidurals are ARTERIAL (fast/lucid interval). Concussions are functional, not structural, injuries."
+},
     // --- OB/GYN & PEDIATRICS ---
     { q: "Painless, bright red 3rd trimester bleeding is:", options: ["Abruptio Placentae", "Placenta Previa", "Ectopic", "Preeclampsia"], answer: ["Placenta Previa"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Painless/bright red." },
     { q: "Eclampsia differentiator:", options: ["HTN", "Proteinuria", "Seizures", "Edema"], answer: ["Seizures"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Seizures mark eclampsia." },
