@@ -147,7 +147,7 @@ const quizData = [
     ],
     rationale: "The presence of AMS is the primary differentiator. Heat Stroke is a true life-threat involving a failure of the body's thermoregulatory system.",
     cheatSheet: "HEAT AXIS: Heat Exhaustion = Wet/Dizzy/Normal Mentation. Heat Stroke = Hot/Dry (or wet)/AMS/Deadly."
-}
+},
     // --- TRAUMA CHAIN ---
     { q: "[TRAUMA PART 1] Massive pulsing bleed from right thigh in MVA. First action?", options: ["O2", "Tourniquet", "Trauma Assessment", "C-Spine"], answer: ["Tourniquet"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "X-ABC logic.", cheatSheet: "MARCH: Massive Hemorrhage first." },
     { q: "[TRAUMA PART 2] Bleeding controlled. Absent breath sounds R, JVD, BP 88/60. Suspect?", options: ["Simple Pneumo", "Hemothorax", "Tension Pneumothorax", "Tamponade"], answer: ["Tension Pneumothorax"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Absent sounds + JVD + Hypotension.", cheatSheet: "TENSION: Obstructive Shock." },
