@@ -411,6 +411,7 @@ let mode = '';
 let timerInterval;
 let timeLeft = 0;
 let categoryStats = {};
+let missedQuestions = []; // NEW: Track mistakes here
 
 function adjustSliderRange() {
     const topicSelect = document.getElementById('topic-select');
@@ -554,6 +555,7 @@ function handleAction() {
     const q = sessionQuestions[currentIdx];
     let isCorrect = false;
 
+    // --- Answer Logic ---
     if (q.type === 'grid') {
         const checks = Array.from(document.querySelectorAll('.matrix-check'));
         const userAnswers = checks.filter(c => c.checked).map(c => `${c.dataset.row}|${c.dataset.col}`);
@@ -567,17 +569,23 @@ function handleAction() {
         isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
     }
     
+    // --- Scoring & Mistake Tracking ---
     if (isCorrect) {
         score++;
         categoryStats[q.category].correct++;
+    } else {
+        // Only add to the missed list if it's not already there (prevents duplicates in drills)
+        if (!missedQuestions.includes(q)) {
+            missedQuestions.push(q);
+        }
     }
 
+    // --- Feedback / Navigation ---
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
         fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> See rationale below.`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
         
-        // Use the MODAL instead of the ALERT
         if (q.cheatSheet) {
             fb.innerHTML += `<br><button onclick="openFieldNote('${q.cheatSheet}', '${q.link || ''}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
         }
@@ -604,6 +612,15 @@ function showResults() {
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
+    // Update Drills Button Visibility
+    const missedBtn = document.getElementById('missed-drill-btn');
+    if (missedQuestions.length > 0) {
+        missedBtn.style.display = 'block';
+        missedBtn.innerText = `Re-drill ${missedQuestions.length} Missed Questions`;
+    } else {
+        missedBtn.style.display = 'none';
+    }
+
     const percent = Math.round((score / sessionQuestions.length) * 100);
     document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
     document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
@@ -621,16 +638,48 @@ function showResults() {
             </div>`;
     }
 
+    // Log to Google Sheets
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
         cache: 'no-cache',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ module: document.getElementById('topic-select').value, score, total: sessionQuestions.length, percentage: percent, timestamp: new Date().toLocaleString() })
+        body: JSON.stringify({ 
+            module: document.getElementById('topic-select').value, 
+            score, 
+            total: sessionQuestions.length, 
+            percentage: percent, 
+            timestamp: new Date().toLocaleString() 
+        })
     });
 }
 
-// --- FIELD NOTE MODAL LOGIC ---
+function startMissedDrill() {
+    // 1. Prepare the missed questions for the drill
+    sessionQuestions = [...missedQuestions];
+    missedQuestions = []; // Reset for the drill itself
+    
+    // 2. Reset counters
+    currentIdx = 0;
+    score = 0;
+    mode = 'review'; // Drills are always in Review Mode for feedback
+    
+    // 3. UI Swap
+    document.getElementById('results-area').style.display = 'none';
+    document.getElementById('quiz-area').style.display = 'block';
+    document.getElementById('timer-container').style.display = 'none';
+    
+    // 4. Reset stats for progress tracking
+    categoryStats = {};
+    sessionQuestions.forEach(q => {
+        if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
+        categoryStats[q.category].total++;
+    });
+
+    showQuestion();
+}
+
+// --- MODAL LOGIC ---
 function openFieldNote(text, url) {
     const modal = document.getElementById('fieldNoteModal');
     const body = document.getElementById('modal-body');
@@ -658,9 +707,9 @@ function checkStreak() {
     const yesterdayStr = yesterday.toLocaleDateString();
 
     if (streakData.lastDate === today) {
-        // Active
+        // User already active today
     } else if (streakData.lastDate === yesterdayStr) {
-        // Valid
+        // Streak remains valid
     } else {
         if (streakData.lastDate !== null) {
             streakData.count = 0;
@@ -687,7 +736,7 @@ function updateStreak() {
     document.getElementById('streak-count').innerText = streakData.count;
 }
 
-// --- INITIALIZATION (CONSOLIDATED) ---
+// --- APP INITIALIZATION ---
 window.onload = () => { 
     adjustSliderRange(); 
     checkStreak(); 
@@ -697,7 +746,7 @@ window.onload = () => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('PWA Ready'))
-      .catch(err => console.log('PWA Failed', err));
+      .then(reg => console.log('PWA Registered'))
+      .catch(err => console.log('PWA Failure', err));
   });
 }
