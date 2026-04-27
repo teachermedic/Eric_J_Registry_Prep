@@ -401,7 +401,8 @@ function handleAction() {
 }
 
 function showResults() {
-    clearInterval(timerInterval);
+    updateStreak(); //clearInterval
+    (timerInterval);
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
