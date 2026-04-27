@@ -440,3 +440,49 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('Service Worker Failed', err));
   });
 }
+// --- STREAK LOGIC ---
+
+function checkStreak() {
+    const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
+    const today = new Date().toLocaleDateString();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toLocaleDateString();
+
+    if (streakData.lastDate === today) {
+        // Already active today
+    } else if (streakData.lastDate === yesterdayStr) {
+        // Streak continues (handled upon quiz completion)
+    } else {
+        // Streak broken
+        if (streakData.lastDate !== null) {
+            streakData.count = 0;
+            localStorage.setItem('ems_streak', JSON.stringify(streakData));
+        }
+    }
+
+    if (streakData.count > 0) {
+        document.getElementById('streak-container').style.display = 'block';
+        document.getElementById('streak-count').innerText = streakData.count;
+    }
+}
+
+function updateStreak() {
+    const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
+    const today = new Date().toLocaleDateString();
+
+    if (streakData.lastDate !== today) {
+        streakData.count++;
+        streakData.lastDate = today;
+        localStorage.setItem('ems_streak', JSON.stringify(streakData));
+    }
+    
+    document.getElementById('streak-container').style.display = 'block';
+    document.getElementById('streak-count').innerText = streakData.count;
+}
+
+// Update your window.onload to include checkStreak
+window.onload = () => { 
+    adjustSliderRange(); 
+    checkStreak(); // Load the streak status immediately
+};
