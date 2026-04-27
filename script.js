@@ -215,6 +215,21 @@ const quizData = [
     cheatSheet: "SHOCK STAGES: Compensated = High HR/Normal BP. Decompensated = Low BP/AMS."
 },
     { 
+    q: "A 22-year-old male is found unresponsive with warm, dry skin. He is breathing deeply at 32 breaths/min. His heart rate is 124 bpm. His lungs are clear and equal. What is the primary pathophysiological reason for his respiratory pattern?",
+    options: [
+        "Primary respiratory alkalosis to improve oxygenation",
+        "Compensatory mechanism to increase blood pH",
+        "Direct stimulation of the medulla by high glucose levels",
+        "Failure of the sodium-potassium pump in the lungs"
+    ],
+    answer: ["Compensatory mechanism to increase blood pH"],
+    type: "single",
+    category: "Patho",
+    section: "Pathophysiology",
+    rationale: "This patient is likely in DKA (warm/dry skin, deep/rapid Kussmaul respirations). The deep breathing is a metabolic compensation to blow off $CO_2$ (acid), which raises the blood pH back toward a neutral state.",
+    cheatSheet: "KUSSMAUL PATHWAY: Metabolic Acidosis -> Body blows off $CO_2$ -> Attempt to raise pH. Look for 'Clear Lungs' to rule out a respiratory cause.",
+},
+    { 
     q: "[MEDICAL PART 1] You are called to a nursing home for an 82-year-old male with 'altered mental status.' He is hot to the touch. Vitals: BP 110/70, HR 108, RR 24, Temp 102.4 F. EtCO2 is 28 mmHg. This patient is primarily exhibiting signs of:", 
     options: ["Sepsis", "SIRS (Systemic Inflammatory Response Syndrome)", "Septic Shock", "Hypovolemic Shock"], 
     answer: ["SIRS (Systemic Inflammatory Response Syndrome)"], 
@@ -311,6 +326,21 @@ const quizData = [
     ],
     rationale: "The presence of AMS is the primary differentiator. Heat Stroke is a true life-threat involving a failure of the body's thermoregulatory system.",
     cheatSheet: "HEAT AXIS: Heat Exhaustion = Wet/Dizzy/Normal Mentation. Heat Stroke = Hot/Dry (or wet)/AMS/Deadly."
+},
+    { 
+    q: "A patient was stabbed in the chest. He presents with distended neck veins, a blood pressure of 82/68, and clear, bilateral breath sounds. Which of the following best describes the underlying pathology?",
+    options: [
+        "Increased intrathoracic pressure causing a shift of the mediastinum",
+        "Accumulation of fluid in the pericardial sac restricting stroke volume",
+        "Massive hemorrhage leading to a decrease in preload",
+        "Loss of sympathetic tone causing systemic vasodilation"
+    ],
+    answer: ["Accumulation of fluid in the pericardial sac restricting stroke volume"],
+    type: "single",
+    category: "Patho",
+    section: "Trauma",
+    rationale: "The triad of JVD, hypotension, and clear breath sounds indicates Cardiac Tamponade. The pathology is 'obstructive'—the heart cannot fill properly (decreased stroke volume) because it is being squeezed by fluid in the pericardium. Tension Pneumothorax is ruled out by the clear breath sounds.",
+    cheatSheet: "BECK'S TRIAD: JVD + Muffled Tones + Hypotension (Narrow Pulse Pressure). If lungs are clear, it's the heart; if lungs are absent on one side, it's a Tension PTX. If you see the word 'hyperresonnance' then that points to a tension pneumothorax.",
 },
     { 
     q: "Differentiate between an Epidural Hematoma and a Subdural Hematoma by checking the appropriate boxes.",
