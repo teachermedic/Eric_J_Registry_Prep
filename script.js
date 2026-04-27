@@ -214,6 +214,40 @@ const quizData = [
     rationale: "Hypotension and AMS are the two definitive signs that the body's compensatory mechanisms (tachycardia, vasoconstriction) have failed.",
     cheatSheet: "SHOCK STAGES: Compensated = High HR/Normal BP. Decompensated = Low BP/AMS."
 },
+    { 
+    q: "[MEDICAL PART 1] You are called to a nursing home for an 82-year-old male with 'altered mental status.' He is hot to the touch. Vitals: BP 110/70, HR 108, RR 24, Temp 102.4 F. EtCO2 is 28 mmHg. This patient is primarily exhibiting signs of:", 
+    options: ["Sepsis", "SIRS (Systemic Inflammatory Response Syndrome)", "Septic Shock", "Hypovolemic Shock"], 
+    answer: ["SIRS (Systemic Inflammatory Response Syndrome)"], 
+    type: "single", category: "Medical", section: "Medical", chainID: "Sepsis_1", 
+    rationale: "The patient meets SIRS criteria (High Temp, High HR, High RR, Low EtCO2). While likely caused by an infection, 'Sepsis' specifically requires a suspected source of infection plus SIRS.",
+    cheatSheet: "SIRS CRITERIA: Temp >100.4, HR >90, RR >20, EtCO2 <32."
+},
+{ 
+    q: "[MEDICAL PART 2] You find a urinary catheter bag with dark, cloudy urine. The patient’s BP drops to 92/54. You have established IV access. What is the most appropriate initial fluid goal for this AEMT student?", 
+    options: ["TKO (To Keep Open) rate", "250 mL bolus to check for response", "30 mL/kg Isotonic Crystalloid bolus", "Wide open until BP reaches 120 systolic"], 
+    answer: ["30 mL/kg Isotonic Crystalloid bolus"], 
+    type: "single", category: "Medical", section: "Medical", chainID: "Sepsis_1", 
+    rationale: "Current national standards for Sepsis management prioritize early, aggressive fluid resuscitation (30 mL/kg) to maintain organ perfusion.",
+    cheatSheet: "SEPSIS FLUIDS: 30 mL/kg is the standard 'start' for sepsis-induced hypotension."
+},
+{ 
+    q: "[MEDICAL PART 3] Despite 2 liters of fluid, the patient’s BP is now 78/40 and he is minimally responsive. This stage of the disease is known as:", 
+    options: ["Septic Shock", "MODS (Multiple Organ Dysfunction Syndrome)", "Compensated Sepsis", "Refractory Hypotension"], 
+    answer: ["Septic Shock"], 
+    type: "single", category: "Medical", section: "Medical", chainID: "Sepsis_1", 
+    rationale: "Septic Shock is defined as sepsis with persistent hypotension that does not respond to fluid resuscitation.",
+    cheatSheet: "SHOCK DEFINITION: Sepsis + Fluid Refractory Hypotension = Septic Shock."
+},
+    { 
+    q: "You are preparing to administer Dextrose to a 4-year-old pediatric patient with a blood glucose of 38 mg/dL. What is the standard concentration and dose per kg for this age group?", 
+    options: [], 
+    answer: ["D25", "2-4 mL/kg", "D25 2-4 mL/kg"], 
+    type: "text", 
+    category: "Pharmacology", 
+    section: "Medical", 
+    rationale: "For pediatrics (1-8 years), D25 at 2-4 mL/kg is the standard. D50 is contraindicated in small children due to its high osmolarity.",
+    cheatSheet: "PEDS DEXTROSE: Neonates = D10. Peds (1-8) = D25. Adults = D50." 
+},
     // --- CARDIAC CHAIN ---
     { q: "[CARDIAC PART 1] A 68-year-old female with 'heavy' chest pressure and nausea. Pale/diaphoretic. BP 140/90. Initial priority?", options: ["324mg Aspirin", "12-lead ECG", "O2", "Establish IV"], answer: ["324mg Aspirin"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Early Aspirin is the highest priority.", cheatSheet: "ACS PRIORITY: Aspirin -> 12 Lead -> Nitro." },
     { q: "[CARDIAC PART 2] The patient develops extreme dyspnea and crackles. SpO2 88%, BP 188/100. Next step?", options: ["Albuterol", "CPAP at 5 cmH2O", "BVM", "NRB Mask"], answer: ["CPAP at 5 cmH2O"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Crackles + HTN = Pulmonary Edema.", cheatSheet: "CPAP: Awake, Patent Airway, Tachypnea." },
@@ -278,6 +312,29 @@ const quizData = [
     rationale: "The presence of AMS is the primary differentiator. Heat Stroke is a true life-threat involving a failure of the body's thermoregulatory system.",
     cheatSheet: "HEAT AXIS: Heat Exhaustion = Wet/Dizzy/Normal Mentation. Heat Stroke = Hot/Dry (or wet)/AMS/Deadly."
 },
+    { 
+    q: "Differentiate between an Epidural Hematoma and a Subdural Hematoma by checking the appropriate boxes.",
+    type: "grid",
+    category: "Trauma",
+    section: "Trauma",
+    rows: [
+        "Involves arterial bleeding (often the Middle Meningeal Artery)",
+        "Involves venous bleeding from bridging veins",
+        "Characterized by a 'Lucid Interval' followed by rapid decline",
+        "Commonly seen in elderly patients or those on blood thinners",
+        "Symptoms usually develop gradually over hours or days"
+    ],
+    cols: ["Epidural Hematoma", "Subdural Hematoma"],
+    answer: [
+        "Involves arterial bleeding (often the Middle Meningeal Artery)|Epidural Hematoma",
+        "Involves venous bleeding from bridging veins|Subdural Hematoma",
+        "Characterized by a 'Lucid Interval' followed by rapid decline|Epidural Hematoma",
+        "Commonly seen in elderly patients or those on blood thinners|Subdural Hematoma",
+        "Symptoms usually develop gradually over hours or days|Subdural Hematoma"
+    ],
+    rationale: "Epidural bleeds are arterial and fast, often showing a 'lucid interval' where the patient seems fine before crashing. Subdural bleeds are venous and slower, making them more common in patients with brain atrophy (elderly) or anticoagulation therapy.",
+    cheatSheet: "HEAD BLEEDS: Epidural = Arterial/Fast/Lucid. Subdural = Venous/Slow/Elderly."
+},
     // --- TRAUMA CHAIN ---
     { q: "[TRAUMA PART 1] Massive pulsing bleed from right thigh in MVA. First action?", options: ["O2", "Tourniquet", "Trauma Assessment", "C-Spine"], answer: ["Tourniquet"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "X-ABC logic.", cheatSheet: "MARCH: Massive Hemorrhage first." },
     { q: "[TRAUMA PART 2] Bleeding controlled. Absent breath sounds R, JVD, BP 88/60. Suspect?", options: ["Simple Pneumo", "Hemothorax", "Tension Pneumothorax", "Tamponade"], answer: ["Tension Pneumothorax"], type: "single", category: "Trauma", section: "Trauma", chainID: "Trauma_1", rationale: "Absent sounds + JVD + Hypotension.", cheatSheet: "TENSION: Obstructive Shock." },
@@ -319,7 +376,27 @@ const quizData = [
     { q: "Seal-bark cough in infant:", options: ["Croup", "Epiglottitis", "Pneumonia", "Pertussis"], answer: ["Croup"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Barking cough/stridor." },
     { q: "Sunken fontanelle sign:", options: ["ICP", "Dehydration", "Meningitis", "Normal"], answer: ["Dehydration"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Severe hypovolemia." },
     { q: "Prolapsed cord management:", options: ["Pull cord", "Knee-chest position", "Push back", "Clamp"], answer: ["Place mother in knee-chest position"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Relieve cord pressure." },
-
+{ 
+    q: "Match the clinical presentation to the correct Obstetrical emergency.",
+    type: "grid",
+    category: "Obstetrics",
+    section: "OBPeds",
+    rows: [
+        "Painless, bright red vaginal bleeding in the 3rd trimester",
+        "Painful, dark red vaginal bleeding with a rigid abdomen",
+        "Severe, tearing unilateral abdominal pain with 'referred' shoulder pain",
+        "Usually occurs in the 1st trimester; may involve missed menses"
+    ],
+    cols: ["Placenta Previa", "Abruptio Placentae", "Ectopic Pregnancy"],
+    answer: [
+        "Painless, bright red vaginal bleeding in the 3rd trimester|Placenta Previa",
+        "Painful, dark red vaginal bleeding with a rigid abdomen|Abruptio Placentae",
+        "Severe, tearing unilateral abdominal pain with 'referred' shoulder pain|Ectopic Pregnancy",
+        "Usually occurs in the 1st trimester; may involve missed menses|Ectopic Pregnancy"
+    ],
+    rationale: "Previa is painless (placenta covers the opening). Abruption is painful (placenta rips away). Ectopic is an early-term emergency involving a rupture outside the uterus.",
+    cheatSheet: "OB BLEEDING: Previa = Painless. Abruption = Awful (Painful). Ectopic = Early (1st Trimester)."
+},
     // --- PEDS CHAIN ---
     { q: "[PEDS PART 1] PAT: Limp, pale, grunting 2yo. Status?", options: ["Distress", "Failure", "Compensated Shock", "Decompensated Shock"], answer: ["Failure"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "2 abnormal PAT segments = Failure.", cheatSheet: "PAT: Appearance, Breathing, Circulation." },
     { q: "[PEDS PART 2] Child begins tonic-clonic seizure. History of fever. Priority?", options: ["Midazolam", "Ice Packs", "Protect Airway/Safety", "Insert OPA"], answer: ["Protect Airway/Safety"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Safety first.", cheatSheet: "SEIZURE: Airway/O2/Safety." },
