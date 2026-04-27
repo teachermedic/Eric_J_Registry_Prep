@@ -780,3 +780,24 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('PWA Failure', err));
   });
 }
+// --- THEME LOGIC (NIGHT SHIFT) ---
+function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    const icon = document.getElementById('theme-icon');
+    
+    // Update the icon and save preference
+    icon.innerText = isDark ? 'light_mode' : 'dark_mode';
+    localStorage.setItem('ems_theme', isDark ? 'dark' : 'light');
+}
+
+// Update your window.onload to check for saved theme
+const originalOnload = window.onload;
+window.onload = () => {
+    if (originalOnload) originalOnload(); // Run existing setup (streak, etc)
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('ems_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('theme-icon').innerText = 'light_mode';
+    }
+};
