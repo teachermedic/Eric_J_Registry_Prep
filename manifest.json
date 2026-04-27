@@ -1,0 +1,21 @@
+{
+  "name": "Eric J's Field Notes: AEMT Prep",
+  "short_name": "Field Notes",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#004a99",
+  "description": "National Registry and AEMT Exam Preparation Tool.",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
