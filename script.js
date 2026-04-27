@@ -127,6 +127,22 @@ const quizData = [
     { q: "Tearing back pain and unequal BPs in arms indicates:", options: ["Heart Attack", "Aortic Dissection", "Kidney Stones", "Gallstones"], answer: ["Aortic Dissection"], type: "single", category: "Cardiovascular", section: "Medical", rationale: "Classic signs of dissection." },
     { q: "Twitching facial nerve (Chvostek's sign) indicates:", options: ["Hypocalcemia", "Hypercalcemia", "Hypokalemia", "Hyperkalemia"], answer: ["Hypocalcemia"], type: "single", category: "Assessment", section: "Medical", rationale: "Indicates neuromuscular excitability." },
     { q: "Lethargic patient, rapid deep respirations, high glucose. First priority?", options: ["BVM", "Open/secure airway", "Hyperventilate", "Check pupils"], answer: ["Open/secure airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "Airway is always first." },
+    { 
+    q: "A 68-year-old female presents with sudden onset of orthopnea and a cough producing pink, frothy sputum. Vitals: BP 188/94, HR 112, RR 28. Listen to the lung sounds obtained during your assessment. What is the underlying pathophysiology?",
+    audio: "audio/crackles_pulmonary_edema.mp3",
+    options: [
+        "Infection-driven inflammation of the bronchioles",
+        "Increased hydrostatic pressure forcing fluid into the alveoli",
+        "Spasmodic constriction of the lower reactive airways",
+        "Loss of elasticity in the alveolar walls causing air trapping"
+    ],
+    answer: ["Increased hydrostatic pressure forcing fluid into the alveoli"],
+    type: "single",
+    category: "Respiratory",
+    section: "Medical",
+    rationale: "The presentation (hypertension, orthopnea, pink sputum) and the sound of crackles indicate Pulmonary Edema. This is caused by the left side of the heart failing, which increases pressure in the pulmonary capillaries and forces fluid into the alveolar spaces.",
+    cheatSheet: "CRACKLES (RALES): This is the sound of air 'popping' open fluid-filled alveoli. Think 'Wet/Heart' for Crackles; think 'Dry/Lungs' for Wheezes."
+},
     { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecology", section: "Medical", rationale: "Localized pain during ovulation." },
 { 
     q: "Compare the clinical findings for Acute Pulmonary Edema (CHF) and a COPD Exacerbation by checking the appropriate boxes.",
