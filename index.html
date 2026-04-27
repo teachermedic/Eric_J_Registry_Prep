@@ -4,47 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eric J's Field Notes | AEMT Prep</title>
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#004a99">
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#004a99">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+
     <div class="ad-banner">
-    Advertise Here! Email me at <a href="mailto:teachermedic84@gmail.com">teachermedic84@gmail.com</a>
-</div>
+        Advertise Here! Email me at <a href="mailto:teachermedic84@gmail.com">teachermedic84@gmail.com</a>
+    </div>
+
     <div id="quiz-container">
         <h1>Eric J's Field Notes <span class="material-icons" style="font-size: 1.2em; color: var(--accent-blue);">health_and_safety</span></h1>
         <h2 class="subtitle">National Registry and Exam Prep</h2>
         
         <div id="setup-area">
+            
+            <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
+                <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
+                    <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
+                    <span style="font-weight: bold; color: #e65100;">Daily Streak: <span id="streak-count">0</span> Days</span>
+                </div>
+            </div>
+
             <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
             
             <div style="margin-bottom: 20px; text-align: center;">
                 <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
                 <select id="topic-select" onchange="adjustSliderRange()" style="width: 95%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem; cursor: pointer;">
-   <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
-    <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
-        <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
-        <span style="font-weight: bold; color: #e65100;">Daily Streak: <span id="streak-count">0</span> Days</span>
-    </div>
-</div>
-    <option value="All">Comprehensive (All Content)</option>
-    <option value="Foundations">Foundations</option>
-    <option value="Pathophysiology">Pathophysiology</option>
-    <option value="Medical">Medical Emergencies</option>
-    <option value="Trauma">Trauma & Environmental</option>
-    <option value="OBPeds">OB/GYN & Pediatrics</option>
-    <option value="Terminology">Medical Terminology (Open Text)</option>
-</select>
+                    <option value="All">Comprehensive (All Content)</option>
+                    <option value="Foundations">Foundations</option>
+                    <option value="Pathophysiology">Pathophysiology</option>
+                    <option value="Medical">Medical Emergencies</option>
+                    <option value="Trauma">Trauma & Environmental</option>
+                    <option value="OBPeds">OB/GYN & Pediatrics</option>
+                    <option value="Terminology">Medical Terminology (Open Text)</option>
+                </select>
             </div>
 
             <div id="slider-box">
                 <label for="question-slider">
                     Questions: <span id="question-count-label">20</span>
                 </label>
-                <input type="range" id="question-slider" min="5" max="250" value="20" step="1" oninput="updateSliderLabel(this.value)">
+                <input type="range" id="question-slider" min="5" max="100" value="20" step="1" oninput="updateSliderLabel(this.value)">
                 <p id="time-estimate">
                     <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
                     Estimated Pacing: <span id="time-estimate-label">40</span> minutes
@@ -85,7 +92,8 @@
             </button>
         </div>
     </div>
-<div id="fieldNoteModal" class="modal">
+
+    <div id="fieldNoteModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeFieldNote()">&times;</span>
             <h2 style="margin-top:0; color:var(--primary-blue);">📖 Field Note</h2>
@@ -94,5 +102,6 @@
     </div> 
 
     <script src="script.js"></script>
+
 </body>
 </html>
