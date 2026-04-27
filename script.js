@@ -25,7 +25,77 @@ const quizData = [
     { q: "Which organ system is responsible for the 'Long-term' compensation of acid-base imbalances?", options: ["The Lungs", "The Kidneys", "The Liver", "The Pancreas"], answer: ["The Kidneys"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The kidneys adjust pH by excreting or retaining Hydrogen and Bicarbonate." },
     { q: "In a state of Acidosis, the heart becomes:", options: ["More sensitive to Epinephrine", "Less responsive to catecholamines", "Hyper-excitable", "More efficient at pumping"], answer: ["Less responsive to catecholamines"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Acidosis decreases myocardial contractility." },
     { q: "The Bicarbonate Buffer System manages pH by balancing which two components?", options: ["Oxygen and Nitrogen", "Carbon Dioxide and Bicarbonate", "Sodium and Potassium", "Calcium and Magnesium"], answer: ["Carbon Dioxide and Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Lungs regulate CO2 and kidneys regulate Bicarbonate." },
+// --- GRID: CONSENT TYPES ---
+{ 
+    q: "Match the following patient scenarios to the correct type of legal consent.",
+    type: "grid",
+    category: "Legal",
+    section: "Foundations",
+    rows: [
+        "An alert 22-year-old female who requests help for a broken arm",
+        "A 60-year-old male who is unconscious and in cardiac arrest",
+        "A 5-year-old child at school with no parent present",
+        "A patient being treated under a psychiatric hold or court order"
+    ],
+    cols: ["Expressed", "Implied", "Involuntary"],
+    answer: [
+        "An alert 22-year-old female who requests help for a broken arm|Expressed",
+        "A 60-year-old male who is unconscious and in cardiac arrest|Implied",
+        "A 5-year-old child at school with no parent present|Implied",
+        "A patient being treated under a psychiatric hold or court order|Involuntary"
+    ],
+    rationale: "Expressed consent requires an alert patient. Implied consent assumes a patient (or their guardian) would want life-saving care if they were capable of deciding. Involuntary consent applies to those legally detained.",
+    cheatSheet: "CONSENT CHEAT: Expressed = Words/Actions. Implied = Unconscious/Minor alone. Involuntary = Police/Court involved."
+},
 
+// --- GRID: ELEMENTS OF NEGLIGENCE ---
+{ 
+    q: "Identify which element of negligence is described by each clinical or legal finding.",
+    type: "grid",
+    category: "Legal",
+    section: "Foundations",
+    rows: [
+        "The medic had a legal obligation to provide care",
+        "The medic failed to follow the established Standard of Care",
+        "The patient suffered a verifiable physical or financial loss",
+        "The medic's specific action (or inaction) directly caused the harm"
+    ],
+    cols: ["Duty to Act", "Breach of Duty", "Proximate Cause", "Damages"],
+    answer: [
+        "The medic had a legal obligation to provide care|Duty to Act",
+        "The medic failed to follow the established Standard of Care|Breach of Duty",
+        "The patient suffered a verifiable physical or financial loss|Damages",
+        "The medic's specific action (or inaction) directly caused the harm|Proximate Cause"
+    ],
+    rationale: "All four elements must be proven in a court of law for a negligence claim to succeed.",
+    cheatSheet: "NEGLIGENCE: Duty (Job) + Breach (Mistake) + Cause (Your fault) + Damage (Injury)."
+},
+
+// --- EVOLVING SCENARIO: THE RISKY REFUSAL (3 PARTS) ---
+{ 
+    q: "[LEGAL PART 1] You are treating a 45-year-old male with a history of heart disease who is experiencing chest pain. He is alert and oriented x4. He states he does not want to go to the hospital. Your first priority is to:", 
+    options: ["Have him sign a refusal form immediately", "Assess his clinical capacity to make an informed decision", "Call the police to force him to go", "Tell him he will die if he stays"], 
+    answer: ["Assess his clinical capacity to make an informed decision"], 
+    type: "single", category: "Legal", section: "Foundations", chainID: "Refusal_1", 
+    rationale: "Before a patient can refuse, you must determine if they possess 'capacity'—the ability to understand the risks and benefits of their choice.",
+    cheatSheet: "REFUSAL STEPS: 1. Capacity? 2. Informed of risks? 3. Alternatives offered? 4. Signature/Witness?"
+},
+{ 
+    q: "[LEGAL PART 2] The patient has clear capacity but still refuses transport. You have explained the risks of death. Before leaving the scene, you should:", 
+    options: ["Tell him you can no longer help him", "Offer an alternative plan, such as having a family member drive him", "Keep his 12-lead to prove he was sick", "Threaten him with a bill for the call"], 
+    answer: ["Offer an alternative plan, such as having a family member drive him"], 
+    type: "single", category: "Legal", section: "Foundations", chainID: "Refusal_1", 
+    rationale: "Part of an 'informed refusal' is providing alternatives to EMS transport so the patient isn't left without any options for care.",
+    cheatSheet: "PATIENT RIGHTS: Patients with capacity have the 'Right to Refuse' even if that choice results in death."
+},
+{ 
+    q: "[LEGAL PART 3] If you were to leave the scene without explaining the risks or having the patient sign a refusal form, you could be held liable for:", 
+    options: ["Assault", "Battery", "Abandonment", "Kidnapping"], 
+    answer: ["Abandonment"], 
+    type: "single", category: "Legal", section: "Foundations", chainID: "Refusal_1", 
+    rationale: "Abandonment occurs when you terminate care without the patient's consent or without ensuring they have a higher or equal level of care.",
+    cheatSheet: "ABANDONMENT: Termination of the medic-patient relationship without consent or a proper handoff."
+},
     // --- TERMINOLOGY (OPEN TEXT) ---
     { q: "Medical term for 'a heart rate below 60 beats per minute.'", options: [], answer: ["Bradycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Brady- (slow) + -cardia (heart)." },
     { q: "Medical term for 'a heart rate above 100 beats per minute.'", options: [], answer: ["Tachycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Tachy- (fast) + -cardia (heart)." },
