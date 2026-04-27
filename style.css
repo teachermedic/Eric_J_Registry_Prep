@@ -306,3 +306,33 @@ body {
     font-weight: bold;
     text-decoration: underline;
 }
+#missed-drill-btn {
+    display: none; /* Hidden by default until quiz ends */
+    margin: 25px auto; /* Centers the block and adds breathing room */
+    padding: 18px 32px; /* Makes the button significantly larger */
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    background-color: #d32f2f; /* Deep urgent red */
+    border: none;
+    border-radius: 50px; /* Pill shape stands out from square buttons */
+    cursor: pointer;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4); /* Red glow effect */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#missed-drill-btn:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 8px 25px rgba(211, 47, 47, 0.6);
+    background-color: #b71c1c;
+}
+
+#missed-drill-btn .material-icons {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-right: 10px;
+}
