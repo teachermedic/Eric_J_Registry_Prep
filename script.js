@@ -295,17 +295,13 @@ function showQuestion() {
     document.getElementById('feedback').innerText = '';
 
     if (data.type === 'grid') {
-        // --- MATRIX ENGINE ---
         let table = document.createElement('table');
         table.className = "matrix-table";
-        
-        // Header Row
         let header = `<tr><th>Sign/Symptom</th>`;
         data.cols.forEach(col => { header += `<th>${col}</th>`; });
         header += `</tr>`;
         table.innerHTML = header;
 
-        // Content Rows
         data.rows.forEach(row => {
             let tr = document.createElement('tr');
             tr.innerHTML = `<td class="matrix-row-label">${row}</td>`;
@@ -328,7 +324,6 @@ function showQuestion() {
         input.focus();
         input.addEventListener("keypress", (e) => { if (e.key === "Enter") handleAction(); });
     } else {
-        // ... Standard Single/Multiple Logic ...
         data.options.forEach(opt => {
             const div = document.createElement('div');
             div.className = "option-item";
@@ -353,14 +348,9 @@ function handleAction() {
     let isCorrect = false;
 
     if (q.type === 'grid') {
-        // Check Every Row/Col pair
         const checks = Array.from(document.querySelectorAll('.matrix-check'));
         const userAnswers = checks.filter(c => c.checked).map(c => `${c.dataset.row}|${c.dataset.col}`);
-        
-        // Compare against answer list
-        isCorrect = userAnswers.length === q.answer.length && 
-                    userAnswers.every(val => q.answer.includes(val));
-
+        isCorrect = userAnswers.length === q.answer.length && userAnswers.every(val => q.answer.includes(val));
     } else if (q.type === 'text') {
         const inputVal = document.getElementById('text-answer').value.trim().toLowerCase();
         isCorrect = q.answer.some(ans => ans.toLowerCase().trim() === inputVal);
@@ -380,8 +370,9 @@ function handleAction() {
         fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> See rationale below.`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
         
+        // Use the MODAL instead of the ALERT
         if (q.cheatSheet) {
-            fb.innerHTML += `<br><button onclick="alert('${q.cheatSheet}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
+            fb.innerHTML += `<br><button onclick="openFieldNote('${q.cheatSheet}', '${q.link || ''}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
         }
 
         const btn = document.getElementById('action-btn');
@@ -401,7 +392,7 @@ function handleAction() {
 }
 
 function showResults() {
-    updateStreak(); //
+    updateStreak(); 
     clearInterval(timerInterval);
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
@@ -432,17 +423,26 @@ function showResults() {
     });
 }
 
-window.onload = () => { adjustSliderRange(); }
-// Register Service Worker for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service Worker Registered'))
-      .catch(err => console.log('Service Worker Failed', err));
-  });
+// --- FIELD NOTE MODAL LOGIC ---
+function openFieldNote(text, url) {
+    const modal = document.getElementById('fieldNoteModal');
+    const body = document.getElementById('modal-body');
+    let content = `<p>${text}</p>`;
+    if (url) { content += `<a href="${url}" target="_blank">View Full Lesson / Video →</a>`; }
+    body.innerHTML = content;
+    modal.style.display = "block";
 }
-// --- STREAK LOGIC ---
 
+function closeFieldNote() {
+    document.getElementById('fieldNoteModal').style.display = "none";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('fieldNoteModal');
+    if (event.target == modal) { closeFieldNote(); }
+}
+
+// --- STREAK LOGIC ---
 function checkStreak() {
     const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
     const today = new Date().toLocaleDateString();
@@ -451,11 +451,10 @@ function checkStreak() {
     const yesterdayStr = yesterday.toLocaleDateString();
 
     if (streakData.lastDate === today) {
-        // Already active today
+        // Active
     } else if (streakData.lastDate === yesterdayStr) {
-        // Streak continues (handled upon quiz completion)
+        // Valid
     } else {
-        // Streak broken
         if (streakData.lastDate !== null) {
             streakData.count = 0;
             localStorage.setItem('ems_streak', JSON.stringify(streakData));
@@ -477,13 +476,21 @@ function updateStreak() {
         streakData.lastDate = today;
         localStorage.setItem('ems_streak', JSON.stringify(streakData));
     }
-    
     document.getElementById('streak-container').style.display = 'block';
     document.getElementById('streak-count').innerText = streakData.count;
 }
 
-// Update your window.onload to include checkStreak
+// --- INITIALIZATION (CONSOLIDATED) ---
 window.onload = () => { 
     adjustSliderRange(); 
-    checkStreak(); // Load the streak status immediately
+    checkStreak(); 
 };
+
+// Register PWA Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('PWA Ready'))
+      .catch(err => console.log('PWA Failed', err));
+  });
+}
