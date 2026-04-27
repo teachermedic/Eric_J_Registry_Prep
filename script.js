@@ -129,6 +129,29 @@ const quizData = [
     { q: "Lethargic patient, rapid deep respirations, high glucose. First priority?", options: ["BVM", "Open/secure airway", "Hyperventilate", "Check pupils"], answer: ["Open/secure airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "Airway is always first." },
     { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecology", section: "Medical", rationale: "Localized pain during ovulation." },
 { 
+    q: "Compare the clinical findings for Acute Pulmonary Edema (CHF) and a COPD Exacerbation by checking the appropriate boxes.",
+    type: "grid",
+    category: "Respiratory",
+    section: "Medical",
+    rows: [
+        "Presence of Jugular Venous Distension (JVD)",
+        "Productive cough with pink, frothy sputum",
+        "Wheezing and a prolonged expiratory phase",
+        "History of chronic tobacco use and 'barrel chest'",
+        "Improvement with CPAP and Nitroglycerin"
+    ],
+    cols: ["Pulmonary Edema (CHF)", "COPD Exacerbation"],
+    answer: [
+        "Presence of Jugular Venous Distension (JVD)|Pulmonary Edema (CHF)",
+        "Productive cough with pink, frothy sputum|Pulmonary Edema (CHF)",
+        "Wheezing and a prolonged expiratory phase|COPD Exacerbation",
+        "History of chronic tobacco use and 'barrel chest'|COPD Exacerbation",
+        "Improvement with CPAP and Nitroglycerin|Pulmonary Edema (CHF)"
+    ],
+    rationale: "CHF is a 'pump' problem leading to fluid backup (JVD, pink sputum). COPD is an 'airflow' problem leading to air trapping (barrel chest, wheezing). While CPAP helps both, Nitro is specific to reducing preload in CHF.",
+    cheatSheet: "RESPIRATORY AXIS: CHF = Wet/Hypertensive/JVD. COPD = Dry/Wheezy/Stale Air."
+},
+    { 
     q: "Compare the clinical presentations of Diabetic Ketoacidosis (DKA) and Hyperosmolar Hyperglycemic Nonketotic Syndrome (HHNS) by checking the appropriate boxes.",
     type: "grid",
     category: "Endocrine",
@@ -150,6 +173,46 @@ const quizData = [
     ],
     rationale: "DKA involves the breakdown of fats (ketogenesis) because the body has no insulin, leading to fruity breath and Kussmaul breathing. HHNS involves extreme hyperglycemia without significant ketosis, usually in Type 2 patients.",
     cheatSheet: "DIABETIC TRIAGE: DKA = Acidosis, Ketones, Kussmaul. HHNS = Extreme Sugar (>600), Extreme Dehydration, No Ketones."
+},
+    { 
+    q: "[MEDICAL PART 1] You are treating a 19-year-old male who was stung by a bee. He has hives (urticaria) on his neck and complains of 'itchy' throat. Vitals: BP 122/80, HR 104, RR 20. Breath sounds are clear. The most appropriate initial medication is:", 
+    options: ["Epinephrine 1:1,000 IM", "Diphenhydramine (Benadryl) 25-50mg", "Albuterol 2.5mg via Nebulizer", "Epinephrine 1:10,000 IV"], 
+    answer: ["Diphenhydramine (Benadryl) 25-50mg"], 
+    type: "single", category: "Immunology", section: "Medical", chainID: "Anaphy_1", 
+    rationale: "At this stage, the patient has an allergic reaction but NO signs of airway compromise or shock. Benadryl is the correct choice for simple allergic reactions.",
+    cheatSheet: "ALLERGY VS ANAPHYLAXIS: No airway/cardiovascular involvement = Allergy. Involvement of 2+ systems = Anaphylaxis."
+},
+{ 
+    q: "[MEDICAL PART 2] While monitoring, the patient begins to exhibit inspiratory stridor and his BP drops to 88/50. His heart rate is now 128. You should immediately administer:", 
+    options: ["Epinephrine 1:1,000 0.3mg IM", "Epinephrine 1:10,000 0.1mg IV", "A second dose of Benadryl", "Normal Saline 500mL Bolus"], 
+    answer: ["Epinephrine 1:1,000 0.3mg IM"], 
+    type: "single", category: "Immunology", section: "Medical", chainID: "Anaphy_1", 
+    rationale: "The development of stridor (airway) and hypotension (circulation) indicates true Anaphylaxis. IM Epinephrine is the gold standard for immediate reversal.",
+    cheatSheet: "EPI DOSING: Adult 0.3mg (1:1,000) IM. Pediatric 0.15mg (1:1,000) IM."
+},
+{ 
+    q: "[MEDICAL PART 3] After the Epinephrine, the patient's airway improves, but his BP remains 86/48. You have already started an IV. Your next AEMT intervention is:", 
+    options: ["Repeat Epinephrine IM", "Administer a 20 mL/kg Isotonic Fluid Bolus", "Administer Glucagon", "Contact medical control for a Norepinephrine drip"], 
+    answer: ["Administer a 20 mL/kg Isotonic Fluid Bolus"], 
+    type: "single", category: "Immunology", section: "Medical", chainID: "Anaphy_1", 
+    rationale: "Anaphylaxis causes massive vasodilation (relative hypovolemia). Once the airway is stabilized with Epi, fluid resuscitation is needed to support the blood pressure.",
+    cheatSheet: "SHOCK IN ANAPHYLAXIS: Fix the vessels with Epi, then fill the 'pipes' with Isotonic Fluid."
+},
+    { 
+    q: "Which of the following clinical findings indicate that a patient has moved from Compensated Shock to Decompensated Shock? (Select all that apply)", 
+    options: [
+        "Narrowing pulse pressure",
+        "Systolic Blood Pressure < 90 mmHg",
+        "Marked tachycardia",
+        "Altered Mental Status",
+        "Delayed capillary refill"
+    ], 
+    answer: ["Systolic Blood Pressure < 90 mmHg", "Altered Mental Status"], 
+    type: "multiple", 
+    category: "Patho", 
+    section: "Pathophysiology", 
+    rationale: "Hypotension and AMS are the two definitive signs that the body's compensatory mechanisms (tachycardia, vasoconstriction) have failed.",
+    cheatSheet: "SHOCK STAGES: Compensated = High HR/Normal BP. Decompensated = Low BP/AMS."
 },
     // --- CARDIAC CHAIN ---
     { q: "[CARDIAC PART 1] A 68-year-old female with 'heavy' chest pressure and nausea. Pale/diaphoretic. BP 140/90. Initial priority?", options: ["324mg Aspirin", "12-lead ECG", "O2", "Establish IV"], answer: ["324mg Aspirin"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Early Aspirin is the highest priority.", cheatSheet: "ACS PRIORITY: Aspirin -> 12 Lead -> Nitro." },
