@@ -444,6 +444,22 @@ const quizData = [
     cheatSheet: "OB BLEEDING: Previa = Painless. Abruption = Awful (Painful). Ectopic = Early (1st Trimester)."
 },
     // --- PEDS CHAIN ---
+    { 
+    q: "A 14-month-old female presents with a low-grade fever and a 'barking' cough that worsens at night. Listen to the audible sound heard during inspiration. At which anatomical location is the obstruction occurring?",
+    audio: "audio/stridor.mp3",
+    options: [
+        "The subglottic airway",
+        "The terminal bronchioles",
+        "The carinal bifurcation",
+        "The pleural space"
+    ],
+    answer: ["The subglottic airway"],
+    type: "single",
+    category: "Pediatrics",
+    section: "OBPeds",
+    rationale: "The sound provided is stridor, which is characteristic of Croup (laryngotracheobronchitis). Pathophysiologically, this is caused by edema and inflammation of the subglottic tissues, just below the vocal cords. Bronchiolar sounds (wheezing) occur in the lower airways.",
+    cheatSheet: "STRIDOR VS WHEEZING: Stridor = High-pitched Upper Airway Noise (Inspiratory). Wheezing = Lower Airway (Exhalation)/ Prolonged expiratory phase. If you hear it in the neck, it's Stridor."
+},
     { q: "[PEDS PART 1] PAT: Limp, pale, grunting 2yo. Status?", options: ["Distress", "Failure", "Compensated Shock", "Decompensated Shock"], answer: ["Failure"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "2 abnormal PAT segments = Failure.", cheatSheet: "PAT: Appearance, Breathing, Circulation." },
     { q: "[PEDS PART 2] Child begins tonic-clonic seizure. History of fever. Priority?", options: ["Midazolam", "Ice Packs", "Protect Airway/Safety", "Insert OPA"], answer: ["Protect Airway/Safety"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Safety first.", cheatSheet: "SEIZURE: Airway/O2/Safety." },
     { q: "[PEDS PART 3] Post-seizure child is hot. Best cooling method?", options: ["Immersion", "Alcohol rub", "Remove excess clothing", "Ice packs"], answer: ["Remove excess clothing"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Passive cooling is safest.", cheatSheet: "COOLING: Avoid shivering." }
