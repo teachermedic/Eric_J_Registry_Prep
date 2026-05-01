@@ -307,7 +307,7 @@ const quizData = [
     { q: "Crush Syndrome pathophysiology:", options: ["Cardiac arrest", "Release of toxins after pressure removal", "Hemorrhage", "Nerve death"], answer: ["Release of toxins after pressure removal"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "Myoglobin/Potassium flood." },
     { q: "Kinetic Energy formula:", options: ["Mass x Velocity", "1/2 Mass x Velocity Squared", "Weight x Gravity", "Mass / Velocity"], answer: ["1/2 Mass x Velocity Squared"], type: "single", category: "Physics", section: "Trauma", rationale: "Velocity squared is key." },
     { q: "Burn with red, painful blisters is:", options: ["Superficial", "Partial-thickness", "Full-thickness", "Deep-thickness"], answer: ["Partial-thickness"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "2nd degree burn." },
-    { q: "Retinal detachment symptom:", options: ["Hyphema", "Curtain over vision", "Blowout Fracture", "Pain"], answer: ["Retinal Detachment"], type: "single", category: "Face/Neck", section: "Trauma", rationale: "Classic 'curtain' description." },
+    { q: "Retinal detachment symptom:", options: ["Hyphema", "Curtain over vision", "Blowout Fracture", "Pain"], answer: ["Retinal Detachment"], type: "single", category: "Face/Neck", section: "Trauma",image: "img/retinaldetach.jpg", rationale: "Classic 'curtain' description." },
     { q: "CPP formula involves:", options: ["MAP and ICP", "BP and HR", "EtCO2 and RR", "GCS"], answer: ["MAP and ICP"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "CPP = MAP - ICP." },
     { q: "Tension Pneumo field priority:", options: ["Occlusive dressing", "Needle Decompression", "High-flow O2", "Intubation"], answer: ["Needle Decompression"], type: "single", category: "Chest", section: "Trauma", rationale: "Relieve pressure immediately." },
     { q: "Scaphoid abdomen suggests:", options: ["Ruptured Spleen", "Diaphragmatic Rupture", "Internal bleeding", "Evisceration"], answer: ["Diaphragmatic Rupture"], type: "single", category: "Abdominal", section: "Trauma", rationale: "Organs move into chest." },
@@ -736,7 +736,8 @@ function handleAction() {
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
         
         if (q.cheatSheet) {
-            fb.innerHTML += `<br><button onclick="openFieldNote('${q.cheatSheet}', '${q.link || ''}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
+            // --- UPDATED LINE BELOW: Added '${q.image || ''}' as the third argument ---
+            fb.innerHTML += `<br><button onclick="openFieldNote('${q.cheatSheet}', '${q.link || ''}', '${q.image || ''}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
         }
 
         const btn = document.getElementById('action-btn');
