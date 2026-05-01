@@ -568,12 +568,95 @@ function startTimer() {
 
 function showQuestion() {
     const data = sessionQuestions[currentIdx];
-    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${sessionQuestions.length} | ${data.category}`;
-    document.getElementById('question-text').innerText = data.q;
+    const qText = document.getElementById('question-text');
     const container = document.getElementById('options-container');
+    
+    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${sessionQuestions.length} | ${data.category}`;
     container.innerHTML = '';
     document.getElementById('feedback').innerText = '';
 
+    // --- 1. OPEN-REVIEW LOGIC (The Hide-Box) ---
+    if (data.type === 'open-review') {
+        qText.innerText = data.q;
+        container.innerHTML = `
+            <div style="margin-top: 20px;">
+                <p style="font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Formulate your clinical findings, then reveal the truth:</p>
+                <div id="reveal-box" style="display:none; background: var(--light-gray); border-left: 5px solid var(--accent-blue); padding: 20px; border-radius: 8px; margin-bottom: 20px; color: var(--text-main);">
+                    <h4 style="margin: 0 0 10px 0; color: var(--primary-blue);">Clinical Truth:</h4>
+                    <p style="font-weight: bold; margin-bottom: 15px;">${data.answer}</p>
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 15px;">
+                    <p><small>${data.rationale}</small></p>
+                </div>
+                <button id="reveal-btn" class="mode-btn" style="background-color: var(--accent-blue);">
+                    <span class="material-icons">visibility</span> Reveal Answer
+                </button>
+            </div>
+            <button class="mode-btn" style="margin-top:20px; background-color: var(--primary-blue); display:none;" id="next-open-btn" onclick="nextSandbox()">
+                Next Case <span class="material-icons">arrow_forward</span>
+            </button>
+        `;
+
+        const revealBtn = document.getElementById('reveal-btn');
+        const revealBox = document.getElementById('reveal-box');
+        const nextBtn = document.getElementById('next-open-btn');
+
+        revealBtn.onclick = () => {
+            revealBox.style.display = 'block';
+            revealBtn.style.display = 'none';
+            nextBtn.style.display = 'flex';
+        };
+        return; // Exit here for open-review items
+    }
+
+    // --- 2. DISCOVERY SANDBOX LOGIC (Review Mode Only) ---
+    if (mode === 'review' && (data.vitals || data.history || data.physical)) {
+        qText.innerText = data.q;
+        const sandboxGrid = document.createElement('div');
+        sandboxGrid.className = 'sandbox-grid';
+        
+        const tools = [
+            { label: 'Vitals', icon: 'monitor_heart', val: data.vitals },
+            { label: 'History', icon: 'history', val: data.history },
+            { label: 'Exam', icon: 'person_search', val: data.physical }
+        ].filter(t => t.val); // Only show buttons if data exists in the question
+
+        tools.forEach(tool => {
+            const card = document.createElement('div');
+            card.className = 'discovery-card';
+            card.innerHTML = `
+                <span class="material-icons">${tool.icon}</span>
+                <p class="tool-label">${tool.label}</p>
+                <div class="tool-data" style="display:none;">${tool.val}</div>
+            `;
+            card.onclick = function() {
+                this.querySelector('.tool-data').style.display = 'block';
+                this.querySelector('.tool-label').style.display = 'none';
+                this.style.backgroundColor = 'var(--light-gray)';
+            };
+            sandboxGrid.appendChild(card);
+        });
+        container.appendChild(sandboxGrid);
+    } else {
+        // Exam Mode: Combine text for sandbox questions so the data is available but hidden in prose
+        let combined = data.q;
+        if (data.vitals) combined += ` | Vitals: ${data.vitals}`;
+        if (data.history) combined += ` | History: ${data.history}`;
+        if (data.physical) combined += ` | Physical: ${data.physical}`;
+        qText.innerText = combined;
+    }
+
+    // --- 3. AUDIO LOGIC (Study & Exam) ---
+    if (data.audio) {
+        const audioBtn = document.createElement('button');
+        audioBtn.className = 'mode-btn';
+        audioBtn.style.marginBottom = '20px';
+        audioBtn.innerHTML = `<span class="material-icons">volume_up</span> Play Diagnostic Sound`;
+        const audio = new Audio(data.audio);
+        audioBtn.onclick = () => audio.play();
+        container.appendChild(audioBtn);
+    }
+
+    // --- 4. STANDARD QUESTION INPUTS ---
     if (data.type === 'grid') {
         let table = document.createElement('table');
         table.className = "matrix-table";
@@ -627,7 +710,6 @@ function handleAction() {
     const q = sessionQuestions[currentIdx];
     let isCorrect = false;
 
-    // --- Answer Logic ---
     if (q.type === 'grid') {
         const checks = Array.from(document.querySelectorAll('.matrix-check'));
         const userAnswers = checks.filter(c => c.checked).map(c => `${c.dataset.row}|${c.dataset.col}`);
@@ -641,18 +723,13 @@ function handleAction() {
         isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
     }
     
-    // --- Scoring & Mistake Tracking ---
     if (isCorrect) {
         score++;
         categoryStats[q.category].correct++;
     } else {
-        // Only add to the missed list if it's not already there (prevents duplicates in drills)
-        if (!missedQuestions.includes(q)) {
-            missedQuestions.push(q);
-        }
+        if (!missedQuestions.includes(q)) missedQuestions.push(q);
     }
 
-    // --- Feedback / Navigation ---
     if (mode === 'review') {
         const fb = document.getElementById('feedback');
         fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> See rationale below.`;
@@ -684,7 +761,6 @@ function showResults() {
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
-    // Update Drills Button Visibility
     const missedBtn = document.getElementById('missed-drill-btn');
     if (missedQuestions.length > 0) {
         missedBtn.style.display = 'block';
@@ -710,48 +786,32 @@ function showResults() {
             </div>`;
     }
 
-    // Log to Google Sheets
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
         cache: 'no-cache',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            module: document.getElementById('topic-select').value, 
-            score, 
-            total: sessionQuestions.length, 
-            percentage: percent, 
-            timestamp: new Date().toLocaleString() 
-        })
+        body: JSON.stringify({ module: document.getElementById('topic-select').value, score, total: sessionQuestions.length, percentage: percent, timestamp: new Date().toLocaleString() })
     });
 }
 
 function startMissedDrill() {
-    // 1. Prepare the missed questions for the drill
     sessionQuestions = [...missedQuestions];
-    missedQuestions = []; // Reset for the drill itself
-    
-    // 2. Reset counters
+    missedQuestions = [];
     currentIdx = 0;
     score = 0;
-    mode = 'review'; // Drills are always in Review Mode for feedback
-    
-    // 3. UI Swap
+    mode = 'review';
     document.getElementById('results-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
     document.getElementById('timer-container').style.display = 'none';
-    
-    // 4. Reset stats for progress tracking
     categoryStats = {};
     sessionQuestions.forEach(q => {
         if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
         categoryStats[q.category].total++;
     });
-
     showQuestion();
 }
 
-// --- MODAL LOGIC ---
 function openFieldNote(text, url) {
     const modal = document.getElementById('fieldNoteModal');
     const body = document.getElementById('modal-body');
@@ -770,7 +830,6 @@ window.onclick = function(event) {
     if (event.target == modal) { closeFieldNote(); }
 }
 
-// --- STREAK LOGIC ---
 function checkStreak() {
     const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
     const today = new Date().toLocaleDateString();
@@ -779,16 +838,13 @@ function checkStreak() {
     const yesterdayStr = yesterday.toLocaleDateString();
 
     if (streakData.lastDate === today) {
-        // User already active today
     } else if (streakData.lastDate === yesterdayStr) {
-        // Streak remains valid
     } else {
         if (streakData.lastDate !== null) {
             streakData.count = 0;
             localStorage.setItem('ems_streak', JSON.stringify(streakData));
         }
     }
-
     if (streakData.count > 0) {
         document.getElementById('streak-container').style.display = 'block';
         document.getElementById('streak-count').innerText = streakData.count;
@@ -798,7 +854,6 @@ function checkStreak() {
 function updateStreak() {
     const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
     const today = new Date().toLocaleDateString();
-
     if (streakData.lastDate !== today) {
         streakData.count++;
         streakData.lastDate = today;
@@ -808,13 +863,33 @@ function updateStreak() {
     document.getElementById('streak-count').innerText = streakData.count;
 }
 
-// --- APP INITIALIZATION ---
+function nextSandbox() {
+    currentIdx++;
+    if (currentIdx < sessionQuestions.length) {
+        showQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    const icon = document.getElementById('theme-icon');
+    icon.innerText = isDark ? 'light_mode' : 'dark_mode';
+    localStorage.setItem('ems_theme', isDark ? 'dark' : 'light');
+}
+
+// Fixed Initialization Logic
 window.onload = () => { 
-    adjustSliderRange(); 
+    if (typeof adjustSliderRange === "function") adjustSliderRange(); 
     checkStreak(); 
+    if (localStorage.getItem('ems_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        const icon = document.getElementById('theme-icon');
+        if (icon) icon.innerText = 'light_mode';
+    }
 };
 
-// Register PWA Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -822,24 +897,3 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('PWA Failure', err));
   });
 }
-// --- THEME LOGIC (NIGHT SHIFT) ---
-function toggleDarkMode() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    const icon = document.getElementById('theme-icon');
-    
-    // Update the icon and save preference
-    icon.innerText = isDark ? 'light_mode' : 'dark_mode';
-    localStorage.setItem('ems_theme', isDark ? 'dark' : 'light');
-}
-
-// Update your window.onload to check for saved theme
-const originalOnload = window.onload;
-window.onload = () => {
-    if (originalOnload) originalOnload(); // Run existing setup (streak, etc)
-    
-    // Check for saved theme preference
-    if (localStorage.getItem('ems_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('theme-icon').innerText = 'light_mode';
-    }
-};
