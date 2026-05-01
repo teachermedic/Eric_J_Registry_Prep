@@ -411,6 +411,16 @@ const quizData = [
     rationale: "Concussions typically involve a rapid recovery of function. Subdural hematomas involve venous bleeding that causes a gradual, often delayed, increase in ICP.",
     cheatSheet: "SUBDURAL VS CONCUSSION: Subdurals are VENOUS (slower). Epidurals are ARTERIAL (fast/lucid interval). Concussions are functional, not structural, injuries."
 },
+    { 
+    q: "List the components of Beck's Triad and the condition it signifies.",
+    answer: "1. JVD, 2. Muffled Heart Tones, 3. Hypotension (Narrow Pulse Pressure). Signifies Cardiac Tamponade.",
+    type: "open-review",
+    onlyStudy: true,
+    section: "Medical",
+    category: "Cardiology",
+    rationale: "Recognizing this triad is critical for identifying obstructive shock in the field.",
+    cheatSheet: "BECK'S TRIAD: Heart is being squeezed. JVD/Muffled Tones/Low BP."
+},
     // --- OB/GYN & PEDIATRICS ---
     { q: "Painless, bright red 3rd trimester bleeding is:", options: ["Abruptio Placentae", "Placenta Previa", "Ectopic", "Preeclampsia"], answer: ["Placenta Previa"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Painless/bright red." },
     { q: "Eclampsia differentiator:", options: ["HTN", "Proteinuria", "Seizures", "Edema"], answer: ["Seizures"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Seizures mark eclampsia." },
