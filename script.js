@@ -813,11 +813,32 @@ function startMissedDrill() {
     showQuestion();
 }
 
-function openFieldNote(text, url) {
+function openFieldNote(text, url, imgPath) {
     const modal = document.getElementById('fieldNoteModal');
     const body = document.getElementById('modal-body');
-    let content = `<p>${text}</p>`;
-    if (url) { content += `<a href="${url}" target="_blank">View Full Lesson / Video →</a>`; }
+    
+    // Start with the text of the Field Note
+    let content = `<p style="line-height: 1.6; color: var(--text-main);">${text}</p>`;
+
+    // Check if an image path exists. If it does, create the image tag.
+    if (imgPath && imgPath !== '') {
+        content += `
+            <div style="text-align: center; margin: 15px 0;">
+                <img src="${imgPath}" 
+                     alt="Clinical Reference Image" 
+                     style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            </div>`;
+    }
+
+    // Add the link if it's provided
+    if (url) { 
+        content += `<div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+                        <a href="${url}" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: none;">
+                            View Full Lesson / Video →
+                        </a>
+                    </div>`; 
+    }
+    
     body.innerHTML = content;
     modal.style.display = "block";
 }
