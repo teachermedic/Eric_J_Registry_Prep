@@ -474,6 +474,7 @@ const quizData = [
     { q: "[PEDS PART 2] Child begins tonic-clonic seizure. History of fever. Priority?", options: ["Midazolam", "Ice Packs", "Protect Airway/Safety", "Insert OPA"], answer: ["Protect Airway/Safety"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Safety first.", cheatSheet: "SEIZURE: Airway/O2/Safety." },
     { q: "[PEDS PART 3] Post-seizure child is hot. Best cooling method?", options: ["Immersion", "Alcohol rub", "Remove excess clothing", "Ice packs"], answer: ["Remove excess clothing"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Passive cooling is safest.", cheatSheet: "COOLING: Avoid shivering." }
 // Block Reveal Questions
+    
     // --- CARDIOLOGY / SHOCK ---
 ,{
   q: "List the components of Virchow's Triad and identify the life-threatening respiratory condition it often precedes.",
@@ -521,7 +522,56 @@ const quizData = [
   rationale: "The 'E' in Eclampsia stands for 'Event' (the seizure). For an AEMT, management switches from monitoring to active seizure control (Magnesium Sulfate/Benzos) and airway protection.",
   cheatSheet: "PREECLAMPSIA: High BP + Protein. ECLAMPSIA: Seizure. Treatment: Left Lateral Recumbent + Dark/Quiet environment."
 }
+// --- CARDIAC PATHO: PRELOAD & AFTERLOAD ---
+,{
+  q: "Explain the Frank-Starling Law of the Heart and how it relates to stroke volume in a healthy patient vs. a patient in chronic heart failure.",
+  answer: "The Frank-Starling Law states that the heart will contract with more force as the fibers are stretched (increased Preload). In a healthy heart, more stretch = more stroke volume. In heart failure, the fibers are overstretched and lose elasticity, leading to a decrease in contractility despite high preload.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Cardiology",
+  section: "Foundations",
+  rationale: "Understanding this helps students see why we use diuretics (Lasix) or Nitroglycerin to *reduce* preload in CHF patients—we are trying to get the heart back to a functional 'stretch' point.",
+  cheatSheet: "FRANK-STARLING: Think of a rubber band. Stretch it to a point and it snaps back hard. Overstretch it too many times, and it becomes loose and weak.",
+  image: "img/frank_starling_curve.jpg"
+},
 
+// --- CELLULAR PATHO: SHOCK & ACIDOSIS ---
+{
+  q: "Describe the transition from Aerobic to Anaerobic metabolism during compensated shock. What is the primary waste product of this shift?",
+  answer: "When cells are deprived of oxygen (hypoperfusion), they switch from aerobic metabolism (using $O_{2}$) to anaerobic metabolism. This process is much less efficient and produces Lactic Acid as a byproduct, leading to metabolic acidosis.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "This is why we see an increased respiratory rate in shock patients; they are trying to breathe off $CO_{2}$ to compensate for the metabolic acidosis caused by lactic acid buildup ($H^{+}$ ions).",
+  cheatSheet: "ANAEROBIC = NO OXYGEN. Waste product = Lactic Acid. Result = Acidosis (The 'A' in the Trauma Triad of Death).",
+  link: "https://ericjm.substack.com/p/the-cellular-level-of-shock"
+},
+
+// --- RESPIRATORY PATHO: V/Q MISMATCH ---
+{
+  q: "Define 'Ventilation-Perfusion (V/Q) Mismatch' and provide one clinical example of a ventilation failure and one example of a perfusion failure.",
+  answer: "V/Q Mismatch occurs when the air reaching the alveoli (Ventilation) does not match the blood flow in the capillaries (Perfusion). Ventilation Failure example: Asthma or Choking. Perfusion Failure example: Pulmonary Embolism (blood flow is blocked).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "In a PE, the patient can breathe fine (V is 100%), but the blood can't get to the air (Q is 0%). This is why their lungs sound clear even though they are profoundly hypoxic.",
+  cheatSheet: "V/Q MISMATCH: Ventilation (Air) vs. Perfusion (Blood). If they don't meet, gas exchange fails.",
+  image: "img/vq_mismatch.jpg"
+},
+
+// --- CARDIAC PATHO: COR PULMONALE ---
+{
+  q: "What is 'Cor Pulmonale' and how does chronic lung disease (like COPD) lead to right-sided heart failure?",
+  answer: "Cor Pulmonale is right-sided heart failure caused by pulmonary hypertension. Chronic lung disease causes the pulmonary vessels to constrict; the right ventricle must work harder to push blood into the 'tight' lungs, eventually leading to muscle fatigue and failure.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Cardiology",
+  section: "Medical",
+  rationale: "This explains why COPD patients often have JVD and peripheral edema—their 'lung' problem has become a 'heart' problem.",
+  cheatSheet: "COR PULMONALE: Right Heart Failure caused by Lung Disease. Think: Tight Lungs = Tired Heart."
+}
 
 ];
 
