@@ -416,8 +416,8 @@ const quizData = [
     answer: "1. JVD, 2. Muffled Heart Tones, 3. Hypotension (Narrow Pulse Pressure). Signifies Cardiac Tamponade.",
     type: "open-review",
     onlyStudy: true,
-    section: "Medical",
-    category: "Cardiology",
+    section: "Trauma",
+    category: "Trauma",
     rationale: "Recognizing this triad is critical for identifying obstructive shock in the field.",
     cheatSheet: "BECK'S TRIAD: Heart is being squeezed. JVD/Muffled Tones/Low BP."
 },
