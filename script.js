@@ -473,6 +473,56 @@ const quizData = [
     { q: "[PEDS PART 1] PAT: Limp, pale, grunting 2yo. Status?", options: ["Distress", "Failure", "Compensated Shock", "Decompensated Shock"], answer: ["Failure"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "2 abnormal PAT segments = Failure.", cheatSheet: "PAT: Appearance, Breathing, Circulation." },
     { q: "[PEDS PART 2] Child begins tonic-clonic seizure. History of fever. Priority?", options: ["Midazolam", "Ice Packs", "Protect Airway/Safety", "Insert OPA"], answer: ["Protect Airway/Safety"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Safety first.", cheatSheet: "SEIZURE: Airway/O2/Safety." },
     { q: "[PEDS PART 3] Post-seizure child is hot. Best cooling method?", options: ["Immersion", "Alcohol rub", "Remove excess clothing", "Ice packs"], answer: ["Remove excess clothing"], type: "single", category: "Pediatrics", section: "OBPeds", chainID: "Peds_1", rationale: "Passive cooling is safest.", cheatSheet: "COOLING: Avoid shivering." }
+// Block Reveal Questions
+    // --- CARDIOLOGY / SHOCK ---
+,{
+  q: "List the components of Virchow's Triad and identify the life-threatening respiratory condition it often precedes.",
+  answer: "1. Venous Stasis (immobility), 2. Endothelial Injury (surgery/trauma), 3. Hypercoagulability (clotting disorders). It signifies a high risk for Pulmonary Embolism (PE).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Cardiology",
+  section: "Medical",
+  rationale: "Understanding the source of a clot helps you differentiate between a primary respiratory issue (like Asthma) and a vascular issue (PE). Look for clear lung sounds with sudden onset hypoxia.",
+  cheatSheet: "VIRCHOW'S TRIAD: Clotting risk factors. Think PE if you see sudden SOB + clear lungs + recent surgery.",
+  image: "img/virchows_triad.jpg"
+},
+    // --- RESPIRATORY / CAPNOGRAPHY ---
+{
+  q: "Describe the 'Shark Fin' waveform on a capnogram and identify the underlying mechanical issue in the lungs.",
+  answer: "The Shark Fin waveform shows a slurred alveolar plateau (Phase III). It indicates bronchoconstriction and trapped air.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Normal capnography is rectangular. As the airways constrict (Asthma/COPD), it takes longer for $CO_{2}$ to exit the alveoli, causing the 'slurred' upstroke appearance.",
+  cheatSheet: "SHARK FIN = Bronchoconstriction. If you see this, reach for the Albuterol."
+},
+
+// --- NEUROLOGY / TRAUMA ---
+{
+  q: "Differentiate between Decorticate and Decerebrate posturing. Which one indicates a more severe brainstem injury?",
+  answer: "Decorticate: Flexion (arms move toward the 'core'). Decerebrate: Extension (arms move outward/rotate). Decerebrate is more severe as it indicates lower brainstem involvement.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Neuro",
+  section: "Trauma",
+  rationale: "Abnormal posturing is a sign of herniation. Decerebrate (Extension) usually scores a 2 on the GCS motor scale, while Decorticate (Flexion) scores a 3.",
+  cheatSheet: "POSTURING: DE-CORE-TICATE (toward the core) vs. EXTENSION (Decerebrate). More extension = More brain injury."
+},
+
+// --- OBSTETRICS ---
+{
+  q: "What is the clinical definition of Eclampsia, and how does it differ from Preeclampsia?",
+  answer: "Eclampsia is defined as the onset of tonic-clonic seizures in a patient with preeclampsia. Preeclampsia is the combination of hypertension and proteinuria.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "OBPeds",
+  section: "Medical",
+  rationale: "The 'E' in Eclampsia stands for 'Event' (the seizure). For an AEMT, management switches from monitoring to active seizure control (Magnesium Sulfate/Benzos) and airway protection.",
+  cheatSheet: "PREECLAMPSIA: High BP + Protein. ECLAMPSIA: Seizure. Treatment: Left Lateral Recumbent + Dark/Quiet environment."
+}
+
+
 ];
 
 // --- QUIZ ENGINE LOGIC ---
@@ -736,9 +786,14 @@ function handleAction() {
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
         
         if (q.cheatSheet) {
-            // --- UPDATED LINE BELOW: Added '${q.image || ''}' as the third argument ---
-            fb.innerHTML += `<br><button onclick="openFieldNote('${q.cheatSheet}', '${q.link || ''}', '${q.image || ''}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
-        }
+    // We wrap the function arguments in " (double quotes) instead of ' (single quotes)
+    // This allows the text to contain single quotes like "Don't" or "Cushing's"
+    const cheatText = q.cheatSheet.replace(/'/g, "\\'"); // Escapes single quotes
+    const linkUrl = q.link || '';
+    const imgPath = q.image || '';
+
+    fb.innerHTML += `<br><button onclick="openFieldNote('${cheatText}', '${linkUrl}', '${imgPath}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
+}
 
         const btn = document.getElementById('action-btn');
         btn.innerText = "Next Question";
