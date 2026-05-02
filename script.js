@@ -833,14 +833,13 @@ const quizData = [
 // --- METABOLIC: ANION GAP ---
 {
   q: "What is the formula for calculating the Anion Gap, and what is the primary clinical reason for calculating it in a patient with metabolic acidosis?",
-  answer: "Formula: $Na^+ - (Cl^- + HCO_3^-)$. It is used to differentiate between causes of metabolic acidosis (e.g., MUDPILES vs. non-gap causes like diarrhea).",
+  answer: "Formula: Na+ - (Cl- + HCO3-). It is used to differentiate between causes of metabolic acidosis (e.g., MUDPILES vs. non-gap causes like diarrhea).",
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
   section: "Foundations",
   rationale: "A high anion gap suggests that 'unmeasured' acids (like lactic acid, ketones, or toxins) are present in the blood, consuming the bicarbonate buffer.",
-  cheatSheet: "ANION GAP: Normal is ~8-12. High Gap = Extra acids present (Sepsis, DKA, Toxins).",
-  link: "https://ericjm.substack.com/p/the-anion-gap-simplified"
+  cheatSheet: "ANION GAP: Normal is ~8-12. High Gap = Extra acids present (Sepsis, DKA, Toxins)."
 }
 
 ];
