@@ -792,6 +792,53 @@ const quizData = [
 },
 
 //----Make Me A Physician Section--------//
+    // --- CARDIOLOGY: ELECTROPHYSIOLOGY ---
+{
+  q: "A 19-year-old male presents with palpitations and a heart rate of 190. The EKG shows a shortened PR interval, a widened QRS complex, and a distinct 'slurred' upstroke at the beginning of the QRS. Identify the condition and the specific accessory pathway involved.",
+  answer: "Wolff-Parkinson-White (WPW) Syndrome; the accessory pathway is the Bundle of Kent.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Medical",
+  rationale: "WPW involves a bypass tract (Bundle of Kent) that allows electrical impulses to reach the ventricles faster than the AV node allows. The 'slurred' upstroke is known as a Delta Wave. Treating this with standard AV-node blockers like Diltiazem or Verapamil can be fatal as it forces all impulses down the accessory pathway.",
+  cheatSheet: "WPW: Short PR + Wide QRS + Delta Wave. DO NOT give calcium channel blockers if you suspect this in SVT."
+},
+
+// --- OBSTETRICS: SYSTEMIC FAILURE ---
+{
+  q: "A pregnant patient in her third trimester presents with RUQ pain, nausea, and extreme fatigue. Lab results show Hemolysis, Elevated Liver enzymes, and a Low Platelet count. What is the diagnosis, and what is the definitive treatment?",
+  answer: "HELLP Syndrome; the definitive treatment is the immediate delivery of the fetus.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Medical",
+  rationale: "HELLP is a severe variant of preeclampsia. The microvascular damage leads to red blood cell destruction (hemolysis) and hepatic congestion. It is a high-mortality condition for both mother and fetus if delivery is delayed.",
+  cheatSheet: "HELLP: Hemolysis, Elevated Liver enzymes, Low Platelets. It is a multisystem failure, not just a BP problem."
+},
+
+// --- ENDOCRINE: CATECHOLAMINE SURGE ---
+{
+  q: "A patient presents with 'The Five Ps': Pressure (severe HTN), Pain (headache), Perspiration, Palpitations, and Pallor. You suspect a rare catecholamine-secreting tumor. What is the name of this tumor and where is it typically located?",
+  answer: "Pheochromocytoma; typically located in the adrenal medulla.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Medical",
+  rationale: "Pheochromocytomas intermittently release massive amounts of Epinephrine and Norepinephrine. This causes 'paroxysmal' hypertension that can lead to stroke or myocardial infarction even in young, otherwise healthy patients.",
+  cheatSheet: "PHEOCHROMOCYTOMA: Adrenal tumor + Catecholamine dump. Think 'Sustained Fight or Flight Mode.'"
+},
+
+// --- TRAUMA/RENAL: RHABDOMYOLYSIS ---
+{
+  q: "Following a prolonged extrication from a building collapse, a patient presents with 'tea-colored' urine. Describe the pathophysiology of why this occurs and identify the specific protein causing the renal damage.",
+  answer: "Rhabdomyolysis; caused by the release of Myoglobin from damaged muscle cells into the bloodstream.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Trauma",
+  rationale: "When muscle tissue is crushed, the cell membranes fail, releasing Myoglobin, Potassium ($K^+$), and Phosphate. Myoglobin is toxic to the renal tubules, often leading to acute kidney injury (AKI). The tea-colored urine is actually 'myoglobinuria.'",
+  cheatSheet: "RHABDO: Muscle death = Myoglobin release = Renal failure. Treatment: Aggressive IV fluid resuscitation."
+},
     // --- CARDIOLOGY: MURMURS ---
 {
   q: "A 72-year-old patient presents with syncope and dyspnea. Upon auscultation, you hear a harsh systolic crescendo-decrescendo murmur at the right second intercostal space that radiates to the carotids. Identify the valve pathology.",
