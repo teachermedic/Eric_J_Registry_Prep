@@ -33,7 +33,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "In obstructive shock, the heart is capable of pumping, but a mechanical obstruction (like a large clot in the pulmonary artery) prevents blood from flowing through the system.",
   cheatSheet: "OBSTRUCTIVE SHOCK: A 'plumbing' block. Common causes: Tension Pneumothorax, Cardiac Tamponade, and PE."
 },
@@ -45,9 +45,9 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "Potassium is the major positive ion inside the cells. Maintaining the gradient between intracellular $K^+$ and extracellular $Na^+$ is vital for electrical signaling in muscles and nerves.",
-  cheatSheet: "ELECTROLYTES: Potassium ($K^+$) = Inside the cell. Sodium ($Na^+$) = Outside the cell."
+  cheatSheet: "ELECTROLYTES: Potassium (K+) = Inside the cell. Sodium (Na+) = Outside the cell."
 },
 
 // --- CELLULAR METABOLISM ---
@@ -57,7 +57,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "Without oxygen, the cell cannot enter the Krebs cycle efficiently. It switches to anaerobic metabolism, which produces only 2 ATP (versus 36) and creates lactic acid as a waste product.",
   cheatSheet: "ANAEROBIC: 'An-' (without) 'aerobic' (oxygen). High waste, low energy."
 },
@@ -69,7 +69,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "As lactic acid builds up, the blood pH drops. Because the source of the acid is cellular metabolism rather than a respiratory failure, it is classified as metabolic acidosis.",
   cheatSheet: "METABOLIC ACIDOSIS: Low pH caused by metabolic byproducts (like Lactic Acid or Ketones)."
 },
@@ -81,7 +81,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "The body uses a balance of Carbonic Acid ($H_2CO_3$) and Bicarbonate ($HCO_3^-$) to neutralize acids and bases in the blood almost instantaneously.",
   cheatSheet: "BUFFERING: The Bicarbonate system is the fastest way the body handles pH shifts before the lungs or kidneys take over."
 },
@@ -93,7 +93,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "Calcium is necessary for proper muscle contraction and relaxation. When levels are too low, nerve membranes become hypersensitive, leading to involuntary contractions or spasms.",
   cheatSheet: "TETANY: Muscle 'tension' caused by low Calcium. Look for Trousseau's or Chvostek's signs."
 },
@@ -105,7 +105,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "Toxins from the infection trigger a massive inflammatory response, causing blood vessels throughout the body to dilate. This increases the size of the 'container,' leading to relative hypovolemia.",
   cheatSheet: "SEPTIC SHOCK: Distributive shock. The 'pipes' get too big for the amount of fluid available."
 },
@@ -117,7 +117,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "When the junctions 'open,' fluid leaks out of the intravascular space and into the interstitial tissue (edema). This loss of fluid directly causes the blood pressure to drop.",
   cheatSheet: "CAPILLARY LEAK: The 'sieve' effect. Fluid leaves the blood vessels, causing low BP and tissue swelling."
 },
@@ -129,7 +129,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "MODS is often the result of micro-vascular thrombi (tiny clots) that act like thousands of miniature emboli, starving organs of oxygenated blood.",
   cheatSheet: "MODS: Organ failure caused by microscopic 'traffic jams' in the blood vessels."
 },
@@ -141,7 +141,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "It is a consumption coagulopathy. The body 'uses up' its ability to clot in one area (microclots), so it bleeds from everywhere else (IV sites, gums, etc.).",
   cheatSheet: "DIC: Clotting and bleeding at the same time. A late-stage, high-mortality complication."
 },
@@ -153,7 +153,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Patho",
-  section: "Foundations",
+  section: "Pathophysiology",
   rationale: "Insulin is a potent trigger for the Na+/K+ pump; when we give insulin (e.g., in DKA), we must monitor potassium levels closely as they can drop dangerously fast.",
   cheatSheet: "HYPOKALEMIA: Low K+. Watch for this in patients on 'water pills' (diuretics) or those with severe GI distress."
 },
