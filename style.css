@@ -232,28 +232,11 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
 }
 .field-notes-banner {
     text-align: center;
-    margin: 40px auto 20px auto;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color); /* Creates a subtle separation line */
+    margin-top: 50px; /* Pushes the banner away from the quiz content */
+    margin-bottom: 20px;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
     color: var(--text-main);
     font-size: 0.85rem;
-    font-family: inherit; /* Inherits the same font as the rest of the app */
-    opacity: 0.8; /* Makes it look like a professional footer attribute */
-}
-
-.field-notes-banner a {
-    color: var(--accent-blue);
-    text-decoration: none;
-    font-weight: bold;
-    transition: opacity 0.2s;
-}
-
-.field-notes-banner a:hover {
-    text-decoration: underline;
-    opacity: 1;
-}
-
-/* Ensure it looks good in Dark Mode */
-.dark-mode .field-notes-banner {
-    border-top: 1px solid #444;
+    opacity: 0.7; /* Makes it subtle so it doesn't distract from the quiz */
 }
