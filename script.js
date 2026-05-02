@@ -279,6 +279,91 @@ const quizData = [
     rationale: "For pediatrics (1-8 years), D25 at 2-4 mL/kg is the standard. D50 is contraindicated in small children due to its high osmolarity.",
     cheatSheet: "PEDS DEXTROSE: Neonates = D10. Peds (1-8) = D25. Adults = D50." 
 },
+    // --- Medical Box Review-----
+    // --- RESPIRATORY FOUNDATIONS: STRIDOR ---
+{
+  q: "What are three common clinical causes of inspiratory stridor?",
+  answer: "1. Foreign Body Airway Obstruction (FBAO), 2. Anaphylaxis (Laryngeal Edema), 3. Croup (Laryngotracheobronchitis).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Stridor is a high-pitched sound indicating an upper airway obstruction. Identifying the cause—whether it's mechanical (object), allergic (swelling), or infectious (croup)—dictates your immediate treatment path.",
+  cheatSheet: "STRIDOR = UPPER AIRWAY. If you hear it, the problem is at or above the vocal cords."
+},
+
+// --- UPPER AIRWAY SOUNDS ---
+{
+  q: "List the three primary upper respiratory sounds and what they typically signify.",
+  answer: "1. Stridor (obstruction/swelling), 2. Gurgling (fluid/secretions), 3. Snoring (tongue/partial airway obstruction).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Upper airway sounds are audible without a stethoscope. Gurgling requires immediate suctioning, while snoring often requires a manual maneuver (Head-tilt/Chin-lift or Jaw-thrust).",
+  cheatSheet: "AIRWAY NOISE: Snoring = Tongue. Gurgling = Fluid. Stridor = Tightness/Blockage."
+},
+
+// --- MINUTE VOLUME ---
+{
+  q: "Identify the two components that calculate Minute Volume ($V_E$).",
+  answer: "Respiratory Rate (RR) and Tidal Volume ($V_T$).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Minute volume is the total amount of air moved in one minute. If either the rate or the volume drops significantly, the patient will enter respiratory failure.",
+  cheatSheet: "MINUTE VOLUME: RR x TV = $V_E$. You need both 'speed' and 'depth' to stay alive."
+},
+
+// --- TIDAL VOLUME ---
+{
+  q: "Define 'Tidal Volume' in the context of respiratory assessment.",
+  answer: "The amount of air that is moved into or out of the lungs during a single breath.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "For a healthy adult, average tidal volume is approximately 500 mL. In the field, we assess this by observing 'adequate chest rise and fall.'",
+  cheatSheet: "TIDAL VOLUME: Depth of a single breath. No chest rise = No tidal volume."
+},
+
+// --- RESPIRATORY ACIDOSIS ---
+{
+  q: "What is the pathophysiology of Respiratory Acidosis?",
+  answer: "A pathologic condition caused by an accumulation of $CO_2$ in the body, typically resulting from hypoventilation (low minute volume).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "When a patient doesn't breathe enough, they 'retain' $CO_2$. Since $CO_2$ is an acid when mixed with blood, the body's pH drops, leading to acidosis.",
+  cheatSheet: "RESP ACIDOSIS: Low breathing = High $CO_2$ = Low pH (Acidic).",
+  link: "https://ericjm.substack.com/p/acid-base-balance-for-aemts"
+},
+
+// --- RESPIRATORY ALKALOSIS ---
+{
+  q: "Define Respiratory Alkalosis and provide a common clinical example.",
+  answer: "A pathologic condition caused by the excessive loss of $CO_2$ (base accumulation), typically due to hyperventilation (e.g., anxiety-induced tachypnea).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Blowing off too much $CO_2$ makes the blood too alkaline (basic). This can lead to carpopedal spasms and tingling in the extremities.",
+  cheatSheet: "RESP ALKALOSIS: High breathing = Low $CO_2$ = High pH (Basic)."
+},
+
+// --- INTERVENTION: SHALLOW BREATHING ---
+{
+  q: "What is the preferred intervention for a patient presenting with shallow breathing and an altered mental status?",
+  answer: "Assist ventilations with positive pressure ventilations (BVM).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Respiratory",
+  section: "Medical",
+  rationale: "Shallow breathing indicates inadequate tidal volume. Oxygen via NRB is useless if the air isn't reaching the alveoli. You must use a Bag-Valve Mask (BVM) to force air into the lungs.",
+  cheatSheet: "SHALLOW BREATHING: This is a 'Volume' problem. Don't just give $O_2$; use the BVM to provide the volume."
+},
     // --- CARDIAC CHAIN ---
     { q: "[CARDIAC PART 1] A 68-year-old female with 'heavy' chest pressure and nausea. Pale/diaphoretic. BP 140/90. Initial priority?", options: ["324mg Aspirin", "12-lead ECG", "O2", "Establish IV"], answer: ["324mg Aspirin"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Early Aspirin is the highest priority.", cheatSheet: "ACS PRIORITY: Aspirin -> 12 Lead -> Nitro." },
     { q: "[CARDIAC PART 2] The patient develops extreme dyspnea and crackles. SpO2 88%, BP 188/100. Next step?", options: ["Albuterol", "CPAP at 5 cmH2O", "BVM", "NRB Mask"], answer: ["CPAP at 5 cmH2O"], type: "single", category: "Cardiology", section: "Medical", chainID: "Cardiac_1", rationale: "Crackles + HTN = Pulmonary Edema.", cheatSheet: "CPAP: Awake, Patent Airway, Tachypnea." },
