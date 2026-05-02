@@ -789,6 +789,58 @@ const quizData = [
   section: "Medical",
   rationale: "This explains why COPD patients often have JVD and peripheral edema—their 'lung' problem has become a 'heart' problem.",
   cheatSheet: "COR PULMONALE: Right Heart Failure caused by Lung Disease. Think: Tight Lungs = Tired Heart."
+},
+
+//----Make Me A Physician Section--------//
+    // --- CARDIOLOGY: MURMURS ---
+{
+  q: "A 72-year-old patient presents with syncope and dyspnea. Upon auscultation, you hear a harsh systolic crescendo-decrescendo murmur at the right second intercostal space that radiates to the carotids. Identify the valve pathology.",
+  answer: "Aortic Stenosis.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Medical",
+  rationale: "The 'SAD' triad (Syncope, Angina, Dyspnea) combined with a crescendo-decrescendo murmur at the upper right sternal border is the classic presentation for Aortic Stenosis. Radiation to the carotids is a key diagnostic differentiator.",
+  cheatSheet: "AORTIC STENOSIS: Right 2nd Intercostal + Systolic + Radiates to Neck. Common in elderly patients due to calcification.",
+  image: "img/aortic_stenosis_murmur.jpg"
+},
+
+// --- NEUROLOGY: HORNER'S SYNDROME ---
+{
+  q: "A patient presents with unilateral ptosis (drooping eyelid), miosis (constricted pupil), and anhidrosis (lack of sweating) on the left side of the face. What is this clinical triad called, and what does it suggest?",
+  answer: "Horner's Syndrome. It suggests an interruption of the sympathetic nerve supply to the eye (often due to a Pancoast tumor or carotid artery dissection).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Medical",
+  rationale: "Horner's is a physical exam 'find' that points to serious underlying pathology. For a medic, seeing this in a trauma patient might suggest a blunt traumatic dissection of the carotid artery.",
+  cheatSheet: "HORNER'S TRIAD: Ptosis + Miosis + Anhidrosis. Think: Sympathetic Nerve Failure.",
+  image: "img/horners_syndrome.jpg"
+},
+
+// --- PHARMACOLOGY: ACE INHIBITORS ---
+{
+  q: "Why do ACE Inhibitors (like Lisinopril) commonly cause a persistent dry cough in some patients? (Identify the specific substance involved).",
+  answer: "Accumulation of Bradykinin.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Foundations",
+  rationale: "ACE (Angiotensin-Converting Enzyme) is also responsible for breaking down bradykinin in the lungs. When you inhibit ACE, bradykinin levels rise, irritating the airways and causing the characteristic dry cough.",
+  cheatSheet: "ACE COUGH: Caused by Bradykinin buildup. If a patient can't tolerate it, they are usually switched to an ARB (like Losartan)."
+},
+
+// --- METABOLIC: ANION GAP ---
+{
+  q: "What is the formula for calculating the Anion Gap, and what is the primary clinical reason for calculating it in a patient with metabolic acidosis?",
+  answer: "Formula: $Na^+ - (Cl^- + HCO_3^-)$. It is used to differentiate between causes of metabolic acidosis (e.g., MUDPILES vs. non-gap causes like diarrhea).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Physician",
+  section: "Foundations",
+  rationale: "A high anion gap suggests that 'unmeasured' acids (like lactic acid, ketones, or toxins) are present in the blood, consuming the bicarbonate buffer.",
+  cheatSheet: "ANION GAP: Normal is ~8-12. High Gap = Extra acids present (Sepsis, DKA, Toxins).",
+  link: "https://ericjm.substack.com/p/the-anion-gap-simplified"
 }
 
 ];
