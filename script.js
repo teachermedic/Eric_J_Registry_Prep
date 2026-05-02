@@ -907,7 +907,8 @@ function adjustSliderRange() {
     if (!topicSelect || !slider) return;
 
     const topic = topicSelect.value;
-    const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic);
+    // FIX: Look for category (Physician) OR section (Medical/Trauma)
+    const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic || i.category === topic);
     const availableCount = filtered.length > 0 ? filtered.length : 5;
     
     slider.max = availableCount;
@@ -928,13 +929,22 @@ function startQuiz(selectedMode) {
     mode = selectedMode;
     const topic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
-    let filteredBank = topic === "All" ? [...quizData] : quizData.filter(i => i.section === topic);
+    
+    // FIX 1: Filter by Category OR Section
+    let filteredBank = topic === "All" ? [...quizData] : quizData.filter(i => i.section === topic || i.category === topic);
 
-    if (filteredBank.length === 0) return alert("No questions found!");
+    // FIX 2: If in Exam Mode, remove all "onlyStudy" (open-review) items
+    if (mode === 'exam') {
+        filteredBank = filteredBank.filter(q => !q.onlyStudy);
+    }
+
+    // FIX 3: Safety check for Physician/Exam mismatch
+    if (filteredBank.length === 0) {
+        return alert("This module contains Study-Mode content only. Please select 'Review Mode' to begin.");
+    }
 
     let units = [];
     let seenChains = new Set();
-
     filteredBank.forEach(q => {
         if (q.chainID) {
             if (!seenChains.has(q.chainID)) {
