@@ -25,7 +25,140 @@ const quizData = [
     { q: "Which organ system is responsible for the 'Long-term' compensation of acid-base imbalances?", options: ["The Lungs", "The Kidneys", "The Liver", "The Pancreas"], answer: ["The Kidneys"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The kidneys adjust pH by excreting or retaining Hydrogen and Bicarbonate." },
     { q: "In a state of Acidosis, the heart becomes:", options: ["More sensitive to Epinephrine", "Less responsive to catecholamines", "Hyper-excitable", "More efficient at pumping"], answer: ["Less responsive to catecholamines"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Acidosis decreases myocardial contractility." },
     { q: "The Bicarbonate Buffer System manages pH by balancing which two components?", options: ["Oxygen and Nitrogen", "Carbon Dioxide and Bicarbonate", "Sodium and Potassium", "Calcium and Magnesium"], answer: ["Carbon Dioxide and Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Lungs regulate CO2 and kidneys regulate Bicarbonate." },
-// --- GRID: CONSENT TYPES ---
+//-----Open Review Box Style Questions----
+    // --- SHOCK PATHOPHYSIOLOGY ---
+{
+  q: "A sudden drop in cardiac output due to a massive Pulmonary Embolism (PE) is a classic example of which type of shock?",
+  answer: "Obstructive Shock.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "In obstructive shock, the heart is capable of pumping, but a mechanical obstruction (like a large clot in the pulmonary artery) prevents blood from flowing through the system.",
+  cheatSheet: "OBSTRUCTIVE SHOCK: A 'plumbing' block. Common causes: Tension Pneumothorax, Cardiac Tamponade, and PE."
+},
+
+// --- ELECTROLYTES: POTASSIUM ---
+{
+  q: "What is the primary intracellular cation in the human body?",
+  answer: "Potassium ($K^+$).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "Potassium is the major positive ion inside the cells. Maintaining the gradient between intracellular $K^+$ and extracellular $Na^+$ is vital for electrical signaling in muscles and nerves.",
+  cheatSheet: "ELECTROLYTES: Potassium ($K^+$) = Inside the cell. Sodium ($Na^+$) = Outside the cell."
+},
+
+// --- CELLULAR METABOLISM ---
+{
+  q: "What cellular process occurs when cells are forced to switch to metabolism without a sufficient oxygen supply?",
+  answer: "Anaerobic Metabolism.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "Without oxygen, the cell cannot enter the Krebs cycle efficiently. It switches to anaerobic metabolism, which produces only 2 ATP (versus 36) and creates lactic acid as a waste product.",
+  cheatSheet: "ANAEROBIC: 'An-' (without) 'aerobic' (oxygen). High waste, low energy."
+},
+
+// --- ACID-BASE BALANCE ---
+{
+  q: "An accumulation of lactic acid in the blood leads to which specific acid-base condition?",
+  answer: "Metabolic Acidosis.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "As lactic acid builds up, the blood pH drops. Because the source of the acid is cellular metabolism rather than a respiratory failure, it is classified as metabolic acidosis.",
+  cheatSheet: "METABOLIC ACIDOSIS: Low pH caused by metabolic byproducts (like Lactic Acid or Ketones)."
+},
+
+// --- BUFFER SYSTEMS ---
+{
+  q: "What is the primary chemical buffer system used by the human body to maintain pH balance?",
+  answer: "The Bicarbonate Buffer System.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "The body uses a balance of Carbonic Acid ($H_2CO_3$) and Bicarbonate ($HCO_3^-$) to neutralize acids and bases in the blood almost instantaneously.",
+  cheatSheet: "BUFFERING: The Bicarbonate system is the fastest way the body handles pH shifts before the lungs or kidneys take over."
+},
+
+// --- CALCIUM & NEUROMUSCULAR ---
+{
+  q: "Low serum calcium levels (hypocalcemia) can lead to involuntary muscle spasms, a condition known as?",
+  answer: "Tetany.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "Calcium is necessary for proper muscle contraction and relaxation. When levels are too low, nerve membranes become hypersensitive, leading to involuntary contractions or spasms.",
+  cheatSheet: "TETANY: Muscle 'tension' caused by low Calcium. Look for Trousseau's or Chvostek's signs."
+},
+
+// --- SEPSIS MECHANISM ---
+{
+  q: "What is the primary underlying vascular mechanism that leads to septic shock?",
+  answer: "Widespread vasodilation due to a systemic infection.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "Toxins from the infection trigger a massive inflammatory response, causing blood vessels throughout the body to dilate. This increases the size of the 'container,' leading to relative hypovolemia.",
+  cheatSheet: "SEPTIC SHOCK: Distributive shock. The 'pipes' get too big for the amount of fluid available."
+},
+
+// --- ENDOTHELIAL FAILURE ---
+{
+  q: "During sepsis, endothelial tight junctions begin to fail and contract. What are the two primary clinical consequences of this cellular action?",
+  answer: "Capillary leak and hypotension.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "When the junctions 'open,' fluid leaks out of the intravascular space and into the interstitial tissue (edema). This loss of fluid directly causes the blood pressure to drop.",
+  cheatSheet: "CAPILLARY LEAK: The 'sieve' effect. Fluid leaves the blood vessels, causing low BP and tissue swelling."
+},
+
+// --- SEPSIS TO MODS ---
+{
+  q: "Describe the pathophysiology of how sepsis progresses to Multiple Organ Dysfunction Syndrome (MODS).",
+  answer: "Inflammatory signals trigger the clotting cascade throughout the body, forming tiny microclots in small vessels. These clots block blood flow to vital organs, leading to ischemia and failure.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "MODS is often the result of micro-vascular thrombi (tiny clots) that act like thousands of miniature emboli, starving organs of oxygenated blood.",
+  cheatSheet: "MODS: Organ failure caused by microscopic 'traffic jams' in the blood vessels."
+},
+
+// --- DISSEMINATED INTRAVASCULAR COAGULATION ---
+{
+  q: "Define DIC (Disseminated Intravascular Coagulation) and explain why it causes uncontrollable bleeding.",
+  answer: "DIC occurs when clotting factors are completely used up by widespread microclots, leaving the body unable to clot elsewhere, leading to paradoxical, uncontrollable bleeding.",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "It is a consumption coagulopathy. The body 'uses up' its ability to clot in one area (microclots), so it bleeds from everywhere else (IV sites, gums, etc.).",
+  cheatSheet: "DIC: Clotting and bleeding at the same time. A late-stage, high-mortality complication."
+},
+
+// --- HYPOKALEMIA CAUSES ---
+{
+  q: "List three common clinical causes of hypokalemia (low potassium).",
+  answer: "1. Extrarenal loss (vomiting/diarrhea), 2. Insulin administration (shifts $K^+$ into cells), 3. Renal loss (diuretic use).",
+  type: "open-review",
+  onlyStudy: true,
+  category: "Patho",
+  section: "Foundations",
+  rationale: "Insulin is a potent trigger for the Na+/K+ pump; when we give insulin (e.g., in DKA), we must monitor potassium levels closely as they can drop dangerously fast.",
+  cheatSheet: "HYPOKALEMIA: Low K+. Watch for this in patients on 'water pills' (diuretics) or those with severe GI distress."
+},
+    
+    // --- GRID: CONSENT TYPES ---
 { 
     q: "Match the following patient scenarios to the correct type of legal consent.",
     type: "grid",
