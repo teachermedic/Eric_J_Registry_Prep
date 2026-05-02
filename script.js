@@ -888,14 +888,20 @@ function showQuestion() {
     const data = sessionQuestions[currentIdx];
     const qText = document.getElementById('question-text');
     const container = document.getElementById('options-container');
+    const mainSubmitBtn = document.getElementById('action-btn'); // 1. GRAB THE MAIN BUTTON
     
     document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${sessionQuestions.length} | ${data.category}`;
     container.innerHTML = '';
     document.getElementById('feedback').innerText = '';
 
+    // ALWAYS SHOW THE MAIN BUTTON BY DEFAULT (resets from previous open-review)
+    mainSubmitBtn.style.display = 'block'; 
+
     // --- 1. OPEN-REVIEW LOGIC (The Hide-Box) ---
     if (data.type === 'open-review') {
+        mainSubmitBtn.style.display = 'none'; // 2. HIDE THE MAIN BUTTON FOR THIS TYPE
         qText.innerText = data.q;
+        
         container.innerHTML = `
             <div style="margin-top: 20px;">
                 <p style="font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Formulate your clinical findings, then reveal the truth:</p>
@@ -904,12 +910,15 @@ function showQuestion() {
                     <p style="font-weight: bold; margin-bottom: 15px;">${data.answer}</p>
                     <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 15px;">
                     <p><small>${data.rationale}</small></p>
+                    
+                    ${data.cheatSheet ? `<button onclick="openFieldNote('${data.cheatSheet.replace(/'/g, "\\'")}', '${data.link || ''}', '${data.image || ''}')" class="cheat-sheet-btn" style="margin-top:10px;">📖 View Field Note</button>` : ''}
                 </div>
-                <button id="reveal-btn" class="mode-btn" style="background-color: var(--accent-blue);">
+                
+                <button id="reveal-btn" class="mode-btn" style="background-color: var(--accent-blue); width:100%;">
                     <span class="material-icons">visibility</span> Reveal Answer
                 </button>
             </div>
-            <button class="mode-btn" style="margin-top:20px; background-color: var(--primary-blue); display:none;" id="next-open-btn" onclick="nextSandbox()">
+            <button class="mode-btn" style="margin-top:20px; background-color: var(--primary-blue); display:none; width:100%;" id="next-open-btn" onclick="nextSandbox()">
                 Next Case <span class="material-icons">arrow_forward</span>
             </button>
         `;
@@ -923,7 +932,7 @@ function showQuestion() {
             revealBtn.style.display = 'none';
             nextBtn.style.display = 'flex';
         };
-        return; // Exit here for open-review items
+        return; 
     }
 
     // --- 2. DISCOVERY SANDBOX LOGIC (Review Mode Only) ---
