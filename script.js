@@ -1227,14 +1227,21 @@ function showResults() {
             </div>`;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
-        method: 'POST',
-        mode: 'no-cors', 
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ module: document.getElementById('topic-select').value, score, total: sessionQuestions.length, percentage: percent, timestamp: new Date().toLocaleString() })
-    });
-}
+   // --- UPDATED FETCH BLOCK ---
+fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
+    method: 'POST',
+    mode: 'no-cors', 
+    cache: 'no-cache',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        module: document.getElementById('topic-select').value, 
+        mode: mode,      // <--- ADD THIS LINE
+        score: score, 
+        total: sessionQuestions.length, 
+        percentage: percent, 
+        timestamp: new Date().toLocaleString() 
+    })
+});
 
 function startMissedDrill() {
     sessionQuestions = [...missedQuestions];
