@@ -823,7 +823,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Medical",
+  section: "Physician",
   rationale: "Pheochromocytomas intermittently release massive amounts of Epinephrine and Norepinephrine. This causes 'paroxysmal' hypertension that can lead to stroke or myocardial infarction even in young, otherwise healthy patients.",
   cheatSheet: "PHEOCHROMOCYTOMA: Adrenal tumor + Catecholamine dump. Think 'Sustained Fight or Flight Mode.'"
 },
@@ -835,7 +835,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Trauma",
+  section: "Physician",
   rationale: "When muscle tissue is crushed, the cell membranes fail, releasing Myoglobin, Potassium ($K^+$), and Phosphate. Myoglobin is toxic to the renal tubules, often leading to acute kidney injury (AKI). The tea-colored urine is actually 'myoglobinuria.'",
   cheatSheet: "RHABDO: Muscle death = Myoglobin release = Renal failure. Treatment: Aggressive IV fluid resuscitation."
 },
@@ -846,7 +846,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Medical",
+  section: "Physician",
   rationale: "The 'SAD' triad (Syncope, Angina, Dyspnea) combined with a crescendo-decrescendo murmur at the upper right sternal border is the classic presentation for Aortic Stenosis. Radiation to the carotids is a key diagnostic differentiator.",
   cheatSheet: "AORTIC STENOSIS: Right 2nd Intercostal + Systolic + Radiates to Neck. Common in elderly patients due to calcification.",
   image: "img/aortic_stenosis_murmur.jpg"
@@ -859,7 +859,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Medical",
+  section: "Physician",
   rationale: "Horner's is a physical exam 'find' that points to serious underlying pathology. For a medic, seeing this in a trauma patient might suggest a blunt traumatic dissection of the carotid artery.",
   cheatSheet: "HORNER'S TRIAD: Ptosis + Miosis + Anhidrosis. Think: Sympathetic Nerve Failure.",
   image: "img/horners_syndrome.jpg"
@@ -872,7 +872,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Foundations",
+  section: "Physician",
   rationale: "ACE (Angiotensin-Converting Enzyme) is also responsible for breaking down bradykinin in the lungs. When you inhibit ACE, bradykinin levels rise, irritating the airways and causing the characteristic dry cough.",
   cheatSheet: "ACE COUGH: Caused by Bradykinin buildup. If a patient can't tolerate it, they are usually switched to an ARB (like Losartan)."
 },
@@ -884,7 +884,7 @@ const quizData = [
   type: "open-review",
   onlyStudy: true,
   category: "Physician",
-  section: "Foundations",
+  section: "Physician",
   rationale: "A high anion gap suggests that 'unmeasured' acids (like lactic acid, ketones, or toxins) are present in the blood, consuming the bicarbonate buffer.",
   cheatSheet: "ANION GAP: Normal is ~8-12. High Gap = Extra acids present (Sepsis, DKA, Toxins)."
 }
