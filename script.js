@@ -1218,7 +1218,7 @@ function showResults() {
     document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
     document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
 
-    // 4. Build Performance Profile
+    // 4. Build Performance Profile UI
     const breakdown = document.getElementById('category-breakdown');
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
@@ -1232,7 +1232,9 @@ function showResults() {
             </div>`;
     }
 
-    // 5. Log Results to Google Sheets (Combined correctly)
+    // 5. DATA Handoff to Google Sheets (One clean call)
+    console.log("Attempting to log session. Mode:", mode);
+
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
@@ -1247,7 +1249,7 @@ function showResults() {
             timestamp: new Date().toLocaleString() 
         })
     });
-} // This single brace now correctly closes the function
+} // <--- This one brace correctly ends the whole function.
 
 function startMissedDrill() {
     sessionQuestions = [...missedQuestions];
