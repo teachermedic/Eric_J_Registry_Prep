@@ -1232,9 +1232,7 @@ function showResults() {
             </div>`;
     }
 
-    // 5. DATA Handoff to Google Sheets (One clean call)
-    console.log("Attempting to log session. Mode:", mode);
-
+    // 5. DATA Handoff to Google Sheets
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
@@ -1249,15 +1247,8 @@ function showResults() {
             timestamp: new Date().toLocaleString() 
         })
     });
-} // <--- This one brace correctly ends the whole function.
+}
 
-function startMissedDrill() {
-    sessionQuestions = [...missedQuestions];
-    missedQuestions = [];
-    currentIdx = 0;
-    score = 0;
-    mode = 'review';
-    // ... (rest of your startMissedDrill logic)
 function startMissedDrill() {
     sessionQuestions = [...missedQuestions];
     missedQuestions = [];
@@ -1278,21 +1269,15 @@ function startMissedDrill() {
 function openFieldNote(text, url, imgPath) {
     const modal = document.getElementById('fieldNoteModal');
     const body = document.getElementById('modal-body');
-    
-    // Start with the text of the Field Note
     let content = `<p style="line-height: 1.6; color: var(--text-main);">${text}</p>`;
 
-    // Check if an image path exists. If it does, create the image tag.
     if (imgPath && imgPath !== '') {
         content += `
             <div style="text-align: center; margin: 15px 0;">
-                <img src="${imgPath}" 
-                     alt="Clinical Reference Image" 
-                     style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <img src="${imgPath}" alt="Clinical Reference Image" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             </div>`;
     }
 
-    // Add the link if it's provided
     if (url) { 
         content += `<div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
                         <a href="${url}" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: none;">
@@ -1300,7 +1285,6 @@ function openFieldNote(text, url, imgPath) {
                         </a>
                     </div>`; 
     }
-    
     body.innerHTML = content;
     modal.style.display = "block";
 }
@@ -1321,17 +1305,16 @@ function checkStreak() {
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toLocaleDateString();
 
-    if (streakData.lastDate === today) {
-    } else if (streakData.lastDate === yesterdayStr) {
-    } else {
-        if (streakData.lastDate !== null) {
-            streakData.count = 0;
-            localStorage.setItem('ems_streak', JSON.stringify(streakData));
-        }
+    if (streakData.lastDate !== today && streakData.lastDate !== yesterdayStr && streakData.lastDate !== null) {
+        streakData.count = 0;
+        localStorage.setItem('ems_streak', JSON.stringify(streakData));
     }
     if (streakData.count > 0) {
-        document.getElementById('streak-container').style.display = 'block';
-        document.getElementById('streak-count').innerText = streakData.count;
+        const streakContainer = document.getElementById('streak-container');
+        if (streakContainer) {
+            streakContainer.style.display = 'block';
+            document.getElementById('streak-count').innerText = streakData.count;
+        }
     }
 }
 
@@ -1359,10 +1342,9 @@ function nextSandbox() {
 function toggleDarkMode() {
     const isDark = document.body.classList.toggle('dark-mode');
     const icon = document.getElementById('theme-icon');
-    icon.innerText = isDark ? 'light_mode' : 'dark_mode';
+    if (icon) icon.innerText = isDark ? 'light_mode' : 'dark_mode';
     localStorage.setItem('ems_theme', isDark ? 'dark' : 'light');
 }
-
 // Fixed Initialization Logic
 window.onload = () => { 
     if (typeof adjustSliderRange === "function") adjustSliderRange(); 
