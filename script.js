@@ -1200,11 +1200,11 @@ function showResults() {
     updateStreak(); 
     clearInterval(timerInterval);
     
-    // UI Transitions
+    // 1. UI Transitions
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
-    // Handle Missed Questions Button
+    // 2. Handle Missed Questions Button
     const missedBtn = document.getElementById('missed-drill-btn');
     if (missedQuestions.length > 0) {
         missedBtn.style.display = 'block';
@@ -1213,12 +1213,12 @@ function showResults() {
         missedBtn.style.display = 'none';
     }
 
-    // Calculations
+    // 3. Score Calculations
     const percent = Math.round((score / sessionQuestions.length) * 100);
     document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
     document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
 
-    // Build the Performance Profile UI
+    // 4. Build Performance Profile
     const breakdown = document.getElementById('category-breakdown');
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
@@ -1232,9 +1232,7 @@ function showResults() {
             </div>`;
     }
 
-    // --- THE FIX: DATA Handoff to Google Sheets ---
-    console.log("Attempting to log session. Mode:", mode); // Debugging check
-
+    // 5. Log Results to Google Sheets (Combined correctly)
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
@@ -1242,31 +1240,22 @@ function showResults() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
             module: document.getElementById('topic-select').value, 
-            mode: mode, // This tells the AppScript which tab to use
+            mode: mode,
             score: score, 
             total: sessionQuestions.length, 
             percentage: percent, 
             timestamp: new Date().toLocaleString() 
         })
     });
-} 
+} // This single brace now correctly closes the function
 
-   // --- UPDATED FETCH BLOCK ---
-fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
-    method: 'POST',
-    mode: 'no-cors', 
-    cache: 'no-cache',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-        module: document.getElementById('topic-select').value, 
-        mode: mode,      // <--- ADD THIS LINE
-        score: score, 
-        total: sessionQuestions.length, 
-        percentage: percent, 
-        timestamp: new Date().toLocaleString() 
-    })
-});
-}
+function startMissedDrill() {
+    sessionQuestions = [...missedQuestions];
+    missedQuestions = [];
+    currentIdx = 0;
+    score = 0;
+    mode = 'review';
+    // ... (rest of your startMissedDrill logic)
 function startMissedDrill() {
     sessionQuestions = [...missedQuestions];
     missedQuestions = [];
