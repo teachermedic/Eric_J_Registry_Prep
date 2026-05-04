@@ -1199,9 +1199,12 @@ function handleAction() {
 function showResults() {
     updateStreak(); 
     clearInterval(timerInterval);
+    
+    // UI Transitions
     document.getElementById('quiz-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
 
+    // Handle Missed Questions Button
     const missedBtn = document.getElementById('missed-drill-btn');
     if (missedQuestions.length > 0) {
         missedBtn.style.display = 'block';
@@ -1210,10 +1213,12 @@ function showResults() {
         missedBtn.style.display = 'none';
     }
 
+    // Calculations
     const percent = Math.round((score / sessionQuestions.length) * 100);
     document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
     document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
 
+    // Build the Performance Profile UI
     const breakdown = document.getElementById('category-breakdown');
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
@@ -1226,6 +1231,25 @@ function showResults() {
                 <div class="stat-bar-bg"><div class="stat-bar-fill ${masteryClass}" style="width: ${catPercent}%"></div></div>
             </div>`;
     }
+
+    // --- THE FIX: DATA Handoff to Google Sheets ---
+    console.log("Attempting to log session. Mode:", mode); // Debugging check
+
+    fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
+        method: 'POST',
+        mode: 'no-cors', 
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            module: document.getElementById('topic-select').value, 
+            mode: mode, // This tells the AppScript which tab to use
+            score: score, 
+            total: sessionQuestions.length, 
+            percentage: percent, 
+            timestamp: new Date().toLocaleString() 
+        })
+    });
+} 
 
    // --- UPDATED FETCH BLOCK ---
 fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
