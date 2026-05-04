@@ -1242,7 +1242,7 @@ fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3
         timestamp: new Date().toLocaleString() 
     })
 });
-
+}
 function startMissedDrill() {
     sessionQuestions = [...missedQuestions];
     missedQuestions = [];
