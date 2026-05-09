@@ -1,20 +1,38 @@
 [
   {
-    "keywords": ["asthma", "wheezing", "reactive"],
+    "keywords": ["asthma", "wheezing", "reactive", "bronchospasm"],
     "title": "Asthma",
-    "explanation": "Asthma is a 'reactive' airway problem. Think of the **Asthma Triad**: 1. The muscles around the tubes squeeze tight (bronchospasm), 2. The lining of the tubes swells up (edema), and 3. The tubes get clogged with thick mucus.",
-    "field_note": "Treatment focus: Relax the muscles (Albuterol) and reduce the swelling (Steroids)."
+    "explanation": "Asthma is a 'reactive' lower airway disease. It involves a triple threat: the airway muscles squeeze tight, the linings swell up, and thick mucus plugs the pipes. This makes it incredibly hard to move air out of the lungs.",
+    "field_note": "Look for the 'Shark Fin' waveform on capnography. Your job is to stop the squeeze (Albuterol) and eventually stop the swelling (Steroids)."
   },
   {
-    "keywords": ["pulmonary edema", "fluid", "chf", "crackles"],
+    "keywords": ["cpap", "continuous positive", "pressure"],
+    "title": "CPAP",
+    "explanation": "Think of CPAP as a 'windy day' for the lungs. By blowing constant pressure into the airway, it physically pushes fluid out of the alveoli and 'splints' the air sacs open so gas exchange can actually happen.",
+    "field_note": "CPAP is the gold standard for Pulmonary Edema. If the patient becomes lethargic or stops following commands, take it off and start the BVM."
+  },
+  {
+    "keywords": ["pulmonary edema", "chf", "crackles", "fluid"],
     "title": "Pulmonary Edema",
-    "explanation": "This is a 'plumbing' backup. Usually, the left side of the heart isn't pumping well, so fluid backs up into the lungs. It physically blocks the air sacs (alveoli), making it hard for oxygen to get into the blood.",
-    "field_note": "You will hear 'crackles' because air is popping open those fluid-filled sacs. CPAP is the gold standard here to push that fluid out of the way."
+    "explanation": "This is a plumbing backup. The left side of the heart fails to pump forward, so fluid 'drowns' the lungs from the inside out. Air trying to pop through that fluid creates the sound of crackles.",
+    "field_note": "Patients usually wake up gasping for air (PND) and want to sit bolt upright. Look for pink, frothy sputum as a late sign."
   },
   {
-    "keywords": ["v/q mismatch", "ventilation", "perfusion"],
-    "title": "V/Q Mismatch",
-    "explanation": "V = Ventilation (Air). Q = Perfusion (Blood). A mismatch means they aren't meeting. If you have a clot (PE), the air is there, but the blood can't get to it. If you have a choked airway, the blood is there, but the air isn't.",
-    "field_note": "A Pulmonary Embolism is a classic 'Q' (perfusion) failure."
+    "keywords": ["pe", "embolism", "clot", "v/q"],
+    "title": "Pulmonary Embolism",
+    "explanation": "This is a perfusion (blood flow) failure. A clot is stuck in the lung's plumbing. The patient can breathe air in fine, but the blood can't get to the air to pick up oxygen. This is a classic V/Q mismatch.",
+    "field_note": "Suspect PE in patients with sudden shortness of breath, clear lung sounds, and recent surgery or long flights (Virchow's Triad)."
+  },
+  {
+    "keywords": ["copd", "emphysema", "bronchitis"],
+    "title": "COPD",
+    "explanation": "Chronic Obstructive Pulmonary Disease is a long-term struggle. In emphysema, the air sacs lose their 'snap' and trap air. In chronic bronchitis, the pipes are constantly inflamed and full of mucus.",
+    "field_note": "These patients often live in a state of respiratory acidosis. Use caution with oxygen, but never withhold it if they are in true distress."
+  },
+  {
+    "keywords": ["croup", "barking", "stridor"],
+    "title": "Croup",
+    "explanation": "Croup is an upper airway infection common in kids. It causes swelling just below the vocal cords, leading to a high-pitched 'stridor' sound on inspiration and a cough that sounds like a barking seal.",
+    "field_note": "Croup usually starts with a low-grade fever and gets worse at night. Management is typically supportive with humidified oxygen or racemic epi if severe."
   }
 ]
