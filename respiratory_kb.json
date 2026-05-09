@@ -1,0 +1,20 @@
+[
+  {
+    "keywords": ["asthma", "wheezing", "reactive"],
+    "title": "Asthma",
+    "explanation": "Asthma is a 'reactive' airway problem. Think of the **Asthma Triad**: 1. The muscles around the tubes squeeze tight (bronchospasm), 2. The lining of the tubes swells up (edema), and 3. The tubes get clogged with thick mucus.",
+    "field_note": "Treatment focus: Relax the muscles (Albuterol) and reduce the swelling (Steroids)."
+  },
+  {
+    "keywords": ["pulmonary edema", "fluid", "chf", "crackles"],
+    "title": "Pulmonary Edema",
+    "explanation": "This is a 'plumbing' backup. Usually, the left side of the heart isn't pumping well, so fluid backs up into the lungs. It physically blocks the air sacs (alveoli), making it hard for oxygen to get into the blood.",
+    "field_note": "You will hear 'crackles' because air is popping open those fluid-filled sacs. CPAP is the gold standard here to push that fluid out of the way."
+  },
+  {
+    "keywords": ["v/q mismatch", "ventilation", "perfusion"],
+    "title": "V/Q Mismatch",
+    "explanation": "V = Ventilation (Air). Q = Perfusion (Blood). A mismatch means they aren't meeting. If you have a clot (PE), the air is there, but the blood can't get to it. If you have a choked airway, the blood is there, but the air isn't.",
+    "field_note": "A Pulmonary Embolism is a classic 'Q' (perfusion) failure."
+  }
+]
