@@ -1,0 +1,19 @@
+<div id="mentor-container">
+    <h2>Respiratory Emergency Mentor</h2>
+    <p>Ask a question about Respiratory Emergencies (e.g., "What is asthma?" or "How does CPAP work?")</p>
+    
+    <div class="search-box">
+        <input type="text" id="user-query" placeholder="Type clinical concept here...">
+        <button onclick="askMentor()">Ask Mentor</button>
+    </div>
+
+    <div id="mentor-response" style="display:none;">
+        <h3 id="response-title"></h3>
+        <p id="response-text"></p>
+        <div id="response-field-note" class="field-note-box"></div>
+        
+        <button class="mode-btn" onclick="startTargetedQuiz()" style="margin-top:20px;">
+            Test My Knowledge on This
+        </button>
+    </div>
+</div>
