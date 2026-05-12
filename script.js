@@ -13,6 +13,7 @@ const quizData = [
     { q: "Which federal document provides the 'National EMS Scope of Practice Model' that states use to create their laws?", options: ["The White Paper", "NHTSA DOT Booklet", "The National EMS Education Standards", "The EMS Agenda for the Future"], answer: ["The National EMS Education Standards"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "NHTSA's National EMS Education Standards define the minimum competencies for each level." },
     { q: "AEMT care is typically required to be provided under the license of a:", options: ["Fire Chief", "Medical Director", "Service Director", "Nursing Supervisor"], answer: ["Medical Director"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "Medical Directors provide the legal authority for AEMTs to practice." },
     { q: "Assault is defined legally as:", options: ["Touching a patient without consent", "Placing a patient in fear of bodily harm", "Causing physical injury to a patient", "Kidnapping a patient"], answer: ["Placing a patient in fear of bodily harm"], type: "single", category: "Legal", section: "Foundations", rationale: "Assault is the threat; Battery is the actual physical touching." },
+    
     // --- PATHOPHYSIOLOGY ---
     { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
     { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
@@ -26,6 +27,7 @@ const quizData = [
     { q: "In a state of Acidosis, the heart becomes:", options: ["More sensitive to Epinephrine", "Less responsive to catecholamines", "Hyper-excitable", "More efficient at pumping"], answer: ["Less responsive to catecholamines"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Acidosis decreases myocardial contractility." },
     { q: "The Bicarbonate Buffer System manages pH by balancing which two components?", options: ["Oxygen and Nitrogen", "Carbon Dioxide and Bicarbonate", "Sodium and Potassium", "Calcium and Magnesium"], answer: ["Carbon Dioxide and Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Lungs regulate CO2 and kidneys regulate Bicarbonate." },
 //-----Open Review Box Style Questions----
+  
     // --- SHOCK PATHOPHYSIOLOGY ---
 {
   q: "A sudden drop in cardiac output due to a massive Pulmonary Embolism (PE) is a classic example of which type of shock?",
@@ -401,16 +403,6 @@ const quizData = [
     type: "single", category: "Medical", section: "Medical", chainID: "Sepsis_1", 
     rationale: "Septic Shock is defined as sepsis with persistent hypotension that does not respond to fluid resuscitation.",
     cheatSheet: "SHOCK DEFINITION: Sepsis + Fluid Refractory Hypotension = Septic Shock."
-},
-    { 
-    q: "You are preparing to administer Dextrose to a 4-year-old pediatric patient with a blood glucose of 38 mg/dL. What is the standard concentration and dose per kg for this age group?", 
-    options: [], 
-    answer: ["D25", "2-4 mL/kg", "D25 2-4 mL/kg"], 
-    type: "text", 
-    category: "Pharmacology", 
-    section: "Medical", 
-    rationale: "For pediatrics (1-8 years), D25 at 2-4 mL/kg is the standard. D50 is contraindicated in small children due to its high osmolarity.",
-    cheatSheet: "PEDS DEXTROSE: Neonates = D10. Peds (1-8) = D25. Adults = D50." 
 },
     // --- Medical Box Review-----
     // --- RESPIRATORY FOUNDATIONS: STRIDOR ---
