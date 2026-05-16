@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Flashcards | Eric J's Field Notes</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flashcards.css"> </head>
+<body>
+
+    <div id="quiz-container">
+        <a href="index.html" class="back-btn" style="display:inline-flex; align-items:center; text-decoration:none; color:var(--primary-blue); font-weight:bold; margin-bottom:20px;">
+            <span class="material-icons">arrow_back</span> Back to Menu
+        </a>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span id="card-progress" style="font-weight: bold; color: var(--text-muted);">Card 1 of X</span>
+        </div>
+
+        <div class="flashcard-wrapper" onclick="flipCard()">
+            <div class="flashcard" id="main-card">
+                
+                <div class="card-face card-front">
+                    <span class="material-icons card-icon">psychology</span>
+                    <p id="card-question-text">Loading clinical scenario...</p>
+                    <small class="flip-hint">Tap card to reveal clinical truth</small>
+                </div>
+                
+                <div class="card-face card-back">
+                    <h4 style="margin:0 0 10px 0; color:var(--primary-blue);">Clinical Truth:</h4>
+                    <p id="card-answer-text" style="font-weight: bold; font-size: 1.2rem;"></p>
+                    <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+                    <p id="card-rationale-text" style="font-size: 0.9rem; line-height: 1.5;"></p>
+                    <div id="card-cheat-sheet" class="cheat-sheet-badge"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; max-width: 450px; margin: 30px auto 0 auto; gap: 15px;">
+            <button class="mode-btn" style="background-color: var(--light-gray); color: var(--text-main);" onclick="prevCard(event)">
+                <span class="material-icons">arrow_back</span> Previous
+            </button>
+            <button class="mode-btn" style="background-color: var(--primary-blue);" onclick="nextCard(event)">
+                Next <span class="material-icons">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="flashcards.js"></script>
+</body>
+</html>
