@@ -1,22 +1,21 @@
 /* ============================================================
-   CLINICAL FLASHCARDS — with persistence + review mode
+   CLINICAL FLASHCARDS — same behavior as Terminology Decks
    ============================================================ */
 
 const STORAGE_KEY = "clinical-flashcards-progress-v1";
 
-// ---------- STATE ----------
+/* ---------- STATE ---------- */
 let currentCardIdx = 0;
 let cardBank = [];
 let currentAudio = null;
 let activeDeck = "all";
 let reviewOnlyMode = false;
 
-// Persisted sets (keyed by "category|q" so reordering doesn't break them)
 const persisted = loadProgress();
 let known = new Set(Object.keys(persisted.known));
 let review = new Set(Object.keys(persisted.review));
 
-// ---------- STORAGE ----------
+/* ---------- STORAGE ---------- */
 function loadProgress() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -35,25 +34,26 @@ function saveProgress() {
     } catch (e) { console.warn("Save failed:", e); }
 }
 
-// ---------- CARD HELPERS ----------
+/* ---------- HELPERS ---------- */
 function cardKey(card) {
     return `${card.category || "unknown"}|${card.q}`;
+}
+
+function isFlashcardType(q) {
+    return q.type === "single" || q.type === "open-review" ||
+           q.type === "multiple" || q.type === "text";
 }
 
 function getAllCategories() {
     const cats = new Set();
     quizData.forEach(q => {
-        if (q.type === "single" || q.type === "open-review" || q.type === "multiple" || q.type === "text") {
-            if (q.category) cats.add(q.category);
-        }
+        if (isFlashcardType(q) && q.category) cats.add(q.category);
     });
     return ["all", ...Array.from(cats).sort()];
 }
 
 function getFilteredBank() {
-    let base = quizData.filter(q =>
-        q.type === "single" || q.type === "open-review" || q.type === "multiple" || q.type === "text"
-    );
+    let base = quizData.filter(isFlashcardType);
 
     if (activeDeck !== "all") {
         base = base.filter(q => q.category === activeDeck);
@@ -68,12 +68,12 @@ function getFilteredBank() {
     return base;
 }
 
-// ---------- TABS ----------
+/* ---------- TABS ---------- */
 function renderDeckTabs() {
     const container = document.getElementById("deckSelector");
     if (!container) return;
-
     container.innerHTML = "";
+
     const cats = getAllCategories();
     const labels = { all: "All Cards" };
 
@@ -81,9 +81,9 @@ function renderDeckTabs() {
         const tab = document.createElement("button");
         tab.className = "deck-tab" + (cat === activeDeck ? " active" : "");
         tab.dataset.deck = cat;
+        tab.type = "button";
         tab.textContent = labels[cat] || cat;
 
-        // Count cards in review for this category
         let count;
         if (cat === "all") {
             count = quizData.filter(q => review.has(cardKey(q))).length;
@@ -112,14 +112,12 @@ function renderDeckTabs() {
     });
 }
 
-// ---------- RENDER ----------
+/* ---------- RENDER ---------- */
 function renderCard() {
     if (currentAudio) { currentAudio.pause(); currentAudio = null; }
 
-    // Filter & shuffle if we came from a button action
-    if (cardBank.length === 0) cardBank = getFilteredBank();
+    cardBank = getFilteredBank();
 
-    // If the deck is empty, show completion
     if (cardBank.length === 0) {
         showCompletion();
         return;
@@ -134,81 +132,48 @@ function renderCard() {
     const cardElement = document.getElementById("main-card");
     cardElement.classList.remove("is-flipped");
 
-    setTimeout(() => {
-        // --- PROGRESS ---
-        document.getElementById("card-progress").innerText =
-            `Card ${currentCardIdx + 1} of ${cardBank.length} | ${item.category || "—"}`;
+    document.getElementById("card-progress").innerText =
+        `Card ${currentCardIdx + 1} of ${cardBank.length}`;
 
-        // --- FRONT ---
-        const frontContainer = document.querySelector(".card-front");
-        frontContainer.innerHTML = `
-            <span class="material-icons card-icon">psychology</span>
-            <p id="card-question-text" style="font-size: 1.05rem; margin-bottom: 10px; font-weight:500;"></p>
-            <small class="flip-hint">Tap card to reveal clinical truth</small>
-        `;
-        document.getElementById("card-question-text").innerText = item.q;
+    document.getElementById("fcDeckLabel").innerText =
+        reviewOnlyMode ? "Review Mode — Still Learning"
+        : (activeDeck === "all" ? "All Cards" : activeDeck);
 
-        // Still Learning badge
-        if (review.has(cardKey(item))) {
-            const badge = document.createElement("div");
-            badge.className = "card-review-badge";
-            badge.textContent = "Still Learning";
-            frontContainer.appendChild(badge);
-        }
+    // Front
+    document.getElementById("card-question-text").innerText = item.q;
 
-        // Image
-        if (item.image) {
-            const img = document.createElement("img");
-            img.src = item.image;
-            img.style.maxWidth = "110px";
-            img.style.borderRadius = "6px";
-            img.style.marginTop = "8px";
-            frontContainer.insertBefore(img, frontContainer.querySelector(".flip-hint"));
-        }
+    // Review badge
+    const reviewBadge = document.getElementById("cardReviewBadge");
+    reviewBadge.style.display = review.has(cardKey(item)) ? "block" : "none";
 
-        // Audio
-        if (item.audio) {
-            const audioBtn = document.createElement("button");
-            audioBtn.className = "mode-btn";
-            audioBtn.style.padding = "6px 12px";
-            audioBtn.style.fontSize = "0.85rem";
-            audioBtn.style.marginTop = "8px";
-            audioBtn.innerHTML = `<span class="material-icons" style="font-size:1rem; vertical-align:middle;">volume_up</span> Play Diagnostic Track`;
-            currentAudio = new Audio(item.audio);
-            audioBtn.onclick = (e) => { e.stopPropagation(); currentAudio.play(); };
-            frontContainer.insertBefore(audioBtn, frontContainer.querySelector(".flip-hint"));
-        }
+    // Answer + rationale + cheat sheet
+    const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
+    document.getElementById("card-answer-text").innerText = cleanAnswer;
+    document.getElementById("card-rationale-text").innerText = item.rationale || "";
 
-        // --- BACK ---
-        const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
-        document.getElementById("card-answer-text").innerText = cleanAnswer;
-        document.getElementById("card-rationale-text").innerText = item.rationale || "";
+    const csBox = document.getElementById("card-cheat-sheet");
+    if (item.cheatSheet) {
+        csBox.style.display = "block";
+        csBox.innerHTML = `<strong>Field Note Summary:</strong> ${item.cheatSheet}`;
+    } else {
+        csBox.style.display = "none";
+    }
 
-        const csBox = document.getElementById("card-cheat-sheet");
-        if (item.cheatSheet) {
-            csBox.style.display = "block";
-            csBox.innerHTML = `<strong>Field Note Summary:</strong> ${item.cheatSheet}`;
-        } else {
-            csBox.style.display = "none";
-        }
+    // Progress bar
+    const pct = ((currentCardIdx + 1) / cardBank.length) * 100;
+    document.getElementById("fcProgressFill").style.width = pct + "%";
 
-        updateStats();
-        updateDeckTabsIfNeeded();
-    }, 150);
+    updateStats();
+    updateTabBadges();
 }
 
 function updateStats() {
-    const knownEl = document.getElementById("knownCount");
-    const reviewEl = document.getElementById("reviewCount");
-    const remainingEl = document.getElementById("remainingCount");
-    if (!knownEl) return;
-    knownEl.textContent = known.size;
-    reviewEl.textContent = review.size;
-    remainingEl.textContent = cardBank.length;
+    document.getElementById("knownCount").textContent = known.size;
+    document.getElementById("reviewCount").textContent = review.size;
+    document.getElementById("remainingCount").textContent = cardBank.length;
 }
 
-function updateDeckTabsIfNeeded() {
-    // Refresh badge counts without rebuilding the whole row
+function updateTabBadges() {
     document.querySelectorAll(".deck-tab").forEach(tab => {
         const cat = tab.dataset.deck;
         let count;
@@ -228,7 +193,30 @@ function updateDeckTabsIfNeeded() {
     });
 }
 
-// ---------- ACTIONS ----------
+/* ---------- COMPLETION ---------- */
+function showCompletion() {
+    document.body.classList.add("deck-finished");
+    document.getElementById("completionScreen").classList.add("visible");
+    const msg = document.getElementById("completionMessage");
+    if (reviewOnlyMode) {
+        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning' right now.";
+    } else if (review.size > 0) {
+        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
+    } else {
+        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
+    }
+    document.getElementById("knownCount").textContent = known.size;
+    document.getElementById("reviewCount").textContent = review.size;
+    document.getElementById("remainingCount").textContent = 0;
+    document.getElementById("fcProgressFill").style.width = "100%";
+}
+
+function hideCompletion() {
+    document.body.classList.remove("deck-finished");
+    document.getElementById("completionScreen").classList.remove("visible");
+}
+
+/* ---------- ACTIONS ---------- */
 function flipCard() {
     document.getElementById("main-card").classList.toggle("is-flipped");
 }
@@ -236,22 +224,15 @@ function flipCard() {
 function nextCard(event) {
     if (event) event.stopPropagation();
     if (cardBank.length === 0) return;
-    if (currentCardIdx < cardBank.length - 1) {
-        currentCardIdx++;
-        renderCard();
-    } else {
-        cardBank.sort(() => Math.random() - 0.5);
-        currentCardIdx = 0;
-        renderCard();
-    }
+    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
+    renderCard();
 }
 
 function prevCard(event) {
     if (event) event.stopPropagation();
-    if (currentCardIdx > 0) {
-        currentCardIdx--;
-        renderCard();
-    }
+    if (cardBank.length === 0) return;
+    currentCardIdx = (currentCardIdx - 1 + cardBank.length) % cardBank.length;
+    renderCard();
 }
 
 function markKnown(event) {
@@ -262,8 +243,7 @@ function markKnown(event) {
     known.add(key);
     review.delete(key);
     saveProgress();
-    cardBank.splice(currentCardIdx, 1);
-    if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
+    if (currentCardIdx >= cardBank.length - 1) currentCardIdx = 0;
     renderCard();
 }
 
@@ -279,13 +259,18 @@ function markReview(event) {
     renderCard();
 }
 
+function shuffleDeck() {
+    cardBank.sort(() => Math.random() - 0.5);
+    currentCardIdx = 0;
+    renderCard();
+}
+
 function toggleReviewOnly() {
-    reviewOnlyMode = !reviewOnlyMode;
-    if (reviewOnlyMode && review.size === 0) {
-        alert("You haven't marked any cards as 'Still Learning' yet.");
-        reviewOnlyMode = false;
+    if (!reviewOnlyMode && review.size === 0) {
+        alert("You haven't marked any cards as 'Still Learning' yet. Use the 'Still Learning' button to add some.");
         return;
     }
+    reviewOnlyMode = !reviewOnlyMode;
     currentCardIdx = 0;
     cardBank = getFilteredBank();
     cardBank.sort(() => Math.random() - 0.5);
@@ -293,10 +278,10 @@ function toggleReviewOnly() {
 }
 
 function resetCurrentDeck() {
-    if (!confirm("Reset progress for this deck?")) return;
+    if (!confirm("Reset progress for this deck? Cards marked 'Got It' will return to the rotation.")) return;
     const scope = activeDeck === "all"
-        ? quizData
-        : quizData.filter(q => q.category === activeDeck);
+        ? quizData.filter(isFlashcardType)
+        : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
     scope.forEach(q => {
         known.delete(cardKey(q));
         review.delete(cardKey(q));
@@ -321,25 +306,21 @@ function clearAllProgress() {
     renderCard();
 }
 
-// ---------- COMPLETION SCREEN ----------
-function showCompletion() {
-    document.getElementById("completionScreen").classList.add("visible");
-    const msg = document.getElementById("completionMessage");
-    if (reviewOnlyMode) {
-        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning' right now.";
-    } else if (review.size > 0) {
-        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
-    } else {
-        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
-    }
-}
+/* ---------- COMPLETION BUTTONS ---------- */
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("resetFromCompleteBtn").addEventListener("click", resetCurrentDeck);
+    document.getElementById("reviewMissedFromCompleteBtn").addEventListener("click", () => {
+        reviewOnlyMode = true;
+        currentCardIdx = 0;
+        cardBank = getFilteredBank();
+        cardBank.sort(() => Math.random() - 0.5);
+        renderCard();
+    });
+});
 
-function hideCompletion() {
-    document.getElementById("completionScreen").classList.remove("visible");
-}
-
-// ---------- KEYBOARD ----------
+/* ---------- KEYBOARD ---------- */
 document.addEventListener("keydown", (e) => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (e.key === "ArrowRight") nextCard();
     if (e.key === "ArrowLeft") prevCard();
     if (e.key === " ") { e.preventDefault(); flipCard(); }
@@ -347,8 +328,8 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "2") markReview();
 });
 
-// ---------- INIT ----------
-window.onload = () => {
+/* ---------- INIT ---------- */
+window.addEventListener("load", () => {
     if (localStorage.getItem("ems_theme") === "dark") {
         document.body.classList.add("dark-mode");
     }
@@ -356,4 +337,4 @@ window.onload = () => {
     cardBank = getFilteredBank();
     cardBank.sort(() => Math.random() - 0.5);
     renderCard();
-};
+});
