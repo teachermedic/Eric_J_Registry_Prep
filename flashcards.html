@@ -75,12 +75,102 @@
             width: 100%;
             box-sizing: border-box;
         }
+        .deck-selector {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 12px; justify-content: center;
+}
+.deck-tab {
+    padding: 6px 12px; border-radius: 8px; cursor: pointer;
+    background: #f3f1ec; border: 1px solid #d6d3d1;
+    font-size: 0.8rem; font-weight: 600; color: #6b6b6b;
+    position: relative;
+}
+.deck-tab.active { background: #a16207; color: #fff; border-color: #a16207; }
+.deck-tab .tab-badge {
+    display: inline-block; background: #b45309; color: #fff;
+    font-size: 0.6rem; font-weight: 700; padding: 1px 5px;
+    border-radius: 8px; margin-left: 5px;
+}
+.deck-tab.active .tab-badge { background: rgba(255,255,255,0.3); }
+
+.term-controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; max-width: 450px; margin-left: auto; margin-right: auto; }
+.term-controls .mode-btn { flex: 1; font-size: 0.9rem; padding: 10px; }
+.term-secondary-controls { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.term-secondary-controls button {
+    font-size: 0.8rem; padding: 8px 12px; border-radius: 8px;
+    border: 1px solid #d6d3d1; background: transparent; color: #6b6b6b;
+    cursor: pointer; font-weight: 600;
+}
+.term-secondary-controls button:hover { border-color: #a16207; color: #a16207; }
+
+.term-stats {
+    display: flex; justify-content: space-around;
+    background: #f3f1ec; border: 1px solid #d6d3d1;
+    border-radius: 10px; padding: 12px; margin-top: 15px;
+    max-width: 450px; margin-left: auto; margin-right: auto;
+}
+.term-stats > div { text-align: center; }
+.term-stats span { display: block; font-size: 1.3rem; font-weight: 700; color: #06402b; }
+.term-stats small { font-size: 0.7rem; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.completion-screen {
+    display: none; background: linear-gradient(135deg, #06402b, #042e1f);
+    color: #fff; padding: 40px 30px; border-radius: 15px;
+    text-align: center; max-width: 450px; margin: 20px auto;
+}
+.completion-screen.visible { display: block; }
+.completion-screen .emoji { font-size: 3rem; margin-bottom: 10px; }
+.completion-screen h2 { margin-bottom: 10px; }
+.completion-screen p { opacity: 0.9; margin-bottom: 20px; font-size: 0.9rem; }
+.completion-screen button {
+    padding: 10px 18px; border: none; border-radius: 8px;
+    background: #a16207; color: #fff; font-weight: 700;
+    cursor: pointer; margin: 4px;
+}
+
+.card-review-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: #b45309; color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.card-front { position: relative; }
     </style>
 </head>
 <body>
 
     <div id="quiz-container">
         <a href="index.html" style="display:inline-flex; align-items:center; text-decoration:none; color:var(--primary-blue); font-weight:bold; margin-bottom:20px;">
+            <div class="deck-selector" id="deckSelector">
+    <!-- tabs are generated dynamically -->
+<div class="term-controls" style="margin-top: 15px;">
+    <button class="mode-btn" style="background-color: #b45309;" onclick="markReview(event)">
+        <span class="material-icons">refresh</span> Still Learning
+    </button>
+    <button class="mode-btn" style="background-color: #06402b;" onclick="markKnown(event)">
+        <span class="material-icons">check</span> Got It ✓
+    </button>
+    <div class="completion-screen" id="completionScreen">
+    <div class="emoji">🎉</div>
+    <h2>Deck Complete!</h2>
+    <p id="completionMessage">You've mastered every card in this deck.</p>
+    <button onclick="resetCurrentDeck()">↻ Start Over</button>
+    <button onclick="toggleReviewOnly()" style="background:#b45309;">📚 Review Still Learning</button>
+</div>
+</div>
+
+<div class="term-secondary-controls">
+    <button onclick="toggleReviewOnly()">📚 Review Only (Still Learning)</button>
+    <button onclick="clearAllProgress()">🗑️ Clear All Progress</button>
+</div>
+
+<div class="term-stats">
+    <div><span id="knownCount">0</span><small>Known</small></div>
+    <div><span id="reviewCount">0</span><small>Still Learning</small></div>
+    <div><span id="remainingCount">0</span><small>In Deck</small></div>
+</div>
+            </div>
             <span class="material-icons">arrow_back</span> Back to Quiz Menu
         </a>
 
