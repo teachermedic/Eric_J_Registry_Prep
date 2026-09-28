@@ -22,7 +22,6 @@
     --review: #b45309;
     --shuffle: #06402b;
     --reset: #57534e;
-    --breakdown: #fef3c7;
     --breakdown-text: #fde68a;
     --border-soft: #d6d3d1;
   }
@@ -99,6 +98,7 @@
     cursor: pointer;
     transition: all 0.15s ease;
     text-align: center;
+    position: relative;
   }
 
   .deck-tab:hover { color: var(--text); border-color: var(--accent); }
@@ -106,6 +106,23 @@
     background: var(--accent);
     color: #ffffff;
     border-color: var(--accent);
+  }
+
+  /* NEW: badge showing review count on each tab */
+  .deck-tab .tab-badge {
+    display: inline-block;
+    background: var(--review);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 8px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .deck-tab.active .tab-badge {
+    background: rgba(255, 255, 255, 0.3);
   }
 
   /* ---------- PROGRESS ---------- */
@@ -178,6 +195,21 @@
   .term-card-back {
     background: linear-gradient(135deg, var(--card-back), var(--card-back-dark));
     transform: rotateY(180deg);
+  }
+
+  /* NEW: little badge on cards that are in review */
+  .term-card-review-badge {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: var(--review);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .term-card-label {
@@ -257,6 +289,11 @@
 
   .term-controls button:hover { transform: translateY(-1px); opacity: 0.92; }
   .term-controls button:active { transform: translateY(0); }
+  .term-controls button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
 
   .btn-nav { background: var(--reset); }
   .btn-know { background: var(--correct); }
@@ -275,6 +312,7 @@
     border-radius: 12px;
     padding: 16px;
     font-size: 0.9rem;
+    margin-bottom: 16px;
   }
 
   .term-stat { text-align: center; }
@@ -283,6 +321,77 @@
 
   .term-stat.known .num { color: var(--correct); }
   .term-stat.review .num { color: var(--review); }
+
+  /* NEW: secondary controls row */
+  .term-secondary-controls {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .term-secondary-controls button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .term-secondary-controls button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ---------- COMPLETION SCREEN ---------- */
+  .completion-screen {
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(135deg, var(--card-back), var(--card-back-dark));
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    margin-bottom: 24px;
+  }
+
+  .completion-screen.visible { display: block; }
+
+  .completion-screen .emoji { font-size: 4rem; margin-bottom: 16px; }
+  .completion-screen h2 { font-size: 1.75rem; margin-bottom: 12px; }
+  .completion-screen p { font-size: 1rem; opacity: 0.9; margin-bottom: 24px; line-height: 1.6; }
+
+  .completion-screen button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #ffffff;
+    cursor: pointer;
+    margin: 4px;
+    transition: all 0.15s ease;
+  }
+
+  .completion-screen button:hover { transform: translateY(-1px); opacity: 0.92; }
+
+  /* Hide card area when complete */
+  .deck-finished .term-card-container,
+  .deck-finished .term-controls,
+  .deck-finished .term-progress-bar,
+  .deck-finished .term-meta { display: none; }
 
   @media (max-width: 600px) {
     .term-card-term { font-size: 1.5rem; }
@@ -317,10 +426,20 @@
   <span id="termDeckLabel">All Terms</span>
 </div>
 
+<!-- Completion screen (NEW) -->
+<div class="completion-screen" id="completionScreen">
+  <div class="emoji">🎉</div>
+  <h2>Deck Complete!</h2>
+  <p id="completionMessage">You've mastered every card in this deck.</p>
+  <button id="resetFromCompleteBtn">↻ Start Over</button>
+  <button id="reviewMissedFromCompleteBtn" style="background: var(--review);">📚 Review Still Learning</button>
+</div>
+
 <div class="term-card-container" id="termCardContainer">
   <div class="term-card" id="termCard">
     <div class="term-card-face term-card-front">
       <div class="term-card-label">Term</div>
+      <div class="term-card-review-badge" id="cardReviewBadge" style="display: none;">Still Learning</div>
       <div class="term-card-term" id="termText">—</div>
       <div class="term-card-sub" id="termSub"></div>
       <div class="term-hint">Tap card to flip</div>
@@ -343,7 +462,13 @@
 
 <div class="term-controls">
   <button class="btn-shuffle" id="termShuffleBtn">🔀 Shuffle</button>
-  <button class="btn-reset" id="termResetBtn">↻ Reset</button>
+  <button class="btn-reset" id="termResetBtn">↻ Reset Deck</button>
+</div>
+
+<!-- NEW: secondary controls -->
+<div class="term-secondary-controls">
+  <button id="reviewOnlyBtn">📚 Review Only (Still Learning)</button>
+  <button id="clearProgressBtn">🗑️ Clear All Progress</button>
 </div>
 
 <div class="term-stats">
@@ -353,18 +478,17 @@
   </div>
   <div class="term-stat review">
     <span class="num" id="termReviewCount">0</span>
-    <span class="lbl">Review</span>
+    <span class="lbl">Still Learning</span>
   </div>
   <div class="term-stat">
     <span class="num" id="termRemainingCount">0</span>
-    <span class="lbl">Remaining</span>
+    <span class="lbl">In Deck</span>
   </div>
 </div>
 
 <script>
 /* ============================================================
    TERMINOLOGY DECKS DATA
-   Categories: "prefix", "suffix", "root"
    ============================================================ */
 const TERM_DECKS = [
   // ---------- PREFIXES ----------
@@ -465,13 +589,50 @@ const TERM_DECKS = [
 ];
 
 /* ============================================================
+   STORAGE — Persist progress across sessions
+   ============================================================ */
+const STORAGE_KEY = "terminology-decks-progress-v1";
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { known: {}, review: {} };
+    const parsed = JSON.parse(raw);
+    return {
+      known: parsed.known || {},
+      review: parsed.review || {}
+    };
+  } catch (err) {
+    console.warn("Could not load progress:", err);
+    return { known: {}, review: {} };
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      known: Object.fromEntries([...known].map(k => [k, true])),
+      review: Object.fromEntries([...review].map(k => [k, true]))
+    }));
+  } catch (err) {
+    console.warn("Could not save progress:", err);
+  }
+}
+
+/* ============================================================
    STATE
    ============================================================ */
 let activeDeck = "all";
 let deck = [...TERM_DECKS];
 let index = 0;
-let known = new Set();
-let review = new Set();
+
+// Persisted sets — keyed by "cat|term" so different decks don't collide
+const persisted = loadProgress();
+let known = new Set(Object.keys(persisted.known));
+let review = new Set(Object.keys(persisted.review));
+
+// Track the previous "review-only" mode
+let reviewOnlyMode = false;
 
 /* ============================================================
    DOM
@@ -487,12 +648,74 @@ const termKnownCount = document.getElementById('termKnownCount');
 const termReviewCount = document.getElementById('termReviewCount');
 const termRemainingCount = document.getElementById('termRemainingCount');
 const termDeckLabel = document.getElementById('termDeckLabel');
+const cardReviewBadge = document.getElementById('cardReviewBadge');
+const completionScreen = document.getElementById('completionScreen');
+const completionMessage = document.getElementById('completionMessage');
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function cardKey(card) {
+  return `${card.cat}|${card.term}`;
+}
+
+function getFilteredDeck() {
+  let base = activeDeck === "all"
+    ? [...TERM_DECKS]
+    : TERM_DECKS.filter(c => c.cat === activeDeck);
+
+  if (reviewOnlyMode) {
+    // Only cards currently marked "still learning"
+    base = base.filter(c => review.has(cardKey(c)));
+  } else {
+    // Default: hide cards already marked "known"
+    base = base.filter(c => !known.has(cardKey(c)));
+  }
+
+  return base;
+}
+
+function updateDeckTabBadges() {
+  document.querySelectorAll('.deck-tab').forEach(tab => {
+    const cat = tab.dataset.deck;
+    let count;
+    if (cat === "all") {
+      count = TERM_DECKS.filter(c => review.has(cardKey(c))).length;
+    } else {
+      count = TERM_DECKS.filter(c => c.cat === cat && review.has(cardKey(c))).length;
+    }
+
+    // Remove any existing badge
+    const existing = tab.querySelector('.tab-badge');
+    if (existing) existing.remove();
+
+    if (count > 0) {
+      const badge = document.createElement('span');
+      badge.className = 'tab-badge';
+      badge.textContent = count;
+      tab.appendChild(badge);
+    }
+  });
+}
 
 /* ============================================================
    RENDER
    ============================================================ */
 function renderTermCard() {
-  if (deck.length === 0) return;
+  // Refresh deck from filters
+  deck = getFilteredDeck();
+
+  // If nothing left in the current deck, show completion screen
+  if (deck.length === 0) {
+    showCompletionScreen();
+    return;
+  }
+
+  hideCompletionScreen();
+
+  // Clamp index
+  if (index >= deck.length) index = 0;
+  if (index < 0) index = deck.length - 1;
 
   const c = deck[index];
   termText.textContent = c.term;
@@ -502,15 +725,53 @@ function renderTermCard() {
 
   termCard.classList.remove('flipped');
 
+  // Show "Still Learning" badge if this card is in the review set
+  if (review.has(cardKey(c))) {
+    cardReviewBadge.style.display = 'block';
+  } else {
+    cardReviewBadge.style.display = 'none';
+  }
+
   termCardCounter.textContent = `Card ${index + 1} of ${deck.length}`;
   termProgressFill.style.width = `${((index + 1) / deck.length) * 100}%`;
 
   termKnownCount.textContent = known.size;
   termReviewCount.textContent = review.size;
-  termRemainingCount.textContent = deck.length - known.size;
+  termRemainingCount.textContent = deck.length;
 
   const labels = { all: "All Terms", prefix: "Prefixes", suffix: "Suffixes", root: "Root Words" };
-  termDeckLabel.textContent = labels[activeDeck] || "All Terms";
+  termDeckLabel.textContent = reviewOnlyMode
+    ? "Review Mode — Still Learning"
+    : (labels[activeDeck] || "All Terms");
+
+  updateDeckTabBadges();
+}
+
+function showCompletionScreen() {
+  termCard.classList.remove('flipped');
+  document.body.classList.add('deck-finished');
+  completionScreen.classList.add('visible');
+
+  if (reviewOnlyMode) {
+    completionMessage.textContent = "You've cleared your review list! Nothing is marked 'Still Learning' right now.";
+    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'none';
+  } else if (review.size > 0) {
+    completionMessage.textContent = `You've mastered this deck! You still have ${review.size} card${review.size === 1 ? '' : 's'} marked "Still Learning."`;
+    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'inline-block';
+  } else {
+    completionMessage.textContent = "You've mastered every card in this deck. Outstanding work!";
+    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'none';
+  }
+
+  termProgressFill.style.width = '100%';
+  termKnownCount.textContent = known.size;
+  termReviewCount.textContent = review.size;
+  termRemainingCount.textContent = 0;
+}
+
+function hideCompletionScreen() {
+  document.body.classList.remove('deck-finished');
+  completionScreen.classList.remove('visible');
 }
 
 /* ============================================================
@@ -522,13 +783,8 @@ document.querySelectorAll('.deck-tab').forEach(tab => {
     tab.classList.add('active');
 
     activeDeck = tab.dataset.deck;
-    deck = activeDeck === "all"
-      ? [...TERM_DECKS]
-      : TERM_DECKS.filter(c => c.cat === activeDeck);
-
+    reviewOnlyMode = false;
     index = 0;
-    known.clear();
-    review.clear();
     renderTermCard();
   });
 });
@@ -539,25 +795,39 @@ document.querySelectorAll('.deck-tab').forEach(tab => {
 termCard.addEventListener('click', () => termCard.classList.toggle('flipped'));
 
 document.getElementById('termNextBtn').addEventListener('click', () => {
+  if (deck.length === 0) return;
   index = (index + 1) % deck.length;
   renderTermCard();
 });
 
 document.getElementById('termPrevBtn').addEventListener('click', () => {
+  if (deck.length === 0) return;
   index = (index - 1 + deck.length) % deck.length;
   renderTermCard();
 });
 
 document.getElementById('termKnowBtn').addEventListener('click', () => {
-  known.add(deck[index].term);
-  review.delete(deck[index].term);
-  index = (index + 1) % deck.length;
+  if (deck.length === 0) return;
+  const c = deck[index];
+  const key = cardKey(c);
+  known.add(key);
+  review.delete(key);
+  saveProgress();
+
+  // Remove from current deck view (since we hide "known" cards)
+  deck.splice(index, 1);
+  if (index >= deck.length) index = 0;
   renderTermCard();
 });
 
 document.getElementById('termReviewBtn').addEventListener('click', () => {
-  review.add(deck[index].term);
-  known.delete(deck[index].term);
+  if (deck.length === 0) return;
+  const c = deck[index];
+  const key = cardKey(c);
+  review.add(key);
+  known.delete(key);
+  saveProgress();
+
   index = (index + 1) % deck.length;
   renderTermCard();
 });
@@ -572,12 +842,51 @@ document.getElementById('termShuffleBtn').addEventListener('click', () => {
 });
 
 document.getElementById('termResetBtn').addEventListener('click', () => {
-  deck = activeDeck === "all"
-    ? [...TERM_DECKS]
+  if (!confirm("Reset progress for this deck? Cards marked 'Got It' will return to the rotation.")) return;
+  // Clear known for cards currently in this deck scope
+  const scope = activeDeck === "all"
+    ? TERM_DECKS
     : TERM_DECKS.filter(c => c.cat === activeDeck);
+  scope.forEach(c => {
+    known.delete(cardKey(c));
+    review.delete(cardKey(c));
+  });
+  saveProgress();
   index = 0;
+  reviewOnlyMode = false;
+  renderTermCard();
+});
+
+/* NEW: Review-only mode */
+document.getElementById('reviewOnlyBtn').addEventListener('click', () => {
+  reviewOnlyMode = !reviewOnlyMode;
+  index = 0;
+  if (reviewOnlyMode && review.size === 0) {
+    alert("You haven't marked any cards as 'Still Learning' yet. Use the 'Still Learning' button to add some.");
+    reviewOnlyMode = false;
+  }
+  renderTermCard();
+});
+
+/* NEW: Clear all progress */
+document.getElementById('clearProgressBtn').addEventListener('click', () => {
+  if (!confirm("Clear ALL progress? This will reset every deck. This cannot be undone.")) return;
   known.clear();
   review.clear();
+  saveProgress();
+  index = 0;
+  reviewOnlyMode = false;
+  renderTermCard();
+});
+
+/* NEW: Completion screen buttons */
+document.getElementById('resetFromCompleteBtn').addEventListener('click', () => {
+  document.getElementById('termResetBtn').click();
+});
+
+document.getElementById('reviewMissedFromCompleteBtn').addEventListener('click', () => {
+  reviewOnlyMode = true;
+  index = 0;
   renderTermCard();
 });
 
