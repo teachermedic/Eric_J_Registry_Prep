@@ -13,8 +13,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
-    <script data-goatcounter="https://teachermedic.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 <body>
     <div class="ad-banner">
         Advertise Here! Email me at <a href="mailto:teachermedic84@gmail.com">teachermedic84@gmail.com</a>
@@ -26,98 +24,112 @@
         </button>
     </div>
 
-    <div id="quiz-container">
-        <h1>
-            Eric J's Field Notes 
-            <img src="AoEHeadshot.png" alt="Field Notes Logo" style="height: 2.5em; vertical-align: middle; margin-left: 10px; border-radius: 4px;">
-        </h1>
-        <h2 class="subtitle">National Registry and Exam Prep</h2>
-        
-        <div id="setup-area">
-            <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
-                <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
-                    <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
-                    <span style="font-weight: bold; color: #e65100;">Daily Streak: <span id="streak-count">0</span> Days</span>
+    <!-- NEW: Flex wrapper for sidebar layout -->
+    <div class="page-layout">
+
+        <!-- Main content -->
+        <main class="main-content">
+            <div id="quiz-container">
+                <h1>
+                    Eric J's Field Notes 
+                    <img src="img/AoEHeadshot.png" alt="Field Notes Logo" style="height: 2.5em; vertical-align: middle; margin-left: 10px; border-radius: 4px;">
+                </h1>
+                <h2 class="subtitle">National Registry and Exam Prep</h2>
+                
+                <div id="setup-area">
+                    <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
+                        <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
+                            <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
+                            <span style="font-weight: bold; color: #e65100;">Daily Streak: <span id="streak-count">0</span> Days</span>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
+                    
+                    <div style="margin-bottom: 20px; text-align: center;">
+                        <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
+                        <select id="topic-select" onchange="adjustSliderRange()" style="width: 95%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem; cursor: pointer;">
+                            <option value="All">Comprehensive (All Content)</option>
+                            <option value="Foundations">Foundations</option>
+                            <option value="Pathophysiology">Pathophysiology</option>
+                            <option value="Medical">Medical Emergencies</option>
+                            <option value="Trauma">Trauma & Environmental</option>
+                            <option value="OBPeds">OB/GYN & Pediatrics</option>
+                            <option value="Terminology">Medical Terminology (Open Text)</option>
+                            <option value="Physician">Make Me a Physician (Elite Study)</option>
+                        </select>
+                    </div>
+
+                    <div id="slider-box">
+                        <label for="question-slider">
+                            Questions: <span id="question-count-label">20</span>
+                        </label>
+                        <input type="range" id="question-slider" min="5" max="100" value="20" step="1" oninput="updateSliderLabel(this.value)">
+                        <p id="time-estimate">
+                            <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
+                            Estimated Pacing: <span id="time-estimate-label">40</span> minutes
+                        </p>
+                    </div>
+
+                    <button class="mode-btn" onclick="startQuiz('review')">
+                        <span class="material-icons">menu_book</span> Option 1: Review Mode
+                    </button>
+                    <div style="height: 15px;"></div>
+                    <button class="mode-btn" onclick="startQuiz('exam')">
+                        <span class="material-icons">timer</span> Option 2: Exam Mode
+                    </button>
+                    <div style="height: 15px;"></div>
+                    <button class="mode-btn" onclick="window.location.href='flashcards.html'" style="background-color: var(--accent-blue);">
+                        <span class="material-icons">layers</span> Option 3: Active Recall Flashcards
+                    </button>
+                    <div style="height: 15px;"></div>
+                    <button class="mode-btn" onclick="window.location.href='terminology-decks.html'" style="background-color: #06402b;">
+                        <span class="material-icons">menu_book</span> Option 4: Terminology Decks
+                    </button>
+                    <div style="height: 15px;"></div>
+                    <button class="mode-btn" onclick="window.location.href='anatomy/'" style="background-color: #7a4a05;">
+                        <span class="material-icons">accessibility_new</span> Option 5: Human Anatomy Atlas
+                    </button>
+                </div>
+
+                <div id="quiz-area" style="display:none;">
+                    <div id="timer-container">Time Remaining: <span id="timer-display">00:00</span></div>
+                    <div id="progress"></div>
+                    <div id="question-text"></div>
+                    <div id="options-container"></div>
+                    <button id="action-btn" onclick="handleAction()">Submit Answer</button>
+                    <div id="feedback"></div>
+                </div>
+
+                <div id="results-area" style="display:none;">
+                    <h2>Assessment Complete</h2>
+                    <div id="final-results-card">
+                        <p id="score-display"></p>
+                        <p id="percentage-display"></p>
+                        <div id="category-breakdown"></div>
+                        <p id="pass-status"></p>
+                    </div>
+                    
+                    <iframe src="https://ericjm.substack.com/embed" width="100%" height="320" style="margin-top:20px; border:1px solid #EEE; border-radius:12px;" frameborder="0" scrolling="no"></iframe>
+                    
+                    <button id="missed-drill-btn" onclick="startMissedDrill()">
+                        <span class="material-icons">error_outline</span> Re-drill Missed Questions
+                    </button>
+                    <button id="new-session-btn" onclick="location.reload()">
+                        <span class="material-icons" style="vertical-align: middle;">refresh</span> New Session
+                    </button>
                 </div>
             </div>
+        </main>
 
-            <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
-            
-            <div style="margin-bottom: 20px; text-align: center;">
-                <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
-                <select id="topic-select" onchange="adjustSliderRange()" style="width: 95%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem; cursor: pointer;">
-                    <option value="All">Comprehensive (All Content)</option>
-                    <option value="Foundations">Foundations</option>
-                    <option value="Pathophysiology">Pathophysiology</option>
-                    <option value="Medical">Medical Emergencies</option>
-                    <option value="Trauma">Trauma & Environmental</option>
-                    <option value="OBPeds">OB/GYN & Pediatrics</option>
-                    <option value="Terminology">Medical Terminology (Open Text)</option>
-                    <!--<option value="Physician">Make Me a Physician (Elite Study)</option>-->
-                </select>
-            </div>
+        <!-- Sidebar -->
+        <aside id="substack-sidebar">
+            <h3>📖 Latest from Field Notes</h3>
+            <ul id="substack-posts">
+                <li class="loading">Loading posts…</li>
+            </ul>
+        </aside>
 
-            <div id="slider-box">
-                <label for="question-slider">
-                    Questions: <span id="question-count-label">20</span>
-                </label>
-                <input type="range" id="question-slider" min="5" max="100" value="20" step="1" oninput="updateSliderLabel(this.value)">
-                <p id="time-estimate">
-                    <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">schedule</span> 
-                    Estimated Pacing: <span id="time-estimate-label">40</span> minutes
-                </p>
-            </div>
-
-            <button class="mode-btn" onclick="startQuiz('review')">
-                <span class="material-icons">menu_book</span> Option 1: Review Mode
-            </button>
-            <div style="height: 15px;"></div>
-            <button class="mode-btn" onclick="startQuiz('exam')">
-                <span class="material-icons">timer</span> Option 2: Exam Mode
-            </button>
-
-        <div style="height: 15px;"></div>
-<button class="mode-btn" onclick="window.location.href='flashcards.html'" style="background-color: var(--accent-blue);">
-    <span class="material-icons">layers</span> Option 3: Active Recall Flashcards
-</button>
-
-<div style="height: 15px;"></div>
-<button class="mode-btn" onclick="window.location.href='terminology-decks.html'" style="background-color: #06402b;">
-    <span class="material-icons">menu_book</span> Option 4: Terminology Decks
-</button>
-</div>
-        <div style="height: 8px;"></div>
-<button class="mode-btn" onclick="window.location.href='anatomy/'" style="background-color: #7a4a05;">
-    <span class="material-icons">accessibility_new</span> Option 5: Human Anatomy Atlas
-</button>
-
-        <div id="quiz-area" style="display:none;">
-            <div id="timer-container">Time Remaining: <span id="timer-display">00:00</span></div>
-            <div id="progress"></div>
-            <div id="question-text"></div>
-            <div id="options-container"></div>
-            <button id="action-btn" onclick="handleAction()">Submit Answer</button>
-            <div id="feedback"></div>
-        </div>
-
-        <div id="results-area" style="display:none;">
-            <h2>Assessment Complete</h2>
-            <div id="final-results-card">
-                <p id="score-display"></p>
-                <p id="percentage-display"></p>
-                <div id="category-breakdown"></div>
-                <p id="pass-status"></p>
-            </div>
-            
-            <iframe src="https://ericjm.substack.com/embed" width="100%" height="320" style="margin-top:20px; border:1px solid #EEE; border-radius:12px;" frameborder="0" scrolling="no"></iframe>
-            
-            <button id="missed-drill-btn" onclick="startMissedDrill()">
-                <span class="material-icons">error_outline</span> Re-drill Missed Questions
-            </button>
-            <button id="new-session-btn" onclick="location.reload()">
-                <span class="material-icons" style="vertical-align: middle;">refresh</span> New Session
-            </button>
-        </div>
     </div>
 
     <div id="fieldNoteModal" class="modal">
@@ -132,11 +144,127 @@
         Powered by Eric J's Field Notes at 
         <a href="https://ericjm.substack.com/" target="_blank">https://ericjm.substack.com/</a>
     </div>
-<div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
-    <a href="https://hits.sh/teachermedic.github.io/Eric_J_Registry_Prep/">
-        <img alt="Hits" src="https://hits.sh/teachermedic.github.io/Eric_J_Registry_Prep.svg"/>
-    </a>
-</div>
+
+    <!-- Substack Sidebar Styles -->
+    <style>
+    /* ---------- SIDEBAR LAYOUT ---------- */
+    .page-layout {
+        display: flex;
+        gap: 24px;
+        max-width: 1200px;
+        width: 95%;
+        margin: 0 auto;
+        padding: 0 8px;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .main-content {
+        flex: 1;
+        min-width: 0; /* prevents flex overflow */
+    }
+
+    /* Override the default quiz-container centering since we're in a flex layout now */
+    .main-content #quiz-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Sidebar */
+    #substack-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 20px;
+        padding: 20px 22px;
+        background: #f3f1ec;
+        border: 1px solid #d6d3d1;
+        border-radius: 12px;
+        box-sizing: border-box;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+
+    #substack-sidebar h3 {
+        margin: 0 0 14px 0;
+        color: var(--primary-blue);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    #substack-posts { list-style: none; padding: 0; margin: 0; }
+    #substack-posts li { padding: 10px 0; border-bottom: 1px solid #e5e2dc; }
+    #substack-posts li:last-child { border-bottom: none; padding-bottom: 0; }
+    #substack-posts li.loading, #substack-posts li.error {
+        color: var(--text-muted); font-size: 0.85rem; font-style: italic; padding: 6px 0;
+    }
+    #substack-posts li.error { color: #b45309; font-style: normal; }
+    #substack-posts a {
+        color: var(--text-main); text-decoration: none; font-size: 0.88rem;
+        font-weight: 500; line-height: 1.35; display: block; transition: color 0.15s ease;
+    }
+    #substack-posts a:hover { color: var(--primary-blue); }
+    #substack-posts .post-date {
+        display: block; color: var(--text-muted); font-size: 0.7rem; margin-top: 3px;
+    }
+
+    /* ---------- RESPONSIVE: Stack on smaller screens ---------- */
+    @media (max-width: 1100px) {
+        .page-layout {
+            flex-direction: column;
+            gap: 20px;
+        }
+        #substack-sidebar {
+            width: 100%;
+            position: static;
+            max-height: none;
+            margin-top: 20px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        #substack-sidebar {
+            padding: 16px 18px;
+        }
+        #substack-sidebar h3 {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        #substack-posts a { font-size: 0.85rem; }
+        #substack-posts .post-date { font-size: 0.66rem; }
+    }
+    </style>
+
+    <script>
+    async function loadSubstackPosts() {
+        const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fericjm.substack.com%2Ffeed';
+        const list = document.getElementById('substack-posts');
+        try {
+            const res = await fetch(apiUrl);
+            const data = await res.json();
+            if (!data.items || data.items.length === 0) {
+                list.innerHTML = '<li class="error">No posts found.</li>';
+                return;
+            }
+            const posts = data.items.slice(0, 5);
+            list.innerHTML = posts.map(post => `
+                <li>
+                    <a href="${post.link}" target="_blank" rel="noopener">${post.title}</a>
+                    <span class="post-date">${new Date(post.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                </li>
+            `).join('');
+        } catch (err) {
+            console.error('Substack feed failed:', err);
+            list.innerHTML = '<li class="error">Could not load posts.</li>';
+        }
+    }
+    loadSubstackPosts();
+    </script>
+
     <script src="script.js"></script>
 
 </body>
