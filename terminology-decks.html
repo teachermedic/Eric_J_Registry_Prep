@@ -39,7 +39,6 @@
     padding: 24px 16px;
   }
 
-  /* ---------- HEADER ---------- */
   header.term-header {
     width: 100%;
     max-width: 720px;
@@ -75,7 +74,6 @@
     transform: translateY(-1px);
   }
 
-  /* ---------- DECK SELECTOR ---------- */
   .deck-selector {
     width: 100%;
     max-width: 720px;
@@ -108,7 +106,6 @@
     border-color: var(--accent);
   }
 
-  /* NEW: badge showing review count on each tab */
   .deck-tab .tab-badge {
     display: inline-block;
     background: var(--review);
@@ -125,7 +122,6 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* ---------- PROGRESS ---------- */
   .term-progress-bar {
     width: 100%;
     max-width: 720px;
@@ -153,7 +149,6 @@
     margin-bottom: 24px;
   }
 
-  /* ---------- CARD ---------- */
   .term-card-container {
     perspective: 1200px;
     width: 100%;
@@ -197,7 +192,6 @@
     transform: rotateY(180deg);
   }
 
-  /* NEW: little badge on cards that are in review */
   .term-card-review-badge {
     position: absolute;
     top: 16px;
@@ -264,7 +258,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* ---------- CONTROLS ---------- */
   .term-controls {
     width: 100%;
     max-width: 720px;
@@ -301,7 +294,6 @@
   .btn-shuffle { background: var(--shuffle); }
   .btn-reset { background: var(--reset); }
 
-  /* ---------- STATS ---------- */
   .term-stats {
     width: 100%;
     max-width: 720px;
@@ -322,7 +314,6 @@
   .term-stat.known .num { color: var(--correct); }
   .term-stat.review .num { color: var(--review); }
 
-  /* NEW: secondary controls row */
   .term-secondary-controls {
     width: 100%;
     max-width: 720px;
@@ -351,7 +342,6 @@
     color: var(--accent);
   }
 
-  /* ---------- COMPLETION SCREEN ---------- */
   .completion-screen {
     width: 100%;
     max-width: 720px;
@@ -387,7 +377,6 @@
 
   .completion-screen button:hover { transform: translateY(-1px); opacity: 0.92; }
 
-  /* Hide card area when complete */
   .deck-finished .term-card-container,
   .deck-finished .term-controls,
   .deck-finished .term-progress-bar,
@@ -412,7 +401,6 @@
   </a>
 </header>
 
-<!-- Deck selector -->
 <div class="deck-selector" id="deckSelector">
   <button class="deck-tab active" data-deck="all">All Terms</button>
   <button class="deck-tab" data-deck="prefix">Prefixes</button>
@@ -426,7 +414,6 @@
   <span id="termDeckLabel">All Terms</span>
 </div>
 
-<!-- Completion screen (NEW) -->
 <div class="completion-screen" id="completionScreen">
   <div class="emoji">🎉</div>
   <h2>Deck Complete!</h2>
@@ -465,7 +452,6 @@
   <button class="btn-reset" id="termResetBtn">↻ Reset Deck</button>
 </div>
 
-<!-- NEW: secondary controls -->
 <div class="term-secondary-controls">
   <button id="reviewOnlyBtn">📚 Review Only (Still Learning)</button>
   <button id="clearProgressBtn">🗑️ Clear All Progress</button>
@@ -489,9 +475,14 @@
 <script>
 /* ============================================================
    TERMINOLOGY DECKS DATA
+   Cleaned up: no duplicates, correct category assignments
+   Categories: "prefix", "suffix", "root"
    ============================================================ */
 const TERM_DECKS = [
-  // ---------- PREFIXES ----------
+
+  /* ============================================================
+     PREFIXES (25 cards)
+     ============================================================ */
   { cat: "prefix", term: "Bradycardia", sub: "Prefix + Root + Suffix",
     def: "Abnormally slow heart rate (typically under 60 bpm).",
     breakdown: "<span>brady-</span> = slow • <span>cardi</span> = heart • <span>-ia</span> = condition" },
@@ -507,404 +498,167 @@ const TERM_DECKS = [
   { cat: "prefix", term: "Hyperglycemia", sub: "Prefix + Root + Suffix",
     def: "High blood sugar.",
     breakdown: "<span>hyper-</span> = high • <span>glyc</span> = sugar • <span>-emia</span> = blood condition" },
-  { cat: "prefix", term: "Dyspnea", sub: "Prefix + Root",
+  { cat: "prefix", term: "Dyspnea", sub: "Prefix + Suffix",
     def: "Difficulty breathing or shortness of breath.",
     breakdown: "<span>dys-</span> = difficult • <span>-pnea</span> = breathing" },
-  { cat: "prefix", term: "Apnea", sub: "Prefix + Root",
+  { cat: "prefix", term: "Apnea", sub: "Prefix + Suffix",
     def: "Absence of breathing.",
     breakdown: "<span>a-</span> = without • <span>-pnea</span> = breathing" },
-  { cat: "prefix", term: "Tachypnea", sub: "Prefix + Root",
+  { cat: "prefix", term: "Tachypnea", sub: "Prefix + Suffix",
     def: "Abnormally rapid breathing.",
     breakdown: "<span>tachy-</span> = fast • <span>-pnea</span> = breathing" },
-  { cat: "prefix", term: "Bradypnea", sub: "Prefix + Root",
+  { cat: "prefix", term: "Bradypnea", sub: "Prefix + Suffix",
     def: "Abnormally slow breathing.",
     breakdown: "<span>brady-</span> = slow • <span>-pnea</span> = breathing" },
   { cat: "prefix", term: "Aphasia", sub: "Prefix + Root + Suffix",
     def: "Loss of ability to understand or express speech.",
     breakdown: "<span>a-</span> = without • <span>phas</span> = speech • <span>-ia</span> = condition" },
+  { cat: "prefix", term: "Antibiotic", sub: "Prefix + Root + Suffix",
+    def: "A medication that kills or inhibits bacteria.",
+    breakdown: "<span>anti-</span> = against • <span>biot</span> = life • <span>-ic</span> = pertaining to" },
+  { cat: "prefix", term: "Anticoagulant", sub: "Prefix + Root + Suffix",
+    def: "A substance that prevents blood clotting.",
+    breakdown: "<span>anti-</span> = against • <span>coagul</span> = clotting • <span>-ant</span> = agent" },
+  { cat: "prefix", term: "Antihypertensive", sub: "Prefix + Root + Suffix",
+    def: "A medication that lowers blood pressure.",
+    breakdown: "<span>anti-</span> = against • <span>hyper-</span> = high • <span>tens</span> = pressure • <span>-ive</span> = agent" },
+  { cat: "prefix", term: "Antipyretic", sub: "Prefix + Root + Suffix",
+    def: "A medication that reduces fever.",
+    breakdown: "<span>anti-</span> = against • <span>pyret</span> = fever • <span>-ic</span> = pertaining to" },
+  { cat: "prefix", term: "Antiseptic", sub: "Prefix + Root + Suffix",
+    def: "A substance that inhibits the growth of microorganisms on living tissue.",
+    breakdown: "<span>anti-</span> = against • <span>sept</span> = infection • <span>-ic</span> = pertaining to" },
+  { cat: "prefix", term: "Antitussive", sub: "Prefix + Root + Suffix",
+    def: "A medication that suppresses coughing.",
+    breakdown: "<span>anti-</span> = against • <span>tuss</span> = cough • <span>-ive</span> = agent" },
+  { cat: "prefix", term: "Bilateral", sub: "Prefix + Root + Suffix",
+    def: "Relating to or affecting both sides of the body.",
+    breakdown: "<span>bi-</span> = two • <span>later</span> = side • <span>-al</span> = pertaining to" },
+  { cat: "prefix", term: "Unilateral", sub: "Prefix + Root + Suffix",
+    def: "Relating to or affecting one side of the body.",
+    breakdown: "<span>uni-</span> = one • <span>later</span> = side • <span>-al</span> = pertaining to" },
+  { cat: "prefix", term: "Contralateral", sub: "Prefix + Root + Suffix",
+    def: "Relating to the opposite side of the body.",
+    breakdown: "<span>contra-</span> = opposite • <span>later</span> = side • <span>-al</span> = pertaining to" },
+  { cat: "prefix", term: "Ipsilateral", sub: "Prefix + Root + Suffix",
+    def: "Relating to the same side of the body.",
+    breakdown: "<span>ipsi-</span> = same • <span>later</span> = side • <span>-al</span> = pertaining to" },
+  { cat: "prefix", term: "Hypercapnia", sub: "Prefix + Root + Suffix",
+    def: "Excessive carbon dioxide in the bloodstream.",
+    breakdown: "<span>hyper-</span> = high • <span>capn</span> = carbon dioxide • <span>-ia</span> = condition" },
+  { cat: "prefix", term: "Hypocapnia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally low carbon dioxide in the bloodstream.",
+    breakdown: "<span>hypo-</span> = low • <span>capn</span> = carbon dioxide • <span>-ia</span> = condition" },
+  { cat: "prefix", term: "Hyperkalemia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally high potassium in the blood.",
+    breakdown: "<span>hyper-</span> = high • <span>kal</span> = potassium • <span>-emia</span> = blood condition" },
+  { cat: "prefix", term: "Hypokalemia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally low potassium in the blood.",
+    breakdown: "<span>hypo-</span> = low • <span>kal</span> = potassium • <span>-emia</span> = blood condition" },
+  { cat: "prefix", term: "Hypothermia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally low body temperature.",
+    breakdown: "<span>hypo-</span> = low • <span>therm</span> = heat • <span>-ia</span> = condition" },
 
-  // ---------- SUFFIXES ----------
+  /* ============================================================
+     SUFFIXES (50 cards)
+     ============================================================ */
   { cat: "suffix", term: "Cardiology", sub: "Root + Suffix",
     def: "The study of the heart.",
     breakdown: "<span>cardi</span> = heart • <span>-ology</span> = study of" },
   { cat: "suffix", term: "Neurology", sub: "Root + Suffix",
     def: "The study of the nervous system.",
     breakdown: "<span>neur</span> = nerve • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Hematology", sub: "Root + Suffix",
+    def: "The study of blood, blood-forming organs, and blood diseases.",
+    breakdown: "<span>hemat</span> = blood • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Pathology", sub: "Root + Suffix",
+    def: "The study of disease — its causes, nature, and effects.",
+    breakdown: "<span>path</span> = disease • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Radiology", sub: "Root + Suffix",
+    def: "The study and use of medical imaging (X-rays, CT, MRI).",
+    breakdown: "<span>radi</span> = radiation • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Oncology", sub: "Root + Suffix",
+    def: "The study and treatment of tumors and cancer.",
+    breakdown: "<span>onc</span> = tumor • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Pulmonology", sub: "Root + Suffix",
+    def: "The study of the lungs and respiratory system.",
+    breakdown: "<span>pulmon</span> = lung • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Nephrology", sub: "Root + Suffix",
+    def: "The study of kidney function and kidney disease.",
+    breakdown: "<span>nephr</span> = kidney • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Gastroenterology", sub: "Root + Root + Suffix",
+    def: "The study of the stomach and intestines.",
+    breakdown: "<span>gastr</span> = stomach • <span>enter</span> = intestine • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Endocrinology", sub: "Root + Root + Suffix",
+    def: "The study of hormones and endocrine glands.",
+    breakdown: "<span>endo-</span> = within • <span>crin</span> = secrete • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Anesthesiology", sub: "Prefix + Root + Suffix",
+    def: "The branch of medicine dealing with anesthesia and pain management.",
+    breakdown: "<span>an-</span> = without • <span>esthesia</span> = sensation • <span>-ology</span> = study of" },
   { cat: "suffix", term: "Dermatitis", sub: "Root + Suffix",
     def: "Inflammation of the skin.",
     breakdown: "<span>dermat</span> = skin • <span>-itis</span> = inflammation" },
-  { cat: "suffix", term: "Appendectomy", sub: "Root + Suffix",
-    def: "Surgical removal of the appendix.",
-    breakdown: "<span>append</span> = appendix • <span>-ectomy</span> = surgical removal" },
   { cat: "suffix", term: "Gastritis", sub: "Root + Suffix",
     def: "Inflammation of the stomach lining.",
     breakdown: "<span>gastr</span> = stomach • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Hepatitis", sub: "Root + Suffix",
+    def: "Inflammation of the liver.",
+    breakdown: "<span>hepat</span> = liver • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Bronchitis", sub: "Root + Suffix",
+    def: "Inflammation of the bronchial tubes.",
+    breakdown: "<span>bronch</span> = bronchus • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Peritonitis", sub: "Root + Suffix",
+    def: "Inflammation of the peritoneum (abdominal lining).",
+    breakdown: "<span>periton</span> = peritoneum • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Meningitis", sub: "Root + Suffix",
+    def: "Inflammation of the meninges (membranes around the brain and spinal cord).",
+    breakdown: "<span>mening</span> = meninges • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Arthritis", sub: "Root + Suffix",
+    def: "Inflammation of one or more joints.",
+    breakdown: "<span>arthr</span> = joint • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Colitis", sub: "Root + Suffix",
+    def: "Inflammation of the colon.",
+    breakdown: "<span>col</span> = colon • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Cystitis", sub: "Root + Suffix",
+    def: "Inflammation of the bladder.",
+    breakdown: "<span>cyst</span> = bladder • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Phlebitis", sub: "Root + Suffix",
+    def: "Inflammation of a vein.",
+    breakdown: "<span>phleb</span> = vein • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Appendectomy", sub: "Root + Suffix",
+    def: "Surgical removal of the appendix.",
+    breakdown: "<span>append</span> = appendix • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Splenectomy", sub: "Root + Suffix",
+    def: "Surgical removal of the spleen.",
+    breakdown: "<span>splen</span> = spleen • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Hysterectomy", sub: "Root + Suffix",
+    def: "Surgical removal of the uterus.",
+    breakdown: "<span>hyster</span> = uterus • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Mastectomy", sub: "Root + Suffix",
+    def: "Surgical removal of a breast.",
+    breakdown: "<span>mast</span> = breast • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Cholecystectomy", sub: "Root + Root + Suffix",
+    def: "Surgical removal of the gallbladder.",
+    breakdown: "<span>chole</span> = bile • <span>cyst</span> = bladder • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Gastrectomy", sub: "Root + Suffix",
+    def: "Surgical removal of part or all of the stomach.",
+    breakdown: "<span>gastr</span> = stomach • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Nephrectomy", sub: "Root + Suffix",
+    def: "Surgical removal of a kidney.",
+    breakdown: "<span>nephr</span> = kidney • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Craniotomy", sub: "Root + Suffix",
+    def: "Surgical opening of the skull.",
+    breakdown: "<span>crani</span> = skull • <span>-otomy</span> = surgical incision" },
+  { cat: "suffix", term: "Tracheotomy", sub: "Root + Suffix",
+    def: "Surgical incision into the trachea to create an airway.",
+    breakdown: "<span>trache</span> = windpipe • <span>-otomy</span> = surgical incision" },
+  { cat: "suffix", term: "Colostomy", sub: "Root + Suffix",
+    def: "Surgical creation of an opening from the colon through the abdominal wall.",
+    breakdown: "<span>col</span> = colon • <span>-ostomy</span> = surgical opening" },
+  { cat: "suffix", term: "Tracheostomy", sub: "Root + Suffix",
+    def: "Surgical creation of a stoma in the trachea for breathing.",
+    breakdown: "<span>trache</span> = windpipe • <span>-ostomy</span> = surgical opening" },
   { cat: "suffix", term: "Hepatomegaly", sub: "Root + Suffix",
     def: "Enlargement of the liver.",
     breakdown: "<span>hepat</span> = liver • <span>-megaly</span> = enlargement" },
-  { cat: "suffix", term: "Cyanosis", sub: "Root + Suffix",
-    def: "Bluish discoloration of the skin due to lack of oxygen.",
-    breakdown: "<span>cyan</span> = blue • <span>-osis</span> = condition" },
-  { cat: "suffix", term: "Nephropathy", sub: "Root + Suffix",
-    def: "Disease of the kidney.",
-    breakdown: "<span>nephr</span> = kidney • <span>-pathy</span> = disease" },
-  { cat: "suffix", term: "Osteoporosis", sub: "Root + Suffix",
-    def: "Condition of porous, weakened bones.",
-    breakdown: "<span>oste</span> = bone • <span>por</span> = pore • <span>-osis</span> = condition" },
-  { cat: "suffix", term: "Hypoxia", sub: "Prefix + Root + Suffix",
-    def: "Low oxygen levels in body tissues.",
-    breakdown: "<span>hypo-</span> = low • <span>ox</span> = oxygen • <span>-ia</span> = condition" },
-
-  // ---------- ROOTS ----------
-  { cat: "root", term: "Pneumothorax", sub: "Root + Root",
-    def: "Air in the chest cavity causing lung collapse.",
-    breakdown: "<span>pneumo</span> = air/lung • <span>thorax</span> = chest" },
-  { cat: "root", term: "Hemoptysis", sub: "Root + Suffix",
-    def: "Coughing up blood from the respiratory tract.",
-    breakdown: "<span>hemo</span> = blood • <span>-ptysis</span> = spitting" },
-  { cat: "root", term: "Hematemesis", sub: "Root + Suffix",
-    def: "Vomiting blood.",
-    breakdown: "<span>hemat</span> = blood • <span>-emesis</span> = vomiting" },
-  { cat: "root", term: "Myocardial Infarction", sub: "Root + Root",
-    def: "Heart attack — death of heart muscle from lack of blood flow.",
-    breakdown: "<span>myo</span> = muscle • <span>cardi</span> = heart • <span>infarct</span> = tissue death" },
-  { cat: "root", term: "Cerebrovascular Accident", sub: "Root + Root + Root",
-    def: "Stroke — interrupted blood flow to the brain.",
-    breakdown: "<span>cerebr</span> = brain • <span>vascul</span> = vessel • <span>accident</span> = event" },
-  { cat: "root", term: "Gastroesophageal Reflux", sub: "Root + Root",
-    def: "Stomach acid flowing back into the esophagus (GERD).",
-    breakdown: "<span>gastr</span> = stomach • <span>esophag</span> = esophagus • <span>reflux</span> = backflow" },
-  { cat: "root", term: "Leukocyte", sub: "Root + Root",
-    def: "White blood cell — part of the immune system.",
-    breakdown: "<span>leuko</span> = white • <span>cyt</span> = cell" },
-  { cat: "root", term: "Erythrocyte", sub: "Root + Root",
-    def: "Red blood cell — carries oxygen.",
-    breakdown: "<span>erythro</span> = red • <span>cyt</span> = cell" },
-  { cat: "root", term: "Thrombocytopenia", sub: "Root + Root + Suffix",
-    def: "Low platelet count — risk of bleeding.",
-    breakdown: "<span>thromb</span> = clot • <span>cyto</span> = cell • <span>-penia</span> = deficiency" },
-  { cat: "root", term: "Otitis Media", sub: "Root + Suffix + Root",
-    def: "Middle ear infection.",
-    breakdown: "<span>ot</span> = ear • <span>-itis</span> = inflammation • <span>media</span> = middle" },
-];
-
-/* ============================================================
-   STORAGE — Persist progress across sessions
-   ============================================================ */
-const STORAGE_KEY = "terminology-decks-progress-v1";
-
-function loadProgress() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { known: {}, review: {} };
-    const parsed = JSON.parse(raw);
-    return {
-      known: parsed.known || {},
-      review: parsed.review || {}
-    };
-  } catch (err) {
-    console.warn("Could not load progress:", err);
-    return { known: {}, review: {} };
-  }
-}
-
-function saveProgress() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      known: Object.fromEntries([...known].map(k => [k, true])),
-      review: Object.fromEntries([...review].map(k => [k, true]))
-    }));
-  } catch (err) {
-    console.warn("Could not save progress:", err);
-  }
-}
-
-/* ============================================================
-   STATE
-   ============================================================ */
-let activeDeck = "all";
-let deck = [...TERM_DECKS];
-let index = 0;
-
-// Persisted sets — keyed by "cat|term" so different decks don't collide
-const persisted = loadProgress();
-let known = new Set(Object.keys(persisted.known));
-let review = new Set(Object.keys(persisted.review));
-
-// Track the previous "review-only" mode
-let reviewOnlyMode = false;
-
-/* ============================================================
-   DOM
-   ============================================================ */
-const termCard = document.getElementById('termCard');
-const termText = document.getElementById('termText');
-const termSub = document.getElementById('termSub');
-const termDef = document.getElementById('termDef');
-const termBreakdown = document.getElementById('termBreakdown');
-const termCardCounter = document.getElementById('termCardCounter');
-const termProgressFill = document.getElementById('termProgressFill');
-const termKnownCount = document.getElementById('termKnownCount');
-const termReviewCount = document.getElementById('termReviewCount');
-const termRemainingCount = document.getElementById('termRemainingCount');
-const termDeckLabel = document.getElementById('termDeckLabel');
-const cardReviewBadge = document.getElementById('cardReviewBadge');
-const completionScreen = document.getElementById('completionScreen');
-const completionMessage = document.getElementById('completionMessage');
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
-function cardKey(card) {
-  return `${card.cat}|${card.term}`;
-}
-
-function getFilteredDeck() {
-  let base = activeDeck === "all"
-    ? [...TERM_DECKS]
-    : TERM_DECKS.filter(c => c.cat === activeDeck);
-
-  if (reviewOnlyMode) {
-    // Only cards currently marked "still learning"
-    base = base.filter(c => review.has(cardKey(c)));
-  } else {
-    // Default: hide cards already marked "known"
-    base = base.filter(c => !known.has(cardKey(c)));
-  }
-
-  return base;
-}
-
-function updateDeckTabBadges() {
-  document.querySelectorAll('.deck-tab').forEach(tab => {
-    const cat = tab.dataset.deck;
-    let count;
-    if (cat === "all") {
-      count = TERM_DECKS.filter(c => review.has(cardKey(c))).length;
-    } else {
-      count = TERM_DECKS.filter(c => c.cat === cat && review.has(cardKey(c))).length;
-    }
-
-    // Remove any existing badge
-    const existing = tab.querySelector('.tab-badge');
-    if (existing) existing.remove();
-
-    if (count > 0) {
-      const badge = document.createElement('span');
-      badge.className = 'tab-badge';
-      badge.textContent = count;
-      tab.appendChild(badge);
-    }
-  });
-}
-
-/* ============================================================
-   RENDER
-   ============================================================ */
-function renderTermCard() {
-  // Refresh deck from filters
-  deck = getFilteredDeck();
-
-  // If nothing left in the current deck, show completion screen
-  if (deck.length === 0) {
-    showCompletionScreen();
-    return;
-  }
-
-  hideCompletionScreen();
-
-  // Clamp index
-  if (index >= deck.length) index = 0;
-  if (index < 0) index = deck.length - 1;
-
-  const c = deck[index];
-  termText.textContent = c.term;
-  termSub.textContent = c.sub || '';
-  termDef.textContent = c.def;
-  termBreakdown.innerHTML = c.breakdown || '';
-
-  termCard.classList.remove('flipped');
-
-  // Show "Still Learning" badge if this card is in the review set
-  if (review.has(cardKey(c))) {
-    cardReviewBadge.style.display = 'block';
-  } else {
-    cardReviewBadge.style.display = 'none';
-  }
-
-  termCardCounter.textContent = `Card ${index + 1} of ${deck.length}`;
-  termProgressFill.style.width = `${((index + 1) / deck.length) * 100}%`;
-
-  termKnownCount.textContent = known.size;
-  termReviewCount.textContent = review.size;
-  termRemainingCount.textContent = deck.length;
-
-  const labels = { all: "All Terms", prefix: "Prefixes", suffix: "Suffixes", root: "Root Words" };
-  termDeckLabel.textContent = reviewOnlyMode
-    ? "Review Mode — Still Learning"
-    : (labels[activeDeck] || "All Terms");
-
-  updateDeckTabBadges();
-}
-
-function showCompletionScreen() {
-  termCard.classList.remove('flipped');
-  document.body.classList.add('deck-finished');
-  completionScreen.classList.add('visible');
-
-  if (reviewOnlyMode) {
-    completionMessage.textContent = "You've cleared your review list! Nothing is marked 'Still Learning' right now.";
-    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'none';
-  } else if (review.size > 0) {
-    completionMessage.textContent = `You've mastered this deck! You still have ${review.size} card${review.size === 1 ? '' : 's'} marked "Still Learning."`;
-    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'inline-block';
-  } else {
-    completionMessage.textContent = "You've mastered every card in this deck. Outstanding work!";
-    document.getElementById('reviewMissedFromCompleteBtn').style.display = 'none';
-  }
-
-  termProgressFill.style.width = '100%';
-  termKnownCount.textContent = known.size;
-  termReviewCount.textContent = review.size;
-  termRemainingCount.textContent = 0;
-}
-
-function hideCompletionScreen() {
-  document.body.classList.remove('deck-finished');
-  completionScreen.classList.remove('visible');
-}
-
-/* ============================================================
-   DECK SWITCHING
-   ============================================================ */
-document.querySelectorAll('.deck-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.deck-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-
-    activeDeck = tab.dataset.deck;
-    reviewOnlyMode = false;
-    index = 0;
-    renderTermCard();
-  });
-});
-
-/* ============================================================
-   ACTIONS
-   ============================================================ */
-termCard.addEventListener('click', () => termCard.classList.toggle('flipped'));
-
-document.getElementById('termNextBtn').addEventListener('click', () => {
-  if (deck.length === 0) return;
-  index = (index + 1) % deck.length;
-  renderTermCard();
-});
-
-document.getElementById('termPrevBtn').addEventListener('click', () => {
-  if (deck.length === 0) return;
-  index = (index - 1 + deck.length) % deck.length;
-  renderTermCard();
-});
-
-document.getElementById('termKnowBtn').addEventListener('click', () => {
-  if (deck.length === 0) return;
-  const c = deck[index];
-  const key = cardKey(c);
-  known.add(key);
-  review.delete(key);
-  saveProgress();
-
-  // Remove from current deck view (since we hide "known" cards)
-  deck.splice(index, 1);
-  if (index >= deck.length) index = 0;
-  renderTermCard();
-});
-
-document.getElementById('termReviewBtn').addEventListener('click', () => {
-  if (deck.length === 0) return;
-  const c = deck[index];
-  const key = cardKey(c);
-  review.add(key);
-  known.delete(key);
-  saveProgress();
-
-  index = (index + 1) % deck.length;
-  renderTermCard();
-});
-
-document.getElementById('termShuffleBtn').addEventListener('click', () => {
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
-  index = 0;
-  renderTermCard();
-});
-
-document.getElementById('termResetBtn').addEventListener('click', () => {
-  if (!confirm("Reset progress for this deck? Cards marked 'Got It' will return to the rotation.")) return;
-  // Clear known for cards currently in this deck scope
-  const scope = activeDeck === "all"
-    ? TERM_DECKS
-    : TERM_DECKS.filter(c => c.cat === activeDeck);
-  scope.forEach(c => {
-    known.delete(cardKey(c));
-    review.delete(cardKey(c));
-  });
-  saveProgress();
-  index = 0;
-  reviewOnlyMode = false;
-  renderTermCard();
-});
-
-/* NEW: Review-only mode */
-document.getElementById('reviewOnlyBtn').addEventListener('click', () => {
-  reviewOnlyMode = !reviewOnlyMode;
-  index = 0;
-  if (reviewOnlyMode && review.size === 0) {
-    alert("You haven't marked any cards as 'Still Learning' yet. Use the 'Still Learning' button to add some.");
-    reviewOnlyMode = false;
-  }
-  renderTermCard();
-});
-
-/* NEW: Clear all progress */
-document.getElementById('clearProgressBtn').addEventListener('click', () => {
-  if (!confirm("Clear ALL progress? This will reset every deck. This cannot be undone.")) return;
-  known.clear();
-  review.clear();
-  saveProgress();
-  index = 0;
-  reviewOnlyMode = false;
-  renderTermCard();
-});
-
-/* NEW: Completion screen buttons */
-document.getElementById('resetFromCompleteBtn').addEventListener('click', () => {
-  document.getElementById('termResetBtn').click();
-});
-
-document.getElementById('reviewMissedFromCompleteBtn').addEventListener('click', () => {
-  reviewOnlyMode = true;
-  index = 0;
-  renderTermCard();
-});
-
-/* ============================================================
-   KEYBOARD SHORTCUTS
-   ============================================================ */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') document.getElementById('termNextBtn').click();
-  if (e.key === 'ArrowLeft') document.getElementById('termPrevBtn').click();
-  if (e.key === ' ') { e.preventDefault(); termCard.classList.toggle('flipped'); }
-  if (e.key === '1') document.getElementById('termKnowBtn').click();
-  if (e.key === '2') document.getElementById('termReviewBtn').click();
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
-renderTermCard();
-</script>
-</body>
-</html>
+  { cat: "suffix", term:
