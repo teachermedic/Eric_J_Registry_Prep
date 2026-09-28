@@ -1,45 +1,51 @@
 /* --- 1. CORE COLOR VARIABLES --- */
 :root {
-    --bg-color: #f4f7f9;
-    --container-bg: #ffffff;
-    --text-main: #333333;
-    --text-muted: #666666;
-    --primary-blue: #004a99;
-    --accent-blue: #007bff;
-    --border-color: #e0e4e8;
-    
+    --bg-color: #fafafa;
+    --container-bg: #f3f1ec;
+    --text-main: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --primary-blue: #a16207;      /* keeps var name — now gold */
+    --accent-blue: #a16207;       /* keeps var name — now gold */
+    --border-color: #d6d3d1;
+
+    /* New palette additions (available for future use) */
+    --gold: #a16207;
+    --gold-dark: #7a4a05;
+    --deep-green: #06402b;
+    --deep-green-dark: #042e1f;
+
     /* Missing Variables defined here */
     --white: #ffffff;
-    --light-gray: #eef2f3;
-    --success-green: #2e7d32;
-    --error-red: #d32f2f;
+    --light-gray: #f3f1ec;
+    --success-green: #06402b;     /* deep green as "success" */
+    --error-red: #b45309;          /* warm amber instead of harsh red */
 }
 
 /* --- 2. DARK MODE (NIGHT SHIFT) OVERRIDES --- */
 body.dark-mode {
-    --bg-color: #0f172a; 
-    --container-bg: #1e293b; 
+    --bg-color: #0f172a;
+    --container-bg: #1e293b;
     --text-main: #f1f5f9;
     --text-muted: #94a3b8;
-    --primary-blue: #38bdf8; 
-    --accent-blue: #7dd3fc;
+    --primary-blue: #fbbf24;      /* bright gold for dark mode */
+    --accent-blue: #fbbf24;       /* bright gold for dark mode */
     --border-color: #334155;
     --white: #1e293b;
     --light-gray: #0f172a;
-    --success-green: #4ade80;
+    --success-green: #10b981;     /* keep green for dark mode success */
 }
 
 /* --- 3. GLOBAL STYLES --- */
-body { 
-    font-family: 'Helvetica Neue', Arial, sans-serif; 
-    background-color: var(--bg-color); 
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
     color: var(--text-main);
-    margin: 0; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    padding: 0 0 20px 0; 
-    font-size: 18px; 
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 20px 0;
+    font-size: 18px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -61,91 +67,103 @@ body {
     font-weight: bold;
 }
 
-#quiz-container { 
-    margin-top: 30px; 
-    background-color: var(--container-bg); 
-    max-width: 800px; 
-    width: 95%; 
-    padding: 30px; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+#quiz-container {
+    margin-top: 30px;
+    background-color: var(--container-bg);
+    max-width: 800px;
+    width: 95%;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     border: 1px solid var(--border-color);
 }
 
-h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
+h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px; }
 .subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; }
 
 /* --- 4. UI COMPONENTS --- */
-#slider-box { 
-    background: var(--light-gray); 
-    padding: 15px; 
-    border-radius: 8px; 
-    text-align: center; 
-    margin-bottom: 20px; 
+#slider-box {
+    background: var(--light-gray);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
     color: var(--text-main);
+    border: 1px solid var(--border-color);
 }
 
-#question-count-label { 
-    font-weight: bold; 
-    color: var(--accent-blue); 
-    font-size: 1.5rem; 
+#question-count-label {
+    font-weight: bold;
+    color: var(--accent-blue);
+    font-size: 1.5rem;
 }
 
-.mode-btn { 
-    background: var(--primary-blue); 
-    color: #fff; 
-    padding: 15px; 
-    border: none; 
-    border-radius: 8px; 
-    width: 100%; 
-    font-size: 1.1rem; 
-    cursor: pointer; 
-    transition: 0.3s; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 10px; 
+.mode-btn {
+    background: var(--primary-blue);
+    color: #fff;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-.mode-btn:hover { background: var(--accent-blue); }
+.mode-btn:hover {
+    background: var(--gold-dark);
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
 
 #progress { margin-bottom: 10px; font-weight: bold; color: var(--text-muted); }
 #question-text { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-blue); }
 
-.option-item { 
-    border: 2px solid var(--border-color); 
-    padding: 15px; 
-    border-radius: 8px; 
-    margin-bottom: 10px; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    background-color: var(--container-bg);
+.option-item {
+    border: 2px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    transition: all 0.15s ease;
 }
 
-.option-item:hover { 
-    background: var(--light-gray); 
-    border-color: var(--accent-blue); 
+.option-item:hover {
+    background: var(--light-gray);
+    border-color: var(--accent-blue);
 }
 
-#action-btn { 
-    background: var(--success-green); 
-    color: white; 
-    padding: 15px; 
-    border: none; 
-    border-radius: 8px; 
-    width: 100%; 
-    font-size: 1.1rem; 
-    cursor: pointer; 
-    margin-top: 10px; 
+#action-btn {
+    background: var(--success-green);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.15s ease;
 }
 
-#feedback { 
-    margin-top: 15px; 
-    padding: 15px; 
-    border-radius: 8px; 
-    background: var(--light-gray); 
-    border: 1px solid var(--border-color); 
+#action-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+#feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background: var(--light-gray);
+    border: 1px solid var(--border-color);
     line-height: 1.5;
     color: var(--text-main);
 }
@@ -162,7 +180,7 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
-    background-color: var(--container-bg);
+    background-color: var(--white);
     color: var(--text-main);
 }
 
@@ -185,12 +203,12 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
 
 /* --- 6. MODAL STYLES --- */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0; top: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.7); 
+    background-color: rgba(0,0,0,0.7);
     backdrop-filter: blur(4px);
 }
 
@@ -222,6 +240,12 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
     width: 90%;
     max-width: 400px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    transition: all 0.15s ease;
+}
+
+#missed-drill-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
 }
 
 #new-session-btn {
@@ -229,14 +253,27 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px;}
     padding: 20px; background-color: var(--accent-blue); color: white;
     font-size: 1.2rem; font-weight: bold; text-transform: uppercase;
     border: none; border-radius: 12px; cursor: pointer;
+    transition: all 0.15s ease;
 }
+
+#new-session-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
 .field-notes-banner {
     text-align: center;
-    margin-top: 50px; /* Pushes the banner away from the quiz content */
+    margin-top: 50px;
     margin-bottom: 20px;
     padding: 20px;
     border-top: 1px solid var(--border-color);
     color: var(--text-main);
     font-size: 0.85rem;
-    opacity: 0.7; /* Makes it subtle so it doesn't distract from the quiz */
+    opacity: 0.7;
+}
+
+.field-notes-banner a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: bold;
 }
