@@ -277,3 +277,11 @@ h1 { color: var(--primary-blue); text-align: center; margin-bottom: 5px; }
     text-decoration: none;
     font-weight: bold;
 }
+/* ---------- OVERRIDE FOR SIDEBAR LAYOUT ---------- */
+body {
+    align-items: stretch;
+}
+
+#quiz-container {
+    margin-top: 0;
+}
