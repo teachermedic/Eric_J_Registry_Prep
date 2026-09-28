@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terminology Decks | Eric J's Field Notes</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --deck-bg: #1e293b;
+    --card-front: #1e40af;
+    --card-back: #065f46;
+    --accent: #38bdf8;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --correct: #10b981;
+    --wrong: #ef4444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.term-header {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  header.term-header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  header.term-header a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  header.term-header a:hover { color: var(--accent); }
+
+  /* ---------- DECK SELECTOR ---------- */
+  .deck-selector {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .deck-tab {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 16px;
+    background: var(--deck-bg);
+    color: var(--muted);
+    border: 1px solid #334155;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+
+  .deck-tab:hover { color: var(--text); border-color: var(--accent); }
+  .deck-tab.active {
+    background: var(--accent);
+    color: #0f172a;
+    border-color: var(--accent);
+  }
+
+  /* ---------- PROGRESS ---------- */
+  .term-progress-bar {
+    width: 100%;
+    max-width: 720px;
+    height: 6px;
+    background: #1e293b;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .term-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--correct));
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .term-meta {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* ---------- CARD ---------- */
+  .term-card-container {
+    perspective: 1200px;
+    width: 100%;
+    max-width: 720px;
+    height: 400px;
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+
+  .term-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .term-card.flipped { transform: rotateY(180deg); }
+
+  .term-card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .term-card-front {
+    background: linear-gradient(135deg, var(--card-front), #1e3a8a);
+  }
+
+  .term-card-back {
+    background: linear-gradient(135deg, var(--card-back), #064e3b);
+    transform: rotateY(180deg);
+  }
+
+  .term-card-label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.7;
+  }
+
+  .term-card-term {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  .term-card-sub {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .term-card-def {
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .term-card-breakdown {
+    font-size: 0.95rem;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-top: 8px;
+    line-height: 1.6;
+    text-align: left;
+    max-width: 90%;
+  }
+
+  .term-card-breakdown span { color: #fbbf24; font-weight: 600; }
+
+  .term-hint {
+    position: absolute;
+    bottom: 16px;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+  }
+
+  /* ---------- CONTROLS ---------- */
+  .term-controls {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .term-controls button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: white;
+  }
+
+  .term-controls button:hover { transform: translateY(-1px); opacity: 0.92; }
+  .term-controls button:active { transform: translateY(0); }
+
+  .btn-nav { background: #334155; }
+  .btn-know { background: var(--correct); }
+  .btn-review { background: #f59e0b; }
+  .btn-shuffle { background: #6366f1; }
+  .btn-reset { background: #475569; }
+
+  /* ---------- STATS ---------- */
+  .term-stats {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    justify-content: space-around;
+    background: var(--deck-bg);
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 0.9rem;
+  }
+
+  .term-stat { text-align: center; }
+  .term-stat .num { font-size: 1.4rem; font-weight: 700; display: block; }
+  .term-stat .lbl { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+
+  .term-stat.known .num { color: var(--correct); }
+  .term-stat.review .num { color: #f59e0b; }
+
+  @media (max-width: 600px) {
+    .term-card-term { font-size: 1.5rem; }
+    .term-card-def { font-size: 1.1rem; }
+    .term-card-container { height: 360px; }
+    .term-card-face { padding: 28px 20px; }
+    .deck-tab { font-size: 0.75rem; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="term-header">
+  <h1>📚 Terminology Decks</h1>
+  <a href="./">← Back to Field Notes</a>
+</header>
+
+<!-- Deck selector -->
+<div class="deck-selector" id="deckSelector">
+  <button class="deck-tab active" data-deck="all">All Terms</button>
+  <button class="deck-tab" data-deck="prefix">Prefixes</button>
+  <button class="deck-tab" data-deck="suffix">Suffixes</button>
+  <button class="deck-tab" data-deck="root">Root Words</button>
+</div>
+
+<div class="term-progress-bar"><div class="term-progress-fill" id="termProgressFill"></div></div>
+<div class="term-meta">
+  <span id="termCardCounter">Card 1 of 1</span>
+  <span id="termDeckLabel">All Terms</span>
+</div>
+
+<div class="term-card-container" id="termCardContainer">
+  <div class="term-card" id="termCard">
+    <div class="term-card-face term-card-front">
+      <div class="term-card-label">Term</div>
+      <div class="term-card-term" id="termText">—</div>
+      <div class="term-card-sub" id="termSub"></div>
+      <div class="term-hint">Tap card to flip</div>
+    </div>
+    <div class="term-card-face term-card-back">
+      <div class="term-card-label">Meaning</div>
+      <div class="term-card-def" id="termDef">—</div>
+      <div class="term-card-breakdown" id="termBreakdown"></div>
+      <div class="term-hint">Tap card to flip</div>
+    </div>
+  </div>
+</div>
+
+<div class="term-controls">
+  <button class="btn-nav" id="termPrevBtn">◀ Prev</button>
+  <button class="btn-review" id="termReviewBtn">Still Learning</button>
+  <button class="btn-know" id="termKnowBtn">Got It ✓</button>
+  <button class="btn-nav" id="termNextBtn">Next ▶</button>
+</div>
+
+<div class="term-controls">
+  <button class="btn-shuffle" id="termShuffleBtn">🔀 Shuffle</button>
+  <button class="btn-reset" id="termResetBtn">↻ Reset</button>
+</div>
+
+<div class="term-stats">
+  <div class="term-stat known">
+    <span class="num" id="termKnownCount">0</span>
+    <span class="lbl">Known</span>
+  </div>
+  <div class="term-stat review">
+    <span class="num" id="termReviewCount">0</span>
+    <span class="lbl">Review</span>
+  </div>
+  <div class="term-stat">
+    <span class="num" id="termRemainingCount">0</span>
+    <span class="lbl">Remaining</span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   TERMINOLOGY DECKS DATA
+   Categories: "prefix", "suffix", "root"
+   ============================================================ */
+const TERM_DECKS = [
+  // ---------- PREFIXES ----------
+  { cat: "prefix", term: "Bradycardia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally slow heart rate (typically under 60 bpm).",
+    breakdown: "<span>brady-</span> = slow • <span>cardi</span> = heart • <span>-ia</span> = condition" },
+  { cat: "prefix", term: "Tachycardia", sub: "Prefix + Root + Suffix",
+    def: "Abnormally fast heart rate (typically over 100 bpm).",
+    breakdown: "<span>tachy-</span> = fast • <span>cardi</span> = heart • <span>-ia</span> = condition" },
+  { cat: "prefix", term: "Hypertension", sub: "Prefix + Root + Suffix",
+    def: "High blood pressure.",
+    breakdown: "<span>hyper-</span> = high • <span>tens</span> = pressure • <span>-ion</span> = process" },
+  { cat: "prefix", term: "Hypoglycemia", sub: "Prefix + Root + Suffix",
+    def: "Low blood sugar.",
+    breakdown: "<span>hypo-</span> = low • <span>glyc</span> = sugar • <span>-emia</span> = blood condition" },
+  { cat: "prefix", term: "Hyperglycemia", sub: "Prefix + Root + Suffix",
+    def: "High blood sugar.",
+    breakdown: "<span>hyper-</span> = high • <span>glyc</span> = sugar • <span>-emia</span> = blood condition" },
+  { cat: "prefix", term: "Dyspnea", sub: "Prefix + Root",
+    def: "Difficulty breathing or shortness of breath.",
+    breakdown: "<span>dys-</span> = difficult • <span>-pnea</span> = breathing" },
+  { cat: "prefix", term: "Apnea", sub: "Prefix + Root",
+    def: "Absence of breathing.",
+    breakdown: "<span>a-</span> = without • <span>-pnea</span> = breathing" },
+  { cat: "prefix", term: "Tachypnea", sub: "Prefix + Root",
+    def: "Abnormally rapid breathing.",
+    breakdown: "<span>tachy-</span> = fast • <span>-pnea</span> = breathing" },
+  { cat: "prefix", term: "Bradypnea", sub: "Prefix + Root",
+    def: "Abnormally slow breathing.",
+    breakdown: "<span>brady-</span> = slow • <span>-pnea</span> = breathing" },
+  { cat: "prefix", term: "Aphasia", sub: "Prefix + Root + Suffix",
+    def: "Loss of ability to understand or express speech.",
+    breakdown: "<span>a-</span> = without • <span>phas</span> = speech • <span>-ia</span> = condition" },
+
+  // ---------- SUFFIXES ----------
+  { cat: "suffix", term: "Cardiology", sub: "Root + Suffix",
+    def: "The study of the heart.",
+    breakdown: "<span>cardi</span> = heart • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Neurology", sub: "Root + Suffix",
+    def: "The study of the nervous system.",
+    breakdown: "<span>neur</span> = nerve • <span>-ology</span> = study of" },
+  { cat: "suffix", term: "Dermatitis", sub: "Root + Suffix",
+    def: "Inflammation of the skin.",
+    breakdown: "<span>dermat</span> = skin • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Appendectomy", sub: "Root + Suffix",
+    def: "Surgical removal of the appendix.",
+    breakdown: "<span>append</span> = appendix • <span>-ectomy</span> = surgical removal" },
+  { cat: "suffix", term: "Gastritis", sub: "Root + Suffix",
+    def: "Inflammation of the stomach lining.",
+    breakdown: "<span>gastr</span> = stomach • <span>-itis</span> = inflammation" },
+  { cat: "suffix", term: "Hepatomegaly", sub: "Root + Suffix",
+    def: "Enlargement of the liver.",
+    breakdown: "<span>hepat</span> = liver • <span>-megaly</span> = enlargement" },
+  { cat: "suffix", term: "Cyanosis", sub: "Root + Suffix",
+    def: "Bluish discoloration of the skin due to lack of oxygen.",
+    breakdown: "<span>cyan</span> = blue • <span>-osis</span> = condition" },
+  { cat: "suffix", term: "Nephropathy", sub: "Root + Suffix",
+    def: "Disease of the kidney.",
+    breakdown: "<span>nephr</span> = kidney • <span>-pathy</span> = disease" },
+  { cat: "suffix", term: "Osteoporosis", sub: "Root + Suffix",
+    def: "Condition of porous, weakened bones.",
+    breakdown: "<span>oste</span> = bone • <span>por</span> = pore • <span>-osis</span> = condition" },
+  { cat: "suffix", term: "Hypoxia", sub: "Prefix + Root + Suffix",
+    def: "Low oxygen levels in body tissues.",
+    breakdown: "<span>hypo-</span> = low • <span>ox</span> = oxygen • <span>-ia</span> = condition" },
+
+  // ---------- ROOTS ----------
+  { cat: "root", term: "Pneumothorax", sub: "Root + Root",
+    def: "Air in the chest cavity causing lung collapse.",
+    breakdown: "<span>pneumo</span> = air/lung • <span>thorax</span> = chest" },
+  { cat: "root", term: "Hemoptysis", sub: "Root + Suffix",
+    def: "Coughing up blood from the respiratory tract.",
+    breakdown: "<span>hemo</span> = blood • <span>-ptysis</span> = spitting" },
+  { cat: "root", term: "Hematemesis", sub: "Root + Suffix",
+    def: "Vomiting blood.",
+    breakdown: "<span>hemat</span> = blood • <span>-emesis</span> = vomiting" },
+  { cat: "root", term: "Myocardial Infarction", sub: "Root + Root",
+    def: "Heart attack — death of heart muscle from lack of blood flow.",
+    breakdown: "<span>myo</span> = muscle • <span>cardi</span> = heart • <span>infarct</span> = tissue death" },
+  { cat: "root", term: "Cerebrovascular Accident", sub: "Root + Root + Root",
+    def: "Stroke — interrupted blood flow to the brain.",
+    breakdown: "<span>cerebr</span> = brain • <span>vascul</span> = vessel • <span>accident</span> = event" },
+  { cat: "root", term: "Gastroesophageal Reflux", sub: "Root + Root",
+    def: "Stomach acid flowing back into the esophagus (GERD).",
+    breakdown: "<span>gastr</span> = stomach • <span>esophag</span> = esophagus • <span>reflux</span> = backflow" },
+  { cat: "root", term: "Leukocyte", sub: "Root + Root",
+    def: "White blood cell — part of the immune system.",
+    breakdown: "<span>leuko</span> = white • <span>cyt</span> = cell" },
+  { cat: "root", term: "Erythrocyte", sub: "Root + Root",
+    def: "Red blood cell — carries oxygen.",
+    breakdown: "<span>erythro</span> = red • <span>cyt</span> = cell" },
+  { cat: "root", term: "Thrombocytopenia", sub: "Root + Root + Suffix",
+    def: "Low platelet count — risk of bleeding.",
+    breakdown: "<span>thromb</span> = clot • <span>cyto</span> = cell • <span>-penia</span> = deficiency" },
+  { cat: "root", term: "Otitis Media", sub: "Root + Suffix + Root",
+    def: "Middle ear infection.",
+    breakdown: "<span>ot</span> = ear • <span>-itis</span> = inflammation • <span>media</span> = middle" },
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let activeDeck = "all";
+let deck = [...TERM_DECKS];
+let index = 0;
+let known = new Set();
+let review = new Set();
+
+/* ============================================================
+   DOM
+   ============================================================ */
+const termCard = document.getElementById('termCard');
+const termText = document.getElementById('termText');
+const termSub = document.getElementById('termSub');
+const termDef = document.getElementById('termDef');
+const termBreakdown = document.getElementById('termBreakdown');
+const termCardCounter = document.getElementById('termCardCounter');
+const termProgressFill = document.getElementById('termProgressFill');
+const termKnownCount = document.getElementById('termKnownCount');
+const termReviewCount = document.getElementById('termReviewCount');
+const termRemainingCount = document.getElementById('termRemainingCount');
+const termDeckLabel = document.getElementById('termDeckLabel');
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderTermCard() {
+  if (deck.length === 0) return;
+
+  const c = deck[index];
+  termText.textContent = c.term;
+  termSub.textContent = c.sub || '';
+  termDef.textContent = c.def;
+  termBreakdown.innerHTML = c.breakdown || '';
+
+  termCard.classList.remove('flipped');
+
+  termCardCounter.textContent = `Card ${index + 1} of ${deck.length}`;
+  termProgressFill.style.width = `${((index + 1) / deck.length) * 100}%`;
+
+  termKnownCount.textContent = known.size;
+  termReviewCount.textContent = review.size;
+  termRemainingCount.textContent = deck.length - known.size;
+
+  const labels = { all: "All Terms", prefix: "Prefixes", suffix: "Suffixes", root: "Root Words" };
+  termDeckLabel.textContent = labels[activeDeck] || "All Terms";
+}
+
+/* ============================================================
+   DECK SWITCHING
+   ============================================================ */
+document.querySelectorAll('.deck-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.deck-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    activeDeck = tab.dataset.deck;
+    deck = activeDeck === "all"
+      ? [...TERM_DECKS]
+      : TERM_DECKS.filter(c => c.cat === activeDeck);
+
+    index = 0;
+    known.clear();
+    review.clear();
+    renderTermCard();
+  });
+});
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+termCard.addEventListener('click', () => termCard.classList.toggle('flipped'));
+
+document.getElementById('termNextBtn').addEventListener('click', () => {
+  index = (index + 1) % deck.length;
+  renderTermCard();
+});
+
+document.getElementById('termPrevBtn').addEventListener('click', () => {
+  index = (index - 1 + deck.length) % deck.length;
+  renderTermCard();
+});
+
+document.getElementById('termKnowBtn').addEventListener('click', () => {
+  known.add(deck[index].term);
+  review.delete(deck[index].term);
+  index = (index + 1) % deck.length;
+  renderTermCard();
+});
+
+document.getElementById('termReviewBtn').addEventListener('click', () => {
+  review.add(deck[index].term);
+  known.delete(deck[index].term);
+  index = (index + 1) % deck.length;
+  renderTermCard();
+});
+
+document.getElementById('termShuffleBtn').addEventListener('click', () => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  index = 0;
+  renderTermCard();
+});
+
+document.getElementById('termResetBtn').addEventListener('click', () => {
+  deck = activeDeck === "all"
+    ? [...TERM_DECKS]
+    : TERM_DECKS.filter(c => c.cat === activeDeck);
+  index = 0;
+  known.clear();
+  review.clear();
+  renderTermCard();
+});
+
+/* ============================================================
+   KEYBOARD SHORTCUTS
+   ============================================================ */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') document.getElementById('termNextBtn').click();
+  if (e.key === 'ArrowLeft') document.getElementById('termPrevBtn').click();
+  if (e.key === ' ') { e.preventDefault(); termCard.classList.toggle('flipped'); }
+  if (e.key === '1') document.getElementById('termKnowBtn').click();
+  if (e.key === '2') document.getElementById('termReviewBtn').click();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderTermCard();
+</script>
+</body>
+</html>
