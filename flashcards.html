@@ -232,13 +232,15 @@
 
         /* ---------- CONTROLS ---------- */
         .fc-controls {
-            max-width: 720px;
-            margin: 0 auto 12px auto;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+    max-width: 720px;
+    margin: 0 auto 12px auto;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative !important;
+    z-index: 10 !important;
+}
 
         .fc-controls button {
             font-family: inherit;
@@ -356,10 +358,20 @@
         .deck-finished .fc-meta { display: none !important; }
 
         @media (max-width: 500px) {
-            .flashcard-wrapper { height: 320px !important; min-height: 320px !important; }
-            .card-face { min-height: 320px !important; }
-            .fc-header h1 { font-size: 1rem; }
-            .deck-tab { font-size: 0.7rem; padding: 5px 9px; }
+    .flashcard-wrapper { 
+        height: 280px !important; 
+        min-height: 280px !important; 
+        overflow: hidden !important;
+    }
+    .card-face { 
+        min-height: 280px !important; 
+        height: 280px !important;
+        padding: 18px !important;
+    }
+    #card-question-text { font-size: 0.95rem !important; }
+    .fc-header h1 { font-size: 1rem; }
+    .deck-tab { font-size: 0.7rem; padding: 5px 9px; }
+}
         }
     </style>
 </head>
