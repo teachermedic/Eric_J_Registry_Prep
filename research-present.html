@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research & Present | Eric J's Field Notes</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding: 20px 16px;
+            display: block !important;
+            min-height: 100vh;
+            background: var(--bg-color, #fafafa);
+            transition: background-color 0.4s ease;
+        }
+
+        /* ---------- HEADER ---------- */
+        .rp-header {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .rp-header h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .rp-back {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border: 1px solid var(--primary-blue);
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+        .rp-back:hover { background: var(--primary-blue); color: #fff; }
+
+        /* ---------- MODE SELECTOR ---------- */
+        .rp-mode-bar {
+            max-width: 800px;
+            margin: 0 auto 16px auto;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .rp-mode {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #d6d3d1;
+            background: #ffffff;
+            color: #6b6b6b;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rp-mode:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .rp-mode.active {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+        }
+
+        /* ---------- CATEGORY FILTER ---------- */
+        .rp-categories {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rp-cat {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #f3f1ec;
+            border: 1px solid #d6d3d1;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b6b6b;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+        .rp-cat:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .rp-cat.active {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+        }
+
+        /* ---------- MAIN CARD ---------- */
+        .rp-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 60px 50px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid #e5e2dc;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Phase-colored border to make the current phase obvious at a glance */
+        .rp-card.phase-research { border-top: 6px solid #2563eb; }
+        .rp-card.phase-present  { border-top: 6px solid #16a34a; }
+        .rp-card.phase-idle     { border-top: 6px solid #d6d3d1; }
+
+        .rp-phase-label {
+            position: absolute;
+            top: 16px;
+            left: 24px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #6b6b6b;
+        }
+
+        .rp-card.phase-research .rp-phase-label { color: #2563eb; }
+        .rp-card.phase-present  .rp-phase-label { color: #16a34a; }
+
+        .rp-content {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+            font-family: 'Lora', Georgia, serif;
+            max-width: 620px;
+        }
+
+        .rp-content.rp-empty {
+            font-size: 1.05rem;
+            color: #a3a3a3;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* ---------- TIMER ---------- */
+        .rp-timer-block {
+            max-width: 800px;
+            margin: 22px auto;
+            text-align: center;
+        }
+
+        .rp-timer-display {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .rp-timer-display.research { color: #2563eb; }
+        .rp-timer-display.present  { color: #16a34a; }
+        .rp-timer-display.warning  { color: #b45309; }
+        .rp-timer-display.critical { color: #dc2626; animation: pulse 0.8s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.05); }
+        }
+
+        /* ---------- PHASE CONTROL BUTTONS ---------- */
+        .rp-phase-buttons {
+            max-width: 800px;
+            margin: 24px auto 0 auto;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rp-btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .rp-btn:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.95; }
+        .rp-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        .rp-btn-spin     { background: #57534e; }
+        .rp-btn-research { background: #2563eb; }
+        .rp-btn-present  { background: #16a34a; }
+        .rp-btn-stop     { background: #dc2626; }
+        .rp-btn-next     { background: var(--primary-blue); }
+
+        /* ---------- DURATION SETTINGS ---------- */
+        .rp-settings {
+            max-width: 800px;
+            margin: 20px auto 0 auto;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .rp-setting-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rp-setting-group label {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .rp-setting-group select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #d6d3d1;
+            background: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* ---------- CLASS ROSTER (for Class Mode) ---------- */
+        .rp-roster {
+            max-width: 800px;
+            margin: 24px auto 0 auto;
+            background: #f3f1ec;
+            border: 1px solid #d6d3d1;
+            border-radius: 14px;
+            padding: 20px 24px;
+            display: none;
+        }
+
+        .rp-roster.visible { display: block; }
+
+        .rp-roster h3 {
+            margin: 0 0 12px 0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-blue);
+        }
+
+        .rp-roster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .rp-student {
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #d6d3d1;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .rp-student:hover { border-color: var(--primary-blue); }
+        .rp-student.assigned {
+            background: #fef3c7;
+            border-color: #b45309;
+            font-weight: 600;
+        }
+        .rp-student .assigned-prompt {
+            display: block;
+            font-size: 0.7rem;
+            color: #6b6b6b;
+            margin-top: 4px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* ---------- STATS ---------- */
+        .rp-stats {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 600px) {
+            .rp-card { padding: 40px 24px; min-height: 260px; }
+            .rp-content { font-size: 1.2rem; }
+            .rp-timer-display { font-size: 2.75rem; }
+            .rp-btn { padding: 14px 22px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="rp-header">
+    <h1>🔬 Research & Present</h1>
+    <a href="index.html" class="rp-back">
+        <span class="material-icons" style="font-size:1rem;">arrow_back</span>
+        Back to Home
+    </a>
+</div>
+
+<!-- Mode selector -->
+<div class="rp-mode-bar">
+    <button class="rp-mode active" data-mode="solo">
+        <span class="material-icons" style="font-size:1rem;">person</span>
+        Solo Mode
+    </button>
+    <button class="rp-mode" data-mode="class">
+        <span class="material-icons" style="font-size:1rem;">groups</span>
+        Class Mode
+    </button>
+</div>
+
+<!-- Category filter -->
+<div class="rp-categories" id="rp-categories">
+    <button class="rp-cat active" data-cat="all">All Topics</button>
+    <button class="rp-cat" data-cat="patho">Pathophysiology</button>
+    <button class="rp-cat" data-cat="cardiac">Cardiology</button>
+    <button class="rp-cat" data-cat="resp">Respiratory</button>
+    <button class="rp-cat" data-cat="neuro">Neurology</button>
+    <button class="rp-cat" data-cat="trauma">Trauma</button>
+    <button class="rp-cat" data-cat="pharm">Pharmacology</button>
+    <button class="rp-cat" data-cat="assessment">Assessment</button>
+    <button class="rp-cat" data-cat="terms">Terminology</button>
+</div>
+
+<!-- Main card -->
+<div class="rp-card phase-idle" id="rp-card">
+    <div class="rp-phase-label" id="rp-phase-label">Ready</div>
+    <div class="rp-content rp-empty" id="rp-content">
+        Press <strong>Spin Topic</strong> to draw a research question — or select a category first.
+    </div>
+</div>
+
+<!-- Timer -->
+<div class="rp-timer-block">
+    <div class="rp-timer-display" id="rp-timer">10:00</div>
+</div>
+
+<!-- Phase buttons -->
+<div class="rp-phase-buttons">
+    <button class="rp-btn rp-btn-spin" id="rp-spin">
+        <span class="material-icons">casino</span> Spin Topic
+    </button>
+    <button class="rp-btn rp-btn-research" id="rp-start-research" disabled>
+        <span class="material-icons">search</span> Start Research
+    </button>
+    <button class="rp-btn rp-btn-present" id="rp-start-present" disabled>
+        <span class="material-icons">record_voice_over</span> Start Presentation
+    </button>
+    <button class="rp-btn rp-btn-stop" id="rp-stop" style="display:none;">
+        <span class="material-icons">stop</span> Stop
+    </button>
+    <button class="rp-btn rp-btn-next" id="rp-next" style="display:none;">
+        <span class="material-icons">skip_next</span> Next Topic
+    </button>
+</div>
+
+<!-- Duration settings -->
+<div class="rp-settings">
+    <div class="rp-setting-group">
+        <label>Research:</label>
+        <select id="rp-research-duration">
+            <option value="300">5 min</option>
+            <option value="600" selected>10 min</option>
+            <option value="900">15 min</option>
+            <option value="1200">20 min</option>
+        </select>
+    </div>
+    <div class="rp-setting-group">
+        <label>Present:</label>
+        <select id="rp-present-duration">
+            <option value="30">30 sec</option>
+            <option value="60" selected>1 min</option>
+            <option value="120">2 min</option>
+            <option value="180">3 min</option>
+        </select>
+    </div>
+</div>
+
+<!-- Class roster (only visible in Class Mode) -->
+<div class="rp-roster" id="rp-roster">
+    <h3>Class Roster — Assign Topics</h3>
+    <div class="rp-roster-grid" id="rp-roster-grid">
+        <!-- Filled dynamically -->
+    </div>
+</div>
+
+<!-- Session stats -->
+<div class="rp-stats">
+    Topics presented this session: <strong id="rp-count">0</strong>
+    &nbsp;·&nbsp; Keyboard: <kbd>Space</kbd> spin, <kbd>R</kbd> research, <kbd>P</kbd> present, <kbd>Esc</kbd> stop
+</div>
+
+<script>
+/* ============================================================
+   RESEARCH & PRESENT — Active Review Tool
+   ============================================================ */
+
+const TOPICS = [
+    // ---------- PATHOPHYSIOLOGY ----------
+    { cat: "patho", text: "Explain the difference between aerobic and anaerobic metabolism in the context of shock. What is the key waste product, and what does it cause?" },
+    { cat: "patho", text: "Walk through the pathophysiology of DKA. Why does the patient have Kussmaul respirations, fruity breath, and polyuria?" },
+    { cat: "patho", text: "Explain the Frank-Starling Law of the Heart. How does it explain why we use diuretics in CHF patients?" },
+    { cat: "patho", text: "Describe the difference between respiratory and metabolic acidosis. What are the two main compensation mechanisms?" },
+    { cat: "patho", text: "Explain Virchow's Triad. Why is it critical for understanding DVT and PE risk?" },
+    { cat: "patho", text: "What is the difference between perfusion and diffusion? Give one clinical example of each failing." },
+
+    // ---------- CARDIOLOGY ----------
+    { cat: "cardiac", text: "Compare and contrast the clinical findings of angina vs. myocardial infarction. Include pathophysiology and treatment priorities." },
+    { cat: "cardiac", text: "Explain the difference between atrial fibrillation and atrial flutter. What are the risks of each?" },
+    { cat: "cardiac", text: "Describe what's happening in the heart during a wide-complex tachycardia. When do you pace vs. shock vs. medicate?" },
+    { cat: "cardiac", text: "What is the difference between right-sided and left-sided heart failure? Give 3 clinical findings of each." },
+    { cat: "cardiac", text: "Explain the pathophysiology of cardiogenic shock. Why is fluid resuscitation often counterproductive?" },
+
+    // ---------- RESPIRATORY ----------
+    { cat: "resp", text: "Explain the V/Q mismatch. Give one example of a ventilation failure and one of a perfusion failure." },
+    { cat: "resp", text: "Describe the pathophysiology of COPD. Why do patients develop a barrel chest and pursed-lip breathing?" },
+    { cat: "resp", text: "What is the physiological difference between crackles and wheezes? What does each tell you about the airway?" },
+    { cat: "resp", text: "Explain how CPAP works at the alveolar level. What are the contraindications?" },
+    { cat: "resp", text: "What is a 'shark fin' capnography waveform? What's happening physiologically, and what's your intervention?" },
+
+    // ---------- NEUROLOGY ----------
+    { cat: "neuro", text: "Explain Cushing's Triad. What does it indicate, and why does each component occur?" },
+    { cat: "neuro", text: "Compare and contrast epidural vs. subdural hematomas. Include source of bleeding, timeline, and classic presentation." },
+    { cat: "neuro", text: "What is the difference between a TIA and a stroke? Why is prompt recognition so critical?" },
+    { cat: "neuro", text: "Describe the Monro-Kellie hypothesis. How does it explain why ICP rises so dangerously after a brain injury?" },
+    { cat: "neuro", text: "Explain the difference between decorticate and decerebrate posturing. Which is more severe and why?" },
+
+    // ---------- TRAUMA ----------
+    { cat: "trauma", text: "Explain the trauma triad of death. How does each component worsen the others?" },
+    { cat: "trauma", text: "Describe Beck's Triad. What's the underlying pathophysiology, and what's the emergency intervention?" },
+    { cat: "trauma", text: "Explain the difference between hemorrhagic shock and neurogenic shock. Why is the HR different?" },
+    { cat: "trauma", text: "What is permissive hypotension? When is it used, and what's the MAP target?" },
+    { cat: "trauma", text: "Explain the pathophysiology of crush syndrome. What are the three key electrolytes that shift, and why?" },
+
+    // ---------- PHARMACOLOGY ----------
+    { cat: "pharm", text: "Explain the mechanism of action of epinephrine in anaphylaxis. Why IM instead of IV (outside of arrest)?" },
+    { cat: "pharm", text: "What is the difference between adenosine and amiodarone? When do you use each?" },
+    { cat: "pharm", text: "Explain why ACE inhibitors cause a dry cough. What substance accumulates, and why?" },
+    { cat: "pharm", text: "Describe the mechanism of action of naloxone. Why is the goal 'restoration of breathing' and not 'full arousal'?" },
+    { cat: "pharm", text: "Explain the difference between beta-blockers and calcium channel blockers. Give one clinical scenario where choosing wrong matters." },
+
+    // ---------- ASSESSMENT ----------
+    { cat: "assessment", text: "Walk me through the XABCDE approach for trauma. Why is it ordered this way?" },
+    { cat: "assessment", text: "Explain the OPQRST mnemonic. What specific type of patient complaint does it help you characterize?" },
+    { cat: "assessment", text: "What is the difference between a sign and a symptom? Give 3 examples of each." },
+    { cat: "assessment", text: "Explain the difference between a primary and secondary assessment. What are the key goals of each?" },
+    { cat: "assessment", text: "Describe the AVPU scale and GCS. When would you use one over the other?" },
+
+    // ---------- TERMINOLOGY ----------
+    { cat: "terms", text: "Define and explain the difference between 'dyspnea', 'apnea', 'tachypnea', and 'bradypnea'. Give a clinical example of each." },
+    { cat: "terms", text: "What does the suffix '-itis' mean? Give 5 medical terms ending in -itis and what each one means." },
+    { cat: "terms", text: "Explain the prefixes 'hyper-', 'hypo-', 'tachy-', and 'brady-'. Give two medical terms for each." },
+    { cat: "terms", text: "Differentiate: hematemesis, hemoptysis, hematuria, hemothorax. What's the shared root and what does each term mean?" },
+    { cat: "terms", text: "Explain the difference between '-megaly', '-pathy', and '-osis'. Give an example term for each." },
+];
+
+/* ---------- STATE ---------- */
+let activeCategory = "all";
+let activeMode = "solo";
+let currentTopic = null;
+let timerInterval = null;
+let timeLeft = 600;
+let phase = "idle"; // idle | research | present
+let researchDuration = 600;
+let presentDuration = 60;
+let sessionCount = 0;
+let roster = [];
+
+/* ---------- HELPERS ---------- */
+function getFilteredTopics() {
+    return activeCategory === "all" ? TOPICS : TOPICS.filter(t => t.cat === activeCategory);
+}
+
+function updateTimerDisplay() {
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    const display = document.getElementById('rp-timer');
+    display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    display.classList.remove('research', 'present', 'warning', 'critical');
+    if (phase === 'research') display.classList.add('research');
+    if (phase === 'present') display.classList.add('present');
+    if (timeLeft <= 10) display.classList.add('critical');
+    else if (timeLeft <= 30) display.classList.add('warning');
+}
+
+function setPhase(newPhase) {
+    phase = newPhase;
+    const card = document.getElementById('rp-card');
+    const label = document.getElementById('rp-phase-label');
+    card.classList.remove('phase-idle', 'phase-research', 'phase-present');
+    card.classList.add('phase-' + newPhase);
+    label.textContent = {
+        idle: 'Ready',
+        research: 'Research Phase — ' + (researchDuration / 60) + ' minutes',
+        present: 'Presentation Phase — ' + presentDuration + ' seconds',
+    }[newPhase];
+}
+
+/* ---------- SPIN ---------- */
+function spinTopic() {
+    const pool = getFilteredTopics();
+    if (pool.length === 0) return;
+
+    let next;
+    do { next = pool[Math.floor(Math.random() * pool.length)]; }
+    while (pool.length > 1 && next === currentTopic);
+
+    currentTopic = next;
+
+    const contentEl = document.getElementById('rp-content');
+    contentEl.classList.remove('rp-empty');
+    contentEl.textContent = next.text;
+
+    // Reset controls for a fresh topic
+    document.getElementById('rp-start-research').disabled = false;
+    document.getElementById('rp-start-present').disabled = true;
+    document.getElementById('rp-next').style.display = 'none';
+    document.getElementById('rp-spin').style.display = 'inline-flex';
+    document.getElementById('rp-stop').style.display = 'none';
+
+    setPhase('idle');
+    timeLeft = researchDuration;
+    updateTimerDisplay();
+
+    // Card pulse animation
+    const card = document.getElementById('rp-card');
+    card.style.transform = 'scale(0.98)';
+    setTimeout(() => { card.style.transform = 'scale(1)'; }, 100);
+}
+
+/* ---------- TIMER ---------- */
+function runTimer(seconds, onComplete) {
+    timeLeft = seconds;
+    updateTimerDisplay();
+
+    document.getElementById('rp-start-research').style.display = 'none';
+    document.getElementById('rp-start-present').style.display = 'none';
+    document.getElementById('rp-spin').style.display = 'none';
+    document.getElementById('rp-stop').style.display = 'inline-flex';
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            onComplete();
+        }
+    }, 1000);
+}
+
+/* ---------- PHASE ACTIONS ---------- */
+function startResearch() {
+    if (!currentTopic) return;
+    setPhase('research');
+    runTimer(researchDuration, () => {
+        // Research done → prompt them to move to presentation
+        document.getElementById('rp-timer').textContent = "RESEARCH DONE";
+        document.getElementById('rp-stop').style.display = 'none';
+        document.getElementById('rp-start-present').disabled = false;
+        document.getElementById('rp-start-present').style.display = 'inline-flex';
+        document.getElementById('rp-next').style.display = 'inline-flex';
+        document.getElementById('rp-next').style.marginLeft = 'auto';
+    });
+}
+
+function startPresent() {
+    if (!currentTopic) return;
+    setPhase('present');
+    runTimer(presentDuration, () => {
+        // Presentation done → prompt next
+        document.getElementById('rp-timer').textContent = "TIME!";
+        document.getElementById('rp-timer').classList.add('critical');
+        sessionCount++;
+        document.getElementById('rp-count').textContent = sessionCount;
+        document.getElementById('rp-stop').style.display = 'none';
+        document.getElementById('rp-next').style.display = 'inline-flex';
+    });
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    // Restore controls based on current phase
+    document.getElementById('rp-stop').style.display = 'none';
+    document.getElementById('rp-spin').style.display = 'inline-flex';
+    document.getElementById('rp-next').style.display = 'inline-flex';
+
+    if (phase === 'research') {
+        document.getElementById('rp-start-research').style.display = 'inline-flex';
+        document.getElementById('rp-start-research').disabled = false;
+        document.getElementById('rp-start-present').disabled = false;
+        document.getElementById('rp-start-present').style.display = 'inline-flex';
+    } else if (phase === 'present') {
+        document.getElementById('rp-start-present').style.display = 'inline-flex';
+        document.getElementById('rp-start-present').disabled = false;
+    }
+}
+
+/* ---------- CLASS MODE ---------- */
+function buildRoster() {
+    const grid = document.getElementById('rp-roster-grid');
+    grid.innerHTML = '';
+
+    // Default: 12 empty slots — instructor can type names later
+    // For a quick classroom tool, this just creates numbered slots
+    for (let i = 1; i <= 12; i++) {
+        const el = document.createElement('div');
+        el.className = 'rp-student';
+        el.dataset.index = i;
+        el.innerHTML = `Student ${i}`;
+        el.onclick = () => assignToStudent(el);
+        grid.appendChild(el);
+    }
+}
+
+function assignToStudent(el) {
+    if (!currentTopic) {
+        alert('Spin a topic first.');
+        return;
+    }
+    el.classList.toggle('assigned');
+    if (el.classList.contains('assigned')) {
+        el.innerHTML = `Student ${el.dataset.index}<span class="assigned-prompt">${currentTopic.text.substring(0, 40)}…</span>`;
+    } else {
+        el.innerHTML = `Student ${el.dataset.index}`;
+    }
+}
+
+/* ---------- EVENT LISTENERS ---------- */
+document.getElementById('rp-spin').addEventListener('click', spinTopic);
+document.getElementById('rp-start-research').addEventListener('click', startResearch);
+document.getElementById('rp-start-present').addEventListener('click', startPresent);
+document.getElementById('rp-stop').addEventListener('click', stopTimer);
+document.getElementById('rp-next').addEventListener('click', () => {
+    sessionCount++;
+    document.getElementById('rp-count').textContent = sessionCount;
+    spinTopic();
+});
+
+document.querySelectorAll('.rp-cat').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.rp-cat').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.cat;
+        currentTopic = null;
+    });
+});
+
+document.querySelectorAll('.rp-mode').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.rp-mode').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeMode = btn.dataset.mode;
+        document.getElementById('rp-roster').classList.toggle('visible', activeMode === 'class');
+        if (activeMode === 'class' && roster.length === 0) {
+            buildRoster();
+            roster = ['built'];
+        }
+    });
+});
+
+document.getElementById('rp-research-duration').addEventListener('change', (e) => {
+    researchDuration = parseInt(e.target.value);
+    if (phase === 'idle') {
+        timeLeft = researchDuration;
+        updateTimerDisplay();
+    }
+});
+
+document.getElementById('rp-present-duration').addEventListener('change', (e) => {
+    presentDuration = parseInt(e.target.value);
+});
+
+/* ---------- KEYBOARD SHORTCUTS ---------- */
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+    if (e.key === ' ' && !timerInterval) { e.preventDefault(); spinTopic(); }
+    if (e.key === 'r' && !timerInterval && currentTopic) { e.preventDefault(); startResearch(); }
+    if (e.key === 'p' && !timerInterval && currentTopic) { e.preventDefault(); startPresent(); }
+    if (e.key === 'Escape' && timerInterval) { e.preventDefault(); stopTimer(); }
+});
+
+// Init
+setPhase('idle');
+updateTimerDisplay();
+</script>
+
+</body>
+</html>
