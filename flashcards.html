@@ -120,16 +120,19 @@
         }
 
         /* ---------- CARD (with height fix) ---------- */
-        .flashcard-wrapper {
-            height: 360px !important;
-            min-height: 360px !important;
-            max-width: 720px !important;
-            width: 100% !important;
-            position: relative !important;
-            perspective: 1200px !important;
-            margin: 0 auto 20px auto !important;
-            cursor: pointer;
-        }
+        /* ---------- CARD (with height fix) ---------- */
+.flashcard-wrapper {
+    height: 360px !important;
+    min-height: 360px !important;
+    max-width: 720px !important;
+    width: 100% !important;
+    position: relative !important;
+    perspective: 1200px !important;
+    margin: 0 auto 20px auto !important;
+    cursor: pointer;
+    overflow: hidden !important;
+    z-index: 1 !important;
+}
 
         .flashcard {
             width: 100% !important;
