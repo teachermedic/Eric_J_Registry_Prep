@@ -34,7 +34,26 @@ body.dark-mode {
     --light-gray: #0f172a;
     --success-green: #10b981;     /* keep green for dark mode success */
 }
+/* Make the header logo/title clickable */
+h1 .home-link {
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.15s ease;
+}
 
+h1 .home-link:hover {
+    opacity: 0.85;
+}
+
+h1 .home-link img {
+    transition: transform 0.15s ease;
+}
+
+h1 .home-link:hover img {
+    transform: scale(1.05);
+}
 /* --- 3. GLOBAL STYLES --- */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
