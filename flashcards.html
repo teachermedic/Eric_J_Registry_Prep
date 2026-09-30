@@ -126,31 +126,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Study All Cards button */
-        .study-all-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 16px 24px;
-            background: var(--primary-blue);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            margin-bottom: 20px;
-        }
-        .study-all-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(161, 98, 7, 0.3);
-            opacity: 0.95;
-        }
-
         /* ---------- CARD VIEW ---------- */
         .card-view {
             display: none;
@@ -332,10 +307,6 @@
 
     <div class="deck-grid" id="deckGrid"></div>
 
-    <button class="study-all-btn" onclick="selectDeck('all')">
-        <span class="material-icons">library_books</span>
-        Study All Cards
-    </button>
 </div>
 
 <!-- ============ CARD VIEW ============ -->
