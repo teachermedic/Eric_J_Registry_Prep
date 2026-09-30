@@ -1,163 +1,386 @@
-const quizData = [
-    // --- FOUNDATIONS & LEGAL ---
-    { q: "Accidental Death and Disability (1966) is famously known as:", options: ["The Orange Book", "The White Paper", "The EMS Charter", "The NHTSA Guide"], answer: ["The White Paper"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "This paper identified accidental death as a 'neglected disease' and spurred EMS growth." },
-    { q: "Which EMS level is trained in IV therapy and limited advanced meds?", options: ["EMR", "EMT", "AEMT", "Paramedic"], answer: ["AEMT"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "AEMTs bridge basic and advanced life support." },
-    { q: "What is the primary way to prevent disease transmission?", options: ["Gloves", "Handwashing", "Gowns", "Masks"], answer: ["Handwashing"], type: "single", category: "Safety", section: "Foundations", rationale: "Hand hygiene is the #1 clinical defense." },
-    { q: "What element of neglect is violated if you hand off care of a patient to a lesser trained healthcare professional?", options: ["Duty to act", "Breach of duty", "Damages", "Proximate cause"], answer: ["Breach of duty"], type: "multiple", category: "Legal", section: "Foundations", rationale: "Breach of duty occurs when handing off patient care to a lesser trained healthcare professional. This is also known as patient abandonment." },
-    { q: "In SBAR, what does 'B' stand for?", options: ["Basic Info", "Background", "Body System", "Blood Pressure"], answer: ["Background"], type: "single", category: "Communications", section: "Foundations", rationale: "SBAR = Situation, Background, Assessment, Recommendation." },
-    { q: "Which lifting technique uses the legs and an upright back?", options: ["Power grip", "Power lift", "Deadlift", "Shoulder lift"], answer: ["Power lift"], type: "single", category: "Lifting", section: "Foundations", rationale: "Legs are strongest; back must remain straight." },
-    { q: "Which document establishes the 'Scope of Practice' for an AEMT within a specific state?", options: ["NHTSA Curriculum", "The State EMS Office / Medical Practice Act", "NREMT Handbook", "Federal DOT"], answer: ["The State EMS Office / Medical Practice Act"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "State legislation defines the actual legal scope of practice." },
-    { q: "A patient refuses care and is able to answer questions but has slurred speech with repetitive questioning. You should treat this patient under which of the following:", options: ["Expressed Consent", "Informed Consent", "Implied Consent", "Involuntary Consent"], answer: ["Implied Consent"], type: "single", category: "Legal", section: "Foundations", rationale: "Decision-making capacity is a patient's functional ability to understand, appreciate, reason, and communicate choices regarding medical treatment." },
-    { q: "What is the difference between Libel and Slander?", options: ["Libel is spoken; Slander is written", "Libel is written; Slander is spoken", "Physical vs Verbal", "No difference"], answer: ["Libel is written; Slander is spoken"], type: "single", category: "Legal", section: "Foundations", rationale: "Libel = Written defamation; Slander = Spoken defamation." },
-    { q: "In the 'Five Stages of Grief,' which stage involves a patient trying to make a deal to postpone the inevitable?", options: ["Denial", "Bargaining", "Anger", "Depression"], answer: ["Bargaining"], type: "single", category: "Wellness", section: "Foundations", rationale: "Bargaining is the third stage of the Kübler-Ross model." },
-    { q: "Which federal document provides the 'National EMS Scope of Practice Model' that states use to create their laws?", options: ["The White Paper", "NHTSA DOT Booklet", "The National EMS Education Standards", "The EMS Agenda for the Future"], answer: ["The National EMS Education Standards"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "NHTSA's National EMS Education Standards define the minimum competencies for each level." },
-    { q: "AEMT care is typically required to be provided under the license of a:", options: ["Fire Chief", "Medical Director", "Service Director", "Nursing Supervisor"], answer: ["Medical Director"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "Medical Directors provide the legal authority for AEMTs to practice." },
-    { q: "Assault is defined legally as:", options: ["Touching a patient without consent", "Placing a patient in fear of bodily harm", "Causing physical injury to a patient", "Kidnapping a patient"], answer: ["Placing a patient in fear of bodily harm"], type: "single", category: "Legal", section: "Foundations", rationale: "Assault is the threat; Battery is the actual physical touching." },
+/* ============================================================
+   CLINICAL FLASHCARDS — Deck picker + simple progress tracking
+   ============================================================ */
 
-    // --- PATHOPHYSIOLOGY ---
-    { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
-    { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
-    { q: "A patient hypoventilating from an opioid OD is likely in:", options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Alkalosis", "Metabolic Acidosis"], answer: ["Respiratory Acidosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "CO2 retention leads to a drop in pH, causing respiratory acidosis." },
-    { q: "Kussmaul respirations in DKA are an attempt to compensate for:", options: ["Metabolic Acidosis", "Metabolic Alkalosis", "Respiratory Acidosis", "Hypoxemia"], answer: ["Metabolic Acidosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Rapid breathing 'blows off' CO2 (acid) to raise blood pH." },
-    { q: "Which of the following is the primary chemical buffer system in the human body?", options: ["Protein", "Bicarbonate", "Phosphate", "Hemoglobin"], answer: ["Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The Bicarbonate-Carbonic Acid system is the most important extracellular buffer." },
-    { q: "A hyperventilating patient with an EtCO2 of 22 is in:", options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Acidosis", "Normal state"], answer: ["Respiratory Alkalosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Excessive loss of CO2 removes acid, raising the pH." },
-    { q: "What is the normal pH range of human arterial blood?", options: ["7.0 - 7.1", "7.35 - 7.45", "7.45 - 7.55", "6.8 - 7.8"], answer: ["7.35 - 7.45"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "This narrow window is essential for cellular enzyme function." },
-    { q: "A COPD patient is retaining CO2. This results in an increase of which ion in the blood?", options: ["Sodium", "Hydrogen", "Bicarbonate", "Potassium"], answer: ["Hydrogen"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "CO2 combines with water to form carbonic acid, which dissociates into Hydrogen ions." },
-    { q: "Which organ system is responsible for the 'Long-term' compensation of acid-base imbalances?", options: ["The Lungs", "The Kidneys", "The Liver", "The Pancreas"], answer: ["The Kidneys"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The kidneys adjust pH by excreting or retaining Hydrogen and Bicarbonate." },
-    { q: "In a state of Acidosis, the heart becomes:", options: ["More sensitive to Epinephrine", "Less responsive to catecholamines", "Hyper-excitable", "More efficient at pumping"], answer: ["Less responsive to catecholamines"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Acidosis decreases myocardial contractility." },
-    { q: "The Bicarbonate Buffer System manages pH by balancing which two components?", options: ["Oxygen and Nitrogen", "Carbon Dioxide and Bicarbonate", "Sodium and Potassium", "Calcium and Magnesium"], answer: ["Carbon Dioxide and Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Lungs regulate CO2 and kidneys regulate Bicarbonate." },
+const STORAGE_KEY = "clinical-flashcards-progress-v4";
 
-    // --- MEDICAL ---
-    { q: "A 70-year-old male presents with extreme dyspnea, waking up gasping for air. Sitting bolt-upright, pink, frothy sputum. BP 190/104. Interventions? (Select all that apply)", options: ["Supine position", "CPAP at 5-10 cmH2O", "Nitroglycerin", "Non-rebreather mask", "Albuterol"], answer: ["CPAP at 5-10 cmH2O", "Nitroglycerin", "Non-rebreather mask"], type: "multiple", category: "Cardiovascular", section: "Medical", rationale: "ADHF requires pressure and preload reduction." },
-    { q: "Worsening fatigue, JVD, and bilateral pedal edema in a COPD patient indicates:", options: ["Left-Sided Heart Failure", "Right-Sided Heart Failure", "Acute Bronchitis", "Pneumothorax"], answer: ["Right-Sided Heart Failure"], type: "single", category: "Cardiovascular", section: "Medical", rationale: "Right failure causes systemic backup (JVD, edema)." },
-    { q: "How does CPAP improve oxygenation in pulmonary edema?", options: ["Increasing HR", "Forcing fluid out of alveoli", "Improves BP", "Vasodilation"], answer: ["Forcing fluid out of alveoli"], type: "single", category: "Respiratory", section: "Medical", rationale: "Pressure pushes fluid back into the capillaries." },
-    { q: "Stroke symptoms that resolve in 45 minutes are:", options: ["Ischemic Stroke", "Hemorrhagic Stroke", "TIA", "Hypoglycemia"], answer: ["TIA"], type: "single", category: "Neurology", section: "Medical", rationale: "TIAs resolve within 24 hours." },
-    { q: "Cushing's Syndrome signs:", options: ["Moon-face and buffalo hump", "Weight loss", "Low glucose", "Hypotension"], answer: ["Moon-face and buffalo hump"], type: "single", category: "Endocrine", section: "Medical", rationale: "Caused by excess cortisol." },
-    { q: "Tearing back pain and unequal BPs in arms indicates:", options: ["Heart Attack", "Aortic Dissection", "Kidney Stones", "Gallstones"], answer: ["Aortic Dissection"], type: "single", category: "Cardiovascular", section: "Medical", rationale: "Classic signs of dissection." },
-    { q: "Twitching facial nerve (Chvostek's sign) indicates:", options: ["Hypocalcemia", "Hypercalcemia", "Hypokalemia", "Hyperkalemia"], answer: ["Hypocalcemia"], type: "single", category: "Assessment", section: "Medical", rationale: "Indicates neuromuscular excitability." },
-    { q: "Lethargic patient, rapid deep respirations, high glucose. First priority?", options: ["BVM", "Open/secure airway", "Hyperventilate", "Check pupils"], answer: ["Open/secure airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "Airway is always first." },
-    { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecology", section: "Medical", rationale: "Localized pain during ovulation." },
+let currentCardIdx = 0;
+let cardBank = [];
+let currentAudio = null;
+let activeDeck = "all";
+let reviewOnlyMode = false;
 
-    // --- TRAUMA & ENVIRONMENTAL ---
-    { q: "Coup-contrecoup injury occurs in which collision?", options: ["First", "Second", "Third (organs vs body wall)", "Fourth"], answer: ["Third (organs vs body wall)"], type: "single", category: "MOI", section: "Trauma", rationale: "Organs strike the interior wall." },
-    { q: "Class III Hemorrhage loss percentage?", options: ["15%", "15-30%", "30-40%", ">40%"], answer: ["30-40%"], type: "single", category: "Bleeding", section: "Trauma", rationale: "Compensation starts to fail." },
-    { q: "Beck's Triad (JVD, muffled sounds, narrow pulse pressure) indicates:", options: ["Tension Pneumo", "Cardiac Tamponade", "Hemothorax", "Commotio Cordis"], answer: ["Cardiac Tamponade"], type: "single", category: "Chest", section: "Trauma", rationale: "Fluid in pericardial sac." },
-    { q: "Kehr's sign (L shoulder pain) indicates:", options: ["Liver", "Spleen", "Kidneys", "Pancreas"], answer: ["Spleen"], type: "single", category: "Abdominal", section: "Trauma", rationale: "Referred phrenic nerve pain." },
-    { q: "What are the '6 Ps'? (Select all that apply)", options: ["Pain", "Paresthesia", "Pulselessness", "Pallor", "Paralysis", "Pressure"], answer: ["Pain", "Paresthesia", "Pulselessness", "Pallor", "Paralysis", "Pressure"], type: "multiple", category: "Ortho", section: "Trauma", rationale: "Critical ortho assessment." },
-    { q: "Trauma 'Lethal Triad' contains: (Select all that apply)", options: ["Acidosis", "Coagulopathy", "Hypothermia", "Hypertension"], answer: ["Acidosis", "Coagulopathy", "Hypothermia"], type: "multiple", category: "Bleeding", section: "Trauma", rationale: "Trauma death cycle." },
-    { q: "Cushing's Triad signs:", options: ["HTN, Bradycardia, Irregular Resp", "HTN, Tachycardia, Rapid Resp", "Hypotension, Bradycardia, JVD", "Hypotension, Tachycardia, Narrow Pulse Pressure"], answer: ["HTN, Bradycardia, Irregular Resp"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Indicates increased ICP." },
-    { q: "Cold-water drowning patient status:", options: ["Dead after 30m", "Warm and dead", "Core 90F", "No shock advised"], answer: ["Warm and dead"], type: "single", category: "Environmental", section: "Trauma", rationale: "Must warm before declaring." },
-    { q: "Gas law for 'The Bends':", options: ["Boyle's", "Henry's", "Dalton's", "Charles's"], answer: ["Henry's"], type: "single", category: "Environmental", section: "Trauma", rationale: "Gas solubility principle." },
-    { q: "Crush Syndrome pathophysiology:", options: ["Cardiac arrest", "Release of toxins after pressure removal", "Hemorrhage", "Nerve death"], answer: ["Release of toxins after pressure removal"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "Myoglobin/Potassium flood." },
-    { q: "Kinetic Energy formula:", options: ["Mass x Velocity", "1/2 Mass x Velocity Squared", "Weight x Gravity", "Mass / Velocity"], answer: ["1/2 Mass x Velocity Squared"], type: "single", category: "Physics", section: "Trauma", rationale: "Velocity squared is key." },
-    { q: "Burn with red, painful blisters is:", options: ["Superficial", "Partial-thickness", "Full-thickness", "Deep-thickness"], answer: ["Partial-thickness"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "2nd degree burn." },
-    { q: "CPP formula involves:", options: ["MAP and ICP", "BP and HR", "EtCO2 and RR", "GCS"], answer: ["MAP and ICP"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "CPP = MAP - ICP." },
-    { q: "Tension Pneumo field priority:", options: ["Occlusive dressing", "Needle Decompression", "High-flow O2", "Intubation"], answer: ["Needle Decompression"], type: "single", category: "Chest", section: "Trauma", rationale: "Relieve pressure immediately." },
-    { q: "Scaphoid abdomen suggests:", options: ["Ruptured Spleen", "Diaphragmatic Rupture", "Internal bleeding", "Evisceration"], answer: ["Diaphragmatic Rupture"], type: "single", category: "Abdominal", section: "Trauma", rationale: "Organs move into chest." },
-    { q: "Open pelvic fracture priority:", options: ["Splint legs", "Pelvic binder", "Tourniquet", "Traction splint"], answer: ["Pelvic binder"], type: "single", category: "Ortho", section: "Trauma", rationale: "Reduce volume/limit bleeding." },
-    { q: "Permissive hypotension MAP target:", options: ["40-50", "60-65", "80-90", "110-120"], answer: ["60-65"], type: "single", category: "Shock", section: "Trauma", rationale: "Maintain vital perfusion/protect clot." },
-    { q: "Heat Stroke hallmark sign:", options: ["Tachycardia", "Hot skin", "Altered Mental Status", "Cramps"], answer: ["Altered Mental Status"], type: "single", category: "Environmental", section: "Trauma", rationale: "Differentiator from heat exhaustion." },
-    { q: "Blown pupil on R indicates:", options: ["Oculomotor nerve compression", "Optic nerve damage", "Sympathetic surge", "Normal"], answer: ["Oculomotor nerve compression"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "ICP compresses 3rd cranial nerve." },
-    { q: "Latest 6P sign to develop:", options: ["Pain", "Pallor", "Pulselessness", "Paresthesia"], answer: ["Pulselessness"], type: "single", category: "Ortho", section: "Trauma", rationale: "Very late indicator." },
-    { q: "Adult toes fanning out (sole stroke) is:", options: ["Babinski's sign", "Kehr's sign", "Murphy's sign", "Cushing's sign"], answer: ["Babinski's sign"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Indicates upper motor neuron injury." },
-    { q: "Spinal shock definition:", options: ["Neurogenic hypotension", "Temporary loss of reflexes", "Bradycardia", "Paralysis"], answer: ["Temporary loss of reflexes"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Temporary physiologic state." },
-    { q: "Greenstick fracture population:", options: ["Geriatric", "Adult", "Pediatric", "Athletes"], answer: ["Pediatric"], type: "single", category: "Ortho", section: "Trauma", rationale: "Flexible bones." },
-    { q: "Mammalian Diving Reflex law:", options: ["Boyle's", "Henry's", "Dalton's", "Charles's"], answer: ["Boyle's"], type: "single", category: "Environmental", section: "Trauma", rationale: "Pressure effects law." },
+const persisted = loadProgress();
+let known = new Set(Object.keys(persisted.known));
+let review = new Set(Object.keys(persisted.review));
 
-    // --- OB/GYN & PEDIATRICS ---
-    { q: "Painless, bright red 3rd trimester bleeding is:", options: ["Abruptio Placentae", "Placenta Previa", "Ectopic", "Preeclampsia"], answer: ["Placenta Previa"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Painless/bright red." },
-    { q: "Eclampsia differentiator:", options: ["HTN", "Proteinuria", "Seizures", "Edema"], answer: ["Seizures"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Seizures mark eclampsia." },
-    { q: "Stuck shoulders during delivery:", options: ["Nuchal Cord", "Breech", "Shoulder Dystocia", "Prolapsed Cord"], answer: ["Shoulder Dystocia"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Shoulders stuck at symphysis pubis." },
-    { q: "Neonatal 2-rescuer CPR ratio:", options: ["3:1", "15:2", "30:2", "5:1"], answer: ["3:1"], type: "single", category: "Neonatal", section: "OBPeds", rationale: "90 comp / 30 breaths." },
-    { q: "Neonatal HR 54 after 30s PPV. Action?", options: ["Epi", "Chest Compressions", "More O2", "Continue PPV"], answer: ["Chest Compressions"], type: "single", category: "Neonatal", section: "OBPeds", rationale: "Start compressions if HR < 60." },
-    { q: "PAT Triangle components: (Select all that apply)", options: ["Appearance", "Work of Breathing", "Circulation", "BP"], answer: ["Appearance", "Work of Breathing", "Circulation"], type: "multiple", category: "Pediatrics", section: "OBPeds", rationale: "Visual PAT assessment." },
-    { q: "Drooling, high fever, tripod position in 3yo:", options: ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], answer: ["Epiglottitis"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Airway emergency." },
-    { q: "Seal-bark cough in infant:", options: ["Croup", "Epiglottitis", "Pneumonia", "Pertussis"], answer: ["Croup"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Barking cough/stridor." },
-    { q: "Sunken fontanelle sign:", options: ["ICP", "Dehydration", "Meningitis", "Normal"], answer: ["Dehydration"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Severe hypovolemia." },
-    { q: "Prolapsed cord management:", options: ["Pull cord", "Knee-chest position", "Push back", "Clamp"], answer: ["Place mother in knee-chest position"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Relieve cord pressure." },
+/* ---------- DECK MAPPING ---------- */
+const CATEGORY_MAP = {
+    "EMS Systems": "EMS Operations",
+    "Legal": "EMS Operations",
+    "Safety": "EMS Operations",
+    "Communications": "EMS Operations",
+    "Lifting": "EMS Operations",
+    "Wellness": "EMS Operations",
+    "Medical": "Medical",
+    "Cardiology": "Medical",
+    "Cardiovascular": "Medical",
+    "Respiratory": "Medical",
+    "Neurology": "Medical",
+    "Neuro": "Medical",
+    "Endocrine": "Medical",
+    "Toxicology": "Medical",
+    "Immunology": "Medical",
+    "Pharmacology": "Medical",
+    "Assessment": "Medical",
+    "Gynecology": "Medical",
+    "Trauma": "Trauma",
+    "MOI": "Trauma",
+    "Bleeding": "Trauma",
+    "Chest": "Trauma",
+    "Abdominal": "Trauma",
+    "Ortho": "Trauma",
+    "Head/Spine": "Trauma",
+    "Environmental": "Trauma",
+    "Soft-Tissue": "Trauma",
+    "Physics": "Trauma",
+    "Shock": "Trauma",
+    "Face/Neck": "Trauma",
+    "Patho": "Pathophysiology",
+    "Pathophysiology": "Pathophysiology",
+    "Pediatrics": "Pediatrics",
+    "Neonatal": "Pediatrics",
+    "Obstetrics": "OB/GYN",
+    "OBPeds": "OB/GYN",
+    "Terminology": "Terminology"
+};
 
-    // --- TERMINOLOGY (OPEN TEXT) ---
-    { q: "Medical term for 'a heart rate below 60 beats per minute.'", options: [], answer: ["Bradycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Brady- (slow) + -cardia (heart)." },
-    { q: "Medical term for 'a heart rate above 100 beats per minute.'", options: [], answer: ["Tachycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Tachy- (fast) + -cardia (heart)." },
-    { q: "Medical term for 'difficulty or labored breathing.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Dys- (difficult) + -pnea (breathing)." },
-    { q: "Medical term for 'the absence of breathing.'", options: [], answer: ["Apnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "A- (without) + -pnea (breathing)." },
-    { q: "Medical term for 'vomiting blood.'", options: [], answer: ["Hematemesis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemat- (blood) + -emesis (vomiting)." },
-    { q: "Medical term for 'blood in the urine.'", options: [], answer: ["Hematuria"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemat- (blood) + -uria (urine)." },
-    { q: "Medical term for 'enlargement of the liver.'", options: [], answer: ["Hepatomegaly"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hepat- (liver) + -megaly (enlarged)." },
-    { q: "Medical term for 'inflammation of the gallbladder.'", options: [], answer: ["Cholecystitis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Chole- (bile) + cyst- (sac) + -itis (inflammation)." },
-    { q: "Medical term for 'excessive sweating.'", options: [], answer: ["Diaphoresis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Diaphoresis describes sweating." },
-    { q: "Medical term for 'blood in the chest cavity.'", options: [], answer: ["Hemothorax"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemo- (blood) + -thorax (chest)." },
-    { q: "Medical term for 'low levels of oxygen in the tissues.'", options: [], answer: ["Hypoxia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hypo- (low) + oxia (oxygen)." },
-    { q: "Medical term for 'bluish discoloration of the skin due to low oxygen.'", options: [], answer: ["Cyanosis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Cyan- (blue) + -osis (condition)." },
-    { q: "Medical term for 'a new surgical opening in the stomach.'", options: [], answer: ["Gastrostomy"], type: "text", category: "Terminology", section: "Terminology", rationale: "Gastr- (stomach) + -stomy (new opening)." },
-    { q: "Medical term for 'the muscle layer of the heart.'", options: [], answer: ["Myocardium"], type: "text", category: "Terminology", section: "Terminology", rationale: "Myo- (muscle) + -cardium (heart)." },
-    { q: "Medical term for 'any disease of the kidneys.'", options: [], answer: ["Nephropathy"], type: "text", category: "Terminology", section: "Terminology", rationale: "Nephr- (kidney) + -pathy (disease)." },
-    { q: "Medical term for 'excessive production of urine.'", options: [], answer: ["Polyuria"], type: "text", category: "Terminology", section: "Terminology", rationale: "Poly- (many) + -uria (urine)." },
-    { q: "Medical term for 'difficulty breathing when lying flat.'", options: [], answer: ["Orthopnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Often seen in CHF patients." },
-    { q: "Medical term for 'a respiratory rate that is slower than normal.'", options: [], answer: ["Bradypnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Brady- (slow) + -pnea (breathing)." },
-    { q: "Medical term for 'a respiratory rate that is faster than normal.'", options: [], answer: ["Tachypnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Tachy- (fast) + -pnea (breathing)." },
-    { q: "Medical term for 'excessive or profuse bleeding.'", options: [], answer: ["Hemorrhage"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemo- (blood) + -rrhage (bursting forth)." },
+function getDeckName(card) {
+    const cat = card.category || "General";
+    return CATEGORY_MAP[cat] || "Medical";
+}
 
-    // --- PHARMACOLOGY ---
-    { q: "Standard adult dose of Epinephrine 1:1,000 for anaphylaxis? (e.g., 0.5 mg)", options: [], answer: ["0.3 mg"], type: "text", category: "Pharmacology", section: "Medical", rationale: "Adult dose is 0.3 mg IM." },
-    { q: "Medical term for 'Shortness of Breath.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Medical", rationale: "Clinical term for difficulty breathing." },
-    { q: "Target EtCO2 range for respiratory distress?", options: [], answer: ["35-45"], type: "text", category: "Respiratory", section: "Medical", rationale: "Normal range is 35-45 mmHg." },
+/* ---------- STORAGE ---------- */
+function loadProgress() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { known: {}, review: {} };
+        const p = JSON.parse(raw);
+        return { known: p.known || {}, review: p.review || {} };
+    } catch { return { known: {}, review: {} }; }
+}
 
-    // ========== EXPANDED OB/GYN ==========
-    { q: "A pregnant patient in her third trimester presents with severe headache, visual disturbances, and BP 168/110. What is the most likely diagnosis?", options: ["Gestational Diabetes", "Preeclampsia", "Placenta Previa", "Hyperemesis Gravidarum"], answer: ["Preeclampsia"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Preeclampsia = HTN + proteinuria + systemic symptoms. Can progress to eclampsia (seizures)." },
-    { q: "What medication is commonly given to prevent seizures in a patient with severe preeclampsia?", options: ["Adenosine", "Magnesium Sulfate", "Amiodarone", "Naloxone"], answer: ["Magnesium Sulfate"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Magnesium sulfate is the anticonvulsant of choice for eclampsia/preeclampsia. Watch for magnesium toxicity (loss of DTRs, respiratory depression)." },
-    { q: "How is supine hypotensive syndrome managed in a pregnant patient?", options: ["Trendelenburg", "Left lateral recumbent position", "Right lateral recumbent position", "Sitting upright"], answer: ["Left lateral recumbent position"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "The uterus compresses the inferior vena cava when supine. Left lateral tilt displaces the uterus off the vena cava." },
-    { q: "During a normal delivery, the baby's head delivers. What is your immediate priority next?", options: ["Cut the cord immediately", "Check for nuchal cord and suction mouth then nose", "Pull the baby out", "Administer oxygen to mother"], answer: ["Check for nuchal cord and suction mouth then nose"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Check the neck for a wrapped cord first. Then suction mouth (M) before nose (N) to prevent aspiration of fluid." },
-    { q: "A newborn is born limp and not breathing. Your first priority is:", options: ["Chest compressions", "Warm, dry, and stimulate", "Administer epinephrine", "Check blood glucose"], answer: ["Warm, dry, and stimulate"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "The first minute of neonatal resuscitation is 'warm, dry, stimulate.' Most newborns respond to this alone." },
-    { q: "A pregnant patient has painless, bright red vaginal bleeding in the third trimester. What should you NOT do?", options: ["Provide oxygen", "Perform a vaginal exam", "Place her on the left side", "Transport immediately"], answer: ["Perform a vaginal exam"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Placenta previa is suspected with painless bright red bleeding. NEVER do a vaginal exam — it can disrupt the placenta and cause fatal hemorrhage." },
-    { q: "What is an ectopic pregnancy?", options: ["A pregnancy outside the uterus", "A twin pregnancy", "A pregnancy with an infection", "A pregnancy past 42 weeks"], answer: ["A pregnancy outside the uterus"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Ectopic pregnancy is when the fertilized egg implants outside the uterus — usually in the fallopian tube. It's a life-threatening emergency if it ruptures." },
-    { q: "What is the classic sign of a ruptured ectopic pregnancy?", options: ["Painless bleeding", "Severe unilateral pelvic pain with referred shoulder pain", "Water breaking", "Contractions"], answer: ["Severe unilateral pelvic pain with referred shoulder pain"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Blood in the abdomen irritates the diaphragm, causing referred shoulder pain (Kehr's sign). This is a surgical emergency." },
-    { q: "What is the normal gestational period for a full-term pregnancy?", options: ["30-34 weeks", "34-38 weeks", "38-42 weeks", "42-46 weeks"], answer: ["38-42 weeks"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Full term is 38-42 weeks. Earlier is premature; later is post-term." },
-    { q: "A patient in labor has a prolapsed umbilical cord. What is the priority intervention?", options: ["Cut the cord", "Push the cord back in", "Knee-chest position with gloved hand lifting the presenting part", "Immediate transport without positioning"], answer: ["Knee-chest position with gloved hand lifting the presenting part"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "The cord is being compressed by the baby, cutting off oxygen. Relieve pressure by positioning the mother and lifting the presenting part until delivery." },
-    { q: "What is the priority for a patient with severe postpartum hemorrhage?", options: ["Massage the fundus and prepare for transport", "Administer pain medication", "Provide emotional support only", "Wait for bleeding to stop"], answer: ["Massage the fundus and prepare for transport"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Uterine massage helps the uterus contract and control bleeding. Also treat for shock and transport rapidly." },
-    { q: "What is 'imminent delivery'?", options: ["Contractions every 10 minutes", "The baby's head is crowning at the vaginal opening", "Water breaking", "Lightening"], answer: ["The baby's head is crowning at the vaginal opening"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Crowning means delivery is imminent. Prepare to deliver on scene rather than transport." },
+function saveProgress() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            known: Object.fromEntries([...known].map(k => [k, true])),
+            review: Object.fromEntries([...review].map(k => [k, true]))
+        }));
+    } catch (e) { console.warn("Save failed:", e); }
+}
 
-    // ========== EXPANDED PEDIATRICS ==========
-    { q: "What is the normal heart rate range for a newborn (0-1 month)?", options: ["60-80", "80-100", "100-160", "160-200"], answer: ["100-160"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Newborns have much faster heart rates than adults — typically 100-160 bpm at rest." },
-    { q: "What is the normal respiratory rate for an infant (0-12 months)?", options: ["10-20", "20-30", "30-60", "60-80"], answer: ["30-60"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Infants breathe much faster than adults — 30-60 breaths per minute is normal." },
-    { q: "A pediatric patient is alert, pink, and breathing normally. What does the PAT triangle tell you?", options: ["The child is in respiratory failure", "The child appears stable", "The child needs immediate CPR", "The child is in shock"], answer: ["The child appears stable"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "The PAT (Pediatric Assessment Triangle) uses Appearance, Work of Breathing, and Circulation. Normal findings on all three = stable." },
-    { q: "What is the most common cause of cardiac arrest in children?", options: ["Cardiac arrhythmia", "Respiratory failure or shock", "Congenital heart defect", "Sudden cardiac death"], answer: ["Respiratory failure or shock"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Unlike adults, pediatric cardiac arrest is usually the end result of respiratory failure or shock — not a primary cardiac event." },
-    { q: "A child with a seal-like barking cough and inspiratory stridor most likely has:", options: ["Epiglottitis", "Croup", "Asthma", "Bronchiolitis"], answer: ["Croup"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Croup (laryngotracheobronchitis) causes a classic barking cough and inspiratory stridor. Keep the child calm — agitation worsens symptoms." },
-    { q: "A drooling child in the tripod position with high fever likely has:", options: ["Croup", "Epiglottitis", "Asthma", "RSV"], answer: ["Epiglottitis"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Epiglottitis is a life-threatening airway emergency. DO NOT examine the throat — it can trigger complete airway obstruction." },
-    { q: "What is the pediatric CPR compression-to-ventilation ratio for 2 rescuers?", options: ["15:2", "30:2", "3:1", "5:1"], answer: ["15:2"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "For children with 2 rescuers, use 15 compressions to 2 breaths. Single rescuer uses 30:2." },
-    { q: "What is the pediatric defibrillation dose for a child?", options: ["Same as adult (360J)", "1 J/kg", "2 J/kg", "4 J/kg"], answer: ["2 J/kg"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "The first shock is 2 J/kg; subsequent shocks are 4 J/kg. Use the smallest pads that fit the chest." },
-    { q: "What is the most common cause of seizures in a pediatric patient?", options: ["Epilepsy", "Fever (febrile seizure)", "Head trauma", "Poisoning"], answer: ["Fever (febrile seizure)"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Febrile seizures are common in children 6 months to 5 years. They are usually benign but should be evaluated." },
-    { q: "A child has sunken fontanelles, dry mucous membranes, and no tears when crying. What do these signs suggest?", options: ["Head injury", "Dehydration", "Seizure activity", "Normal findings"], answer: ["Dehydration"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Sunken fontanelles, dry mucosa, and lack of tears are classic signs of severe dehydration in infants." },
-    { q: "What is the appropriate BVM size for a small child?", options: ["Adult BVM only", "Pediatric BVM (450-500 mL)", "Infant BVM (250 mL)", "Neonatal BVM (240 mL)"], answer: ["Pediatric BVM (450-500 mL)"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Use the smallest BVM that still provides adequate tidal volume. Adult BVMs can cause gastric inflation in children." },
-    { q: "What is 'sudden infant death syndrome' (SIDS)?", options: ["Death of an infant under 1 year with no identifiable cause", "A type of seizure", "A congenital heart defect", "A respiratory infection"], answer: ["Death of an infant under 1 year with no identifiable cause"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "SIDS is the sudden death of an infant under 1 year old that remains unexplained after investigation. Back-to-sleep positioning reduces risk." },
-    { q: "What is the pediatric assessment triangle (PAT)?", options: ["Appearance, Work of Breathing, Circulation", "Airway, Breathing, Circulation", "Alert, Verbal, Painful, Unresponsive", "Pulse, Arousal, Tone"], answer: ["Appearance, Work of Breathing, Circulation"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "The PAT is a visual, hands-off assessment done from the doorway. It uses Appearance, Work of Breathing, and Circulation to skin." },
-    { q: "A child has been vomiting and has diarrhea for 3 days. Skin turgor is poor. What is the priority?", options: ["Anti-nausea medication", "Fluid resuscitation", "Antibiotics", "Pain management"], answer: ["Fluid resuscitation"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Pediatric patients dehydrate quickly. Fluid resuscitation is the priority for hypovolemia from GI losses." },
-    { q: "What is the most appropriate initial airway intervention for an unresponsive child?", options: ["Surgical cricothyrotomy", "Head-tilt chin-lift or jaw-thrust", "Nasopharyngeal airway", "Endotracheal intubation"], answer: ["Head-tilt chin-lift or jaw-thrust"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Start with basic manual maneuvers. Use jaw-thrust if spinal injury is suspected. Move to advanced airways only if basic measures fail." },
-    { q: "A 3-year-old presents with grunting, nasal flaring, and retractions. This indicates:", options: ["Mild respiratory distress", "Severe respiratory distress", "Normal breathing", "Cardiac arrest"], answer: ["Severe respiratory distress"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Grunting, nasal flaring, and retractions are signs of significant respiratory distress — the child is working hard to breathe." },
-    { q: "A toddler is found unresponsive. Blood glucose is 32 mg/dL. What is the priority?", options: ["Administer oral glucose", "Administer IV dextrose", "Wait and recheck", "Give epinephrine"], answer: ["Administer IV dextrose"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Hypoglycemia in an unresponsive child is a life threat. IV dextrose is the fastest route. Oral glucose is dangerous if the airway isn't protected." },
-    { q: "What is 'tenting' of the skin in a pediatric patient?", options: ["A sign of dehydration where skin stays raised when pinched", "A sign of adequate hydration", "A sign of hypoglycemia", "A sign of head injury"], answer: ["A sign of dehydration where skin stays raised when pinched"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Skin turgor is tested by pinching the abdomen or back of the hand. Poor turgor (tenting) = dehydration." },
-    { q: "What is 'barrel chest' in pediatrics?", options: ["Normal chest shape", "Increased AP diameter due to air trapping", "A sign of pneumothorax", "A congenital defect"], answer: ["Increased AP diameter due to air trapping"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Barrel chest is a sign of chronic air trapping — often seen in chronic asthma or cystic fibrosis." },
-    { q: "At what age should a child be able to sit unsupported?", options: ["2-3 months", "4-5 months", "6-8 months", "10-12 months"], answer: ["6-8 months"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Developmental milestones help assess for delays. Sitting unsupported is typically achieved between 6-8 months." },
-    { q: "What is the appropriate dose of epinephrine 1:1,000 IM for a pediatric anaphylaxis patient?", options: ["0.01 mg/kg (max 0.3 mg)", "0.1 mg/kg", "0.5 mg regardless of weight", "1 mg regardless of weight"], answer: ["0.01 mg/kg (max 0.3 mg)"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Pediatric epinephrine is dosed at 0.01 mg/kg IM. The max single dose is 0.3 mg. Auto-injectors are 0.15 mg (pediatric) or 0.3 mg (adult)." }
-];
+/* ---------- HELPERS ---------- */
+function cardKey(card) {
+    return (card.category || "unknown") + "|" + card.q;
+}
 
-// ---------- OPEN-REVIEW / STUDY CARDS ----------
-quizData.push(
-    { q: "A sudden drop in cardiac output due to a massive Pulmonary Embolism (PE) is a classic example of which type of shock?", answer: "Obstructive Shock.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "In obstructive shock, the heart is capable of pumping, but a mechanical obstruction prevents blood from flowing through the system.", cheatSheet: "OBSTRUCTIVE SHOCK: A 'plumbing' block. Causes: Tension Pneumothorax, Cardiac Tamponade, and PE." },
-    { q: "What is the primary intracellular cation in the human body?", answer: "Potassium (K+).", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Potassium is the major positive ion inside the cells.", cheatSheet: "ELECTROLYTES: K+ = Inside. Na+ = Outside." },
-    { q: "What cellular process occurs when cells are forced to switch to metabolism without a sufficient oxygen supply?", answer: "Anaerobic Metabolism.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Without oxygen, the cell cannot enter the Krebs cycle efficiently.", cheatSheet: "ANAEROBIC: 'An-' (without) 'aerobic' (oxygen)." },
-    { q: "An accumulation of lactic acid in the blood leads to which specific acid-base condition?", answer: "Metabolic Acidosis.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Lactic acid buildup drops blood pH.", cheatSheet: "METABOLIC ACIDOSIS: Low pH from metabolic byproducts." },
-    { q: "What is the primary chemical buffer system used by the human body to maintain pH balance?", answer: "The Bicarbonate Buffer System.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Balances Carbonic Acid and Bicarbonate.", cheatSheet: "BUFFERING: Bicarbonate system is fastest." },
-    { q: "Low serum calcium levels (hypocalcemia) can lead to involuntary muscle spasms, a condition known as?", answer: "Tetany.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Calcium is necessary for proper muscle contraction.", cheatSheet: "TETANY: Muscle tension from low Calcium." },
-    { q: "What is the primary underlying vascular mechanism that leads to septic shock?", answer: "Widespread vasodilation due to a systemic infection.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Toxins trigger massive inflammatory response.", cheatSheet: "SEPTIC SHOCK: Distributive shock." },
-    { q: "List the components of Virchow's Triad.", answer: "1. Venous Stasis, 2. Endothelial Injury, 3. Hypercoagulability.", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Medical", rationale: "Understanding clotting risk factors.", cheatSheet: "VIRCHOW'S TRIAD: Stasis + Injury + Hypercoagulability." },
-    { q: "Describe the 'Shark Fin' waveform on a capnogram.", answer: "Slurred alveolar plateau indicating bronchoconstriction.", type: "open-review", onlyStudy: true, category: "Respiratory", section: "Medical", rationale: "Airways constrict, CO2 exits slower.", cheatSheet: "SHARK FIN = Bronchoconstriction." },
-    { q: "Differentiate between Decorticate and Decerebrate posturing.", answer: "Decorticate: Flexion (toward core). Decerebrate: Extension (outward).", type: "open-review", onlyStudy: true, category: "Neuro", section: "Trauma", rationale: "Both indicate serious brain injury.", cheatSheet: "DE-CORE-TICATE (toward core) vs EXTENSION (Decerebrate)." },
-    { q: "What is the clinical definition of Eclampsia?", answer: "Tonic-clonic seizures in a patient with preeclampsia.", type: "open-review", onlyStudy: true, category: "OBPeds", section: "Medical", rationale: "The 'E' in Eclampsia stands for Event (the seizure).", cheatSheet: "PREECLAMPSIA: High BP + Protein. ECLAMPSIA: Seizure." },
-    { q: "Explain the Frank-Starling Law of the Heart.", answer: "The heart contracts with more force as fibers stretch (increased Preload).", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Foundations", rationale: "Explains why we reduce preload in CHF.", cheatSheet: "FRANK-STARLING: Stretch = More Force." },
-    { q: "Describe the transition from Aerobic to Anaerobic metabolism during shock.", answer: "Cells deprived of oxygen switch to anaerobic metabolism, producing Lactic Acid.", type: "open-review", onlyStudy: true, category: "Patho", section: "Foundations", rationale: "Why RR increases in shock.", cheatSheet: "ANAEROBIC = NO OXYGEN. Waste = Lactic Acid." },
-    { q: "Define 'Ventilation-Perfusion (V/Q) Mismatch'.", answer: "Air reaching alveoli doesn't match blood flow.", type: "open-review", onlyStudy: true, category: "Respiratory", section: "Medical", rationale: "PE = ventilation fine, perfusion blocked.", cheatSheet: "V/Q MISMATCH: Air vs Blood don't meet." },
-    { q: "What is 'Cor Pulmonale'?", answer: "Right-sided heart failure caused by pulmonary hypertension.", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Medical", rationale: "Explains JVD and edema in COPD patients.", cheatSheet: "COR PULMONALE: Right HF from Lung Disease." },
-    { q: "What is HELLP Syndrome and what is the definitive treatment?", answer: "Hemolysis, Elevated Liver enzymes, Low Platelets. Treatment: immediate delivery.", type: "open-review", onlyStudy: true, category: "Obstetrics", section: "OBPeds", rationale: "Severe preeclampsia variant.", cheatSheet: "HELLP: Hemolysis + Elevated Liver + Low Platelets." },
-    { q: "Describe the pathophysiology of Rhabdomyolysis.", answer: "Release of Myoglobin from damaged muscle cells into the bloodstream.", type: "open-review", onlyStudy: true, category: "Soft-Tissue", section: "Trauma", rationale: "Myoglobin toxic to renal tubules.", cheatSheet: "RHABDO: Muscle death = Myoglobin release = AKI." }
-);
+function isFlashcardType(q) {
+    return q.type === "single" || q.type === "open-review" ||
+           q.type === "multiple" || q.type === "text";
+}
+
+function getFilteredBank() {
+    let base = quizData.filter(isFlashcardType);
+    if (activeDeck !== "all") {
+        base = base.filter(q => getDeckName(q) === activeDeck);
+    }
+    if (reviewOnlyMode) {
+        base = base.filter(q => review.has(cardKey(q)));
+    } else {
+        base = base.filter(q => !known.has(cardKey(q)));
+    }
+    return base;
+}
+
+/* ---------- DECK PICKER ---------- */
+function getDeckStats() {
+    const decks = {};
+    quizData.filter(isFlashcardType).forEach(q => {
+        const deck = getDeckName(q);
+        if (!decks[deck]) decks[deck] = { total: 0, known: 0, review: 0 };
+        decks[deck].total++;
+        const key = cardKey(q);
+        if (known.has(key)) decks[deck].known++;
+        if (review.has(key)) decks[deck].review++;
+    });
+    return decks;
+}
+
+function getDeckIcon(deckName) {
+    const icons = {
+        "EMS Operations": "local_hospital",
+        "Medical": "medical_services",
+        "Trauma": "healing",
+        "Pathophysiology": "coronavirus",
+        "Pediatrics": "child_care",
+        "OB/GYN": "pregnant_woman",
+        "Terminology": "translate"
+    };
+    return icons[deckName] || "style";
+}
+
+function renderDeckPicker() {
+    const grid = document.getElementById("deckGrid");
+    if (!grid) return;
+
+    const decks = getDeckStats();
+    const sorted = Object.entries(decks).sort((a, b) => a[0].localeCompare(b[0]));
+
+    grid.innerHTML = sorted.map(function(entry) {
+        const cat = entry[0];
+        const stats = entry[1];
+        const pct = stats.total > 0 ? Math.round((stats.known / stats.total) * 100) : 0;
+        const mastered = stats.known === stats.total;
+        const icon = getDeckIcon(cat);
+        const reviewBadge = stats.review > 0
+            ? '<span class="deck-tile-review-badge">' + stats.review + ' to review</span>'
+            : '';
+
+        return '<button class="deck-tile ' + (mastered ? 'mastered' : '') + '" onclick="selectDeck(\'' + cat.replace(/'/g, "\\'") + '\')">' +
+            reviewBadge +
+            '<span class="material-icons deck-tile-icon">' + icon + '</span>' +
+            '<p class="deck-tile-name">' + cat + '</p>' +
+            '<p class="deck-tile-stats">' + stats.total + ' cards · ' + stats.known + ' known</p>' +
+            '<div class="deck-tile-progress-bar">' +
+                '<div class="deck-tile-progress-fill" style="width: ' + pct + '%"></div>' +
+            '</div>' +
+        '</button>';
+    }).join("");
+}
+
+/* ---------- SCREEN SWITCHING ---------- */
+function selectDeck(category) {
+    activeDeck = category;
+    reviewOnlyMode = false;
+    currentCardIdx = 0;
+    document.getElementById("deckPicker").style.display = "none";
+    document.getElementById("cardView").classList.add("visible");
+    cardBank = getFilteredBank();
+    renderCard();
+}
+
+function backToDeckPicker() {
+    document.getElementById("cardView").classList.remove("visible");
+    document.getElementById("deckPicker").style.display = "block";
+    renderDeckPicker();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ---------- RENDER ---------- */
+function renderCard() {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    cardBank = getFilteredBank();
+
+    if (cardBank.length === 0) { showCompletion(); return; }
+    hideCompletion();
+
+    if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
+    if (currentCardIdx < 0) currentCardIdx = cardBank.length - 1;
+
+    const item = cardBank[currentCardIdx];
+    const cardElement = document.getElementById("main-card");
+    cardElement.classList.remove("is-flipped");
+
+    document.getElementById("card-progress").innerText =
+        "Card " + (currentCardIdx + 1) + " of " + cardBank.length;
+
+    document.getElementById("fcDeckLabel").innerText =
+        reviewOnlyMode ? "Review Mode — Still Learning" : activeDeck;
+
+    document.getElementById("card-question-text").innerText = item.q;
+
+    const reviewBadge = document.getElementById("cardReviewBadge");
+    reviewBadge.style.display = review.has(cardKey(item)) ? "block" : "none";
+
+    const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
+    document.getElementById("card-answer-text").innerText = cleanAnswer;
+    document.getElementById("card-rationale-text").innerText = item.rationale || "";
+
+    const csBox = document.getElementById("card-cheat-sheet");
+    if (item.cheatSheet) {
+        csBox.style.display = "block";
+        csBox.innerHTML = "<strong>Field Note Summary:</strong> " + item.cheatSheet;
+    } else {
+        csBox.style.display = "none";
+    }
+
+    const pct = ((currentCardIdx + 1) / cardBank.length) * 100;
+    document.getElementById("fcProgressFill").style.width = pct + "%";
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById("knownCount").textContent = known.size;
+    document.getElementById("reviewCount").textContent = review.size;
+    document.getElementById("remainingCount").textContent = cardBank.length;
+}
+
+/* ---------- COMPLETION ---------- */
+function showCompletion() {
+    const wrapper = document.querySelector(".flashcard-wrapper");
+    const controls = document.querySelector(".fc-controls");
+    const secondary = document.querySelector(".fc-secondary-controls");
+    const progressBar = document.querySelector(".fc-progress-bar");
+    const meta = document.querySelector(".fc-meta");
+
+    if (wrapper) wrapper.style.display = "none";
+    if (controls) controls.style.display = "none";
+    if (secondary) secondary.style.display = "none";
+    if (progressBar) progressBar.style.display = "none";
+    if (meta) meta.style.display = "none";
+
+    document.getElementById("completionScreen").classList.add("visible");
+
+    const title = document.getElementById("completionTitle");
+    const msg = document.getElementById("completionMessage");
+
+    if (reviewOnlyMode) {
+        title.textContent = "Review Complete!";
+    } else {
+        title.textContent = activeDeck + " Complete!";
+    }
+
+    if (reviewOnlyMode) {
+        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning.'";
+    } else if (review.size > 0) {
+        msg.textContent = "Deck mastered! " + review.size + " card" + (review.size === 1 ? "" : "s") + " still marked 'Still Learning.'";
+    } else {
+        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
+    }
+}
+
+function hideCompletion() {
+    const wrapper = document.querySelector(".flashcard-wrapper");
+    const controls = document.querySelector(".fc-controls");
+    const secondary = document.querySelector(".fc-secondary-controls");
+    const progressBar = document.querySelector(".fc-progress-bar");
+    const meta = document.querySelector(".fc-meta");
+
+    if (wrapper) wrapper.style.display = "";
+    if (controls) controls.style.display = "";
+    if (secondary) secondary.style.display = "";
+    if (progressBar) progressBar.style.display = "";
+    if (meta) meta.style.display = "";
+
+    document.getElementById("completionScreen").classList.remove("visible");
+}
+
+/* ---------- ACTIONS ---------- */
+function flipCard() {
+    document.getElementById("main-card").classList.toggle("is-flipped");
+}
+
+function nextCard(event) {
+    if (event) event.stopPropagation();
+    if (cardBank.length === 0) return;
+    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
+    renderCard();
+}
+
+function prevCard(event) {
+    if (event) event.stopPropagation();
+    if (cardBank.length === 0) return;
+    currentCardIdx = (currentCardIdx - 1 + cardBank.length) % cardBank.length;
+    renderCard();
+}
+
+function markKnown(event) {
+    if (event) event.stopPropagation();
+    if (cardBank.length === 0) return;
+    const card = cardBank[currentCardIdx];
+    const key = cardKey(card);
+    known.add(key);
+    review.delete(key);
+    saveProgress();
+    if (currentCardIdx >= cardBank.length - 1) currentCardIdx = 0;
+    renderCard();
+}
+
+function markReview(event) {
+    if (event) event.stopPropagation();
+    if (cardBank.length === 0) return;
+    const card = cardBank[currentCardIdx];
+    const key = cardKey(card);
+    review.add(key);
+    known.delete(key);
+    saveProgress();
+    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
+    renderCard();
+}
+
+function shuffleDeck() {
+    for (let i = cardBank.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = cardBank[i];
+        cardBank[i] = cardBank[j];
+        cardBank[j] = tmp;
+    }
+    currentCardIdx = 0;
+    renderCard();
+}
+
+function toggleReviewOnly() {
+    if (!reviewOnlyMode && review.size === 0) {
+        alert("You haven't marked any cards as 'Still Learning' yet.");
+        return;
+    }
+    reviewOnlyMode = !reviewOnlyMode;
+    currentCardIdx = 0;
+    cardBank = getFilteredBank();
+    renderCard();
+}
+
+function resetCurrentDeck() {
+    if (!confirm("Reset progress for this deck?")) return;
+    const scope = activeDeck === "all"
+        ? quizData.filter(isFlashcardType)
+        : quizData.filter(q => isFlashcardType(q) && getDeckName(q) === activeDeck);
+    scope.forEach(q => {
+        known.delete(cardKey(q));
+        review.delete(cardKey(q));
+    });
+    saveProgress();
+    currentCardIdx = 0;
+    reviewOnlyMode = false;
+    renderCard();
+}
+
+/* ---------- INIT ---------- */
+function initFlashcards() {
+    if (localStorage.getItem("ems_theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+    const resetBtn = document.getElementById("resetFromCompleteBtn");
+    const backBtn = document.getElementById("backFromCompleteBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetCurrentDeck);
+    if (backBtn) backBtn.addEventListener("click", backToDeckPicker);
+    renderDeckPicker();
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    const cardView = document.getElementById("cardView");
+    if (!cardView || !cardView.classList.contains("visible")) return;
+    if (e.key === "ArrowRight") nextCard();
+    if (e.key === "ArrowLeft") prevCard();
+    if (e.key === " ") { e.preventDefault(); flipCard(); }
+    if (e.key === "1") markKnown();
+    if (e.key === "2") markReview();
+    if (e.key === "Escape") backToDeckPicker();
+});
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFlashcards);
+} else {
+    initFlashcards();
+}
