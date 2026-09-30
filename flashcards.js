@@ -3,15 +3,41 @@
    ============================================================ */
 
 // ---------- FSRS SETUP ----------
-// ts-fsrs is loaded globally via CDN as `tsFsrs`
-const { createEmptyCard, fsrs, Rating, State } = window.tsFsrs;
+// Wait for the ts-fsrs library to be available before destructuring
+if (!window.tsFsrs) {
+    console.error("FSRS library not loaded. Check the CDN script tag.");
+}
+
+const { createEmptyCard, fsrs, Rating, State } = window.tsFsrs || {
+    createEmptyCard: () => ({
+        due: new Date(),
+        stability: 0,
+        difficulty: 0,
+        elapsed_days: 0,
+        scheduled_days: 0,
+        reps: 0,
+        lapses: 0,
+        state: 0,
+        last_review: undefined,
+    }),
+    fsrs: () => ({
+        next: (card) => ({ card }),
+        repeat: (card) => ({
+            1: { card },
+            2: { card },
+            3: { card },
+            4: { card },
+        }),
+    }),
+    Rating: { Again: 1, Hard: 2, Good: 3, Easy: 4 },
+    State: { New: 0, Learning: 1, Review: 2, Relearning: 3 },
+};
 
 // Create the FSRS scheduler with default parameters
-// request_retention: 0.9 means "aim for 90% recall on review"
 const scheduler = fsrs({
     request_retention: 0.9,
-    maximum_interval: 36500,  // Max ~100 years (effectively unlimited)
-    enable_fuzz: true,        // Adds slight randomness to intervals
+    maximum_interval: 36500,
+    enable_fuzz: true,
     enable_short_term: true,
     learning_steps: ['1m', '10m'],
     relearning_steps: ['10m'],
