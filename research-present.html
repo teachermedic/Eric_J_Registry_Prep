@@ -128,7 +128,6 @@
             position: relative;
         }
 
-        /* Phase-colored border to make the current phase obvious at a glance */
         .rp-card.phase-research { border-top: 6px solid #2563eb; }
         .rp-card.phase-present  { border-top: 6px solid #16a34a; }
         .rp-card.phase-idle     { border-top: 6px solid #d6d3d1; }
@@ -155,6 +154,7 @@
             font-family: 'Lora', Georgia, serif;
             max-width: 620px;
             letter-spacing: -0.01em;
+            transition: transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease;
         }
 
         .rp-content.rp-empty {
@@ -162,6 +162,17 @@
             color: #a3a3a3;
             font-style: italic;
             font-weight: 400;
+        }
+
+        /* Slot-machine effect: soft blur while spinning */
+        .rp-content.spinning {
+            filter: blur(0.5px);
+            opacity: 0.85;
+        }
+
+        /* Settle bounce when the term lands */
+        .rp-content.landed {
+            transform: scale(1.08);
         }
 
         .rp-hint {
@@ -615,6 +626,7 @@ let activeCategory = "all";
 let activeMode = "solo";
 let currentTopic = null;
 let timerInterval = null;
+let spinTimer = null;
 let timeLeft = 600;
 let phase = "idle"; // idle | research | present
 let researchDuration = 600;
@@ -652,40 +664,95 @@ function setPhase(newPhase) {
     }[newPhase];
 }
 
-/* ---------- SPIN ---------- */
+/* ---------- TICK SOUND (optional, subtle) ---------- */
+let audioCtx = null;
+function playTick() {
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.value = 800;
+        gain.gain.value = 0.025;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.02);
+    } catch (e) { /* Silent fail if audio unavailable */ }
+}
+
+/* ---------- SPIN (SLOT-MACHINE) ---------- */
 function spinTopic() {
+    // If already spinning, ignore re-clicks
+    if (spinTimer) return;
+
     const pool = getFilteredTopics();
     if (pool.length === 0) return;
 
-    let next;
-    do { next = pool[Math.floor(Math.random() * pool.length)]; }
-    while (pool.length > 1 && next === currentTopic);
-
-    currentTopic = next;
+    // Pre-pick the winning term
+    let winner;
+    do { winner = pool[Math.floor(Math.random() * pool.length)]; }
+    while (pool.length > 1 && winner === currentTopic);
 
     const contentEl = document.getElementById('rp-content');
-    contentEl.classList.remove('rp-empty');
-    contentEl.textContent = next.text;
+    const hintEl = document.getElementById('rp-hint');
 
-    document.getElementById('rp-hint').style.display = 'block';
-
-    // Reset controls for a fresh topic
-    document.getElementById('rp-start-research').disabled = false;
-    document.getElementById('rp-start-research').style.display = 'inline-flex';
+    // Hide hint + reset controls during spin
+    hintEl.style.display = 'none';
+    document.getElementById('rp-start-research').disabled = true;
     document.getElementById('rp-start-present').disabled = true;
-    document.getElementById('rp-start-present').style.display = 'inline-flex';
     document.getElementById('rp-next').style.display = 'none';
-    document.getElementById('rp-spin').style.display = 'inline-flex';
     document.getElementById('rp-stop').style.display = 'none';
+    document.getElementById('rp-spin').style.display = 'inline-flex';
+
+    contentEl.classList.remove('rp-empty', 'landed');
+    contentEl.classList.add('spinning');
 
     setPhase('idle');
-    timeLeft = researchDuration;
-    updateTimerDisplay();
 
-    // Card pulse animation
-    const card = document.getElementById('rp-card');
-    card.style.transform = 'scale(0.98)';
-    setTimeout(() => { card.style.transform = 'scale(1)'; }, 100);
+    // Animation loop
+    let elapsed = 0;
+    const totalDuration = 1600; // total spin time (ms)
+    let speed = 40;
+
+    const tick = () => {
+        const randomTerm = pool[Math.floor(Math.random() * pool.length)].text;
+        contentEl.textContent = randomTerm;
+
+        elapsed += speed;
+        const progress = elapsed / totalDuration;
+        speed = 40 + Math.floor(progress * progress * 200); // eases out
+
+        // Tick sound only during the slow-down phase
+        if (speed > 90) playTick();
+
+        if (elapsed < totalDuration) {
+            spinTimer = setTimeout(tick, speed);
+        } else {
+            // ----- LAND ON WINNER -----
+            contentEl.classList.remove('spinning');
+            contentEl.textContent = winner.text;
+            contentEl.classList.add('landed');
+            setTimeout(() => contentEl.classList.remove('landed'), 220);
+
+            currentTopic = winner;
+            spinTimer = null;
+
+            // Re-enable controls
+            document.getElementById('rp-start-research').disabled = false;
+            document.getElementById('rp-start-research').style.display = 'inline-flex';
+            document.getElementById('rp-start-present').disabled = true;
+            document.getElementById('rp-start-present').style.display = 'inline-flex';
+            document.getElementById('rp-spin').style.display = 'inline-flex';
+
+            hintEl.style.display = 'block';
+
+            timeLeft = researchDuration;
+            updateTimerDisplay();
+        }
+    };
+
+    tick();
 }
 
 /* ---------- TIMER ---------- */
@@ -785,63 +852,4 @@ function assignToStudent(el) {
 }
 
 /* ---------- EVENT LISTENERS ---------- */
-document.getElementById('rp-spin').addEventListener('click', spinTopic);
-document.getElementById('rp-start-research').addEventListener('click', startResearch);
-document.getElementById('rp-start-present').addEventListener('click', startPresent);
-document.getElementById('rp-stop').addEventListener('click', stopTimer);
-document.getElementById('rp-next').addEventListener('click', () => {
-    sessionCount++;
-    document.getElementById('rp-count').textContent = sessionCount;
-    spinTopic();
-});
-
-document.querySelectorAll('.rp-cat').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.rp-cat').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeCategory = btn.dataset.cat;
-        currentTopic = null;
-    });
-});
-
-document.querySelectorAll('.rp-mode').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.rp-mode').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeMode = btn.dataset.mode;
-        document.getElementById('rp-roster').classList.toggle('visible', activeMode === 'class');
-        if (activeMode === 'class' && !rosterBuilt) {
-            buildRoster();
-        }
-    });
-});
-
-document.getElementById('rp-research-duration').addEventListener('change', (e) => {
-    researchDuration = parseInt(e.target.value);
-    if (phase === 'idle') {
-        timeLeft = researchDuration;
-        updateTimerDisplay();
-    }
-});
-
-document.getElementById('rp-present-duration').addEventListener('change', (e) => {
-    presentDuration = parseInt(e.target.value);
-});
-
-/* ---------- KEYBOARD SHORTCUTS ---------- */
-document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-
-    if (e.key === ' ' && !timerInterval) { e.preventDefault(); spinTopic(); }
-    if (e.key === 'r' && !timerInterval && currentTopic) { e.preventDefault(); startResearch(); }
-    if (e.key === 'p' && !timerInterval && currentTopic) { e.preventDefault(); startPresent(); }
-    if (e.key === 'Escape' && timerInterval) { e.preventDefault(); stopTimer(); }
-});
-
-// Init
-setPhase('idle');
-updateTimerDisplay();
-</script>
-
-</body>
-</html>
+document
