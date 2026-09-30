@@ -1,8 +1,23 @@
 /* ============================================================
-   CLINICAL FLASHCARDS — same behavior as Terminology Decks
+   CLINICAL FLASHCARDS — FSRS-powered spaced repetition
    ============================================================ */
 
-const STORAGE_KEY = "clinical-flashcards-progress-v1";
+// ---------- FSRS SETUP ----------
+// ts-fsrs is loaded globally via CDN as `tsFsrs`
+const { createEmptyCard, fsrs, Rating, State } = window.tsFsrs;
+
+// Create the FSRS scheduler with default parameters
+// request_retention: 0.9 means "aim for 90% recall on review"
+const scheduler = fsrs({
+    request_retention: 0.9,
+    maximum_interval: 36500,  // Max ~100 years (effectively unlimited)
+    enable_fuzz: true,        // Adds slight randomness to intervals
+    enable_short_term: true,
+    learning_steps: ['1m', '10m'],
+    relearning_steps: ['10m'],
+});
+
+const STORAGE_KEY = "clinical-flashcards-fsrs-v1";
 
 /* ---------- STATE ---------- */
 let currentCardIdx = 0;
@@ -11,32 +26,56 @@ let currentAudio = null;
 let activeDeck = "all";
 let reviewOnlyMode = false;
 
-const persisted = loadProgress();
-let known = new Set(Object.keys(persisted.known));
-let review = new Set(Object.keys(persisted.review));
+// FSRS card states stored by cardKey
+let fsrsCards = {};
 
 /* ---------- STORAGE ---------- */
 function loadProgress() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return { known: {}, review: {} };
-        const p = JSON.parse(raw);
-        return { known: p.known || {}, review: p.review || {} };
-    } catch { return { known: {}, review: {} }; }
+        if (!raw) return { cards: {} };
+        const parsed = JSON.parse(raw);
+        return { cards: parsed.cards || {} };
+    } catch (err) {
+        console.warn("Could not load FSRS progress:", err);
+        return { cards: {} };
+    }
 }
 
 function saveProgress() {
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            known: Object.fromEntries([...known].map(k => [k, true])),
-            review: Object.fromEntries([...review].map(k => [k, true]))
-        }));
-    } catch (e) { console.warn("Save failed:", e); }
+        // Serialize FSRS cards (convert Date objects to ISO strings)
+        const serialized = {};
+        for (const [key, card] of Object.entries(fsrsCards)) {
+            serialized[key] = {
+                ...card,
+                due: card.due instanceof Date ? card.due.toISOString() : card.due,
+                last_review: card.last_review instanceof Date
+                    ? card.last_review.toISOString()
+                    : card.last_review,
+            };
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ cards: serialized }));
+    } catch (err) {
+        console.warn("Could not save FSRS progress:", err);
+    }
 }
 
 /* ---------- HELPERS ---------- */
 function cardKey(card) {
     return `${card.category || "unknown"}|${card.q}`;
+}
+
+function getOrCreateFsrsCard(card) {
+    const key = cardKey(card);
+    if (!fsrsCards[key]) {
+        fsrsCards[key] = createEmptyCard();
+    }
+    // Rehydrate dates if they were serialized
+    const c = fsrsCards[key];
+    if (typeof c.due === 'string') c.due = new Date(c.due);
+    if (typeof c.last_review === 'string') c.last_review = new Date(c.last_review);
+    return c;
 }
 
 function isFlashcardType(q) {
@@ -52,6 +91,13 @@ function getAllCategories() {
     return ["all", ...Array.from(cats).sort()];
 }
 
+/* ---------- FSRS FILTERING ---------- */
+function isDueForReview(card) {
+    const fsrsCard = getOrCreateFsrsCard(card);
+    if (fsrsCard.state === State.New) return true;
+    return new Date(fsrsCard.due) <= new Date();
+}
+
 function getFilteredBank() {
     let base = quizData.filter(isFlashcardType);
 
@@ -60,10 +106,25 @@ function getFilteredBank() {
     }
 
     if (reviewOnlyMode) {
-        base = base.filter(q => review.has(cardKey(q)));
+        // Show cards that are due for review and have been reviewed before
+        base = base.filter(q => {
+            const fsrsCard = getOrCreateFsrsCard(q);
+            return fsrsCard.state !== State.New && isDueForReview(q);
+        });
     } else {
-        base = base.filter(q => !known.has(cardKey(q)));
+        // Show cards due for review (includes new cards)
+        base = base.filter(isDueForReview);
     }
+
+    // Sort by due date (most overdue first), with new cards mixed in
+    base.sort((a, b) => {
+        const cardA = getOrCreateFsrsCard(a);
+        const cardB = getOrCreateFsrsCard(b);
+        if (cardA.state === State.New && cardB.state === State.New) return 0;
+        if (cardA.state === State.New) return -1;  // New cards first
+        if (cardB.state === State.New) return 1;
+        return new Date(cardA.due) - new Date(cardB.due);
+    });
 
     return base;
 }
@@ -84,11 +145,12 @@ function renderDeckTabs() {
         tab.type = "button";
         tab.textContent = labels[cat] || cat;
 
+        // Count due cards for this category
         let count;
         if (cat === "all") {
-            count = quizData.filter(q => review.has(cardKey(q))).length;
+            count = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
         } else {
-            count = quizData.filter(q => q.category === cat && review.has(cardKey(q))).length;
+            count = quizData.filter(q => isFlashcardType(q) && q.category === cat && isDueForReview(q)).length;
         }
 
         if (count > 0) {
@@ -103,7 +165,6 @@ function renderDeckTabs() {
             reviewOnlyMode = false;
             currentCardIdx = 0;
             cardBank = getFilteredBank();
-            cardBank.sort(() => Math.random() - 0.5);
             renderDeckTabs();
             renderCard();
         });
@@ -136,15 +197,11 @@ function renderCard() {
         `Card ${currentCardIdx + 1} of ${cardBank.length}`;
 
     document.getElementById("fcDeckLabel").innerText =
-        reviewOnlyMode ? "Review Mode — Still Learning"
+        reviewOnlyMode ? "Review Mode — Due Cards"
         : (activeDeck === "all" ? "All Cards" : activeDeck);
 
     // Front
     document.getElementById("card-question-text").innerText = item.q;
-
-    // Review badge
-    const reviewBadge = document.getElementById("cardReviewBadge");
-    reviewBadge.style.display = review.has(cardKey(item)) ? "block" : "none";
 
     // Answer + rationale + cheat sheet
     const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
@@ -165,12 +222,31 @@ function renderCard() {
 
     updateStats();
     updateTabBadges();
+    updateRatingButtons();
 }
 
 function updateStats() {
-    document.getElementById("knownCount").textContent = known.size;
-    document.getElementById("reviewCount").textContent = review.size;
-    document.getElementById("remainingCount").textContent = cardBank.length;
+    const knownEl = document.getElementById("knownCount");
+    const reviewEl = document.getElementById("reviewCount");
+    const remainingEl = document.getElementById("remainingCount");
+    if (!knownEl) return;
+
+    // Count learned cards (state = Review and stability > 21 days)
+    let learned = 0;
+    let reviewing = 0;
+
+    for (const card of quizData.filter(isFlashcardType)) {
+        const fsrsCard = getOrCreateFsrsCard(card);
+        if (fsrsCard.state === State.Review && fsrsCard.stability > 21) {
+            learned++;
+        } else if (fsrsCard.state !== State.New) {
+            reviewing++;
+        }
+    }
+
+    knownEl.textContent = learned;
+    reviewEl.textContent = reviewing;
+    remainingEl.textContent = cardBank.length;
 }
 
 function updateTabBadges() {
@@ -178,9 +254,9 @@ function updateTabBadges() {
         const cat = tab.dataset.deck;
         let count;
         if (cat === "all") {
-            count = quizData.filter(q => review.has(cardKey(q))).length;
+            count = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
         } else {
-            count = quizData.filter(q => q.category === cat && review.has(cardKey(q))).length;
+            count = quizData.filter(q => isFlashcardType(q) && q.category === cat && isDueForReview(q)).length;
         }
         const existing = tab.querySelector(".tab-badge");
         if (existing) existing.remove();
@@ -193,22 +269,61 @@ function updateTabBadges() {
     });
 }
 
+function updateRatingButtons() {
+    // Hide the default rating buttons and show FSRS 4-button layout
+    const currentCard = cardBank[currentCardIdx];
+    if (!currentCard) return;
+
+    const fsrsCard = getOrCreateFsrsCard(currentCard);
+
+    // Update button labels with next review interval preview
+    const preview = scheduler.repeat(fsrsCard, new Date());
+
+    const formatInterval = (card) => {
+        const due = new Date(card.due);
+        const now = new Date();
+        const diffMs = due - now;
+        const diffMins = Math.round(diffMs / 60000);
+        const diffHours = Math.round(diffMs / 3600000);
+        const diffDays = Math.round(diffMs / 86400000);
+
+        if (diffMins < 60) return `${diffMins}m`;
+        if (diffHours < 24) return `${diffHours}h`;
+        return `${diffDays}d`;
+    };
+
+    // Update the button labels if you want to show intervals
+    // This requires custom buttons in your HTML
+    const againBtn = document.getElementById('btn-again');
+    const hardBtn = document.getElementById('btn-hard');
+    const goodBtn = document.getElementById('btn-good');
+    const easyBtn = document.getElementById('btn-easy');
+
+    if (againBtn) againBtn.innerHTML = `Again<br><small>${formatInterval(preview[Rating.Again].card)}</small>`;
+    if (hardBtn) hardBtn.innerHTML = `Hard<br><small>${formatInterval(preview[Rating.Hard].card)}</small>`;
+    if (goodBtn) goodBtn.innerHTML = `Good<br><small>${formatInterval(preview[Rating.Good].card)}</small>`;
+    if (easyBtn) easyBtn.innerHTML = `Easy<br><small>${formatInterval(preview[Rating.Easy].card)}</small>`;
+}
+
 /* ---------- COMPLETION ---------- */
 function showCompletion() {
     document.body.classList.add("deck-finished");
     document.getElementById("completionScreen").classList.add("visible");
     const msg = document.getElementById("completionMessage");
+
+    const totalDue = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
+
     if (reviewOnlyMode) {
-        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning' right now.";
-    } else if (review.size > 0) {
-        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
+        msg.textContent = "You've cleared all due cards! Come back later when more are scheduled.";
+    } else if (totalDue > 0) {
+        msg.textContent = `You've cleared your current queue! ${totalDue} card${totalDue === 1 ? "" : "s"} are scheduled for later review.`;
     } else {
-        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
+        msg.textContent = "You're all caught up! No cards are due for review right now.";
     }
-    document.getElementById("knownCount").textContent = known.size;
-    document.getElementById("reviewCount").textContent = review.size;
+
     document.getElementById("remainingCount").textContent = 0;
     document.getElementById("fcProgressFill").style.width = "100%";
+    updateStats();
 }
 
 function hideCompletion() {
@@ -235,74 +350,88 @@ function prevCard(event) {
     renderCard();
 }
 
-function markKnown(event) {
+/* ---------- FSRS RATING HANDLERS ---------- */
+function rateCard(rating, event) {
     if (event) event.stopPropagation();
     if (cardBank.length === 0) return;
+
     const card = cardBank[currentCardIdx];
     const key = cardKey(card);
-    known.add(key);
-    review.delete(key);
+    const fsrsCard = getOrCreateFsrsCard(card);
+
+    // Apply FSRS scheduling
+    const result = scheduler.next(fsrsCard, new Date(), rating);
+    fsrsCards[key] = result.card;
+
     saveProgress();
-    if (currentCardIdx >= cardBank.length - 1) currentCardIdx = 0;
+
+    // Remove from current view (it's now scheduled for the future)
+    cardBank.splice(currentCardIdx, 1);
+    if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
+
     renderCard();
+}
+
+function markKnown(event) {
+    // Legacy handler - maps to "Good" rating
+    rateCard(Rating.Good, event);
 }
 
 function markReview(event) {
-    if (event) event.stopPropagation();
-    if (cardBank.length === 0) return;
-    const card = cardBank[currentCardIdx];
-    const key = cardKey(card);
-    review.add(key);
-    known.delete(key);
-    saveProgress();
-    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
-    renderCard();
+    // Legacy handler - maps to "Again" rating
+    rateCard(Rating.Again, event);
 }
 
+/* ---------- OTHER ACTIONS ---------- */
 function shuffleDeck() {
-    cardBank.sort(() => Math.random() - 0.5);
+    // With FSRS, shuffling isn't needed - cards are already ordered by due date
+    // But we can randomize the order of due cards
+    for (let i = cardBank.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cardBank[i], cardBank[j]] = [cardBank[j], cardBank[i]];
+    }
     currentCardIdx = 0;
     renderCard();
 }
 
 function toggleReviewOnly() {
-    if (!reviewOnlyMode && review.size === 0) {
-        alert("You haven't marked any cards as 'Still Learning' yet. Use the 'Still Learning' button to add some.");
+    const dueCount = quizData.filter(q => {
+        const fsrsCard = getOrCreateFsrsCard(q);
+        return fsrsCard.state !== State.New && isDueForReview(q);
+    }).length;
+
+    if (!reviewOnlyMode && dueCount === 0) {
+        alert("No cards are due for review right now. Come back later!");
         return;
     }
     reviewOnlyMode = !reviewOnlyMode;
     currentCardIdx = 0;
     cardBank = getFilteredBank();
-    cardBank.sort(() => Math.random() - 0.5);
     renderCard();
 }
 
 function resetCurrentDeck() {
-    if (!confirm("Reset progress for this deck? Cards marked 'Got It' will return to the rotation.")) return;
+    if (!confirm("Reset progress for this deck? All FSRS scheduling data will be cleared.")) return;
     const scope = activeDeck === "all"
         ? quizData.filter(isFlashcardType)
         : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
     scope.forEach(q => {
-        known.delete(cardKey(q));
-        review.delete(cardKey(q));
+        delete fsrsCards[cardKey(q)];
     });
     saveProgress();
     currentCardIdx = 0;
     reviewOnlyMode = false;
     cardBank = getFilteredBank();
-    cardBank.sort(() => Math.random() - 0.5);
     renderCard();
 }
 
 function clearAllProgress() {
     if (!confirm("Clear ALL progress? This cannot be undone.")) return;
-    known.clear();
-    review.clear();
+    fsrsCards = {};
     saveProgress();
     currentCardIdx = 0;
     reviewOnlyMode = false;
     cardBank = getFilteredBank();
-    cardBank.sort(() => Math.random() - 0.5);
     renderCard();
 }
 
@@ -313,9 +442,19 @@ window.addEventListener("DOMContentLoaded", () => {
         reviewOnlyMode = true;
         currentCardIdx = 0;
         cardBank = getFilteredBank();
-        cardBank.sort(() => Math.random() - 0.5);
         renderCard();
     });
+
+    // FSRS Rating buttons (if you add them to HTML)
+    const againBtn = document.getElementById('btn-again');
+    const hardBtn = document.getElementById('btn-hard');
+    const goodBtn = document.getElementById('btn-good');
+    const easyBtn = document.getElementById('btn-easy');
+
+    if (againBtn) againBtn.addEventListener('click', (e) => rateCard(Rating.Again, e));
+    if (hardBtn) hardBtn.addEventListener('click', (e) => rateCard(Rating.Hard, e));
+    if (goodBtn) goodBtn.addEventListener('click', (e) => rateCard(Rating.Good, e));
+    if (easyBtn) easyBtn.addEventListener('click', (e) => rateCard(Rating.Easy, e));
 });
 
 /* ---------- KEYBOARD ---------- */
@@ -324,8 +463,11 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") nextCard();
     if (e.key === "ArrowLeft") prevCard();
     if (e.key === " ") { e.preventDefault(); flipCard(); }
-    if (e.key === "1") markKnown();
-    if (e.key === "2") markReview();
+    // Keyboard shortcuts for ratings (1-4)
+    if (e.key === "1") rateCard(Rating.Again);
+    if (e.key === "2") rateCard(Rating.Hard);
+    if (e.key === "3") rateCard(Rating.Good);
+    if (e.key === "4") rateCard(Rating.Easy);
 });
 
 /* ---------- INIT ---------- */
@@ -333,8 +475,12 @@ window.addEventListener("load", () => {
     if (localStorage.getItem("ems_theme") === "dark") {
         document.body.classList.add("dark-mode");
     }
+
+    // Load existing FSRS state
+    const persisted = loadProgress();
+    fsrsCards = persisted.cards || {};
+
     renderDeckTabs();
     cardBank = getFilteredBank();
-    cardBank.sort(() => Math.random() - 0.5);
     renderCard();
 });
