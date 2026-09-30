@@ -1,8 +1,8 @@
 /* ============================================================
-   CLINICAL FLASHCARDS — Deck picker + simple progress tracking
+   CLINICAL FLASHCARDS — Consolidated deck picker
    ============================================================ */
 
-const STORAGE_KEY = "clinical-flashcards-progress-v3";
+const STORAGE_KEY = "clinical-flashcards-progress-v4";
 
 let currentCardIdx = 0;
 let cardBank = [];
@@ -13,6 +13,67 @@ let reviewOnlyMode = false;
 const persisted = loadProgress();
 let known = new Set(Object.keys(persisted.known));
 let review = new Set(Object.keys(persisted.review));
+
+/* ---------- DECK MAPPING ---------- */
+// Maps each card's `category` into one of the 8 big decks.
+const CATEGORY_MAP = {
+    // EMS Operations
+    "EMS Systems": "EMS Operations",
+    "Legal": "EMS Operations",
+    "Safety": "EMS Operations",
+    "Communications": "EMS Operations",
+    "Lifting": "EMS Operations",
+    "Wellness": "EMS Operations",
+
+    // Medical
+    "Medical": "Medical",
+    "Cardiology": "Medical",
+    "Cardiovascular": "Medical",
+    "Respiratory": "Medical",
+    "Neurology": "Medical",
+    "Endocrine": "Medical",
+    "Toxicology": "Medical",
+    "Immunology": "Medical",
+    "Pharmacology": "Medical",
+    "Assessment": "Medical",
+    "Gynecology": "Medical",
+
+    // Trauma
+    "Trauma": "Trauma",
+    "MOI": "Trauma",
+    "Bleeding": "Trauma",
+    "Chest": "Trauma",
+    "Abdominal": "Trauma",
+    "Ortho": "Trauma",
+    "Head/Spine": "Trauma",
+    "Environmental": "Trauma",
+    "Soft-Tissue": "Trauma",
+    "Physics": "Trauma",
+    "Shock": "Trauma",
+    "Face/Neck": "Trauma",
+
+    // Pathophysiology
+    "Patho": "Pathophysiology",
+    "Pathophysiology": "Pathophysiology",
+
+    // Pediatrics
+    "Pediatrics": "Pediatrics",
+    "Neonatal": "Pediatrics",
+
+    // OB/GYN
+    "Obstetrics": "OB/GYN",
+
+    // Terminology
+    "Terminology": "Terminology",
+
+    // Physician (advanced)
+    "Physician": "Physician"
+};
+
+function getDeckName(card) {
+    const cat = card.category || "General";
+    return CATEGORY_MAP[cat] || "Medical"; // fallback
+}
 
 /* ---------- STORAGE ---------- */
 function loadProgress() {
@@ -47,7 +108,7 @@ function getFilteredBank() {
     let base = quizData.filter(isFlashcardType);
 
     if (activeDeck !== "all") {
-        base = base.filter(q => q.category === activeDeck);
+        base = base.filter(q => getDeckName(q) === activeDeck);
     }
 
     if (reviewOnlyMode) {
@@ -63,66 +124,33 @@ function getFilteredBank() {
 function getDeckStats() {
     const decks = {};
     quizData.filter(isFlashcardType).forEach(q => {
-        const cat = q.category || "General";
-        if (!decks[cat]) decks[cat] = { total: 0, known: 0, review: 0 };
-        decks[cat].total++;
+        const deck = getDeckName(q);
+        if (!decks[deck]) decks[deck] = { total: 0, known: 0, review: 0 };
+        decks[deck].total++;
         const key = cardKey(q);
-        if (known.has(key)) decks[cat].known++;
-        if (review.has(key)) decks[cat].review++;
+        if (known.has(key)) decks[deck].known++;
+        if (review.has(key)) decks[deck].review++;
     });
     return decks;
 }
 
-function getDeckIcon(category) {
+function getDeckIcon(deckName) {
     const icons = {
-        "EMS Systems": "local_hospital",
-        "Safety": "health_and_safety",
-        "Legal": "gavel",
-        "Communications": "forum",
-        "Lifting": "fitness_center",
-        "Wellness": "self_improvement",
-        "Patho": "coronavirus",
-        "Pathophysiology": "coronavirus",
-        "Cardiology": "favorite",
-        "Cardiovascular": "favorite",
-        "Respiratory": "air",
-        "Neurology": "psychology",
-        "Neuro": "psychology",
-        "Trauma": "healing",
+        "EMS Operations": "local_hospital",
         "Medical": "medical_services",
-        "OBPeds": "child_care",
-        "Obstetrics": "pregnant_woman",
+        "Trauma": "healing",
+        "Pathophysiology": "coronavirus",
         "Pediatrics": "child_care",
-        "Neonatal": "child_friendly",
-        "Toxicology": "warning",
-        "Pharmacology": "medication",
-        "Immunology": "vaccines",
-        "Endocrine": "science",
-        "Gynecology": "female",
-        "Assessment": "assignment",
+        "OB/GYN": "pregnant_woman",
         "Terminology": "translate",
-        "MOI": "car_crash",
-        "Bleeding": "water_drop",
-        "Chest": "monitor_heart",
-        "Abdominal": "sick",
-        "Ortho": "accessibility",
-        "Head/Spine": "psychology",
-        "Environmental": "ac_unit",
-        "Soft-Tissue": "healing",
-        "Physics": "calculate",
-        "Shock": "bolt",
-        "Face/Neck": "face",
         "Physician": "school"
     };
-    return icons[category] || "style";
+    return icons[deckName] || "style";
 }
 
 function renderDeckPicker() {
     const grid = document.getElementById("deckGrid");
-    if (!grid) {
-        console.error("deckGrid element not found");
-        return;
-    }
+    if (!grid) return;
 
     const decks = getDeckStats();
     const sorted = Object.entries(decks).sort((a, b) => a[0].localeCompare(b[0]));
@@ -133,8 +161,8 @@ function renderDeckPicker() {
         const pct = stats.total > 0 ? Math.round((stats.known / stats.total) * 100) : 0;
         const mastered = stats.known === stats.total;
         const icon = getDeckIcon(cat);
-        const reviewBadge = stats.review > 0 
-            ? '<span class="deck-tile-review-badge">' + stats.review + ' to review</span>' 
+        const reviewBadge = stats.review > 0
+            ? '<span class="deck-tile-review-badge">' + stats.review + ' to review</span>'
             : '';
 
         return '<button class="deck-tile ' + (mastered ? 'mastered' : '') + '" onclick="selectDeck(\'' + cat.replace(/'/g, "\\'") + '\')">' +
@@ -193,8 +221,7 @@ function renderCard() {
         "Card " + (currentCardIdx + 1) + " of " + cardBank.length;
 
     document.getElementById("fcDeckLabel").innerText =
-        reviewOnlyMode ? "Review Mode — Still Learning"
-        : (activeDeck === "all" ? "All Cards" : activeDeck);
+        reviewOnlyMode ? "Review Mode — Still Learning" : activeDeck;
 
     document.getElementById("card-question-text").innerText = item.q;
 
@@ -244,8 +271,8 @@ function showCompletion() {
     const title = document.getElementById("completionTitle");
     const msg = document.getElementById("completionMessage");
 
-    if (activeDeck === "all") {
-        title.textContent = "All Cards Complete!";
+    if (reviewOnlyMode) {
+        title.textContent = "Review Complete!";
     } else {
         title.textContent = activeDeck + " Complete!";
     }
@@ -344,7 +371,7 @@ function resetCurrentDeck() {
     if (!confirm("Reset progress for this deck?")) return;
     const scope = activeDeck === "all"
         ? quizData.filter(isFlashcardType)
-        : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
+        : quizData.filter(q => isFlashcardType(q) && getDeckName(q) === activeDeck);
     scope.forEach(q => {
         known.delete(cardKey(q));
         review.delete(cardKey(q));
