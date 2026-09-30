@@ -9,8 +9,9 @@
     <style>
         body { padding: 16px 12px !important; display: block !important; }
 
+        /* ---------- HEADER ---------- */
         .fc-header {
-            max-width: 720px; margin: 0 auto 16px auto;
+            max-width: 720px; margin: 0 auto 20px auto;
             display: flex; justify-content: space-between; align-items: center;
         }
         .fc-header h1 { font-size: 1.15rem; font-weight: 700; color: var(--primary-blue); margin: 0; }
@@ -20,6 +21,165 @@
             border: 1px solid var(--primary-blue); border-radius: 8px; transition: all 0.15s ease;
         }
         .fc-header a.back-home-link:hover { background: var(--primary-blue); color: #fff; }
+
+        /* ---------- DECK PICKER SCREEN ---------- */
+        .deck-picker {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .deck-picker-intro {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .deck-picker-intro h2 {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin: 0 0 6px 0;
+            font-weight: 700;
+        }
+        .deck-picker-intro p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .deck-tile {
+            background: #fff;
+            border: 1px solid #d6d3d1;
+            border-radius: 14px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        .deck-tile:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(161, 98, 7, 0.15);
+        }
+        .deck-tile.mastered {
+            background: linear-gradient(135deg, #06402b, #042e1f);
+            border-color: #06402b;
+            color: #fff;
+        }
+        .deck-tile.mastered .deck-tile-name { color: #fff; }
+        .deck-tile.mastered .deck-tile-stats { color: rgba(255,255,255,0.75); }
+        .deck-tile.mastered .deck-tile-progress-bar { background: rgba(255,255,255,0.2); }
+        .deck-tile.mastered .deck-tile-progress-fill { background: #fde68a; }
+
+        .deck-tile-icon {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .deck-tile-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 4px 0;
+        }
+
+        .deck-tile-stats {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .deck-tile-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e5e5;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .deck-tile-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), #06402b);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .deck-tile-review-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #b45309;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Study All Cards button */
+        .study-all-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--primary-blue);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 20px;
+        }
+        .study-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(161, 98, 7, 0.3);
+            opacity: 0.95;
+        }
+
+        /* ---------- CARD VIEW ---------- */
+        .card-view {
+            display: none;
+        }
+        .card-view.visible {
+            display: block;
+        }
+
+        .back-to-decks {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border: 1px solid var(--primary-blue);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s ease;
+            margin-bottom: 12px;
+        }
+        .back-to-decks:hover {
+            background: var(--primary-blue);
+            color: #fff;
+        }
 
         .fc-progress-bar {
             max-width: 720px; margin: 0 auto 6px auto; height: 5px;
@@ -144,17 +304,12 @@
         }
         .completion-screen button:hover { opacity: 0.92; }
 
-        .deck-finished .flashcard-wrapper,
-        .deck-finished .fc-controls,
-        .deck-finished .fc-secondary-controls,
-        .deck-finished .fc-progress-bar,
-        .deck-finished .fc-meta { display: none !important; }
-
         @media (max-width: 500px) {
             .flashcard-wrapper { height: 280px !important; min-height: 280px !important; }
             .card-face { min-height: 280px !important; height: 280px !important; padding: 18px !important; }
             #card-question-text { font-size: 0.95rem !important; }
             .fc-header h1 { font-size: 1rem; }
+            .deck-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -168,58 +323,81 @@
     </a>
 </div>
 
-<div class="fc-progress-bar">
-    <div class="fc-progress-fill" id="fcProgressFill"></div>
-</div>
-<div class="fc-meta">
-    <span id="card-progress">Card 1 of 1</span>
-    <span id="fcDeckLabel">All Cards</span>
+<!-- ============ DECK PICKER SCREEN ============ -->
+<div class="deck-picker" id="deckPicker">
+    <div class="deck-picker-intro">
+        <h2>Choose a Deck</h2>
+        <p>Pick a category to study, or practice everything at once.</p>
+    </div>
+
+    <div class="deck-grid" id="deckGrid"></div>
+
+    <button class="study-all-btn" onclick="selectDeck('all')">
+        <span class="material-icons">library_books</span>
+        Study All Cards
+    </button>
 </div>
 
-<div class="completion-screen" id="completionScreen">
-    <div class="emoji">🎉</div>
-    <h2>Deck Complete!</h2>
-    <p id="completionMessage">You've mastered every card in this deck.</p>
-    <button id="resetFromCompleteBtn" type="button">↻ Start Over</button>
-    <button id="reviewMissedFromCompleteBtn" type="button" style="background:#b45309;">📚 Review Still Learning</button>
-</div>
+<!-- ============ CARD VIEW ============ -->
+<div class="card-view" id="cardView">
 
-<div class="flashcard-wrapper" onclick="flipCard()">
-    <div class="flashcard" id="main-card">
-        <div class="card-face card-front">
-            <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Still Learning</div>
-            <span class="material-icons card-icon" id="cardIcon">psychology</span>
-            <p id="card-question-text" style="font-size:1.05rem; font-weight:500; margin: 0;"></p>
-            <small class="flip-hint">Tap card to reveal clinical truth</small>
-        </div>
-        <div class="card-face card-back">
-            <h4>Clinical Truth:</h4>
-            <p id="card-answer-text" style="font-weight:bold; font-size:1.05rem; margin-bottom:10px;"></p>
-            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.2); margin:8px 0; width:100%;">
-            <p id="card-rationale-text" style="font-size:0.85rem; line-height:1.4;"></p>
-            <div id="card-cheat-sheet" class="cheat-sheet-badge" style="display:none;"></div>
+    <button class="back-to-decks" onclick="backToDeckPicker()">
+        <span class="material-icons" style="font-size:1rem;">arrow_back</span>
+        All Decks
+    </button>
+
+    <div class="fc-progress-bar">
+        <div class="fc-progress-fill" id="fcProgressFill"></div>
+    </div>
+    <div class="fc-meta">
+        <span id="card-progress">Card 1 of 1</span>
+        <span id="fcDeckLabel">All Cards</span>
+    </div>
+
+    <div class="completion-screen" id="completionScreen">
+        <div class="emoji">🎉</div>
+        <h2 id="completionTitle">Deck Complete!</h2>
+        <p id="completionMessage">You've mastered every card in this deck.</p>
+        <button id="resetFromCompleteBtn" type="button">↻ Start Over</button>
+        <button id="backFromCompleteBtn" type="button" style="background:#57534e;">← All Decks</button>
+    </div>
+
+    <div class="flashcard-wrapper" onclick="flipCard()">
+        <div class="flashcard" id="main-card">
+            <div class="card-face card-front">
+                <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Still Learning</div>
+                <span class="material-icons card-icon" id="cardIcon">psychology</span>
+                <p id="card-question-text" style="font-size:1.05rem; font-weight:500; margin: 0;"></p>
+                <small class="flip-hint">Tap card to reveal clinical truth</small>
+            </div>
+            <div class="card-face card-back">
+                <h4>Clinical Truth:</h4>
+                <p id="card-answer-text" style="font-weight:bold; font-size:1.05rem; margin-bottom:10px;"></p>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.2); margin:8px 0; width:100%;">
+                <p id="card-rationale-text" style="font-size:0.85rem; line-height:1.4;"></p>
+                <div id="card-cheat-sheet" class="cheat-sheet-badge" style="display:none;"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="fc-controls">
-    <button class="btn-nav" type="button" onclick="prevCard(event)">◀ Prev</button>
-    <button class="btn-review" type="button" onclick="markReview(event)">Still Learning</button>
-    <button class="btn-know" type="button" onclick="markKnown(event)">Got It ✓</button>
-    <button class="btn-nav" type="button" onclick="nextCard(event)">Next ▶</button>
-</div>
+    <div class="fc-controls">
+        <button class="btn-nav" type="button" onclick="prevCard(event)">◀ Prev</button>
+        <button class="btn-review" type="button" onclick="markReview(event)">Still Learning</button>
+        <button class="btn-know" type="button" onclick="markKnown(event)">Got It ✓</button>
+        <button class="btn-nav" type="button" onclick="nextCard(event)">Next ▶</button>
+    </div>
 
-<div class="fc-secondary-controls">
-    <button type="button" onclick="shuffleDeck()">🔀 Shuffle</button>
-    <button type="button" onclick="toggleReviewOnly()">📚 Review Only</button>
-    <button type="button" onclick="resetCurrentDeck()">↻ Reset Deck</button>
-    <button type="button" onclick="clearAllProgress()">🗑️ Clear All</button>
-</div>
+    <div class="fc-secondary-controls">
+        <button type="button" onclick="shuffleDeck()">🔀 Shuffle</button>
+        <button type="button" onclick="toggleReviewOnly()">📚 Review Only</button>
+        <button type="button" onclick="resetCurrentDeck()">↻ Reset Deck</button>
+    </div>
 
-<div class="fc-stats">
-    <div><span id="knownCount">0</span><small>Known</small></div>
-    <div class="stat-review"><span id="reviewCount">0</span><small>Still Learning</small></div>
-    <div><span id="remainingCount">0</span><small>In Deck</small></div>
+    <div class="fc-stats">
+        <div><span id="knownCount">0</span><small>Known</small></div>
+        <div class="stat-review"><span id="reviewCount">0</span><small>Still Learning</small></div>
+        <div><span id="remainingCount">0</span><small>In Deck</small></div>
+    </div>
 </div>
 
 <script src="flashcard_data.js"></script>
