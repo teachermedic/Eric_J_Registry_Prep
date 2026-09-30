@@ -34,13 +34,13 @@ Track mastery percentages over time.
 
 🛠️ Built With
 
-Frontend: Vanilla JavaScript, HTML5, CSS3 (Custom Variables).
+Frontend: Vanilla JavaScript, HTML5, CSS3 (Custom Variables), PWA (Progressive Web App) with Service Worker.
 
 Backend: Google Apps Script (Web App API).
 
 Data: Google Sheets (MasterData v2).
 
-UI/UX: Material Icons, Google Fonts, LaTeX (via MathJax).
+UI/UX: Material Icons, Google Fonts (Lora, Caprasimo, Gloock), LaTeX (via MathJax), Slot-machine animation, Dark mode.
 
 👨‍🏫 About the Author
 
