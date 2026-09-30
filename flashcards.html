@@ -119,20 +119,19 @@
             color: var(--text-muted);
         }
 
-        /* ---------- CARD (with height fix) ---------- */
-        /* ---------- CARD (with height fix) ---------- */
-.flashcard-wrapper {
-    height: 360px !important;
-    min-height: 360px !important;
-    max-width: 720px !important;
-    width: 100% !important;
-    position: relative !important;
-    perspective: 1200px !important;
-    margin: 0 auto 20px auto !important;
-    cursor: pointer;
-    overflow: hidden !important;
-    z-index: 1 !important;
-}
+        /* ---------- CARD ---------- */
+        .flashcard-wrapper {
+            height: 360px !important;
+            min-height: 360px !important;
+            max-width: 720px !important;
+            width: 100% !important;
+            position: relative !important;
+            perspective: 1200px !important;
+            margin: 0 auto 20px auto !important;
+            cursor: pointer;
+            overflow: hidden !important;
+            z-index: 1 !important;
+        }
 
         .flashcard {
             width: 100% !important;
@@ -232,35 +231,49 @@
 
         /* ---------- CONTROLS ---------- */
         .fc-controls {
-    max-width: 720px;
-    margin: 0 auto 12px auto;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative !important;
-    z-index: 10 !important;
-}
+            max-width: 720px;
+            margin: 0 auto 12px auto;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative !important;
+            z-index: 10 !important;
+        }
 
         .fc-controls button {
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            padding: 11px 18px;
+            padding: 12px 16px;
             border-radius: 10px;
             border: none;
             cursor: pointer;
             transition: all 0.15s ease;
             color: #fff;
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            line-height: 1.2;
         }
 
         .fc-controls button:hover { transform: translateY(-1px); opacity: 0.92; }
 
+        .fc-controls button small {
+            font-size: 0.65rem;
+            opacity: 0.75;
+            font-weight: 500;
+        }
+
         .btn-nav { background: #57534e; }
-        .btn-know { background: #06402b; }
-        .btn-review { background: #b45309; }
+        .btn-again { background: #dc2626; }
+        .btn-hard { background: #b45309; }
+        .btn-good { background: #06402b; }
+        .btn-easy { background: #2563eb; }
 
         /* ---------- SECONDARY CONTROLS ---------- */
         .fc-secondary-controls {
@@ -358,20 +371,20 @@
         .deck-finished .fc-meta { display: none !important; }
 
         @media (max-width: 500px) {
-    .flashcard-wrapper { 
-        height: 280px !important; 
-        min-height: 280px !important; 
-        overflow: hidden !important;
-    }
-    .card-face { 
-        min-height: 280px !important; 
-        height: 280px !important;
-        padding: 18px !important;
-    }
-    #card-question-text { font-size: 0.95rem !important; }
-    .fc-header h1 { font-size: 1rem; }
-    .deck-tab { font-size: 0.7rem; padding: 5px 9px; }
-}
+            .flashcard-wrapper {
+                height: 280px !important;
+                min-height: 280px !important;
+                overflow: hidden !important;
+            }
+            .card-face {
+                min-height: 280px !important;
+                height: 280px !important;
+                padding: 18px !important;
+            }
+            #card-question-text { font-size: 0.95rem !important; }
+            .fc-header h1 { font-size: 1rem; }
+            .deck-tab { font-size: 0.7rem; padding: 5px 9px; }
+            .fc-controls button { font-size: 0.75rem; padding: 10px 8px; }
         }
     </style>
 </head>
@@ -400,17 +413,17 @@
 <!-- Completion screen -->
 <div class="completion-screen" id="completionScreen">
     <div class="emoji">🎉</div>
-    <h2>Deck Complete!</h2>
-    <p id="completionMessage">You've mastered every card in this deck.</p>
-    <button id="resetFromCompleteBtn" type="button">↻ Start Over</button>
-    <button id="reviewMissedFromCompleteBtn" type="button" style="background:#b45309;">📚 Review Still Learning</button>
+    <h2>All Caught Up!</h2>
+    <p id="completionMessage">You've reviewed every card that's due right now. Come back later for your next scheduled reviews.</p>
+    <button id="resetFromCompleteBtn" type="button">↻ Reset Deck</button>
+    <button id="reviewMissedFromCompleteBtn" type="button" style="background:#b45309;">📚 Review Due Cards</button>
 </div>
 
 <!-- Card -->
 <div class="flashcard-wrapper" onclick="flipCard()">
     <div class="flashcard" id="main-card">
         <div class="card-face card-front">
-            <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Still Learning</div>
+            <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Review</div>
             <span class="material-icons card-icon" id="cardIcon">psychology</span>
             <p id="card-question-text" style="font-size:1.05rem; font-weight:500; margin: 0;"></p>
             <small class="flip-hint">Tap card to reveal clinical truth</small>
@@ -425,29 +438,32 @@
     </div>
 </div>
 
-<!-- Primary controls -->
+<!-- Primary controls (FSRS 4-button rating) -->
 <div class="fc-controls">
-    <button class="btn-nav" type="button" onclick="prevCard(event)">◀ Prev</button>
-    <button class="btn-review" type="button" onclick="markReview(event)">Still Learning</button>
-    <button class="btn-know" type="button" onclick="markKnown(event)">Got It ✓</button>
-    <button class="btn-nav" type="button" onclick="nextCard(event)">Next ▶</button>
+    <button class="btn-nav" type="button" onclick="prevCard(event)">◀</button>
+    <button class="btn-again" id="btn-again" type="button">Again</button>
+    <button class="btn-hard" id="btn-hard" type="button">Hard</button>
+    <button class="btn-good" id="btn-good" type="button">Good</button>
+    <button class="btn-easy" id="btn-easy" type="button">Easy</button>
+    <button class="btn-nav" type="button" onclick="nextCard(event)">▶</button>
 </div>
 
 <!-- Secondary controls -->
 <div class="fc-secondary-controls">
-    <button type="button" onclick="shuffleDeck()">🔀 Shuffle</button>
-    <button type="button" onclick="toggleReviewOnly()">📚 Review Only</button>
+    <button type="button" onclick="toggleReviewOnly()">📚 Review Due Only</button>
     <button type="button" onclick="resetCurrentDeck()">↻ Reset Deck</button>
     <button type="button" onclick="clearAllProgress()">🗑️ Clear All</button>
 </div>
 
 <!-- Stats -->
 <div class="fc-stats">
-    <div><span id="knownCount">0</span><small>Known</small></div>
-    <div class="stat-review"><span id="reviewCount">0</span><small>Still Learning</small></div>
-    <div><span id="remainingCount">0</span><small>In Deck</small></div>
+    <div><span id="knownCount">0</span><small>Learned</small></div>
+    <div class="stat-review"><span id="reviewCount">0</span><small>Learning</small></div>
+    <div><span id="remainingCount">0</span><small>Due Now</small></div>
 </div>
 
+<!-- FSRS Library -->
+<script src="https://cdn.jsdelivr.net/npm/ts-fsrs@latest/dist/index.umd.js"></script>
 <script src="flashcard_data.js"></script>
 <script src="flashcards.js"></script>
 </body>
