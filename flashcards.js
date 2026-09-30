@@ -38,9 +38,7 @@ const scheduler = fsrs({
     request_retention: 0.9,
     maximum_interval: 36500,
     enable_fuzz: true,
-    enable_short_term: true,
-    learning_steps: ['1m', '10m'],
-    relearning_steps: ['10m'],
+    enable_short_term: false,
 });
 
 const STORAGE_KEY = "clinical-flashcards-fsrs-v1";
@@ -257,21 +255,20 @@ function updateStats() {
     const remainingEl = document.getElementById("remainingCount");
     if (!knownEl) return;
 
-    // Count learned cards (state = Review and stability > 21 days)
     let learned = 0;
-    let reviewing = 0;
+    let learning = 0;
 
     for (const card of quizData.filter(isFlashcardType)) {
         const fsrsCard = getOrCreateFsrsCard(card);
-        if (fsrsCard.state === State.Review && fsrsCard.stability > 21) {
+        if (fsrsCard.state === State.Review) {
             learned++;
-        } else if (fsrsCard.state !== State.New) {
-            reviewing++;
+        } else if (fsrsCard.state === State.Learning || fsrsCard.state === State.Relearning) {
+            learning++;
         }
     }
 
     knownEl.textContent = learned;
-    reviewEl.textContent = reviewing;
+    reviewEl.textContent = learning;
     remainingEl.textContent = cardBank.length;
 }
 
