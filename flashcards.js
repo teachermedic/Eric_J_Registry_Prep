@@ -3,7 +3,6 @@
    ============================================================ */
 
 // ---------- FSRS SETUP ----------
-// Wait for the ts-fsrs library to be available before destructuring
 if (!window.tsFsrs) {
     console.error("FSRS library not loaded. Check the CDN script tag.");
 }
@@ -33,7 +32,6 @@ const { createEmptyCard, fsrs, Rating, State } = window.tsFsrs || {
     State: { New: 0, Learning: 1, Review: 2, Relearning: 3 },
 };
 
-// Create the FSRS scheduler with default parameters
 const scheduler = fsrs({
     request_retention: 0.9,
     maximum_interval: 36500,
@@ -49,8 +47,6 @@ let cardBank = [];
 let currentAudio = null;
 let activeDeck = "all";
 let reviewOnlyMode = false;
-
-// FSRS card states stored by cardKey
 let fsrsCards = {};
 
 /* ---------- STORAGE ---------- */
@@ -68,7 +64,6 @@ function loadProgress() {
 
 function saveProgress() {
     try {
-        // Serialize FSRS cards (convert Date objects to ISO strings)
         const serialized = {};
         for (const [key, card] of Object.entries(fsrsCards)) {
             serialized[key] = {
@@ -95,7 +90,6 @@ function getOrCreateFsrsCard(card) {
     if (!fsrsCards[key]) {
         fsrsCards[key] = createEmptyCard();
     }
-    // Rehydrate dates if they were serialized
     const c = fsrsCards[key];
     if (typeof c.due === 'string') c.due = new Date(c.due);
     if (typeof c.last_review === 'string') c.last_review = new Date(c.last_review);
@@ -130,22 +124,19 @@ function getFilteredBank() {
     }
 
     if (reviewOnlyMode) {
-        // Show cards that are due for review and have been reviewed before
         base = base.filter(q => {
             const fsrsCard = getOrCreateFsrsCard(q);
             return fsrsCard.state !== State.New && isDueForReview(q);
         });
     } else {
-        // Show cards due for review (includes new cards)
         base = base.filter(isDueForReview);
     }
 
-    // Sort by due date (most overdue first), with new cards mixed in
     base.sort((a, b) => {
         const cardA = getOrCreateFsrsCard(a);
         const cardB = getOrCreateFsrsCard(b);
         if (cardA.state === State.New && cardB.state === State.New) return 0;
-        if (cardA.state === State.New) return -1;  // New cards first
+        if (cardA.state === State.New) return -1;
         if (cardB.state === State.New) return 1;
         return new Date(cardA.due) - new Date(cardB.due);
     });
@@ -169,7 +160,6 @@ function renderDeckTabs() {
         tab.type = "button";
         tab.textContent = labels[cat] || cat;
 
-        // Count due cards for this category
         let count;
         if (cat === "all") {
             count = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
@@ -224,10 +214,8 @@ function renderCard() {
         reviewOnlyMode ? "Review Mode — Due Cards"
         : (activeDeck === "all" ? "All Cards" : activeDeck);
 
-    // Front
     document.getElementById("card-question-text").innerText = item.q;
 
-    // Answer + rationale + cheat sheet
     const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
     document.getElementById("card-answer-text").innerText = cleanAnswer;
     document.getElementById("card-rationale-text").innerText = item.rationale || "";
@@ -240,7 +228,6 @@ function renderCard() {
         csBox.style.display = "none";
     }
 
-    // Progress bar
     const pct = ((currentCardIdx + 1) / cardBank.length) * 100;
     document.getElementById("fcProgressFill").style.width = pct + "%";
 
@@ -293,19 +280,18 @@ function updateTabBadges() {
 }
 
 function updateRatingButtons() {
-    // Hide the default rating buttons and show FSRS 4-button layout
     const currentCard = cardBank[currentCardIdx];
     if (!currentCard) return;
 
     const fsrsCard = getOrCreateFsrsCard(currentCard);
-
-    // Update button labels with next review interval preview
     const preview = scheduler.repeat(fsrsCard, new Date());
 
     const formatInterval = (card) => {
+        if (!card || !card.due) return '';
         const due = new Date(card.due);
         const now = new Date();
         const diffMs = due - now;
+        if (diffMs <= 0) return 'now';
         const diffMins = Math.round(diffMs / 60000);
         const diffHours = Math.round(diffMs / 3600000);
         const diffDays = Math.round(diffMs / 86400000);
@@ -315,17 +301,23 @@ function updateRatingButtons() {
         return `${diffDays}d`;
     };
 
-    // Update the button labels if you want to show intervals
-    // This requires custom buttons in your HTML
     const againBtn = document.getElementById('btn-again');
     const hardBtn = document.getElementById('btn-hard');
     const goodBtn = document.getElementById('btn-good');
     const easyBtn = document.getElementById('btn-easy');
 
-    if (againBtn) againBtn.innerHTML = `Again<br><small>${formatInterval(preview[Rating.Again].card)}</small>`;
-    if (hardBtn) hardBtn.innerHTML = `Hard<br><small>${formatInterval(preview[Rating.Hard].card)}</small>`;
-    if (goodBtn) goodBtn.innerHTML = `Good<br><small>${formatInterval(preview[Rating.Good].card)}</small>`;
-    if (easyBtn) easyBtn.innerHTML = `Easy<br><small>${formatInterval(preview[Rating.Easy].card)}</small>`;
+    try {
+        if (againBtn) againBtn.innerHTML = `Again<br><small>${formatInterval(preview[Rating.Again].card)}</small>`;
+        if (hardBtn) hardBtn.innerHTML = `Hard<br><small>${formatInterval(preview[Rating.Hard].card)}</small>`;
+        if (goodBtn) goodBtn.innerHTML = `Good<br><small>${formatInterval(preview[Rating.Good].card)}</small>`;
+        if (easyBtn) easyBtn.innerHTML = `Easy<br><small>${formatInterval(preview[Rating.Easy].card)}</small>`;
+    } catch (e) {
+        // Fallback: just show labels without intervals
+        if (againBtn) againBtn.textContent = 'Again';
+        if (hardBtn) hardBtn.textContent = 'Hard';
+        if (goodBtn) goodBtn.textContent = 'Good';
+        if (easyBtn) easyBtn.textContent = 'Easy';
+    }
 }
 
 /* ---------- COMPLETION ---------- */
@@ -382,33 +374,22 @@ function rateCard(rating, event) {
     const key = cardKey(card);
     const fsrsCard = getOrCreateFsrsCard(card);
 
-    // Apply FSRS scheduling
     const result = scheduler.next(fsrsCard, new Date(), rating);
     fsrsCards[key] = result.card;
 
     saveProgress();
 
-    // Remove from current view (it's now scheduled for the future)
     cardBank.splice(currentCardIdx, 1);
     if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
 
     renderCard();
 }
 
-function markKnown(event) {
-    // Legacy handler - maps to "Good" rating
-    rateCard(Rating.Good, event);
-}
-
-function markReview(event) {
-    // Legacy handler - maps to "Again" rating
-    rateCard(Rating.Again, event);
-}
+function markKnown(event) { rateCard(Rating.Good, event); }
+function markReview(event) { rateCard(Rating.Again, event); }
 
 /* ---------- OTHER ACTIONS ---------- */
 function shuffleDeck() {
-    // With FSRS, shuffling isn't needed - cards are already ordered by due date
-    // But we can randomize the order of due cards
     for (let i = cardBank.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [cardBank[i], cardBank[j]] = [cardBank[j], cardBank[i]];
@@ -438,9 +419,7 @@ function resetCurrentDeck() {
     const scope = activeDeck === "all"
         ? quizData.filter(isFlashcardType)
         : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
-    scope.forEach(q => {
-        delete fsrsCards[cardKey(q)];
-    });
+    scope.forEach(q => { delete fsrsCards[cardKey(q)]; });
     saveProgress();
     currentCardIdx = 0;
     reviewOnlyMode = false;
@@ -458,17 +437,18 @@ function clearAllProgress() {
     renderCard();
 }
 
-/* ---------- COMPLETION BUTTONS ---------- */
+/* ---------- EVENT LISTENERS ---------- */
 window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("resetFromCompleteBtn").addEventListener("click", resetCurrentDeck);
-    document.getElementById("reviewMissedFromCompleteBtn").addEventListener("click", () => {
+    const resetBtn = document.getElementById("resetFromCompleteBtn");
+    const reviewBtn = document.getElementById("reviewMissedFromCompleteBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetCurrentDeck);
+    if (reviewBtn) reviewBtn.addEventListener("click", () => {
         reviewOnlyMode = true;
         currentCardIdx = 0;
         cardBank = getFilteredBank();
         renderCard();
     });
 
-    // FSRS Rating buttons (if you add them to HTML)
     const againBtn = document.getElementById('btn-again');
     const hardBtn = document.getElementById('btn-hard');
     const goodBtn = document.getElementById('btn-good');
@@ -486,7 +466,6 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") nextCard();
     if (e.key === "ArrowLeft") prevCard();
     if (e.key === " ") { e.preventDefault(); flipCard(); }
-    // Keyboard shortcuts for ratings (1-4)
     if (e.key === "1") rateCard(Rating.Again);
     if (e.key === "2") rateCard(Rating.Hard);
     if (e.key === "3") rateCard(Rating.Good);
@@ -499,7 +478,6 @@ window.addEventListener("load", () => {
         document.body.classList.add("dark-mode");
     }
 
-    // Load existing FSRS state
     const persisted = loadProgress();
     fsrsCards = persisted.cards || {};
 
