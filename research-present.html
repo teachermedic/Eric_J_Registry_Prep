@@ -148,12 +148,13 @@
         .rp-card.phase-present  .rp-phase-label { color: #16a34a; }
 
         .rp-content {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.75rem;
+            font-weight: 700;
             color: var(--text-main);
-            line-height: 1.4;
+            line-height: 1.35;
             font-family: 'Lora', Georgia, serif;
             max-width: 620px;
+            letter-spacing: -0.01em;
         }
 
         .rp-content.rp-empty {
@@ -161,6 +162,27 @@
             color: #a3a3a3;
             font-style: italic;
             font-weight: 400;
+        }
+
+        .rp-hint {
+            margin-top: 24px;
+            padding: 12px 18px;
+            background: #f3f1ec;
+            border: 1px solid #d6d3d1;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #6b6b6b;
+            max-width: 560px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .rp-hint strong {
+            color: var(--primary-blue);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* ---------- TIMER ---------- */
@@ -258,7 +280,7 @@
             cursor: pointer;
         }
 
-        /* ---------- CLASS ROSTER (for Class Mode) ---------- */
+        /* ---------- CLASS ROSTER ---------- */
         .rp-roster {
             max-width: 800px;
             margin: 24px auto 0 auto;
@@ -321,7 +343,7 @@
         /* ---------- RESPONSIVE ---------- */
         @media (max-width: 600px) {
             .rp-card { padding: 40px 24px; min-height: 260px; }
-            .rp-content { font-size: 1.2rem; }
+            .rp-content { font-size: 1.35rem; }
             .rp-timer-display { font-size: 2.75rem; }
             .rp-btn { padding: 14px 22px; font-size: 0.9rem; }
         }
@@ -366,8 +388,11 @@
 <div class="rp-card phase-idle" id="rp-card">
     <div class="rp-phase-label" id="rp-phase-label">Ready</div>
     <div class="rp-content rp-empty" id="rp-content">
-    Press <strong>Spin Topic</strong> to draw a medical term or concept — then research it and present what you learned.
-</div>
+        Press <strong>Spin Topic</strong> to draw a medical term or concept — then research it and present what you learned.
+    </div>
+    <div class="rp-hint" id="rp-hint" style="display:none;">
+        <strong>Present:</strong> definition · pathophysiology · clinical presentation · treatment · one clinical pearl
+    </div>
 </div>
 
 <!-- Timer -->
@@ -416,12 +441,10 @@
     </div>
 </div>
 
-<!-- Class roster (only visible in Class Mode) -->
+<!-- Class roster -->
 <div class="rp-roster" id="rp-roster">
     <h3>Class Roster — Assign Topics</h3>
-    <div class="rp-roster-grid" id="rp-roster-grid">
-        <!-- Filled dynamically -->
-    </div>
+    <div class="rp-roster-grid" id="rp-roster-grid"></div>
 </div>
 
 <!-- Session stats -->
@@ -597,7 +620,7 @@ let phase = "idle"; // idle | research | present
 let researchDuration = 600;
 let presentDuration = 60;
 let sessionCount = 0;
-let roster = [];
+let rosterBuilt = false;
 
 /* ---------- HELPERS ---------- */
 function getFilteredTopics() {
@@ -624,8 +647,8 @@ function setPhase(newPhase) {
     card.classList.add('phase-' + newPhase);
     label.textContent = {
         idle: 'Ready',
-        research: 'Research Phase — ' + (researchDuration / 60) + ' minutes',
-        present: 'Presentation Phase — ' + presentDuration + ' seconds',
+        research: 'Research Phase — ' + (researchDuration / 60) + ' min',
+        present: 'Presentation Phase — ' + presentDuration + ' sec',
     }[newPhase];
 }
 
@@ -644,9 +667,13 @@ function spinTopic() {
     contentEl.classList.remove('rp-empty');
     contentEl.textContent = next.text;
 
+    document.getElementById('rp-hint').style.display = 'block';
+
     // Reset controls for a fresh topic
     document.getElementById('rp-start-research').disabled = false;
+    document.getElementById('rp-start-research').style.display = 'inline-flex';
     document.getElementById('rp-start-present').disabled = true;
+    document.getElementById('rp-start-present').style.display = 'inline-flex';
     document.getElementById('rp-next').style.display = 'none';
     document.getElementById('rp-spin').style.display = 'inline-flex';
     document.getElementById('rp-stop').style.display = 'none';
@@ -687,13 +714,11 @@ function startResearch() {
     if (!currentTopic) return;
     setPhase('research');
     runTimer(researchDuration, () => {
-        // Research done → prompt them to move to presentation
         document.getElementById('rp-timer').textContent = "RESEARCH DONE";
         document.getElementById('rp-stop').style.display = 'none';
         document.getElementById('rp-start-present').disabled = false;
         document.getElementById('rp-start-present').style.display = 'inline-flex';
         document.getElementById('rp-next').style.display = 'inline-flex';
-        document.getElementById('rp-next').style.marginLeft = 'auto';
     });
 }
 
@@ -701,7 +726,6 @@ function startPresent() {
     if (!currentTopic) return;
     setPhase('present');
     runTimer(presentDuration, () => {
-        // Presentation done → prompt next
         document.getElementById('rp-timer').textContent = "TIME!";
         document.getElementById('rp-timer').classList.add('critical');
         sessionCount++;
@@ -716,7 +740,6 @@ function stopTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
     }
-    // Restore controls based on current phase
     document.getElementById('rp-stop').style.display = 'none';
     document.getElementById('rp-spin').style.display = 'inline-flex';
     document.getElementById('rp-next').style.display = 'inline-flex';
@@ -737,8 +760,6 @@ function buildRoster() {
     const grid = document.getElementById('rp-roster-grid');
     grid.innerHTML = '';
 
-    // Default: 12 empty slots — instructor can type names later
-    // For a quick classroom tool, this just creates numbered slots
     for (let i = 1; i <= 12; i++) {
         const el = document.createElement('div');
         el.className = 'rp-student';
@@ -747,6 +768,7 @@ function buildRoster() {
         el.onclick = () => assignToStudent(el);
         grid.appendChild(el);
     }
+    rosterBuilt = true;
 }
 
 function assignToStudent(el) {
@@ -788,9 +810,8 @@ document.querySelectorAll('.rp-mode').forEach(btn => {
         btn.classList.add('active');
         activeMode = btn.dataset.mode;
         document.getElementById('rp-roster').classList.toggle('visible', activeMode === 'class');
-        if (activeMode === 'class' && roster.length === 0) {
+        if (activeMode === 'class' && !rosterBuilt) {
             buildRoster();
-            roster = ['built'];
         }
     });
 });
