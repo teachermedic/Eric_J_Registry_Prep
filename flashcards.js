@@ -1,83 +1,36 @@
 /* ============================================================
-   CLINICAL FLASHCARDS — FSRS-powered spaced repetition
+   CLINICAL FLASHCARDS — Simple progress tracking
    ============================================================ */
 
-// ---------- FSRS SETUP ----------
-if (!window.tsFsrs) {
-    console.error("FSRS library not loaded. Check the CDN script tag.");
-}
+const STORAGE_KEY = "clinical-flashcards-progress-v2";
 
-const { createEmptyCard, fsrs, Rating, State } = window.tsFsrs || {
-    createEmptyCard: () => ({
-        due: new Date(),
-        stability: 0,
-        difficulty: 0,
-        elapsed_days: 0,
-        scheduled_days: 0,
-        reps: 0,
-        lapses: 0,
-        state: 0,
-        last_review: undefined,
-    }),
-    fsrs: () => ({
-        next: (card) => ({ card }),
-        repeat: (card) => ({
-            1: { card },
-            2: { card },
-            3: { card },
-            4: { card },
-        }),
-    }),
-    Rating: { Again: 1, Hard: 2, Good: 3, Easy: 4 },
-    State: { New: 0, Learning: 1, Review: 2, Relearning: 3 },
-};
-
-const scheduler = fsrs({
-    request_retention: 0.9,
-    maximum_interval: 36500,
-    enable_fuzz: true,
-    enable_short_term: false,
-});
-
-const STORAGE_KEY = "clinical-flashcards-fsrs-v1";
-
-/* ---------- STATE ---------- */
 let currentCardIdx = 0;
 let cardBank = [];
 let currentAudio = null;
 let activeDeck = "all";
 let reviewOnlyMode = false;
-let fsrsCards = {};
+
+const persisted = loadProgress();
+let known = new Set(Object.keys(persisted.known));
+let review = new Set(Object.keys(persisted.review));
 
 /* ---------- STORAGE ---------- */
 function loadProgress() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return { cards: {} };
-        const parsed = JSON.parse(raw);
-        return { cards: parsed.cards || {} };
-    } catch (err) {
-        console.warn("Could not load FSRS progress:", err);
-        return { cards: {} };
-    }
+        if (!raw) return { known: {}, review: {} };
+        const p = JSON.parse(raw);
+        return { known: p.known || {}, review: p.review || {} };
+    } catch { return { known: {}, review: {} }; }
 }
 
 function saveProgress() {
     try {
-        const serialized = {};
-        for (const [key, card] of Object.entries(fsrsCards)) {
-            serialized[key] = {
-                ...card,
-                due: card.due instanceof Date ? card.due.toISOString() : card.due,
-                last_review: card.last_review instanceof Date
-                    ? card.last_review.toISOString()
-                    : card.last_review,
-            };
-        }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ cards: serialized }));
-    } catch (err) {
-        console.warn("Could not save FSRS progress:", err);
-    }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            known: Object.fromEntries([...known].map(k => [k, true])),
+            review: Object.fromEntries([...review].map(k => [k, true]))
+        }));
+    } catch (e) { console.warn("Save failed:", e); }
 }
 
 /* ---------- HELPERS ---------- */
@@ -85,35 +38,9 @@ function cardKey(card) {
     return `${card.category || "unknown"}|${card.q}`;
 }
 
-function getOrCreateFsrsCard(card) {
-    const key = cardKey(card);
-    if (!fsrsCards[key]) {
-        fsrsCards[key] = createEmptyCard();
-    }
-    const c = fsrsCards[key];
-    if (typeof c.due === 'string') c.due = new Date(c.due);
-    if (typeof c.last_review === 'string') c.last_review = new Date(c.last_review);
-    return c;
-}
-
 function isFlashcardType(q) {
     return q.type === "single" || q.type === "open-review" ||
            q.type === "multiple" || q.type === "text";
-}
-
-function getAllCategories() {
-    const cats = new Set();
-    quizData.forEach(q => {
-        if (isFlashcardType(q) && q.category) cats.add(q.category);
-    });
-    return ["all", ...Array.from(cats).sort()];
-}
-
-/* ---------- FSRS FILTERING ---------- */
-function isDueForReview(card) {
-    const fsrsCard = getOrCreateFsrsCard(card);
-    if (fsrsCard.state === State.New) return true;
-    return new Date(fsrsCard.due) <= new Date();
 }
 
 function getFilteredBank() {
@@ -124,67 +51,12 @@ function getFilteredBank() {
     }
 
     if (reviewOnlyMode) {
-        base = base.filter(q => {
-            const fsrsCard = getOrCreateFsrsCard(q);
-            return fsrsCard.state !== State.New && isDueForReview(q);
-        });
+        base = base.filter(q => review.has(cardKey(q)));
     } else {
-        base = base.filter(isDueForReview);
+        base = base.filter(q => !known.has(cardKey(q)));
     }
 
-    base.sort((a, b) => {
-        const cardA = getOrCreateFsrsCard(a);
-        const cardB = getOrCreateFsrsCard(b);
-        if (cardA.state === State.New && cardB.state === State.New) return 0;
-        if (cardA.state === State.New) return -1;
-        if (cardB.state === State.New) return 1;
-        return new Date(cardA.due) - new Date(cardB.due);
-    });
-
     return base;
-}
-
-/* ---------- TABS ---------- */
-function renderDeckTabs() {
-    const container = document.getElementById("deckSelector");
-    if (!container) return;
-    container.innerHTML = "";
-
-    const cats = getAllCategories();
-    const labels = { all: "All Cards" };
-
-    cats.forEach(cat => {
-        const tab = document.createElement("button");
-        tab.className = "deck-tab" + (cat === activeDeck ? " active" : "");
-        tab.dataset.deck = cat;
-        tab.type = "button";
-        tab.textContent = labels[cat] || cat;
-
-        let count;
-        if (cat === "all") {
-            count = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
-        } else {
-            count = quizData.filter(q => isFlashcardType(q) && q.category === cat && isDueForReview(q)).length;
-        }
-
-        if (count > 0) {
-            const badge = document.createElement("span");
-            badge.className = "tab-badge";
-            badge.textContent = count;
-            tab.appendChild(badge);
-        }
-
-        tab.addEventListener("click", () => {
-            activeDeck = cat;
-            reviewOnlyMode = false;
-            currentCardIdx = 0;
-            cardBank = getFilteredBank();
-            renderDeckTabs();
-            renderCard();
-        });
-
-        container.appendChild(tab);
-    });
 }
 
 /* ---------- RENDER ---------- */
@@ -211,10 +83,13 @@ function renderCard() {
         `Card ${currentCardIdx + 1} of ${cardBank.length}`;
 
     document.getElementById("fcDeckLabel").innerText =
-        reviewOnlyMode ? "Review Mode — Due Cards"
+        reviewOnlyMode ? "Review Mode — Still Learning"
         : (activeDeck === "all" ? "All Cards" : activeDeck);
 
     document.getElementById("card-question-text").innerText = item.q;
+
+    const reviewBadge = document.getElementById("cardReviewBadge");
+    reviewBadge.style.display = review.has(cardKey(item)) ? "block" : "none";
 
     const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
     document.getElementById("card-answer-text").innerText = cleanAnswer;
@@ -232,92 +107,12 @@ function renderCard() {
     document.getElementById("fcProgressFill").style.width = pct + "%";
 
     updateStats();
-    updateTabBadges();
-    updateRatingButtons();
 }
 
 function updateStats() {
-    const knownEl = document.getElementById("knownCount");
-    const reviewEl = document.getElementById("reviewCount");
-    const remainingEl = document.getElementById("remainingCount");
-    if (!knownEl) return;
-
-    let learned = 0;
-    let learning = 0;
-
-    for (const card of quizData.filter(isFlashcardType)) {
-        const fsrsCard = getOrCreateFsrsCard(card);
-        if (fsrsCard.state === State.Review) {
-            learned++;
-        } else if (fsrsCard.state === State.Learning || fsrsCard.state === State.Relearning) {
-            learning++;
-        }
-    }
-
-    knownEl.textContent = learned;
-    reviewEl.textContent = learning;
-    remainingEl.textContent = cardBank.length;
-}
-
-function updateTabBadges() {
-    document.querySelectorAll(".deck-tab").forEach(tab => {
-        const cat = tab.dataset.deck;
-        let count;
-        if (cat === "all") {
-            count = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
-        } else {
-            count = quizData.filter(q => isFlashcardType(q) && q.category === cat && isDueForReview(q)).length;
-        }
-        const existing = tab.querySelector(".tab-badge");
-        if (existing) existing.remove();
-        if (count > 0) {
-            const badge = document.createElement("span");
-            badge.className = "tab-badge";
-            badge.textContent = count;
-            tab.appendChild(badge);
-        }
-    });
-}
-
-function updateRatingButtons() {
-    const currentCard = cardBank[currentCardIdx];
-    if (!currentCard) return;
-
-    const fsrsCard = getOrCreateFsrsCard(currentCard);
-    const preview = scheduler.repeat(fsrsCard, new Date());
-
-    const formatInterval = (card) => {
-        if (!card || !card.due) return '';
-        const due = new Date(card.due);
-        const now = new Date();
-        const diffMs = due - now;
-        if (diffMs <= 0) return 'now';
-        const diffMins = Math.round(diffMs / 60000);
-        const diffHours = Math.round(diffMs / 3600000);
-        const diffDays = Math.round(diffMs / 86400000);
-
-        if (diffMins < 60) return `${diffMins}m`;
-        if (diffHours < 24) return `${diffHours}h`;
-        return `${diffDays}d`;
-    };
-
-    const againBtn = document.getElementById('btn-again');
-    const hardBtn = document.getElementById('btn-hard');
-    const goodBtn = document.getElementById('btn-good');
-    const easyBtn = document.getElementById('btn-easy');
-
-    try {
-        if (againBtn) againBtn.innerHTML = `Again<br><small>${formatInterval(preview[Rating.Again].card)}</small>`;
-        if (hardBtn) hardBtn.innerHTML = `Hard<br><small>${formatInterval(preview[Rating.Hard].card)}</small>`;
-        if (goodBtn) goodBtn.innerHTML = `Good<br><small>${formatInterval(preview[Rating.Good].card)}</small>`;
-        if (easyBtn) easyBtn.innerHTML = `Easy<br><small>${formatInterval(preview[Rating.Easy].card)}</small>`;
-    } catch (e) {
-        // Fallback: just show labels without intervals
-        if (againBtn) againBtn.textContent = 'Again';
-        if (hardBtn) hardBtn.textContent = 'Hard';
-        if (goodBtn) goodBtn.textContent = 'Good';
-        if (easyBtn) easyBtn.textContent = 'Easy';
-    }
+    document.getElementById("knownCount").textContent = known.size;
+    document.getElementById("reviewCount").textContent = review.size;
+    document.getElementById("remainingCount").textContent = cardBank.length;
 }
 
 /* ---------- COMPLETION ---------- */
@@ -326,18 +121,14 @@ function showCompletion() {
     document.getElementById("completionScreen").classList.add("visible");
     const msg = document.getElementById("completionMessage");
 
-    const totalDue = quizData.filter(q => isFlashcardType(q) && isDueForReview(q)).length;
-
     if (reviewOnlyMode) {
-        msg.textContent = "You've cleared all due cards! Come back later when more are scheduled.";
-    } else if (totalDue > 0) {
-        msg.textContent = `You've cleared your current queue! ${totalDue} card${totalDue === 1 ? "" : "s"} are scheduled for later review.`;
+        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning.'";
+    } else if (review.size > 0) {
+        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
     } else {
-        msg.textContent = "You're all caught up! No cards are due for review right now.";
+        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
     }
 
-    document.getElementById("remainingCount").textContent = 0;
-    document.getElementById("fcProgressFill").style.width = "100%";
     updateStats();
 }
 
@@ -365,30 +156,30 @@ function prevCard(event) {
     renderCard();
 }
 
-/* ---------- FSRS RATING HANDLERS ---------- */
-function rateCard(rating, event) {
+function markKnown(event) {
     if (event) event.stopPropagation();
     if (cardBank.length === 0) return;
-
     const card = cardBank[currentCardIdx];
     const key = cardKey(card);
-    const fsrsCard = getOrCreateFsrsCard(card);
-
-    const result = scheduler.next(fsrsCard, new Date(), rating);
-    fsrsCards[key] = result.card;
-
+    known.add(key);
+    review.delete(key);
     saveProgress();
-
-    cardBank.splice(currentCardIdx, 1);
-    if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
-
+    if (currentCardIdx >= cardBank.length - 1) currentCardIdx = 0;
     renderCard();
 }
 
-function markKnown(event) { rateCard(Rating.Good, event); }
-function markReview(event) { rateCard(Rating.Again, event); }
+function markReview(event) {
+    if (event) event.stopPropagation();
+    if (cardBank.length === 0) return;
+    const card = cardBank[currentCardIdx];
+    const key = cardKey(card);
+    review.add(key);
+    known.delete(key);
+    saveProgress();
+    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
+    renderCard();
+}
 
-/* ---------- OTHER ACTIONS ---------- */
 function shuffleDeck() {
     for (let i = cardBank.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -399,13 +190,8 @@ function shuffleDeck() {
 }
 
 function toggleReviewOnly() {
-    const dueCount = quizData.filter(q => {
-        const fsrsCard = getOrCreateFsrsCard(q);
-        return fsrsCard.state !== State.New && isDueForReview(q);
-    }).length;
-
-    if (!reviewOnlyMode && dueCount === 0) {
-        alert("No cards are due for review right now. Come back later!");
+    if (!reviewOnlyMode && review.size === 0) {
+        alert("You haven't marked any cards as 'Still Learning' yet.");
         return;
     }
     reviewOnlyMode = !reviewOnlyMode;
@@ -415,29 +201,31 @@ function toggleReviewOnly() {
 }
 
 function resetCurrentDeck() {
-    if (!confirm("Reset progress for this deck? All FSRS scheduling data will be cleared.")) return;
+    if (!confirm("Reset progress for this deck?")) return;
     const scope = activeDeck === "all"
         ? quizData.filter(isFlashcardType)
         : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
-    scope.forEach(q => { delete fsrsCards[cardKey(q)]; });
+    scope.forEach(q => {
+        known.delete(cardKey(q));
+        review.delete(cardKey(q));
+    });
     saveProgress();
     currentCardIdx = 0;
     reviewOnlyMode = false;
-    cardBank = getFilteredBank();
     renderCard();
 }
 
 function clearAllProgress() {
     if (!confirm("Clear ALL progress? This cannot be undone.")) return;
-    fsrsCards = {};
+    known.clear();
+    review.clear();
     saveProgress();
     currentCardIdx = 0;
     reviewOnlyMode = false;
-    cardBank = getFilteredBank();
     renderCard();
 }
 
-/* ---------- EVENT LISTENERS ---------- */
+/* ---------- COMPLETION BUTTONS ---------- */
 window.addEventListener("DOMContentLoaded", () => {
     const resetBtn = document.getElementById("resetFromCompleteBtn");
     const reviewBtn = document.getElementById("reviewMissedFromCompleteBtn");
@@ -448,16 +236,6 @@ window.addEventListener("DOMContentLoaded", () => {
         cardBank = getFilteredBank();
         renderCard();
     });
-
-    const againBtn = document.getElementById('btn-again');
-    const hardBtn = document.getElementById('btn-hard');
-    const goodBtn = document.getElementById('btn-good');
-    const easyBtn = document.getElementById('btn-easy');
-
-    if (againBtn) againBtn.addEventListener('click', (e) => rateCard(Rating.Again, e));
-    if (hardBtn) hardBtn.addEventListener('click', (e) => rateCard(Rating.Hard, e));
-    if (goodBtn) goodBtn.addEventListener('click', (e) => rateCard(Rating.Good, e));
-    if (easyBtn) easyBtn.addEventListener('click', (e) => rateCard(Rating.Easy, e));
 });
 
 /* ---------- KEYBOARD ---------- */
@@ -466,10 +244,8 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") nextCard();
     if (e.key === "ArrowLeft") prevCard();
     if (e.key === " ") { e.preventDefault(); flipCard(); }
-    if (e.key === "1") rateCard(Rating.Again);
-    if (e.key === "2") rateCard(Rating.Hard);
-    if (e.key === "3") rateCard(Rating.Good);
-    if (e.key === "4") rateCard(Rating.Easy);
+    if (e.key === "1") markKnown();
+    if (e.key === "2") markReview();
 });
 
 /* ---------- INIT ---------- */
@@ -477,11 +253,6 @@ window.addEventListener("load", () => {
     if (localStorage.getItem("ems_theme") === "dark") {
         document.body.classList.add("dark-mode");
     }
-
-    const persisted = loadProgress();
-    fsrsCards = persisted.cards || {};
-
-    renderDeckTabs();
     cardBank = getFilteredBank();
     renderCard();
 });
