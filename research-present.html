@@ -852,4 +852,63 @@ function assignToStudent(el) {
 }
 
 /* ---------- EVENT LISTENERS ---------- */
-document
+document.getElementById('rp-spin').addEventListener('click', spinTopic);
+document.getElementById('rp-start-research').addEventListener('click', startResearch);
+document.getElementById('rp-start-present').addEventListener('click', startPresent);
+document.getElementById('rp-stop').addEventListener('click', stopTimer);
+document.getElementById('rp-next').addEventListener('click', () => {
+    sessionCount++;
+    document.getElementById('rp-count').textContent = sessionCount;
+    spinTopic();
+});
+
+document.querySelectorAll('.rp-cat').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.rp-cat').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.cat;
+        currentTopic = null;
+    });
+});
+
+document.querySelectorAll('.rp-mode').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.rp-mode').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeMode = btn.dataset.mode;
+        document.getElementById('rp-roster').classList.toggle('visible', activeMode === 'class');
+        if (activeMode === 'class' && !rosterBuilt) {
+            buildRoster();
+        }
+    });
+});
+
+document.getElementById('rp-research-duration').addEventListener('change', (e) => {
+    researchDuration = parseInt(e.target.value);
+    if (phase === 'idle') {
+        timeLeft = researchDuration;
+        updateTimerDisplay();
+    }
+});
+
+document.getElementById('rp-present-duration').addEventListener('change', (e) => {
+    presentDuration = parseInt(e.target.value);
+});
+
+/* ---------- KEYBOARD SHORTCUTS ---------- */
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+    if (e.key === ' ' && !timerInterval && !spinTimer) { e.preventDefault(); spinTopic(); }
+    if (e.key === 'r' && !timerInterval && currentTopic) { e.preventDefault(); startResearch(); }
+    if (e.key === 'p' && !timerInterval && currentTopic) { e.preventDefault(); startPresent(); }
+    if (e.key === 'Escape' && timerInterval) { e.preventDefault(); stopTimer(); }
+});
+
+// Init
+setPhase('idle');
+updateTimerDisplay();
+</script>
+
+</body>
+</html>
