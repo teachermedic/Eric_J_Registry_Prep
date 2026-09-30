@@ -1,362 +1,132 @@
-/* ============================================================
-   CLINICAL FLASHCARDS — Deck picker + simple progress tracking
-   ============================================================ */
-const STORAGE_KEY = "clinical-flashcards-progress-v2";
+const quizData = [
+    // --- FOUNDATIONS & LEGAL ---
+    { q: "Accidental Death and Disability (1966) is famously known as:", options: ["The Orange Book", "The White Paper", "The EMS Charter", "The NHTSA Guide"], answer: ["The White Paper"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "This paper identified accidental death as a 'neglected disease' and spurred EMS growth." },
+    { q: "Which EMS level is trained in IV therapy and limited advanced meds?", options: ["EMR", "EMT", "AEMT", "Paramedic"], answer: ["AEMT"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "AEMTs bridge basic and advanced life support." },
+    { q: "What is the primary way to prevent disease transmission?", options: ["Gloves", "Handwashing", "Gowns", "Masks"], answer: ["Handwashing"], type: "single", category: "Safety", section: "Foundations", rationale: "Hand hygiene is the #1 clinical defense." },
+    { q: "What element of neglect is violated if you hand off care of a patient to a lesser trained healthcare professional?", options: ["Duty to act", "Breach of duty", "Damages", "Proximate cause"], answer: ["Breach of duty"], type: "multiple", category: "Legal", section: "Foundations", rationale: "Breach of duty occurs when handing off patient care to a lesser trained healthcare professional. This is also known as patient abandonment." },
+    { q: "In SBAR, what does 'B' stand for?", options: ["Basic Info", "Background", "Body System", "Blood Pressure"], answer: ["Background"], type: "single", category: "Communications", section: "Foundations", rationale: "SBAR = Situation, Background, Assessment, Recommendation." },
+    { q: "Which lifting technique uses the legs and an upright back?", options: ["Power grip", "Power lift", "Deadlift", "Shoulder lift"], answer: ["Power lift"], type: "single", category: "Lifting", section: "Foundations", rationale: "Legs are strongest; back must remain straight." },
+    { q: "Which document establishes the 'Scope of Practice' for an AEMT within a specific state?", options: ["NHTSA Curriculum", "The State EMS Office / Medical Practice Act", "NREMT Handbook", "Federal DOT"], answer: ["The State EMS Office / Medical Practice Act"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "State legislation defines the actual legal scope of practice." },
+    { q: "A patient refuses care and is able to answer questions but has slurred speech with repetitive questioning. You should treat this patient under which of the following:", options: ["Expressed Consent", "Informed Consent", "Implied Consent", "Involuntary Consent"], answer: ["Implied Consent"], type: "single", category: "Legal", section: "Foundations", rationale: "Decision-making capacity is a patient's functional ability to understand, appreciate, reason, and communicate choices regarding medical treatment." },
+    { q: "What is the difference between Libel and Slander?", options: ["Libel is spoken; Slander is written", "Libel is written; Slander is spoken", "Physical vs Verbal", "No difference"], answer: ["Libel is written; Slander is spoken"], type: "single", category: "Legal", section: "Foundations", rationale: "Libel = Written defamation; Slander = Spoken defamation." },
+    { q: "In the 'Five Stages of Grief,' which stage involves a patient trying to make a deal to postpone the inevitable?", options: ["Denial", "Bargaining", "Anger", "Depression"], answer: ["Bargaining"], type: "single", category: "Wellness", section: "Foundations", rationale: "Bargaining is the third stage of the Kübler-Ross model." },
+    { q: "Which federal document provides the 'National EMS Scope of Practice Model' that states use to create their laws?", options: ["The White Paper", "NHTSA DOT Booklet", "The National EMS Education Standards", "The EMS Agenda for the Future"], answer: ["The National EMS Education Standards"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "NHTSA's National EMS Education Standards define the minimum competencies for each level." },
+    { q: "AEMT care is typically required to be provided under the license of a:", options: ["Fire Chief", "Medical Director", "Service Director", "Nursing Supervisor"], answer: ["Medical Director"], type: "single", category: "EMS Systems", section: "Foundations", rationale: "Medical Directors provide the legal authority for AEMTs to practice." },
+    { q: "Assault is defined legally as:", options: ["Touching a patient without consent", "Placing a patient in fear of bodily harm", "Causing physical injury to a patient", "Kidnapping a patient"], answer: ["Placing a patient in fear of bodily harm"], type: "single", category: "Legal", section: "Foundations", rationale: "Assault is the threat; Battery is the actual physical touching." },
 
-let currentCardIdx = 0;
-let cardBank = [];
-let currentAudio = null;
-let activeDeck = "all";
-let reviewOnlyMode = false;
+    // --- PATHOPHYSIOLOGY ---
+    { q: "What is the primary product of anaerobic metabolism?", options: ["Lactic Acid", "ATP", "Glucose", "Oxygen"], answer: ["Lactic Acid"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Without oxygen, cells produce lactic acid and very little energy." },
+    { q: "Shock caused by widespread vasodilation is categorized as:", options: ["Hypovolemic", "Distributive", "Cardiogenic", "Obstructive"], answer: ["Distributive"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Anaphylaxis and Sepsis are types of distributive shock." },
+    { q: "A patient hypoventilating from an opioid OD is likely in:", options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Alkalosis", "Metabolic Acidosis"], answer: ["Respiratory Acidosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "CO2 retention leads to a drop in pH, causing respiratory acidosis." },
+    { q: "Kussmaul respirations in DKA are an attempt to compensate for:", options: ["Metabolic Acidosis", "Metabolic Alkalosis", "Respiratory Acidosis", "Hypoxemia"], answer: ["Metabolic Acidosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Rapid breathing 'blows off' CO2 (acid) to raise blood pH." },
+    { q: "Which of the following is the primary chemical buffer system in the human body?", options: ["Protein", "Bicarbonate", "Phosphate", "Hemoglobin"], answer: ["Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The Bicarbonate-Carbonic Acid system is the most important extracellular buffer." },
+    { q: "A hyperventilating patient with an EtCO2 of 22 is in:", options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Acidosis", "Normal state"], answer: ["Respiratory Alkalosis"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Excessive loss of CO2 removes acid, raising the pH." },
+    { q: "What is the normal pH range of human arterial blood?", options: ["7.0 - 7.1", "7.35 - 7.45", "7.45 - 7.55", "6.8 - 7.8"], answer: ["7.35 - 7.45"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "This narrow window is essential for cellular enzyme function." },
+    { q: "A COPD patient is retaining CO2. This results in an increase of which ion in the blood?", options: ["Sodium", "Hydrogen", "Bicarbonate", "Potassium"], answer: ["Hydrogen"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "CO2 combines with water to form carbonic acid, which dissociates into Hydrogen ions." },
+    { q: "Which organ system is responsible for the 'Long-term' compensation of acid-base imbalances?", options: ["The Lungs", "The Kidneys", "The Liver", "The Pancreas"], answer: ["The Kidneys"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "The kidneys adjust pH by excreting or retaining Hydrogen and Bicarbonate." },
+    { q: "In a state of Acidosis, the heart becomes:", options: ["More sensitive to Epinephrine", "Less responsive to catecholamines", "Hyper-excitable", "More efficient at pumping"], answer: ["Less responsive to catecholamines"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Acidosis decreases myocardial contractility." },
+    { q: "The Bicarbonate Buffer System manages pH by balancing which two components?", options: ["Oxygen and Nitrogen", "Carbon Dioxide and Bicarbonate", "Sodium and Potassium", "Calcium and Magnesium"], answer: ["Carbon Dioxide and Bicarbonate"], type: "single", category: "Patho", section: "Pathophysiology", rationale: "Lungs regulate CO2 and kidneys regulate Bicarbonate." },
 
-const persisted = loadProgress();
-let known = new Set(Object.keys(persisted.known));
-let review = new Set(Object.keys(persisted.review));
+    // --- MEDICAL ---
+    { q: "A 70-year-old male presents with extreme dyspnea, waking up gasping for air. Sitting bolt-upright, pink, frothy sputum. BP 190/104. Interventions? (Select all that apply)", options: ["Supine position", "CPAP at 5-10 cmH2O", "Nitroglycerin", "Non-rebreather mask", "Albuterol"], answer: ["CPAP at 5-10 cmH2O", "Nitroglycerin", "Non-rebreather mask"], type: "multiple", category: "Cardiovascular", section: "Medical", rationale: "ADHF requires pressure and preload reduction." },
+    { q: "Worsening fatigue, JVD, and bilateral pedal edema in a COPD patient indicates:", options: ["Left-Sided Heart Failure", "Right-Sided Heart Failure", "Acute Bronchitis", "Pneumothorax"], answer: ["Right-Sided Heart Failure"], type: "single", category: "Cardiovascular", section: "Medical", rationale: "Right failure causes systemic backup (JVD, edema)." },
+    { q: "How does CPAP improve oxygenation in pulmonary edema?", options: ["Increasing HR", "Forcing fluid out of alveoli", "Improves BP", "Vasodilation"], answer: ["Forcing fluid out of alveoli"], type: "single", category: "Respiratory", section: "Medical", rationale: "Pressure pushes fluid back into the capillaries." },
+    { q: "Stroke symptoms that resolve in 45 minutes are:", options: ["Ischemic Stroke", "Hemorrhagic Stroke", "TIA", "Hypoglycemia"], answer: ["TIA"], type: "single", category: "Neurology", section: "Medical", rationale: "TIAs resolve within 24 hours." },
+    { q: "Cushing's Syndrome signs:", options: ["Moon-face and buffalo hump", "Weight loss", "Low glucose", "Hypotension"], answer: ["Moon-face and buffalo hump"], type: "single", category: "Endocrine", section: "Medical", rationale: "Caused by excess cortisol." },
+    { q: "Tearing back pain and unequal BPs in arms indicates:", options: ["Heart Attack", "Aortic Dissection", "Kidney Stones", "Gallstones"], answer: ["Aortic Dissection"], type: "single", category: "Cardiovascular", section: "Medical", rationale: "Classic signs of dissection." },
+    { q: "Twitching facial nerve (Chvostek's sign) indicates:", options: ["Hypocalcemia", "Hypercalcemia", "Hypokalemia", "Hyperkalemia"], answer: ["Hypocalcemia"], type: "single", category: "Assessment", section: "Medical", rationale: "Indicates neuromuscular excitability." },
+    { q: "Lethargic patient, rapid deep respirations, high glucose. First priority?", options: ["BVM", "Open/secure airway", "Hyperventilate", "Check pupils"], answer: ["Open/secure airway"], type: "single", category: "Endocrine", section: "Medical", rationale: "Airway is always first." },
+    { q: "Mittelschmerz refers to:", options: ["Endometriosis", "Ovulation pain", "Amenorrhea", "PID"], answer: ["Ovulation pain"], type: "single", category: "Gynecology", section: "Medical", rationale: "Localized pain during ovulation." },
 
-/* ---------- STORAGE ---------- */
-function loadProgress() {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return { known: {}, review: {} };
-        const p = JSON.parse(raw);
-        return { known: p.known || {}, review: p.review || {} };
-    } catch { return { known: {}, review: {} }; }
-}
+    // --- TRAUMA & ENVIRONMENTAL ---
+    { q: "Coup-contrecoup injury occurs in which collision?", options: ["First", "Second", "Third (organs vs body wall)", "Fourth"], answer: ["Third (organs vs body wall)"], type: "single", category: "MOI", section: "Trauma", rationale: "Organs strike the interior wall." },
+    { q: "Class III Hemorrhage loss percentage?", options: ["15%", "15-30%", "30-40%", ">40%"], answer: ["30-40%"], type: "single", category: "Bleeding", section: "Trauma", rationale: "Compensation starts to fail." },
+    { q: "Beck's Triad (JVD, muffled sounds, narrow pulse pressure) indicates:", options: ["Tension Pneumo", "Cardiac Tamponade", "Hemothorax", "Commotio Cordis"], answer: ["Cardiac Tamponade"], type: "single", category: "Chest", section: "Trauma", rationale: "Fluid in pericardial sac." },
+    { q: "Kehr's sign (L shoulder pain) indicates:", options: ["Liver", "Spleen", "Kidneys", "Pancreas"], answer: ["Spleen"], type: "single", category: "Abdominal", section: "Trauma", rationale: "Referred phrenic nerve pain." },
+    { q: "What are the '6 Ps'? (Select all that apply)", options: ["Pain", "Paresthesia", "Pulselessness", "Pallor", "Paralysis", "Pressure"], answer: ["Pain", "Paresthesia", "Pulselessness", "Pallor", "Paralysis", "Pressure"], type: "multiple", category: "Ortho", section: "Trauma", rationale: "Critical ortho assessment." },
+    { q: "Trauma 'Lethal Triad' contains: (Select all that apply)", options: ["Acidosis", "Coagulopathy", "Hypothermia", "Hypertension"], answer: ["Acidosis", "Coagulopathy", "Hypothermia"], type: "multiple", category: "Bleeding", section: "Trauma", rationale: "Trauma death cycle." },
+    { q: "Cushing's Triad signs:", options: ["HTN, Bradycardia, Irregular Resp", "HTN, Tachycardia, Rapid Resp", "Hypotension, Bradycardia, JVD", "Hypotension, Tachycardia, Narrow Pulse Pressure"], answer: ["HTN, Bradycardia, Irregular Resp"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Indicates increased ICP." },
+    { q: "Cold-water drowning patient status:", options: ["Dead after 30m", "Warm and dead", "Core 90F", "No shock advised"], answer: ["Warm and dead"], type: "single", category: "Environmental", section: "Trauma", rationale: "Must warm before declaring." },
+    { q: "Gas law for 'The Bends':", options: ["Boyle's", "Henry's", "Dalton's", "Charles's"], answer: ["Henry's"], type: "single", category: "Environmental", section: "Trauma", rationale: "Gas solubility principle." },
+    { q: "Crush Syndrome pathophysiology:", options: ["Cardiac arrest", "Release of toxins after pressure removal", "Hemorrhage", "Nerve death"], answer: ["Release of toxins after pressure removal"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "Myoglobin/Potassium flood." },
+    { q: "Kinetic Energy formula:", options: ["Mass x Velocity", "1/2 Mass x Velocity Squared", "Weight x Gravity", "Mass / Velocity"], answer: ["1/2 Mass x Velocity Squared"], type: "single", category: "Physics", section: "Trauma", rationale: "Velocity squared is key." },
+    { q: "Burn with red, painful blisters is:", options: ["Superficial", "Partial-thickness", "Full-thickness", "Deep-thickness"], answer: ["Partial-thickness"], type: "single", category: "Soft-Tissue", section: "Trauma", rationale: "2nd degree burn." },
+    { q: "CPP formula involves:", options: ["MAP and ICP", "BP and HR", "EtCO2 and RR", "GCS"], answer: ["MAP and ICP"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "CPP = MAP - ICP." },
+    { q: "Tension Pneumo field priority:", options: ["Occlusive dressing", "Needle Decompression", "High-flow O2", "Intubation"], answer: ["Needle Decompression"], type: "single", category: "Chest", section: "Trauma", rationale: "Relieve pressure immediately." },
+    { q: "Scaphoid abdomen suggests:", options: ["Ruptured Spleen", "Diaphragmatic Rupture", "Internal bleeding", "Evisceration"], answer: ["Diaphragmatic Rupture"], type: "single", category: "Abdominal", section: "Trauma", rationale: "Organs move into chest." },
+    { q: "Open pelvic fracture priority:", options: ["Splint legs", "Pelvic binder", "Tourniquet", "Traction splint"], answer: ["Pelvic binder"], type: "single", category: "Ortho", section: "Trauma", rationale: "Reduce volume/limit bleeding." },
+    { q: "Permissive hypotension MAP target:", options: ["40-50", "60-65", "80-90", "110-120"], answer: ["60-65"], type: "single", category: "Shock", section: "Trauma", rationale: "Maintain vital perfusion/protect clot." },
+    { q: "Heat Stroke hallmark sign:", options: ["Tachycardia", "Hot skin", "Altered Mental Status", "Cramps"], answer: ["Altered Mental Status"], type: "single", category: "Environmental", section: "Trauma", rationale: "Differentiator from heat exhaustion." },
+    { q: "Blown pupil on R indicates:", options: ["Oculomotor nerve compression", "Optic nerve damage", "Sympathetic surge", "Normal"], answer: ["Oculomotor nerve compression"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "ICP compresses 3rd cranial nerve." },
+    { q: "Latest 6P sign to develop:", options: ["Pain", "Pallor", "Pulselessness", "Paresthesia"], answer: ["Pulselessness"], type: "single", category: "Ortho", section: "Trauma", rationale: "Very late indicator." },
+    { q: "Adult toes fanning out (sole stroke) is:", options: ["Babinski's sign", "Kehr's sign", "Murphy's sign", "Cushing's sign"], answer: ["Babinski's sign"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Indicates upper motor neuron injury." },
+    { q: "Spinal shock definition:", options: ["Neurogenic hypotension", "Temporary loss of reflexes", "Bradycardia", "Paralysis"], answer: ["Temporary loss of reflexes"], type: "single", category: "Head/Spine", section: "Trauma", rationale: "Temporary physiologic state." },
+    { q: "Greenstick fracture population:", options: ["Geriatric", "Adult", "Pediatric", "Athletes"], answer: ["Pediatric"], type: "single", category: "Ortho", section: "Trauma", rationale: "Flexible bones." },
+    { q: "Mammalian Diving Reflex law:", options: ["Boyle's", "Henry's", "Dalton's", "Charles's"], answer: ["Boyle's"], type: "single", category: "Environmental", section: "Trauma", rationale: "Pressure effects law." },
 
-function saveProgress() {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            known: Object.fromEntries([...known].map(k => [k, true])),
-            review: Object.fromEntries([...review].map(k => [k, true]))
-        }));
-    } catch (e) { console.warn("Save failed:", e); }
-}
+    // --- OB/GYN & PEDIATRICS ---
+    { q: "Painless, bright red 3rd trimester bleeding is:", options: ["Abruptio Placentae", "Placenta Previa", "Ectopic", "Preeclampsia"], answer: ["Placenta Previa"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Painless/bright red." },
+    { q: "Eclampsia differentiator:", options: ["HTN", "Proteinuria", "Seizures", "Edema"], answer: ["Seizures"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Seizures mark eclampsia." },
+    { q: "Stuck shoulders during delivery:", options: ["Nuchal Cord", "Breech", "Shoulder Dystocia", "Prolapsed Cord"], answer: ["Shoulder Dystocia"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Shoulders stuck at symphysis pubis." },
+    { q: "Neonatal 2-rescuer CPR ratio:", options: ["3:1", "15:2", "30:2", "5:1"], answer: ["3:1"], type: "single", category: "Neonatal", section: "OBPeds", rationale: "90 comp / 30 breaths." },
+    { q: "Neonatal HR 54 after 30s PPV. Action?", options: ["Epi", "Chest Compressions", "More O2", "Continue PPV"], answer: ["Chest Compressions"], type: "single", category: "Neonatal", section: "OBPeds", rationale: "Start compressions if HR < 60." },
+    { q: "PAT Triangle components: (Select all that apply)", options: ["Appearance", "Work of Breathing", "Circulation", "BP"], answer: ["Appearance", "Work of Breathing", "Circulation"], type: "multiple", category: "Pediatrics", section: "OBPeds", rationale: "Visual PAT assessment." },
+    { q: "Drooling, high fever, tripod position in 3yo:", options: ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], answer: ["Epiglottitis"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Airway emergency." },
+    { q: "Seal-bark cough in infant:", options: ["Croup", "Epiglottitis", "Pneumonia", "Pertussis"], answer: ["Croup"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Barking cough/stridor." },
+    { q: "Sunken fontanelle sign:", options: ["ICP", "Dehydration", "Meningitis", "Normal"], answer: ["Dehydration"], type: "single", category: "Pediatrics", section: "OBPeds", rationale: "Severe hypovolemia." },
+    { q: "Prolapsed cord management:", options: ["Pull cord", "Knee-chest position", "Push back", "Clamp"], answer: ["Place mother in knee-chest position"], type: "single", category: "Obstetrics", section: "OBPeds", rationale: "Relieve cord pressure." },
 
-/* ---------- HELPERS ---------- */
-function cardKey(card) {
-    return `${card.category || "unknown"}|${card.q}`;
-}
+    // --- TERMINOLOGY (OPEN TEXT) ---
+    { q: "Medical term for 'a heart rate below 60 beats per minute.'", options: [], answer: ["Bradycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Brady- (slow) + -cardia (heart)." },
+    { q: "Medical term for 'a heart rate above 100 beats per minute.'", options: [], answer: ["Tachycardia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Tachy- (fast) + -cardia (heart)." },
+    { q: "Medical term for 'difficulty or labored breathing.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Dys- (difficult) + -pnea (breathing)." },
+    { q: "Medical term for 'the absence of breathing.'", options: [], answer: ["Apnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "A- (without) + -pnea (breathing)." },
+    { q: "Medical term for 'vomiting blood.'", options: [], answer: ["Hematemesis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemat- (blood) + -emesis (vomiting)." },
+    { q: "Medical term for 'blood in the urine.'", options: [], answer: ["Hematuria"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemat- (blood) + -uria (urine)." },
+    { q: "Medical term for 'enlargement of the liver.'", options: [], answer: ["Hepatomegaly"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hepat- (liver) + -megaly (enlarged)." },
+    { q: "Medical term for 'inflammation of the gallbladder.'", options: [], answer: ["Cholecystitis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Chole- (bile) + cyst- (sac) + -itis (inflammation)." },
+    { q: "Medical term for 'excessive sweating.'", options: [], answer: ["Diaphoresis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Diaphoresis describes sweating." },
+    { q: "Medical term for 'blood in the chest cavity.'", options: [], answer: ["Hemothorax"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemo- (blood) + -thorax (chest)." },
+    { q: "Medical term for 'low levels of oxygen in the tissues.'", options: [], answer: ["Hypoxia"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hypo- (low) + oxia (oxygen)." },
+    { q: "Medical term for 'bluish discoloration of the skin due to low oxygen.'", options: [], answer: ["Cyanosis"], type: "text", category: "Terminology", section: "Terminology", rationale: "Cyan- (blue) + -osis (condition)." },
+    { q: "Medical term for 'a new surgical opening in the stomach.'", options: [], answer: ["Gastrostomy"], type: "text", category: "Terminology", section: "Terminology", rationale: "Gastr- (stomach) + -stomy (new opening)." },
+    { q: "Medical term for 'the muscle layer of the heart.'", options: [], answer: ["Myocardium"], type: "text", category: "Terminology", section: "Terminology", rationale: "Myo- (muscle) + -cardium (heart)." },
+    { q: "Medical term for 'any disease of the kidneys.'", options: [], answer: ["Nephropathy"], type: "text", category: "Terminology", section: "Terminology", rationale: "Nephr- (kidney) + -pathy (disease)." },
+    { q: "Medical term for 'excessive production of urine.'", options: [], answer: ["Polyuria"], type: "text", category: "Terminology", section: "Terminology", rationale: "Poly- (many) + -uria (urine)." },
+    { q: "Medical term for 'difficulty breathing when lying flat.'", options: [], answer: ["Orthopnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Often seen in CHF patients." },
+    { q: "Medical term for 'a respiratory rate that is slower than normal.'", options: [], answer: ["Bradypnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Brady- (slow) + -pnea (breathing)." },
+    { q: "Medical term for 'a respiratory rate that is faster than normal.'", options: [], answer: ["Tachypnea"], type: "text", category: "Terminology", section: "Terminology", rationale: "Tachy- (fast) + -pnea (breathing)." },
+    { q: "Medical term for 'excessive or profuse bleeding.'", options: [], answer: ["Hemorrhage"], type: "text", category: "Terminology", section: "Terminology", rationale: "Hemo- (blood) + -rrhage (bursting forth)." },
 
-function isFlashcardType(q) {
-    return q.type === "single" || q.type === "open-review" ||
-           q.type === "multiple" || q.type === "text";
-}
+    // --- PHARMACOLOGY ---
+    { q: "Standard adult dose of Epinephrine 1:1,000 for anaphylaxis? (e.g., 0.5 mg)", options: [], answer: ["0.3 mg"], type: "text", category: "Pharmacology", section: "Medical", rationale: "Adult dose is 0.3 mg IM." },
+    { q: "Medical term for 'Shortness of Breath.'", options: [], answer: ["Dyspnea"], type: "text", category: "Terminology", section: "Medical", rationale: "Clinical term for difficulty breathing." },
+    { q: "Target EtCO2 range for respiratory distress?", options: [], answer: ["35-45"], type: "text", category: "Respiratory", section: "Medical", rationale: "Normal range is 35-45 mmHg." },
+];
 
-function getFilteredBank() {
-    let base = quizData.filter(isFlashcardType);
-
-    if (activeDeck !== "all") {
-        base = base.filter(q => q.category === activeDeck);
-    }
-
-    if (reviewOnlyMode) {
-        base = base.filter(q => review.has(cardKey(q)));
-    } else {
-        base = base.filter(q => !known.has(cardKey(q)));
-    }
-
-    return base;
-}
-
-/* ---------- DECK PICKER ---------- */
-function getDeckStats() {
-    const decks = {};
-    quizData.filter(isFlashcardType).forEach(q => {
-        const cat = q.category || "General";
-        if (!decks[cat]) decks[cat] = { total: 0, known: 0, review: 0 };
-        decks[cat].total++;
-        const key = cardKey(q);
-        if (known.has(key)) decks[cat].known++;
-        if (review.has(key)) decks[cat].review++;
-    });
-    return decks;
-}
-
-function getDeckIcon(category) {
-    const icons = {
-        "EMS Systems": "local_hospital",
-        "Safety": "health_and_safety",
-        "Legal": "gavel",
-        "Communications": "forum",
-        "Lifting": "fitness_center",
-        "Wellness": "self_improvement",
-        "Patho": "coronavirus",
-        "Pathophysiology": "coronavirus",
-        "Cardiology": "favorite",
-        "Cardiovascular": "favorite",
-        "Respiratory": "air",
-        "Neurology": "psychology",
-        "Neuro": "psychology",
-        "Trauma": "healing",
-        "Medical": "medical_services",
-        "OBPeds": "child_care",
-        "Obstetrics": "pregnant_woman",
-        "Pediatrics": "child_care",
-        "Neonatal": "child_friendly",
-        "Toxicology": "warning",
-        "Pharmacology": "medication",
-        "Immunology": "vaccines",
-        "Endocrine": "science",
-        "Gynecology": "female",
-        "Assessment": "assignment",
-        "Terminology": "translate",
-        "MOI": "car_crash",
-        "Bleeding": "water_drop",
-        "Chest": "monitor_heart",
-        "Abdominal": "sick",
-        "Ortho": "accessibility",
-        "Head/Spine": "psychology",
-        "Environmental": "ac_unit",
-        "Soft-Tissue": "healing",
-        "Physics": "calculate",
-        "Shock": "bolt",
-        "Face/Neck": "face",
-        "Physician": "school"
-    };
-    return icons[category] || "style";
-}
-
-function renderDeckPicker() {
-    const grid = document.getElementById("deckGrid");
-    if (!grid) return;
-
-    const decks = getDeckStats();
-    const sorted = Object.entries(decks).sort((a, b) => a[0].localeCompare(b[0]));
-
-    grid.innerHTML = sorted.map(([cat, stats]) => {
-        const pct = stats.total > 0 ? Math.round((stats.known / stats.total) * 100) : 0;
-        const mastered = stats.known === stats.total;
-        const icon = getDeckIcon(cat);
-
-        return `
-            <button class="deck-tile ${mastered ? 'mastered' : ''}" onclick="selectDeck('${cat.replace(/'/g, "\\'")}')">
-                ${stats.review > 0 ? `<span class="deck-tile-review-badge">${stats.review} to review</span>` : ''}
-                <span class="material-icons deck-tile-icon">${icon}</span>
-                <p class="deck-tile-name">${cat}</p>
-                <p class="deck-tile-stats">${stats.total} cards · ${stats.known} known</p>
-                <div class="deck-tile-progress-bar">
-                    <div class="deck-tile-progress-fill" style="width: ${pct}%"></div>
-                </div>
-            </button>
-        `;
-    }).join("");
-}
-
-/* ---------- SCREEN SWITCHING ---------- */
-function selectDeck(category) {
-    activeDeck = category;
-    reviewOnlyMode = false;
-    currentCardIdx = 0;
-
-    document.getElementById("deckPicker").style.display = "none";
-    document.getElementById("cardView").classList.add("visible");
-
-    cardBank = getFilteredBank();
-    renderCard();
-}
-
-function backToDeckPicker() {
-    document.getElementById("cardView").classList.remove("visible");
-    document.getElementById("deckPicker").style.display = "block";
-    renderDeckPicker();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-/* ---------- RENDER ---------- */
-function renderCard() {
-    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-
-    cardBank = getFilteredBank();
-
-    if (cardBank.length === 0) {
-        showCompletion();
-        return;
-    }
-
-    hideCompletion();
-
-    if (currentCardIdx >= cardBank.length) currentCardIdx = 0;
-    if (currentCardIdx < 0) currentCardIdx = cardBank.length - 1;
-
-    const item = cardBank[currentCardIdx];
-    const cardElement = document.getElementById("main-card");
-    cardElement.classList.remove("is-flipped");
-
-    document.getElementById("card-progress").innerText =
-        `Card ${currentCardIdx + 1} of ${cardBank.length}`;
-
-    document.getElementById("fcDeckLabel").innerText =
-        reviewOnlyMode ? "Review Mode — Still Learning"
-        : (activeDeck === "all" ? "All Cards" : activeDeck);
-
-    document.getElementById("card-question-text").innerText = item.q;
-
-    const reviewBadge = document.getElementById("cardReviewBadge");
-    reviewBadge.style.display = review.has(cardKey(item)) ? "block" : "none";
-
-    const cleanAnswer = Array.isArray(item.answer) ? item.answer.join(", ") : item.answer;
-    document.getElementById("card-answer-text").innerText = cleanAnswer;
-    document.getElementById("card-rationale-text").innerText = item.rationale || "";
-
-    const csBox = document.getElementById("card-cheat-sheet");
-    if (item.cheatSheet) {
-        csBox.style.display = "block";
-        csBox.innerHTML = `<strong>Field Note Summary:</strong> ${item.cheatSheet}`;
-    } else {
-        csBox.style.display = "none";
-    }
-
-    const pct = ((currentCardIdx + 1) / cardBank.length) * 100;
-    document.getElementById("fcProgressFill").style.width = pct + "%";
-
-    updateStats();
-}
-
-function updateStats() {
-    document.getElementById("knownCount").textContent = known.size;
-    document.getElementById("reviewCount").textContent = review.size;
-    document.getElementById("remainingCount").textContent = cardBank.length;
-}
-
-/* ---------- COMPLETION ---------- */
-function showCompletion() {
-    document.querySelector(".flashcard-wrapper").style.display = "none";
-    document.querySelector(".fc-controls").style.display = "none";
-    document.querySelector(".fc-secondary-controls").style.display = "none";
-    document.querySelector(".fc-progress-bar").style.display = "none";
-    document.querySelector(".fc-meta").style.display = "none";
-
-    document.getElementById("completionScreen").classList.add("visible");
-
-    const title = document.getElementById("completionTitle");
-    const msg = document.getElementById("completionMessage");
-
-    if (activeDeck === "all") {
-        title.textContent = "All Cards Complete!";
-    } else {
-        title.textContent = `${activeDeck} Complete!`;
-    }
-
-    if (reviewOnlyMode) {
-        msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning.'";
-    } else if (review.size > 0) {
-        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
-    } else {
-        msg.textContent = "You've mastered every card in this deck. Outstanding work!";
-    }
-}
-
-function hideCompletion() {
-    document.querySelector(".flashcard-wrapper").style.display = "";
-    document.querySelector(".fc-controls").style.display = "";
-    document.querySelector(".fc-secondary-controls").style.display = "";
-    document.querySelector(".fc-progress-bar").style.display = "";
-    document.querySelector(".fc-meta").style.display = "";
-    document.getElementById("completionScreen").classList.remove("visible");
-}
-
-/* ---------- ACTIONS ---------- */
-function flipCard() {
-    document.getElementById("main-card").classList.toggle("is-flipped");
-}
-
-function nextCard(event) {
-    if (event) event.stopPropagation();
-    if (cardBank.length === 0) return;
-    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
-    renderCard();
-}
-
-function prevCard(event) {
-    if (event) event.stopPropagation();
-    if (cardBank.length === 0) return;
-    currentCardIdx = (currentCardIdx - 1 + cardBank.length) % cardBank.length;
-    renderCard();
-}
-
-function markKnown(event) {
-    if (event) event.stopPropagation();
-    if (cardBank.length === 0) return;
-    const card = cardBank[currentCardIdx];
-    const key = cardKey(card);
-    known.add(key);
-    review.delete(key);
-    saveProgress();
-    if (currentCardIdx >= cardBank.length - 1) currentCardIdx = 0;
-    renderCard();
-}
-
-function markReview(event) {
-    if (event) event.stopPropagation();
-    if (cardBank.length === 0) return;
-    const card = cardBank[currentCardIdx];
-    const key = cardKey(card);
-    review.add(key);
-    known.delete(key);
-    saveProgress();
-    currentCardIdx = (currentCardIdx + 1) % cardBank.length;
-    renderCard();
-}
-
-function shuffleDeck() {
-    for (let i = cardBank.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cardBank[i], cardBank[j]] = [cardBank[j], cardBank[i]];
-    }
-    currentCardIdx = 0;
-    renderCard();
-}
-
-function toggleReviewOnly() {
-    if (!reviewOnlyMode && review.size === 0) {
-        alert("You haven't marked any cards as 'Still Learning' yet.");
-        return;
-    }
-    reviewOnlyMode = !reviewOnlyMode;
-    currentCardIdx = 0;
-    cardBank = getFilteredBank();
-    renderCard();
-}
-
-function resetCurrentDeck() {
-    if (!confirm("Reset progress for this deck?")) return;
-    const scope = activeDeck === "all"
-        ? quizData.filter(isFlashcardType)
-        : quizData.filter(q => isFlashcardType(q) && q.category === activeDeck);
-    scope.forEach(q => {
-        known.delete(cardKey(q));
-        review.delete(cardKey(q));
-    });
-    saveProgress();
-    currentCardIdx = 0;
-    reviewOnlyMode = false;
-    renderCard();
-}
-
-/* ---------- COMPLETION BUTTONS ---------- */
-window.addEventListener("DOMContentLoaded", () => {
-    const resetBtn = document.getElementById("resetFromCompleteBtn");
-    const backBtn = document.getElementById("backFromCompleteBtn");
-    if (resetBtn) resetBtn.addEventListener("click", resetCurrentDeck);
-    if (backBtn) backBtn.addEventListener("click", backToDeckPicker);
-});
-
-/* ---------- KEYBOARD ---------- */
-document.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    if (!document.getElementById("cardView").classList.contains("visible")) return;
-    if (e.key === "ArrowRight") nextCard();
-    if (e.key === "ArrowLeft") prevCard();
-    if (e.key === " ") { e.preventDefault(); flipCard(); }
-    if (e.key === "1") markKnown();
-    if (e.key === "2") markReview();
-    if (e.key === "Escape") backToDeckPicker();
-});
-
-/* ---------- INIT ---------- */
-window.addEventListener("load", () => {
-    if (localStorage.getItem("ems_theme") === "dark") {
-        document.body.classList.add("dark-mode");
-    }
-    renderDeckPicker();
-});
+// ---------- OPEN-REVIEW / STUDY CARDS ----------
+quizData.push(
+    { q: "A sudden drop in cardiac output due to a massive Pulmonary Embolism (PE) is a classic example of which type of shock?", answer: "Obstructive Shock.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "In obstructive shock, the heart is capable of pumping, but a mechanical obstruction prevents blood from flowing through the system.", cheatSheet: "OBSTRUCTIVE SHOCK: A 'plumbing' block. Causes: Tension Pneumothorax, Cardiac Tamponade, and PE." },
+    { q: "What is the primary intracellular cation in the human body?", answer: "Potassium (K+).", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Potassium is the major positive ion inside the cells.", cheatSheet: "ELECTROLYTES: K+ = Inside. Na+ = Outside." },
+    { q: "What cellular process occurs when cells are forced to switch to metabolism without a sufficient oxygen supply?", answer: "Anaerobic Metabolism.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Without oxygen, the cell cannot enter the Krebs cycle efficiently.", cheatSheet: "ANAEROBIC: 'An-' (without) 'aerobic' (oxygen)." },
+    { q: "An accumulation of lactic acid in the blood leads to which specific acid-base condition?", answer: "Metabolic Acidosis.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Lactic acid buildup drops blood pH.", cheatSheet: "METABOLIC ACIDOSIS: Low pH from metabolic byproducts." },
+    { q: "What is the primary chemical buffer system used by the human body to maintain pH balance?", answer: "The Bicarbonate Buffer System.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Balances Carbonic Acid and Bicarbonate.", cheatSheet: "BUFFERING: Bicarbonate system is fastest." },
+    { q: "Low serum calcium levels (hypocalcemia) can lead to involuntary muscle spasms, a condition known as?", answer: "Tetany.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Calcium is necessary for proper muscle contraction.", cheatSheet: "TETANY: Muscle tension from low Calcium." },
+    { q: "What is the primary underlying vascular mechanism that leads to septic shock?", answer: "Widespread vasodilation due to a systemic infection.", type: "open-review", onlyStudy: true, category: "Patho", section: "Pathophysiology", rationale: "Toxins trigger massive inflammatory response.", cheatSheet: "SEPTIC SHOCK: Distributive shock." },
+    { q: "List the components of Virchow's Triad.", answer: "1. Venous Stasis, 2. Endothelial Injury, 3. Hypercoagulability.", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Medical", rationale: "Understanding clotting risk factors.", cheatSheet: "VIRCHOW'S TRIAD: Stasis + Injury + Hypercoagulability." },
+    { q: "Describe the 'Shark Fin' waveform on a capnogram.", answer: "Slurred alveolar plateau indicating bronchoconstriction.", type: "open-review", onlyStudy: true, category: "Respiratory", section: "Medical", rationale: "Airways constrict, CO2 exits slower.", cheatSheet: "SHARK FIN = Bronchoconstriction." },
+    { q: "Differentiate between Decorticate and Decerebrate posturing.", answer: "Decorticate: Flexion (toward core). Decerebrate: Extension (outward).", type: "open-review", onlyStudy: true, category: "Neuro", section: "Trauma", rationale: "Both indicate serious brain injury.", cheatSheet: "DE-CORE-TICATE (toward core) vs EXTENSION (Decerebrate)." },
+    { q: "What is the clinical definition of Eclampsia?", answer: "Tonic-clonic seizures in a patient with preeclampsia.", type: "open-review", onlyStudy: true, category: "OBPeds", section: "Medical", rationale: "The 'E' in Eclampsia stands for Event (the seizure).", cheatSheet: "PREECLAMPSIA: High BP + Protein. ECLAMPSIA: Seizure." },
+    { q: "Explain the Frank-Starling Law of the Heart.", answer: "The heart contracts with more force as fibers stretch (increased Preload).", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Foundations", rationale: "Explains why we reduce preload in CHF.", cheatSheet: "FRANK-STARLING: Stretch = More Force." },
+    { q: "Describe the transition from Aerobic to Anaerobic metabolism during shock.", answer: "Cells deprived of oxygen switch to anaerobic metabolism, producing Lactic Acid.", type: "open-review", onlyStudy: true, category: "Patho", section: "Foundations", rationale: "Why RR increases in shock.", cheatSheet: "ANAEROBIC = NO OXYGEN. Waste = Lactic Acid." },
+    { q: "Define 'Ventilation-Perfusion (V/Q) Mismatch'.", answer: "Air reaching alveoli doesn't match blood flow.", type: "open-review", onlyStudy: true, category: "Respiratory", section: "Medical", rationale: "PE = ventilation fine, perfusion blocked.", cheatSheet: "V/Q MISMATCH: Air vs Blood don't meet." },
+    { q: "What is 'Cor Pulmonale'?", answer: "Right-sided heart failure caused by pulmonary hypertension.", type: "open-review", onlyStudy: true, category: "Cardiology", section: "Medical", rationale: "Explains JVD and edema in COPD patients.", cheatSheet: "COR PULMONALE: Right HF from Lung Disease." },
+    { q: "Wolff-Parkinson-White (WPW) Syndrome — identify the accessory pathway.", answer: "Bundle of Kent.", type: "open-review", onlyStudy: true, category: "Physician", section: "Medical", rationale: "Bypass tract causes Delta Wave.", cheatSheet: "WPW: Short PR + Wide QRS + Delta Wave." },
+    { q: "What is HELLP Syndrome and what is the definitive treatment?", answer: "Hemolysis, Elevated Liver enzymes, Low Platelets. Treatment: immediate delivery.", type: "open-review", onlyStudy: true, category: "Physician", section: "Medical", rationale: "Severe preeclampsia variant.", cheatSheet: "HELLP: Hemolysis + Elevated Liver + Low Platelets." },
+    { q: "What is Pheochromocytoma?", answer: "A catecholamine-secreting tumor of the adrenal medulla.", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "Causes paroxysmal hypertension.", cheatSheet: "PHEOCHROMOCYTOMA: Adrenal tumor + Catecholamine dump." },
+    { q: "Describe the pathophysiology of Rhabdomyolysis.", answer: "Release of Myoglobin from damaged muscle cells into the bloodstream.", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "Myoglobin toxic to renal tubules.", cheatSheet: "RHABDO: Muscle death = Myoglobin release = AKI." },
+    { q: "What is Aortic Stenosis murmur?", answer: "Harsh systolic crescendo-decrescendo murmur at right 2nd ICS radiating to carotids.", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "'SAD' triad: Syncope, Angina, Dyspnea.", cheatSheet: "AORTIC STENOSIS: Right 2nd ICS + Systolic + Radiates to Neck." },
+    { q: "What is Horner's Syndrome triad?", answer: "Ptosis, Miosis, Anhidrosis.", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "Sympathetic nerve interruption.", cheatSheet: "HORNER'S: Ptosis + Miosis + Anhidrosis." },
+    { q: "Why do ACE Inhibitors cause a dry cough?", answer: "Accumulation of Bradykinin.", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "ACE breaks down bradykinin in lungs.", cheatSheet: "ACE COUGH: Bradykinin buildup." },
+    { q: "What is the Anion Gap formula?", answer: "Na+ - (Cl- + HCO3-)", type: "open-review", onlyStudy: true, category: "Physician", section: "Physician", rationale: "Differentiates causes of metabolic acidosis.", cheatSheet: "ANION GAP: Normal ~8-12. High = Extra acids." },
+);
