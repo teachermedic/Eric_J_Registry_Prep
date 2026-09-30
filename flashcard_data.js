@@ -1,7 +1,6 @@
 /* ============================================================
    CLINICAL FLASHCARDS — Deck picker + simple progress tracking
    ============================================================ */
-
 const STORAGE_KEY = "clinical-flashcards-progress-v2";
 
 let currentCardIdx = 0;
