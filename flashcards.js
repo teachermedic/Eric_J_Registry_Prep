@@ -1,8 +1,8 @@
 /* ============================================================
-   CLINICAL FLASHCARDS — Simple progress tracking
+   CLINICAL FLASHCARDS — Deck picker + simple progress tracking
    ============================================================ */
 
-const STORAGE_KEY = "clinical-flashcards-progress-v2";
+const STORAGE_KEY = "clinical-flashcards-progress-v3";
 
 let currentCardIdx = 0;
 let cardBank = [];
@@ -35,7 +35,7 @@ function saveProgress() {
 
 /* ---------- HELPERS ---------- */
 function cardKey(card) {
-    return `${card.category || "unknown"}|${card.q}`;
+    return (card.category || "unknown") + "|" + card.q;
 }
 
 function isFlashcardType(q) {
@@ -59,6 +59,116 @@ function getFilteredBank() {
     return base;
 }
 
+/* ---------- DECK PICKER ---------- */
+function getDeckStats() {
+    const decks = {};
+    quizData.filter(isFlashcardType).forEach(q => {
+        const cat = q.category || "General";
+        if (!decks[cat]) decks[cat] = { total: 0, known: 0, review: 0 };
+        decks[cat].total++;
+        const key = cardKey(q);
+        if (known.has(key)) decks[cat].known++;
+        if (review.has(key)) decks[cat].review++;
+    });
+    return decks;
+}
+
+function getDeckIcon(category) {
+    const icons = {
+        "EMS Systems": "local_hospital",
+        "Safety": "health_and_safety",
+        "Legal": "gavel",
+        "Communications": "forum",
+        "Lifting": "fitness_center",
+        "Wellness": "self_improvement",
+        "Patho": "coronavirus",
+        "Pathophysiology": "coronavirus",
+        "Cardiology": "favorite",
+        "Cardiovascular": "favorite",
+        "Respiratory": "air",
+        "Neurology": "psychology",
+        "Neuro": "psychology",
+        "Trauma": "healing",
+        "Medical": "medical_services",
+        "OBPeds": "child_care",
+        "Obstetrics": "pregnant_woman",
+        "Pediatrics": "child_care",
+        "Neonatal": "child_friendly",
+        "Toxicology": "warning",
+        "Pharmacology": "medication",
+        "Immunology": "vaccines",
+        "Endocrine": "science",
+        "Gynecology": "female",
+        "Assessment": "assignment",
+        "Terminology": "translate",
+        "MOI": "car_crash",
+        "Bleeding": "water_drop",
+        "Chest": "monitor_heart",
+        "Abdominal": "sick",
+        "Ortho": "accessibility",
+        "Head/Spine": "psychology",
+        "Environmental": "ac_unit",
+        "Soft-Tissue": "healing",
+        "Physics": "calculate",
+        "Shock": "bolt",
+        "Face/Neck": "face",
+        "Physician": "school"
+    };
+    return icons[category] || "style";
+}
+
+function renderDeckPicker() {
+    const grid = document.getElementById("deckGrid");
+    if (!grid) {
+        console.error("deckGrid element not found");
+        return;
+    }
+
+    const decks = getDeckStats();
+    const sorted = Object.entries(decks).sort((a, b) => a[0].localeCompare(b[0]));
+
+    grid.innerHTML = sorted.map(function(entry) {
+        const cat = entry[0];
+        const stats = entry[1];
+        const pct = stats.total > 0 ? Math.round((stats.known / stats.total) * 100) : 0;
+        const mastered = stats.known === stats.total;
+        const icon = getDeckIcon(cat);
+        const reviewBadge = stats.review > 0 
+            ? '<span class="deck-tile-review-badge">' + stats.review + ' to review</span>' 
+            : '';
+
+        return '<button class="deck-tile ' + (mastered ? 'mastered' : '') + '" onclick="selectDeck(\'' + cat.replace(/'/g, "\\'") + '\')">' +
+            reviewBadge +
+            '<span class="material-icons deck-tile-icon">' + icon + '</span>' +
+            '<p class="deck-tile-name">' + cat + '</p>' +
+            '<p class="deck-tile-stats">' + stats.total + ' cards · ' + stats.known + ' known</p>' +
+            '<div class="deck-tile-progress-bar">' +
+                '<div class="deck-tile-progress-fill" style="width: ' + pct + '%"></div>' +
+            '</div>' +
+        '</button>';
+    }).join("");
+}
+
+/* ---------- SCREEN SWITCHING ---------- */
+function selectDeck(category) {
+    activeDeck = category;
+    reviewOnlyMode = false;
+    currentCardIdx = 0;
+
+    document.getElementById("deckPicker").style.display = "none";
+    document.getElementById("cardView").classList.add("visible");
+
+    cardBank = getFilteredBank();
+    renderCard();
+}
+
+function backToDeckPicker() {
+    document.getElementById("cardView").classList.remove("visible");
+    document.getElementById("deckPicker").style.display = "block";
+    renderDeckPicker();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 /* ---------- RENDER ---------- */
 function renderCard() {
     if (currentAudio) { currentAudio.pause(); currentAudio = null; }
@@ -80,7 +190,7 @@ function renderCard() {
     cardElement.classList.remove("is-flipped");
 
     document.getElementById("card-progress").innerText =
-        `Card ${currentCardIdx + 1} of ${cardBank.length}`;
+        "Card " + (currentCardIdx + 1) + " of " + cardBank.length;
 
     document.getElementById("fcDeckLabel").innerText =
         reviewOnlyMode ? "Review Mode — Still Learning"
@@ -98,7 +208,7 @@ function renderCard() {
     const csBox = document.getElementById("card-cheat-sheet");
     if (item.cheatSheet) {
         csBox.style.display = "block";
-        csBox.innerHTML = `<strong>Field Note Summary:</strong> ${item.cheatSheet}`;
+        csBox.innerHTML = "<strong>Field Note Summary:</strong> " + item.cheatSheet;
     } else {
         csBox.style.display = "none";
     }
@@ -117,23 +227,51 @@ function updateStats() {
 
 /* ---------- COMPLETION ---------- */
 function showCompletion() {
-    document.body.classList.add("deck-finished");
+    const wrapper = document.querySelector(".flashcard-wrapper");
+    const controls = document.querySelector(".fc-controls");
+    const secondary = document.querySelector(".fc-secondary-controls");
+    const progressBar = document.querySelector(".fc-progress-bar");
+    const meta = document.querySelector(".fc-meta");
+
+    if (wrapper) wrapper.style.display = "none";
+    if (controls) controls.style.display = "none";
+    if (secondary) secondary.style.display = "none";
+    if (progressBar) progressBar.style.display = "none";
+    if (meta) meta.style.display = "none";
+
     document.getElementById("completionScreen").classList.add("visible");
+
+    const title = document.getElementById("completionTitle");
     const msg = document.getElementById("completionMessage");
+
+    if (activeDeck === "all") {
+        title.textContent = "All Cards Complete!";
+    } else {
+        title.textContent = activeDeck + " Complete!";
+    }
 
     if (reviewOnlyMode) {
         msg.textContent = "You've cleared your review list! Nothing is marked 'Still Learning.'";
     } else if (review.size > 0) {
-        msg.textContent = `Deck mastered! ${review.size} card${review.size === 1 ? "" : "s"} still marked "Still Learning."`;
+        msg.textContent = "Deck mastered! " + review.size + " card" + (review.size === 1 ? "" : "s") + " still marked 'Still Learning.'";
     } else {
         msg.textContent = "You've mastered every card in this deck. Outstanding work!";
     }
-
-    updateStats();
 }
 
 function hideCompletion() {
-    document.body.classList.remove("deck-finished");
+    const wrapper = document.querySelector(".flashcard-wrapper");
+    const controls = document.querySelector(".fc-controls");
+    const secondary = document.querySelector(".fc-secondary-controls");
+    const progressBar = document.querySelector(".fc-progress-bar");
+    const meta = document.querySelector(".fc-meta");
+
+    if (wrapper) wrapper.style.display = "";
+    if (controls) controls.style.display = "";
+    if (secondary) secondary.style.display = "";
+    if (progressBar) progressBar.style.display = "";
+    if (meta) meta.style.display = "";
+
     document.getElementById("completionScreen").classList.remove("visible");
 }
 
@@ -183,7 +321,9 @@ function markReview(event) {
 function shuffleDeck() {
     for (let i = cardBank.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [cardBank[i], cardBank[j]] = [cardBank[j], cardBank[i]];
+        const tmp = cardBank[i];
+        cardBank[i] = cardBank[j];
+        cardBank[j] = tmp;
     }
     currentCardIdx = 0;
     renderCard();
@@ -215,44 +355,34 @@ function resetCurrentDeck() {
     renderCard();
 }
 
-function clearAllProgress() {
-    if (!confirm("Clear ALL progress? This cannot be undone.")) return;
-    known.clear();
-    review.clear();
-    saveProgress();
-    currentCardIdx = 0;
-    reviewOnlyMode = false;
-    renderCard();
+/* ---------- INIT ---------- */
+function initFlashcards() {
+    if (localStorage.getItem("ems_theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
+    const resetBtn = document.getElementById("resetFromCompleteBtn");
+    const backBtn = document.getElementById("backFromCompleteBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetCurrentDeck);
+    if (backBtn) backBtn.addEventListener("click", backToDeckPicker);
+
+    renderDeckPicker();
 }
 
-/* ---------- COMPLETION BUTTONS ---------- */
-window.addEventListener("DOMContentLoaded", () => {
-    const resetBtn = document.getElementById("resetFromCompleteBtn");
-    const reviewBtn = document.getElementById("reviewMissedFromCompleteBtn");
-    if (resetBtn) resetBtn.addEventListener("click", resetCurrentDeck);
-    if (reviewBtn) reviewBtn.addEventListener("click", () => {
-        reviewOnlyMode = true;
-        currentCardIdx = 0;
-        cardBank = getFilteredBank();
-        renderCard();
-    });
-});
-
-/* ---------- KEYBOARD ---------- */
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", function(e) {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    const cardView = document.getElementById("cardView");
+    if (!cardView || !cardView.classList.contains("visible")) return;
     if (e.key === "ArrowRight") nextCard();
     if (e.key === "ArrowLeft") prevCard();
     if (e.key === " ") { e.preventDefault(); flipCard(); }
     if (e.key === "1") markKnown();
     if (e.key === "2") markReview();
+    if (e.key === "Escape") backToDeckPicker();
 });
 
-/* ---------- INIT ---------- */
-window.addEventListener("load", () => {
-    if (localStorage.getItem("ems_theme") === "dark") {
-        document.body.classList.add("dark-mode");
-    }
-    cardBank = getFilteredBank();
-    renderCard();
-});
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFlashcards);
+} else {
+    initFlashcards();
+}
