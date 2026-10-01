@@ -1,18 +1,16 @@
-const CACHE_NAME = 'field-notes-v1';
+const CACHE_NAME = 'field-notes-study-tools-v1';
 const assets = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  'https://fonts.googleapis.com/icon?family=Material+Icons'
+  './study-tools.js'
 ];
 
 // Install Service Worker
 self.addEventListener('install', evt => {
   evt.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      cache.addAll(assets);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(assets)).then(() => self.skipWaiting())
   );
 });
 
@@ -23,4 +21,11 @@ self.addEventListener('fetch', evt => {
       return rec || fetch(evt.request);
     })
   );
+});
+
+
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
 });

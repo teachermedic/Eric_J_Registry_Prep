@@ -38,7 +38,22 @@
 </h1>
                 <h2 class="subtitle">National Registry and Exam Prep</h2>
                 
+                <p id="study-storage-status" role="status" class="study-help"></p>
                 <div id="setup-area">
+                    <section id="study-library" class="study-library" aria-label="Your saved study work">
+                        <h3>Your Study Tools</h3>
+                        <p class="study-help">Saved in this browser on this device.</p>
+                        <div id="resume-card" hidden>
+                            <p id="resume-description"></p>
+                            <button type="button" class="study-button" onclick="resumeStudySession()">Resume Session</button>
+                            <button type="button" class="study-button" onclick="discardStudySession()">Discard Session</button>
+                        </div>
+                        <div class="study-tool-buttons">
+                            <button type="button" class="study-button" id="saved-missed-button" onclick="openStudyCollection('missed')">Missed Questions (0)</button>
+                            <button type="button" class="study-button" id="saved-bookmark-button" onclick="openStudyCollection('bookmarks')">Bookmarks (0)</button>
+                            <button type="button" class="study-button" onclick="openStudyHistory()">Progress History</button>
+                        </div>
+                    </section>
                     <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
                         <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
                             <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
@@ -99,6 +114,11 @@
 </button>
 
                 <div id="quiz-area" style="display:none;">
+                    <div class="study-question-tools">
+                        <button type="button" id="bookmark-question-button" class="study-button" onclick="toggleStudyBookmark()" aria-pressed="false">Bookmark</button>
+                        <button type="button" class="study-button" onclick="openQuestionReport()">Report Question</button>
+                        <button type="button" class="study-button" onclick="pauseStudySession()">Save &amp; Exit</button>
+                    </div>
                     <div id="timer-container">Time Remaining: <span id="timer-display">00:00</span></div>
                     <div id="progress"></div>
                     <div id="question-text"></div>
@@ -137,6 +157,14 @@
         </aside>
 
     </div>
+
+    <dialog id="study-dialog" class="study-dialog" aria-labelledby="study-dialog-title">
+        <div class="study-dialog-header">
+            <h2 id="study-dialog-title"></h2>
+            <button type="button" class="study-button" onclick="document.getElementById('study-dialog').close()" aria-label="Close study tools">Close</button>
+        </div>
+        <div id="study-dialog-body"></div>
+    </dialog>
 
     <div id="fieldNoteModal" class="modal">
         <div class="modal-content">
@@ -278,6 +306,7 @@
     </script>
 
     <script src="script.js"></script>
+    <script src="study-tools.js"></script>
 
 </body>
 </html>

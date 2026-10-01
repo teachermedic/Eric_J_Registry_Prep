@@ -918,6 +918,7 @@ function updateSliderLabel(val) {
 }
 
 function startQuiz(selectedMode) {
+    if (!confirmStudyReplacement()) return;
     mode = selectedMode;
     const topic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
@@ -957,6 +958,7 @@ function startQuiz(selectedMode) {
         sessionQuestions.push(...unit);
     }
 
+    studyBeginSession();
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
 
@@ -975,16 +977,20 @@ function startQuiz(selectedMode) {
 }
 
 function startTimer() {
+    clearInterval(timerInterval);
+    document.getElementById('timer-display').innerText = `${Math.floor(timeLeft / 60)}:${String(timeLeft % 60).padStart(2, '0')}`;
     timerInterval = setInterval(() => {
         timeLeft--;
         let mins = Math.floor(timeLeft / 60);
         let secs = timeLeft % 60;
         document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        saveStudySession();
         if (timeLeft <= 0) { clearInterval(timerInterval); showResults(); }
     }, 1000);
 }
 
 function showQuestion() {
+    studyQuestionShown();
     const data = sessionQuestions[currentIdx];
     const qText = document.getElementById('question-text');
     const container = document.getElementById('options-container');
@@ -1031,7 +1037,10 @@ function showQuestion() {
             revealBox.style.display = 'block';
             revealBtn.style.display = 'none';
             nextBtn.style.display = 'flex';
+            studyPhase = 'revealed';
+            saveStudySession();
         };
+        saveStudySession();
         return; 
     }
 
@@ -1059,6 +1068,7 @@ function showQuestion() {
                 this.querySelector('.tool-data').style.display = 'block';
                 this.querySelector('.tool-label').style.display = 'none';
                 this.style.backgroundColor = 'var(--light-gray)';
+                saveStudySession();
             };
             sandboxGrid.appendChild(card);
         });
@@ -1127,13 +1137,15 @@ function showQuestion() {
             label.innerText = opt;
             div.appendChild(input);
             div.appendChild(label);
-            div.onclick = () => input.click();
+            div.onclick = event => { if (event.target === div) input.click(); };
             container.appendChild(div);
         });
     }
+    saveStudySession();
 }
 
 function handleAction() {
+    if (studyPhase === 'feedback') { nextStudyQuestion(); return; }
     const q = sessionQuestions[currentIdx];
     let isCorrect = false;
 
@@ -1150,6 +1162,7 @@ function handleAction() {
         isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
     }
     
+    studyRecordAnswer(q, isCorrect);
     if (isCorrect) {
         score++;
         categoryStats[q.category].correct++;
@@ -1158,6 +1171,15 @@ function handleAction() {
     }
 
     if (mode === 'review') {
+        renderReviewFeedback(q, isCorrect);
+        saveStudySession();
+    } else {
+        currentIdx++;
+        currentIdx < sessionQuestions.length ? showQuestion() : showResults();
+    }
+}
+
+function renderReviewFeedback(q, isCorrect) {
         const fb = document.getElementById('feedback');
         fb.innerHTML = isCorrect ? `<b style="color:green">Correct!</b>` : `<b style="color:red">Incorrect.</b> See rationale below.`;
         fb.innerHTML += `<br><small>${q.rationale}</small>`;
@@ -1172,23 +1194,14 @@ function handleAction() {
     fb.innerHTML += `<br><button onclick="openFieldNote('${cheatText}', '${linkUrl}', '${imgPath}')" class="cheat-sheet-btn" style="margin-top:10px; padding:8px; cursor:pointer;">📖 View Field Note</button>`;
 }
 
-        const btn = document.getElementById('action-btn');
-        btn.innerText = "Next Question";
-        btn.onclick = () => {
-            currentIdx++;
-            if (currentIdx < sessionQuestions.length) { 
-                showQuestion(); 
-                btn.innerText = "Submit Answer"; 
-                btn.onclick = handleAction; 
-            } else { showResults(); }
-        };
-    } else {
-        currentIdx++;
-        currentIdx < sessionQuestions.length ? showQuestion() : showResults();
-    }
+    document.querySelectorAll('#options-container input').forEach(input => { input.disabled = true; });
+    const btn = document.getElementById('action-btn');
+    btn.innerText = 'Next Question';
+    btn.onclick = nextStudyQuestion;
 }
 
 function showResults() {
+    if (!studyFinishSession()) return;
     updateStreak(); 
     clearInterval(timerInterval);
     
@@ -1206,16 +1219,19 @@ function showResults() {
     }
 
     // 3. Score Calculations
-    const percent = Math.round((score / sessionQuestions.length) * 100);
-    document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
-    document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
+    const gradedTotal = sessionQuestions.filter(q => q.type !== 'open-review').length;
+    const percent = gradedTotal ? Math.round((score / gradedTotal) * 100) : 0;
+    document.getElementById('score-display').innerText = gradedTotal ? `Final Score: ${score} / ${gradedTotal}` : `Reviewed ${sessionQuestions.length} clinical cases`;
+    document.getElementById('percentage-display').innerText = gradedTotal ? `Total Mastery: ${percent}%` : 'Self-study cases are not scored.';
 
     // 4. Build Performance Profile UI
     const breakdown = document.getElementById('category-breakdown');
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
     for (const [cat, data] of Object.entries(categoryStats)) {
-        const catPercent = Math.round((data.correct / data.total) * 100);
+        const catTotal = sessionQuestions.filter(q => q.category === cat && q.type !== 'open-review').length;
+        if (!catTotal) continue;
+        const catPercent = Math.round((data.correct / catTotal) * 100);
         let masteryClass = catPercent >= 75 ? 'high-mastery' : (catPercent >= 50 ? 'mid-mastery' : 'low-mastery');
         breakdown.innerHTML += `
             <div class="category-stat">
@@ -1225,6 +1241,7 @@ function showResults() {
     }
 
     // 5. DATA Handoff to Google Sheets
+    if (!gradedTotal) return;
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
@@ -1234,7 +1251,7 @@ function showResults() {
             module: document.getElementById('topic-select').value, 
             mode: mode,
             score: score, 
-            total: sessionQuestions.length, 
+            total: gradedTotal, 
             percentage: percent, 
             timestamp: new Date().toLocaleString() 
         })
@@ -1242,20 +1259,7 @@ function showResults() {
 }
 
 function startMissedDrill() {
-    sessionQuestions = [...missedQuestions];
-    missedQuestions = [];
-    currentIdx = 0;
-    score = 0;
-    mode = 'review';
-    document.getElementById('results-area').style.display = 'none';
-    document.getElementById('quiz-area').style.display = 'block';
-    document.getElementById('timer-container').style.display = 'none';
-    categoryStats = {};
-    sessionQuestions.forEach(q => {
-        if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
-        categoryStats[q.category].total++;
-    });
-    showQuestion();
+    startStudyCollection('missed', missedQuestions.map(studyQuestionKey));
 }
 
 function openFieldNote(text, url, imgPath) {
@@ -1291,7 +1295,7 @@ window.onclick = function(event) {
 }
 
 function checkStreak() {
-    const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
+    const streakData = JSON.parse(readStudySetting('ems_streak')) || { count: 0, lastDate: null };
     const today = new Date().toLocaleDateString();
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -1299,7 +1303,7 @@ function checkStreak() {
 
     if (streakData.lastDate !== today && streakData.lastDate !== yesterdayStr && streakData.lastDate !== null) {
         streakData.count = 0;
-        localStorage.setItem('ems_streak', JSON.stringify(streakData));
+        writeStudySetting('ems_streak', JSON.stringify(streakData));
     }
     if (streakData.count > 0) {
         const streakContainer = document.getElementById('streak-container');
@@ -1311,37 +1315,32 @@ function checkStreak() {
 }
 
 function updateStreak() {
-    const streakData = JSON.parse(localStorage.getItem('ems_streak')) || { count: 0, lastDate: null };
+    const streakData = JSON.parse(readStudySetting('ems_streak')) || { count: 0, lastDate: null };
     const today = new Date().toLocaleDateString();
     if (streakData.lastDate !== today) {
         streakData.count++;
         streakData.lastDate = today;
-        localStorage.setItem('ems_streak', JSON.stringify(streakData));
+        writeStudySetting('ems_streak', JSON.stringify(streakData));
     }
     document.getElementById('streak-container').style.display = 'block';
     document.getElementById('streak-count').innerText = streakData.count;
 }
 
 function nextSandbox() {
-    currentIdx++;
-    if (currentIdx < sessionQuestions.length) {
-        showQuestion();
-    } else {
-        showResults();
-    }
+    nextStudyQuestion();
 }
 
 function toggleDarkMode() {
     const isDark = document.body.classList.toggle('dark-mode');
     const icon = document.getElementById('theme-icon');
     if (icon) icon.innerText = isDark ? 'light_mode' : 'dark_mode';
-    localStorage.setItem('ems_theme', isDark ? 'dark' : 'light');
+    writeStudySetting('ems_theme', isDark ? 'dark' : 'light');
 }
 // Fixed Initialization Logic
 window.onload = () => { 
     if (typeof adjustSliderRange === "function") adjustSliderRange(); 
     checkStreak(); 
-    if (localStorage.getItem('ems_theme') === 'dark') {
+    if (readStudySetting('ems_theme') === 'dark') {
         document.body.classList.add('dark-mode');
         const icon = document.getElementById('theme-icon');
         if (icon) icon.innerText = 'light_mode';
@@ -1355,3 +1354,4 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('PWA Failure', err));
   });
 }
+
