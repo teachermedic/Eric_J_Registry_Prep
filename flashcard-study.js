@@ -5,6 +5,7 @@
  const catalog=window.FIELD_NOTE_CARDS || [], byId=new Map(catalog.map(c=>[c.id,c]));
  const labels={clinical:'Clinical Flashcards',terms:'Terminology Decks',prefix:'Prefixes',suffix:'Suffixes',root:'Root Words',all:'All Cards'};
  const ratings=['again','hard','good','easy'];
+ const isDifficult=r=>typeof r.difficult==='boolean'?r.difficult:['again','hard'].includes(r.rating);
  let available=true, memory=null, state, active=null;
  const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
  const button=(text,fn)=>{const b=el('button',text,'card-study-button');b.type='button';b.addEventListener('click',fn);return b;};
@@ -23,7 +24,7 @@
    for(const [id,r] of Object.entries(raw.records||{})) {
     if(!byId.has(id)||!r||typeof r!=='object')continue;
     const rated=ratings.includes(r.rating)&&Number.isFinite(r.due)&&r.due>=0&&Number.isFinite(r.interval)&&r.interval>=0;
-    result.records[id]={bookmark:r.bookmark===true,...(rated?{rating:r.rating,due:r.due,interval:Math.min(r.interval,365),reviews:Number.isInteger(r.reviews)&&r.reviews>=0?r.reviews:0,reviewedAt:Number.isFinite(r.reviewedAt)?r.reviewedAt:null}:{})};
+    result.records[id]={bookmark:r.bookmark===true,...(typeof r.difficult==='boolean'?{difficult:r.difficult}:{}),...(rated?{rating:r.rating,due:r.due,interval:Math.min(r.interval,365),reviews:Number.isInteger(r.reviews)&&r.reviews>=0?r.reviews:0,reviewedAt:Number.isFinite(r.reviewedAt)?r.reviewedAt:null}:{})};
    }
    for(const kind of ['clinical','terms'])if(validSession(raw.sessions?.[kind],kind))result.sessions[kind]=raw.sessions[kind];
    result.history=Array.isArray(raw.history)?raw.history.filter(h=>h&&byId.has(h.id)&&ratings.includes(h.rating)&&Number.isFinite(h.date)&&h.date>=0).slice(-500):[];
@@ -56,7 +57,7 @@
  const pageFor=kind=>kind==='clinical'?'flashcards.html':'terminology-decks.html';
  function url(kind,params={}){return pageFor(kind)+'?'+new URLSearchParams(params);}
  function stats(cards) {
-  const now=Date.now();return cards.reduce((s,c)=>{const r=state.records[c.id]||{};s.total++;if(r.rating)s.reviewed++;else s.new++;if(r.rating&&r.due<=now)s.due++;if(['again','hard'].includes(r.rating))s.difficult++;if(r.bookmark)s.bookmarked++;return s;},{total:0,reviewed:0,new:0,due:0,difficult:0,bookmarked:0});
+  const now=Date.now();return cards.reduce((s,c)=>{const r=state.records[c.id]||{};s.total++;if(r.rating)s.reviewed++;else s.new++;if(r.rating&&r.due<=now)s.due++;if(isDifficult(r))s.difficult++;if(r.bookmark)s.bookmarked++;return s;},{total:0,reviewed:0,new:0,due:0,difficult:0,bookmarked:0});
  }
  function renderDashboard() {
   const host=document.getElementById('card-study-dashboard');if(!host)return;
@@ -81,7 +82,7 @@
   if(!state.history.length)details.append(el('p','Your card ratings will appear here.','card-study-help'));
   host.append(details);
  }
- let toolbar,statusNode,noticeNode,ratingPanel,bookmarkButton,saveButton,resumeButton,viewMode='learn',selectedDeck='all';
+ let toolbar,statusNode,noticeNode,ratingPanel,bookmarkButton,difficultButton,saveButton,resumeButton,viewMode='learn',selectedDeck='all';
  const sourceMap=new Map();
  function setupSources() {
   const raw=kindOfPage==='clinical'?quizData:TERM_DECKS;
@@ -91,7 +92,7 @@
   const now=Date.now();return catalog.filter(c=>c.kind===kindOfPage&&sourceMap.has(c.id)&&(deck==='all'||c.deck===deck)).filter(c=>{
    const r=state.records[c.id]||{};
    if(mode==='due')return r.rating&&r.due<=now;
-   if(mode==='difficult')return ['again','hard'].includes(r.rating);
+   if(mode==='difficult')return isDifficult(r);
    if(mode==='bookmarks')return r.bookmark;
    if(mode==='learn')return !r.rating||r.due<=now;
    return true;
@@ -134,13 +135,14 @@
    document.getElementById('completionTitle').textContent='Card Session Complete';
   }else{document.body.classList.add('deck-finished');document.querySelector('#completionScreen h2').textContent='Card Session Complete';}
   document.getElementById('completionMessage').textContent=viewMode==='due'?'No more cards are due in this session. New cards are available with Study New & Due.':'No cards remain in this session. Your ratings schedule future reviews; you can also study all cards anytime.';
-  ratingPanel.hidden=true;bookmarkButton.hidden=true;renderToolbar();
+  ratingPanel.hidden=true;bookmarkButton.hidden=true;difficultButton.hidden=true;renderToolbar();
  }
  function renderCard() {
   state=read();renderToolbar();if(!active){showEmpty();return;}
   const id=current(),c=sourceMap.get(id),meta=byId.get(id),r=state.records[id]||{};
   document.getElementById('completionScreen').classList.remove('visible');
-  const difficult=['again','hard'].includes(r.rating);
+  const difficult=isDifficult(r);
+  document.getElementById('cardReviewBadge').textContent='Difficult';
   if(kindOfPage==='clinical'){
    ['.flashcard-wrapper','.fc-controls','.fc-secondary-controls','.fc-progress-bar','.fc-meta'].forEach(sel=>document.querySelector(sel).style.display='');
    document.getElementById('card-question-text').textContent=c.q;
@@ -174,6 +176,7 @@
   document.getElementById(kindOfPage==='clinical'?'reviewCount':'termReviewCount').textContent=s.difficult;
   document.getElementById(kindOfPage==='clinical'?'remainingCount':'termRemainingCount').textContent=active.keys.length;
   bookmarkButton.hidden=false;bookmarkButton.textContent=r.bookmark?'Bookmarked ✓':'Bookmark Card';bookmarkButton.setAttribute('aria-pressed',String(!!r.bookmark));
+  difficultButton.hidden=false;difficultButton.textContent=difficult?'Difficult ✓':'Mark Difficult';difficultButton.setAttribute('aria-pressed',String(difficult));
   renderFlip();
  }
  function rate(rating){
@@ -182,7 +185,7 @@
   mutate(s=>{
    const old=s.records[id]||{},prior=old.interval||0;
    const interval=rating==='again'?0:rating==='hard'?Math.min(60,Math.max(1,prior*1.2)):rating==='good'?Math.min(180,Math.max(1,prior*2.5)):Math.min(365,Math.max(4,prior*3.5));
-   s.records[id]={bookmark:!!old.bookmark,rating,interval,due:now+(rating==='again'?600000:Math.round(interval*DAY)),reviews:(old.reviews||0)+1,reviewedAt:now};
+   s.records[id]={bookmark:!!old.bookmark,difficult:['again','hard'].includes(rating),rating,interval,due:now+(rating==='again'?600000:Math.round(interval*DAY)),reviews:(old.reviews||0)+1,reviewedAt:now};
    s.history.push({id,rating,date:now});s.history=s.history.slice(-500);
    active.keys.splice(active.index,1);active.index=active.index%Math.max(1,active.keys.length);active.flipped=false;
    if(active.keys.length)s.sessions[kindOfPage]=JSON.parse(JSON.stringify(active));else{delete s.sessions[kindOfPage];active=null;}
@@ -192,20 +195,21 @@
  function move(delta){if(!active)return;active.index=(active.index+delta+active.keys.length)%active.keys.length;active.flipped=false;persistActive();renderCard();}
  function shuffle(){if(!active)return;for(let i=active.keys.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[active.keys[i],active.keys[j]]=[active.keys[j],active.keys[i]];}active.index=0;active.flipped=false;persistActive();renderCard();}
  function reset(all=false){
-  if(!confirm(all?'Clear ratings and review schedules for all cards on this page? Bookmarks will remain.':'Reset ratings and review schedules for this deck? Bookmarks will remain.'))return;
+  if(!confirm(all?'Clear ratings, difficulty flags, and review schedules for all cards on this page? Bookmarks will remain.':'Reset ratings, difficulty flags, and review schedules for this deck? Bookmarks will remain.'))return;
   mutate(s=>{for(const c of catalog.filter(c=>c.kind===kindOfPage&&(all||selectedDeck==='all'||c.deck===selectedDeck))){const r=s.records[c.id];if(r?.bookmark)s.records[c.id]={bookmark:true};else delete s.records[c.id];}delete s.sessions[kindOfPage];});active=null;start(selectedDeck,'learn');
  }
  function setupPage(){
   setupSources();try{if(localStorage.getItem('ems_theme')==='dark')document.body.classList.add('dark-mode');}catch{}
   toolbar=el('section',undefined,'card-study-toolbar');toolbar.setAttribute('aria-label','Saved card study tools');
-  toolbar.append(el('p','Self-ratings schedule reviews and are separate from exam scores.','card-study-help'));
+  toolbar.append(el('p','Flag difficult cards anytime. Reveal the answer to rate your recall and schedule a review.','card-study-help'));
   const warn=el('p','','card-study-help card-storage-warning');warn.setAttribute('role','status');toolbar.append(warn);
   statusNode=el('p','','card-study-summary');toolbar.append(statusNode);
   noticeNode=el('p','','card-study-help');noticeNode.setAttribute('role','status');toolbar.append(noticeNode);
   const actions=el('div',undefined,'card-study-actions');
   resumeButton=button('Continue Last Deck',resume);saveButton=button('Save & Exit',saveExit);
   bookmarkButton=button('Bookmark Card',()=>{const id=current();if(!id)return;mutate(s=>{s.records[id]={...s.records[id],bookmark:!s.records[id]?.bookmark};});renderCard();});bookmarkButton.hidden=true;
-  actions.append(resumeButton,saveButton,bookmarkButton);
+  difficultButton=button('Mark Difficult',()=>{const id=current();if(!id)return;mutate(s=>{const old=s.records[id]||{};s.records[id]={...old,difficult:!isDifficult(old)};});renderCard();});difficultButton.hidden=true;
+  actions.append(resumeButton,saveButton,bookmarkButton,difficultButton);
   toolbar.append(actions);
   const modeRow=el('div',undefined,'card-study-mode');
   const modeLabel=el('label','Study mode');modeLabel.htmlFor='card-study-mode';
