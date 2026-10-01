@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="flashcard-study.css">
+    <link rel="stylesheet" href="study-resources.css">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#004a99">
@@ -113,6 +114,27 @@
                             <button type="button" class="study-button" onclick="openStudyHistory()">Progress History</button>
                         </div>
                         <div id="card-study-dashboard"></div>
+                    </section>
+                    <section id="study-resource-tools" class="study-library" aria-labelledby="resource-heading">
+                        <h3 id="resource-heading">🔎 Search & Printable Study Sheets</h3>
+                        <label for="resource-search">Search questions and flashcards</label>
+                        <div class="resource-controls">
+                            <input id="resource-search" type="search" placeholder="Try shock, pregnancy, or a medical term">
+                            <label for="resource-type">Content</label>
+                            <select id="resource-type"><option value="all">All Content</option><option value="questions">Practice Questions</option><option value="clinical">Clinical Flashcards</option><option value="terms">Terminology Cards</option></select>
+                        </div>
+                        <p id="resource-search-status" role="status" class="study-help"></p>
+                        <div id="resource-results"></div>
+                        <button id="resource-more" type="button" class="study-button" hidden>Show More Results</button>
+                        <h4>🖨️ Print your saved study work</h4>
+                        <p class="study-help">Preview a sheet, then print or choose Save as PDF in your browser. Linked question cases include related questions for context.</p>
+                        <div class="resource-controls">
+                            <label for="resource-print-collection">Collection</label>
+                            <select id="resource-print-collection"><option value="missed">Missed Questions</option><option value="question-bookmarks">Bookmarked Questions</option><option value="card-bookmarks">Bookmarked Cards</option><option value="difficult">Difficult Cards</option><option value="known">Known Cards</option></select>
+                            <label><input id="resource-print-answers" type="checkbox"> Include answers and explanations</label>
+                            <button id="resource-preview" type="button" class="study-button">Preview Study Sheet</button>
+                        </div>
+                        <p id="resource-print-status" role="status" class="study-help"></p>
                     </section>
                     <aside class="sponsor-banner" aria-label="Advertising inquiries">
                         <strong>Advertise here.</strong>
@@ -325,10 +347,17 @@
     loadSubstackPosts();
     </script>
 
+    <dialog id="resource-print-dialog" aria-label="Study sheet preview">
+        <div class="resource-print-actions"><button id="resource-print" type="button" class="study-button">Print / Save as PDF</button> <button id="resource-close" type="button" class="study-button">Close Preview</button></div>
+        <div id="resource-print-sheet"></div>
+    </dialog>
     <script src="script.js"></script>
     <script src="study-tools.js"></script>
     <script src="card-catalog.js"></script>
     <script src="flashcard-study.js"></script>
+    <script src="study-resource-data.js"></script>
+    <script src="terminology-data.js"></script>
+    <script src="study-resources.js"></script>
 
 </body>
 </html>
