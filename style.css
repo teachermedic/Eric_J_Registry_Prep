@@ -304,27 +304,3 @@ body {
 #quiz-container {
     margin-top: 0;
 }
-
-
-/* Study controls and small-screen layout */
-*, *::before, *::after { box-sizing: border-box; }
-button, input, select { font: inherit; }
-button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--accent-blue); outline-offset: 4px; }
-.mode-description { font-size: .9rem; line-height: 1.5; color: var(--text-muted); margin: 12px 0 8px; }
-.mode-spacing { height: 15px; }
-.option-item { gap: 12px; line-height: 1.5; }
-.option-item input { flex-shrink: 0; width: 20px; height: 20px; accent-color: var(--gold); }
-.option-item:focus-within { outline: 3px solid var(--accent-blue); outline-offset: 2px; }
-#feedback:empty { display: none; }
-#options-container { overflow-x: auto; }
-body.dark-mode .mode-btn { color: #172033; }
-@media (max-width: 600px) {
-    body { font-size: 16px; }
-    #quiz-container { padding: 20px 16px; margin-top: 16px; }
-    h1 { font-size: 1.5rem; }
-    h1 .home-link { gap: 8px; }
-    h1 .home-link img { margin-left: 0 !important; height: 2em !important; width: 2em !important; }
-    .mode-btn { min-height: 52px; font-size: 1rem; }
-    #question-text { font-size: 1.15rem; line-height: 1.6; }
-    .ad-banner { padding: 8px 12px; line-height: 1.5; }
-}
