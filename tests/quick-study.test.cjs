@@ -9,9 +9,34 @@ for(let i=1;i<8;i++){s=await p.evaluate(()=>JSON.parse(localStorage.getItem('fie
 assert.equal(await p.locator('#quick-summary').isVisible(),true);assert.match(await p.locator('#quick-summary-text').innerText(),/4\/5 scored/);assert.equal(await p.evaluate(()=>localStorage.getItem('field_notes_study_v1')),'quiz-sentinel');assert.equal(await p.evaluate(()=>localStorage.getItem('field_notes_cards_v1')),'cards-sentinel');await p.locator('#quick-another').click();await p.locator('#quick-start').click();s=await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session);assert.equal(s.queue[0].id,first.id);
 await p.locator('#quick-exit').click();await p.locator('#quick-level').selectOption('AEMT');p.once('dialog',d=>d.accept());await p.locator('#quick-start').click();assert(await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session.queue.some(t=>QUICK_STUDY_ITEMS.find(x=>x.id===t.id)?.minLevel==='AEMT')));
 await p.locator('#quick-exit').click();await p.goto(base);await p.evaluate(()=>{const s=JSON.parse(localStorage.getItem('field_notes_quick_v1'));s.session.remaining=1;localStorage.setItem('field_notes_quick_v1',JSON.stringify(s));});await p.goto(base+'quick-study.html');await p.locator('#quick-resume').click();await p.waitForFunction(()=>document.getElementById('quick-clock').textContent==='0:00');assert.match(await p.locator('#quick-time-status').innerText(),/budget/);await p.locator('#quick-finish').click();assert.equal(await p.locator('#quick-summary').isVisible(),true);
+// Advanced tracks must retain their level, provide advanced practice, and never leak upward.
+for(const level of ['Paramedic','CCP']){
+ await p.locator('#quick-another').click();await p.locator('#quick-level').selectOption(level);await p.locator('#quick-start').click();
+ let session=await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session);assert.equal(session.level,level);
+ const content=await p.evaluate(()=>({items:QUICK_STUDY_ITEMS,cases:QUICK_STUDY_CHALLENGES})),rank={EMT:0,AEMT:1,Paramedic:2,CCP:3};
+ for(const kind of ['question','card']){const chosen=session.queue.filter(t=>t.kind===kind).map(t=>content.items.find(x=>x.id===t.id));assert.equal(chosen.length,3);assert(chosen.every(x=>rank[x.minLevel]<=rank[level]));assert(chosen.filter(x=>x.minLevel===level).length>=2);}
+ assert.equal(new Set(session.queue.filter(t=>t.kind!=='challenge').map(t=>t.id)).size,6);
+ assert.equal(content.cases.find(c=>c.id===session.queue[6].id).minLevel,level);
+ await p.locator('#quick-exit').click();await p.reload();await p.locator('#quick-resume').click();assert.equal((await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session)).level,level);
+ for(let i=0;i<8;i++){
+ if(i===3||i===6){await p.locator('#quick-exit').click();await p.reload();await p.locator('#quick-resume').click();assert.equal((await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session)).index,i);}
+ session=await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session);const t=session.queue[i];
+ if(t.kind!=='card'){const correct=await p.evaluate(t=>t.kind==='challenge'?QUICK_STUDY_CHALLENGES.find(c=>c.id===t.id).variants[t.variant].correct:QUICK_STUDY_ITEMS.find(x=>x.id===t.id).correct,t);await p.locator('#quick-options input').nth(correct).check();}
+ await p.getByLabel('Confident',{exact:true}).check();await p.locator('#quick-submit').click();assert(await p.locator('#quick-sources a').count()>=2);
+ if(t.kind==='card')await p.locator('#quick-known').click();else assert.match(await p.locator('#quick-result').innerText(),/Correct/);
+ await p.locator('#quick-next').click();
+ }
+ assert.match(await p.locator('#quick-summary-text').innerText(),/5\/5 scored/);
+ assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).history.at(-1).level),level);
+}
+// Previously learned advanced errors must not enter a lower-level queue.
+await p.locator('#quick-another').click();await p.locator('#quick-level').selectOption('EMT');await p.locator('#quick-start').click();
+assert(await p.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_quick_v1')).session.queue.every(t=>t.kind==='challenge'?CHANGE_FINDING_CASES.some(c=>c.id===t.id):QUICK_STUDY_ITEMS.find(x=>x.id===t.id).minLevel==='EMT')));
+await p.locator('#quick-finish').click();
 for(const width of [1440,390,320]){await p.setViewportSize({width,height:900});assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);}assert.deepEqual(errors,[]);
 await p.goto(base);await p.evaluate(()=>localStorage.setItem('field_notes_quick_v1','{bad'));await p.goto(base+'quick-study.html');await p.locator('#quick-start').click();assert.equal(await p.locator('#quick-session').isVisible(),true);
+await p.locator('#quick-exit').click();await p.goto(base);await p.evaluate(()=>{const raw=JSON.parse(localStorage.getItem('field_notes_quick_v1'));raw.session.queue[6]={kind:'challenge',id:'ccp-ards-pressure',variant:0};localStorage.setItem('field_notes_quick_v1',JSON.stringify(raw));});await p.goto(base+'quick-study.html');assert.equal(await p.locator('#quick-resume').isVisible(),false);
 const blocked=await b.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Storage.prototype.getItem=()=>{throw new DOMException('Blocked','SecurityError')};Storage.prototype.setItem=()=>{throw new DOMException('Blocked','SecurityError')};});const bp=await blocked.newPage();await bp.goto(base+'quick-study.html');await bp.locator('#quick-start').click();assert.match(await bp.locator('#quick-storage').innerText(),/cannot save/);
-const offline=await b.newContext({serviceWorkers:'allow'});await offline.route('**/*',r=>r.request().url().includes('127.0.0.1:8769')?r.continue():r.fulfill({body:'{}'}));const op=await offline.newPage();await op.goto(base);await op.evaluate(()=>navigator.serviceWorker.ready);await op.waitForFunction(()=>navigator.serviceWorker.controller);await offline.setOffline(true);await op.goto(base+'quick-study.html');await op.locator('#quick-start').click();assert.equal(await op.locator('#quick-session').isVisible(),true);
-console.log('PASS: scoped EMT/AEMT queues, confidence gating/lock, confident-mistake priority, card recall vs scored answers, save/resume, timer expiry, score isolation, mobile, corrupt/blocked storage, and offline.');
+const offline=await b.newContext({serviceWorkers:'allow'});await offline.route('**/*',r=>r.request().url().includes('127.0.0.1:8769')?r.continue():r.fulfill({body:'{}'}));const op=await offline.newPage();await op.goto(base);await op.evaluate(()=>navigator.serviceWorker.ready);await op.waitForFunction(()=>navigator.serviceWorker.controller);await offline.setOffline(true);await op.goto(base+'quick-study.html');await op.locator('#quick-level').selectOption('CCP');await op.locator('#quick-start').click();assert.equal(await op.locator('#quick-session').isVisible(),true);
+console.log('PASS: scoped EMT/AEMT/Paramedic/CCP queues and advanced challenges, confidence gating/lock, confident-mistake priority, card recall vs scored answers, save/resume, timer expiry, score isolation, mobile, corrupt/blocked storage, and offline.');
 }finally{await b.close();server.close();}})().catch(e=>{console.error(e);process.exitCode=1});
