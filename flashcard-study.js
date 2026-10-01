@@ -146,6 +146,14 @@
    document.getElementById('card-question-text').textContent=c.q;
    document.getElementById('card-answer-text').textContent=Array.isArray(c.answer)?c.answer.join(', '):c.answer;
    document.getElementById('card-rationale-text').textContent=c.rationale||'';
+   let references=document.getElementById('card-sources');
+   if(!references){references=el('div',undefined,'card-source-links');references.id='card-sources';document.querySelector('.card-back').append(references);}
+   references.replaceChildren();
+   for(const ref of c.references||[]){
+    if(!ref||typeof ref.url!=='string'||!ref.url.startsWith('https://'))continue;
+    const a=el('a',ref.label||'Source');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>e.stopPropagation());references.append(a);
+   }
+   if(c.reviewedOn)references.append(el('small','Sources checked '+c.reviewedOn));
    const cs=document.getElementById('card-cheat-sheet');cs.style.display=c.cheatSheet?'block':'none';cs.innerHTML=c.cheatSheet?'<strong>Field Note Summary:</strong> '+c.cheatSheet:'';
    document.getElementById('card-progress').textContent=`Card ${active.index+1} of ${active.keys.length} remaining`;
    document.getElementById('fcDeckLabel').textContent=labels[active.deck]||active.deck;

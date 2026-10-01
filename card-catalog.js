@@ -227,7 +227,7 @@ window.FIELD_NOTE_CARDS = [
   {
     "id": "[\"clinical\",\"Gynecology\",\"Mittelschmerz refers to:\"]",
     "kind": "clinical",
-    "deck": "Medical",
+    "deck": "OB/GYN",
     "front": "Mittelschmerz refers to:",
     "legacy": "Gynecology|Mittelschmerz refers to:"
   },
@@ -629,6 +629,286 @@ window.FIELD_NOTE_CARDS = [
     "deck": "Medical",
     "front": "Target EtCO2 range for respiratory distress?",
     "legacy": "Respiratory|Target EtCO2 range for respiratory distress?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"A patient with possible early pregnancy has pelvic pain, fainting, and pallor. Which life-threatening condition must be considered?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "A patient with possible early pregnancy has pelvic pain, fainting, and pallor. Which life-threatening condition must be considered?",
+    "legacy": "Obstetrics|A patient with possible early pregnancy has pelvic pain, fainting, and pallor. Which life-threatening condition must be considered?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Why is shoulder-tip pain concerning when accompanied by abdominal pain and dizziness in early pregnancy?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Why is shoulder-tip pain concerning when accompanied by abdominal pain and dizziness in early pregnancy?",
+    "legacy": "Obstetrics|Why is shoulder-tip pain concerning when accompanied by abdominal pain and dizziness in early pregnancy?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Late-pregnancy bleeding with abdominal pain and uterine tenderness raises concern for which placental complication?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Late-pregnancy bleeding with abdominal pain and uterine tenderness raises concern for which placental complication?",
+    "legacy": "Obstetrics|Late-pregnancy bleeding with abdominal pain and uterine tenderness raises concern for which placental complication?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Can a patient with suspected placental abruption lose substantial blood without heavy visible vaginal bleeding?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Can a patient with suspected placental abruption lose substantial blood without heavy visible vaginal bleeding?",
+    "legacy": "Obstetrics|Can a patient with suspected placental abruption lose substantial blood without heavy visible vaginal bleeding?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Which blood-pressure readings are in the severe range during pregnancy or postpartum?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Which blood-pressure readings are in the severe range during pregnancy or postpartum?",
+    "legacy": "Obstetrics|Which blood-pressure readings are in the severe range during pregnancy or postpartum?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"A patient at 32 weeks has hypertension, severe headache, blurred vision, and upper abdominal pain. What should you suspect?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "A patient at 32 weeks has hypertension, severe headache, blurred vision, and upper abdominal pain. What should you suspect?",
+    "legacy": "Obstetrics|A patient at 32 weeks has hypertension, severe headache, blurred vision, and upper abdominal pain. What should you suspect?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Which medication is preferred for treating eclamptic seizures when authorized by protocol and provider scope?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Which medication is preferred for treating eclamptic seizures when authorized by protocol and provider scope?",
+    "legacy": "Obstetrics|Which medication is preferred for treating eclamptic seizures when authorized by protocol and provider scope?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Heavy bleeding after delivery occurs with a soft, poorly contracted uterus. Which cause is likely?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Heavy bleeding after delivery occurs with a soft, poorly contracted uterus. Which cause is likely?",
+    "legacy": "Obstetrics|Heavy bleeding after delivery occurs with a soft, poorly contracted uterus. Which cause is likely?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"What initial physical intervention can help control postpartum hemorrhage from uterine atony?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "What initial physical intervention can help control postpartum hemorrhage from uterine atony?",
+    "legacy": "Obstetrics|What initial physical intervention can help control postpartum hemorrhage from uterine atony?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Should vaginal packing be used by EMS to control postpartum bleeding?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Should vaginal packing be used by EMS to control postpartum bleeding?",
+    "legacy": "Obstetrics|Should vaginal packing be used by EMS to control postpartum bleeding?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"The presenting part is visible at the vaginal opening and delivery appears imminent. What should the crew prepare for?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "The presenting part is visible at the vaginal opening and delivery appears imminent. What should the crew prepare for?",
+    "legacy": "Obstetrics|The presenting part is visible at the vaginal opening and delivery appears imminent. What should the crew prepare for?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"After an out-of-hospital birth, should transport be delayed solely while waiting for the placenta?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "After an out-of-hospital birth, should transport be delayed solely while waiting for the placenta?",
+    "legacy": "Obstetrics|After an out-of-hospital birth, should transport be delayed solely while waiting for the placenta?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Which labor-history details help EMS judge whether birth may be imminent?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Which labor-history details help EMS judge whether birth may be imminent?",
+    "legacy": "Obstetrics|Which labor-history details help EMS judge whether birth may be imminent?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Why can a prolapsed umbilical cord rapidly threaten the fetus?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Why can a prolapsed umbilical cord rapidly threaten the fetus?",
+    "legacy": "Obstetrics|Why can a prolapsed umbilical cord rapidly threaten the fetus?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Should a visible prolapsed umbilical cord be pushed back into the vagina?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Should a visible prolapsed umbilical cord be pushed back into the vagina?",
+    "legacy": "Obstetrics|Should a visible prolapsed umbilical cord be pushed back into the vagina?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"What does the McRoberts maneuver involve during shoulder dystocia?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "What does the McRoberts maneuver involve during shoulder dystocia?",
+    "legacy": "Obstetrics|What does the McRoberts maneuver involve during shoulder dystocia?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Which type of pressure must be avoided during shoulder dystocia?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Which type of pressure must be avoided during shoulder dystocia?",
+    "legacy": "Obstetrics|Which type of pressure must be avoided during shoulder dystocia?"
+  },
+  {
+    "id": "[\"clinical\",\"Gynecology\",\"Pelvic pain with fever and abnormal vaginal discharge suggests which gynecologic infection?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Pelvic pain with fever and abnormal vaginal discharge suggests which gynecologic infection?",
+    "legacy": "Gynecology|Pelvic pain with fever and abnormal vaginal discharge suggests which gynecologic infection?"
+  },
+  {
+    "id": "[\"clinical\",\"Gynecology\",\"Sudden lower abdominal pain with nausea and vomiting in an adolescent raises concern for which ovarian emergency?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Sudden lower abdominal pain with nausea and vomiting in an adolescent raises concern for which ovarian emergency?",
+    "legacy": "Gynecology|Sudden lower abdominal pain with nausea and vomiting in an adolescent raises concern for which ovarian emergency?"
+  },
+  {
+    "id": "[\"clinical\",\"Obstetrics\",\"Two weeks after birth, a patient reports chest pain and difficulty breathing. Is this routine postpartum discomfort?\"]",
+    "kind": "clinical",
+    "deck": "OB/GYN",
+    "front": "Two weeks after birth, a patient reports chest pain and difficulty breathing. Is this routine postpartum discomfort?",
+    "legacy": "Obstetrics|Two weeks after birth, a patient reports chest pain and difficulty breathing. Is this routine postpartum discomfort?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"What compression rate is recommended for infant and child CPR?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What compression rate is recommended for infant and child CPR?",
+    "legacy": "Pediatrics|What compression rate is recommended for infant and child CPR?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"What chest-compression depth is recommended for infants and children?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What chest-compression depth is recommended for infants and children?",
+    "legacy": "Pediatrics|What chest-compression depth is recommended for infants and children?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"During two-rescuer infant or child CPR without an advanced airway, what compression-to-ventilation ratio is used?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "During two-rescuer infant or child CPR without an advanced airway, what compression-to-ventilation ratio is used?",
+    "legacy": "Pediatrics|During two-rescuer infant or child CPR without an advanced airway, what compression-to-ventilation ratio is used?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"How often should rescue breaths be given to an infant or child with a pulse but inadequate breathing?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "How often should rescue breaths be given to an infant or child with a pulse but inadequate breathing?",
+    "legacy": "Pediatrics|How often should rescue breaths be given to an infant or child with a pulse but inadequate breathing?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"A child has a heart rate below 60/min and poor perfusion despite oxygenation and ventilation. What is indicated?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A child has a heart rate below 60/min and poor perfusion despite oxygenation and ventilation. What is indicated?",
+    "legacy": "Pediatrics|A child has a heart rate below 60/min and poor perfusion despite oxygenation and ventilation. What is indicated?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"Can a child be in shock while blood pressure is still normal for age?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "Can a child be in shock while blood pressure is still normal for age?",
+    "legacy": "Pediatrics|Can a child be in shock while blood pressure is still normal for age?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"What is the most common broad type of pediatric shock?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What is the most common broad type of pediatric shock?",
+    "legacy": "Pediatrics|What is the most common broad type of pediatric shock?"
+  },
+  {
+    "id": "[\"clinical\",\"Neonatal\",\"A newborn is apneic or gasping, or has a heart rate below 100/min after initial steps. What is the priority?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A newborn is apneic or gasping, or has a heart rate below 100/min after initial steps. What is the priority?",
+    "legacy": "Neonatal|A newborn is apneic or gasping, or has a heart rate below 100/min after initial steps. What is the priority?"
+  },
+  {
+    "id": "[\"clinical\",\"Neonatal\",\"What change best indicates that assisted ventilation is effective during neonatal resuscitation?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What change best indicates that assisted ventilation is effective during neonatal resuscitation?",
+    "legacy": "Neonatal|What change best indicates that assisted ventilation is effective during neonatal resuscitation?"
+  },
+  {
+    "id": "[\"clinical\",\"Neonatal\",\"What initial care supports a term newborn who is breathing well and has good tone?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What initial care supports a term newborn who is breathing well and has good tone?",
+    "legacy": "Neonatal|What initial care supports a term newborn who is breathing well and has good tone?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"Which observations help assess the appearance component of the Pediatric Assessment Triangle?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "Which observations help assess the appearance component of the Pediatric Assessment Triangle?",
+    "legacy": "Pediatrics|Which observations help assess the appearance component of the Pediatric Assessment Triangle?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"Pallor, mottling, or cyanosis primarily affect which Pediatric Assessment Triangle component?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "Pallor, mottling, or cyanosis primarily affect which Pediatric Assessment Triangle component?",
+    "legacy": "Pediatrics|Pallor, mottling, or cyanosis primarily affect which Pediatric Assessment Triangle component?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"Nasal flaring and chest retractions indicate abnormality in which Pediatric Assessment Triangle component?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "Nasal flaring and chest retractions indicate abnormality in which Pediatric Assessment Triangle component?",
+    "legacy": "Pediatrics|Nasal flaring and chest retractions indicate abnormality in which Pediatric Assessment Triangle component?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"What caregiver history suggests dehydration in an infant with vomiting or diarrhea?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "What caregiver history suggests dehydration in an infant with vomiting or diarrhea?",
+    "legacy": "Pediatrics|What caregiver history suggests dehydration in an infant with vomiting or diarrhea?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"A dehydrated child becomes unusually sleepy with cool, discolored extremities. What does this suggest?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A dehydrated child becomes unusually sleepy with cool, discolored extremities. What does this suggest?",
+    "legacy": "Pediatrics|A dehydrated child becomes unusually sleepy with cool, discolored extremities. What does this suggest?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"During a child’s convulsive seizure, should an object be placed in the mouth to prevent tongue swallowing?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "During a child’s convulsive seizure, should an object be placed in the mouth to prevent tongue swallowing?",
+    "legacy": "Pediatrics|During a child’s convulsive seizure, should an object be placed in the mouth to prevent tongue swallowing?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"A child’s convulsive seizure reaches five minutes. What is the significance?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A child’s convulsive seizure reaches five minutes. What is the significance?",
+    "legacy": "Pediatrics|A child’s convulsive seizure reaches five minutes. What is the significance?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"A child develops breathing difficulty and widespread hives after an allergen exposure. What is the first-line medication for suspected anaphylaxis?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A child develops breathing difficulty and widespread hives after an allergen exposure. What is the first-line medication for suspected anaphylaxis?",
+    "legacy": "Pediatrics|A child develops breathing difficulty and widespread hives after an allergen exposure. What is the first-line medication for suspected anaphylaxis?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"A toddler may have swallowed a button battery but currently looks well. Can evaluation wait for symptoms?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "A toddler may have swallowed a button battery but currently looks well. Can evaluation wait for symptoms?",
+    "legacy": "Pediatrics|A toddler may have swallowed a button battery but currently looks well. Can evaluation wait for symptoms?"
+  },
+  {
+    "id": "[\"clinical\",\"Pediatrics\",\"Should vomiting be induced after a suspected swallowed button battery?\"]",
+    "kind": "clinical",
+    "deck": "Pediatrics",
+    "front": "Should vomiting be induced after a suspected swallowed button battery?",
+    "legacy": "Pediatrics|Should vomiting be induced after a suspected swallowed button battery?"
   },
   {
     "id": "[\"clinical\",\"Patho\",\"A sudden drop in cardiac output due to a massive Pulmonary Embolism (PE) is a classic example of which type of shock?\"]",

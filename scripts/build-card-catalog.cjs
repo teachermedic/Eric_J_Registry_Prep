@@ -7,7 +7,7 @@ const terms=vm.runInNewContext(read('terminology-data.js')+';TERM_DECKS');
 const groups={
  'EMS Operations':['EMS Systems','Legal','Safety','Communications','Lifting','Wellness'],
  'Trauma':['Trauma','MOI','Bleeding','Chest','Abdominal','Ortho','Head/Spine','Environmental','Soft-Tissue','Physics','Shock','Face/Neck'],
- 'Pathophysiology':['Patho','Pathophysiology'],'Pediatrics':['Pediatrics','Neonatal'],'OB/GYN':['Obstetrics','OBPeds'],'Terminology':['Terminology']
+ 'Pathophysiology':['Patho','Pathophysiology'],'Pediatrics':['Pediatrics','Neonatal'],'OB/GYN':['Obstetrics','OBPeds','Gynecology'],'Terminology':['Terminology']
 };
 const cards=clinical.filter(c=>['single','open-review','multiple','text'].includes(c.type)).map(c=>{
  const deck=Object.keys(groups).find(d=>groups[d].includes(c.category))||'Medical';

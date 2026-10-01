@@ -11,6 +11,16 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
  const base='http://127.0.0.1:8766/';await page.goto(base);
  const ids=await page.evaluate(()=>({clinical:FIELD_NOTE_CARDS.filter(c=>c.kind==='clinical').map(c=>c.id),terms:FIELD_NOTE_CARDS.filter(c=>c.kind==='terms').map(c=>c.id)}));
  assert(ids.clinical.length>100&&ids.terms.length>20);
+ // Newly added medical content exposes its reference without flipping/advancing the card.
+ const referenced=await page.evaluate(()=>FIELD_NOTE_CARDS.find(c=>c.front.startsWith('A patient with possible early pregnancy')));
+ await page.goto(base+'flashcards.html?card='+encodeURIComponent(referenced.id));
+ await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();
+ assert.match(await page.locator('#card-answer-text').innerText(),/ectopic pregnancy/);
+ assert.equal(await page.locator('#card-sources a').getAttribute('href'),'https://www.acog.org/womens-health/faqs/ectopic-pregnancy');
+ const pop=page.waitForEvent('popup');await page.locator('#card-sources a').click();await (await pop).close();
+ assert.equal(await page.locator('.card-rating-panel').isVisible(),true);
+ await page.getByRole('button',{name:'Good',exact:true}).click();
+ await page.goto(base);await page.evaluate(()=>localStorage.removeItem(CardStudy.storageKey));await page.reload();
  await page.evaluate(()=>{const c=FIELD_NOTE_CARDS.find(c=>c.kind==='clinical'),t=FIELD_NOTE_CARDS.find(c=>c.kind==='terms');localStorage.removeItem(CardStudy.storageKey);localStorage.setItem('clinical-flashcards-progress-v4',JSON.stringify({known:{[c.legacy]:true},review:{}}));localStorage.setItem('terminology-decks-progress-v1',JSON.stringify({known:{},review:{[t.legacy]:true}}));localStorage.setItem('field_notes_study_v1',JSON.stringify({version:1,missed:['keep'],bookmarks:['keep'],history:[],session:null}));});
  await page.reload();let s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.records[ids.clinical[0]].rating,'good');assert.equal(s.records[ids.terms[0]].rating,'again');assert.equal(s.history.length,0);
  // Ratings need a reveal; bookmarks and exact shuffled order/flip survive navigating away.
