@@ -37,21 +37,6 @@
                 
                 <p id="study-storage-status" role="status" class="study-help"></p>
                 <div id="setup-area">
-                    <section id="study-library" class="study-library" aria-label="Your saved study work">
-                        <h3>Your Study Tools</h3>
-                        <p class="study-help">Saved in this browser on this device.</p>
-                        <div id="resume-card" hidden>
-                            <p id="resume-description"></p>
-                            <button type="button" class="study-button" onclick="resumeStudySession()">Resume Session</button>
-                            <button type="button" class="study-button" onclick="discardStudySession()">Discard Session</button>
-                        </div>
-                        <div class="study-tool-buttons">
-                            <button type="button" class="study-button" id="saved-missed-button" onclick="openStudyCollection('missed')">Missed Questions (0)</button>
-                            <button type="button" class="study-button" id="saved-bookmark-button" onclick="openStudyCollection('bookmarks')">Bookmarks (0)</button>
-                            <button type="button" class="study-button" onclick="openStudyHistory()">Progress History</button>
-                        </div>
-                        <div id="card-study-dashboard"></div>
-                    </section>
                     <div id="streak-container" style="text-align: center; margin-bottom: 20px; display: none;">
                         <div style="background: #fff3e0; border: 1px solid #ff9800; padding: 10px; border-radius: 12px; display: inline-block;">
                             <span class="material-icons" style="vertical-align: middle; color: #ff9800;">local_fire_department</span>
@@ -109,6 +94,21 @@
 <button class="mode-btn" onclick="window.location.href='research-present.html'" style="background-color: #2563eb;">
     <span class="material-icons">school</span> Option 6: Research & Present
 </button>
+                    <section id="study-library" class="study-library" style="margin-top:24px;" aria-label="Your saved study work">
+                        <h3>Your Study Tools</h3>
+                        <p class="study-help">Saved in this browser on this device.</p>
+                        <div id="resume-card" hidden>
+                            <p id="resume-description"></p>
+                            <button type="button" class="study-button" onclick="resumeStudySession()">Resume Session</button>
+                            <button type="button" class="study-button" onclick="discardStudySession()">Discard Session</button>
+                        </div>
+                        <div class="study-tool-buttons">
+                            <button type="button" class="study-button" id="saved-missed-button" onclick="openStudyCollection('missed')">Missed Questions (0)</button>
+                            <button type="button" class="study-button" id="saved-bookmark-button" onclick="openStudyCollection('bookmarks')">Bookmarks (0)</button>
+                            <button type="button" class="study-button" onclick="openStudyHistory()">Progress History</button>
+                        </div>
+                        <div id="card-study-dashboard"></div>
+                    </section>
                     <aside class="sponsor-banner" aria-label="Advertising inquiries">
                         <strong>Advertise here.</strong>
                         <p>Email me at <a href="mailto:teachermedic84@gmail.com?subject=Advertising%20inquiry">teachermedic84@gmail.com</a></p>
