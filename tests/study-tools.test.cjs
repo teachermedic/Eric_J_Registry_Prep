@@ -143,7 +143,7 @@ const assert = require('node:assert/strict');
  await op.goto('http://127.0.0.1:8765/');
  await op.evaluate(async()=>{await navigator.serviceWorker.ready});
  await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
- const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v6'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
+ const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v7'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
  assert.equal(await op.evaluate(async()=>!!(await caches.match('./study-tools.js'))),true);
  await offline.setOffline(true);await op.reload();assert.equal(await op.locator('#study-library').isVisible(),true);
  await browser.close(); server.close();
