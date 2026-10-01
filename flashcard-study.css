@@ -31,3 +31,9 @@ body.dark-mode:has(#termCard) { --bg:#0f172a; --deck-bg:#1e293b; --text:#f1f5f9;
 .card-study-mode select { max-width:100%; min-height:40px; border:1px solid var(--border-color,#d6d3d1); border-radius:7px; padding:8px; font:inherit; font-size:.85rem; background:var(--white,#fff); color:var(--text-main,#1a1a1a); }
 .term-controls button.card-study-button { background:var(--accent,#a16207); color:#fff; }
 @media(max-width:400px) { .card-rating-panel .card-study-button { flex-basis:calc(50% - 8px); } }
+
+.card-source-links { width:100%; margin-top:12px; font-size:.75rem; line-height:1.4; }
+.card-source-links:empty { display:none; }
+.card-source-links a { display:block; color:#fde68a; text-decoration:underline; overflow-wrap:anywhere; margin-bottom:5px; }
+.card-source-links small { display:block; color:rgba(255,255,255,.8); }
+.card-source-links a:focus-visible { outline:2px solid #fde68a; outline-offset:3px; }
