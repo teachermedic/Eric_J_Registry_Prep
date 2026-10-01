@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v11';
+const CACHE_NAME = 'field-notes-study-tools-v12';
 const assets = [
   './',
   './index.html',
@@ -14,7 +14,11 @@ const assets = [
   './flashcard-study.css',
   './study-resource-data.js',
   './study-resources.js',
-  './study-resources.css'
+  './study-resources.css',
+  './change-finding.html',
+  './change-finding.css',
+  './change-finding-data.js',
+  './change-finding.js'
 ];
 
 // Install Service Worker
