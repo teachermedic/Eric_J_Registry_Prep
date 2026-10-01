@@ -1,0 +1,33 @@
+/* Shared card dashboard and controls, using the existing gold palette. */
+.card-study-toolbar, .card-rating-panel { box-sizing:border-box; width:100%; max-width:720px; margin:0 auto 18px; padding:14px; border:1px solid var(--border-color, #d6d3d1); border-radius:10px; background:var(--white, #fff); color:var(--text-main, #1a1a1a); }
+.card-study-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.card-study-button { box-sizing:border-box; display:inline-block; padding:10px 12px; border:1px solid var(--border-color, #d6d3d1); border-radius:7px; background:var(--white, #fff); color:var(--primary-blue, #a16207); font:inherit; font-size:.85rem; line-height:1.4; text-decoration:none; cursor:pointer; }
+.card-study-button:hover { border-color:var(--primary-blue, #a16207); }
+.card-study-button:focus-visible { outline:3px solid var(--primary-blue, #a16207); outline-offset:3px; }
+.card-study-button[aria-pressed="true"] { font-weight:bold; border-color:var(--primary-blue, #a16207); }
+.card-study-help { font-size:.82rem; line-height:1.5; color:var(--text-muted, #6b6b6b); margin:0 0 10px; overflow-wrap:anywhere; }
+.card-study-summary { font-size:.9rem; line-height:1.5; margin:0 0 12px; }
+.card-rating-panel p { margin-bottom:8px; }
+.card-rating-panel .card-study-button { flex:1; min-width:65px; font-weight:bold; }
+#card-study-dashboard { margin-top:16px; padding-top:14px; border-top:1px solid var(--border-color, #d6d3d1); }
+#card-study-dashboard h4 { color:var(--primary-blue, #a16207); font-size:1rem; margin:0 0 8px; }
+.card-dashboard-group { margin:12px 0; }
+.card-dashboard-group h5 { font-size:.9rem; margin:0 0 5px; }
+.card-dashboard-group p { font-size:.85rem; line-height:1.5; margin:0 0 8px; }
+#card-study-dashboard details { margin-top:10px; }
+#card-study-dashboard summary { cursor:pointer; font-size:.85rem; margin-bottom:8px; }
+.card-rating-panel[hidden], .card-study-button[hidden], .fc-controls button[hidden], .term-controls button[hidden] { display:none !important; }
+body.dark-mode .card-study-toolbar, body.dark-mode .card-rating-panel, body.dark-mode .card-study-button { background:#1e293b; color:#fbbf24; border-color:#334155; }
+body.dark-mode .card-study-help, body.dark-mode .card-study-summary { color:#cbd5e1; }
+@media(max-width:400px) { .card-study-toolbar,.card-rating-panel { padding:10px; } .card-study-button { min-height:44px; } }
+
+.term-header, .fc-header { flex-wrap:wrap; gap:12px; }
+.term-header h1, .fc-header h1 { min-width:0; }
+.term-meta, .fc-meta { flex-wrap:wrap; gap:6px; }
+body.dark-mode:has(#termCard) { --bg:#0f172a; --deck-bg:#1e293b; --text:#f1f5f9; --muted:#cbd5e1; --accent:#fbbf24; --border-soft:#334155; }
+
+.card-study-mode { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }
+.card-study-mode label { font-size:.82rem; color:var(--text-muted,#6b6b6b); }
+.card-study-mode select { max-width:100%; min-height:40px; border:1px solid var(--border-color,#d6d3d1); border-radius:7px; padding:8px; font:inherit; font-size:.85rem; background:var(--white,#fff); color:var(--text-main,#1a1a1a); }
+.term-controls button.card-study-button { background:var(--accent,#a16207); color:#fff; }
+@media(max-width:400px) { .card-rating-panel .card-study-button { flex-basis:calc(50% - 8px); } }
