@@ -214,7 +214,7 @@
   resumeButton=button('Continue Last Deck',resume);saveButton=button('Save & Exit',saveExit);
   bookmarkButton=button('Bookmark Card',()=>{const id=current();if(!id)return;mutate(s=>{s.records[id]={...s.records[id],bookmark:!s.records[id]?.bookmark};});renderCard();});bookmarkButton.hidden=true;
   difficultButton=button('Mark Difficult',()=>{const id=current();if(!id)return;mutate(s=>{const old=s.records[id]||{};s.records[id]={...old,difficult:!isDifficult(old),...(isDifficult(old)?{}:{known:false})};});renderCard();});difficultButton.hidden=true;
-  knownButton=button('Mark Known',()=>{const id=current();if(!id)return;mutate(s=>{const old=s.records[id]||{};s.records[id]={...old,known:!isKnown(old),...(isKnown(old)?{}:{difficult:false})};});renderCard();});knownButton.hidden=true;
+  knownButton=button('Mark Known',()=>{const id=current();if(!id)return;mutate(s=>{const old=s.records[id]||{};s.records[id]={...old,known:!isKnown(old),...(isKnown(old)?{}:{difficult:false})};});renderCard();});knownButton.hidden=true;knownButton.classList.add('card-mark-known');difficultButton.classList.add('card-mark-difficult');
   actions.append(resumeButton,saveButton);
   toolbar.append(actions);
   const modeRow=el('div',undefined,'card-study-mode');

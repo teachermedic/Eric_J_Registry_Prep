@@ -44,7 +44,9 @@
                         </div>
                     </div>
 
-                    <p style="text-align: center; margin-bottom: 10px;">Customize your study session:</p>
+                    <section class="quiz-setup-group" aria-labelledby="quiz-setup-heading">
+                    <h3 id="quiz-setup-heading">📝 Practice Questions & Exams</h3>
+                    <p class="study-help">Choose a module and question count, then start Review or Exam Mode.</p>
                     
                     <div style="margin-bottom: 20px; text-align: center;">
                         <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
@@ -72,28 +74,31 @@
                     </div>
 
                     <button class="mode-btn" onclick="startQuiz('review')">
-                        <span class="material-icons">menu_book</span> Option 1: Review Mode
+                        <span aria-hidden="true">📖</span> Review Mode
                     </button>
                     <div style="height: 15px;"></div>
                     <button class="mode-btn" onclick="startQuiz('exam')">
-                        <span class="material-icons">timer</span> Option 2: Exam Mode
+                        <span aria-hidden="true">⏱️</span> Exam Mode
                     </button>
-                    <div style="height: 15px;"></div>
+                    </section>
+                    <section class="independent-study-group" aria-labelledby="independent-study-heading">
+                    <h3 id="independent-study-heading">📚 Explore & Study</h3>
                     <button class="mode-btn" onclick="window.location.href='flashcards.html'" style="background-color: var(--accent-blue);">
-                        <span class="material-icons">layers</span> Option 3: Active Recall Flashcards
+                        <span aria-hidden="true">🗂️</span> Active Recall Flashcards
                     </button>
                     <div style="height: 15px;"></div>
                     <button class="mode-btn" onclick="window.location.href='terminology-decks.html'" style="background-color: #06402b;">
-                        <span class="material-icons">menu_book</span> Option 4: Terminology Decks
+                        <span aria-hidden="true">🔤</span> Terminology Decks
                     </button>
                     <div style="height: 15px;"></div>
                     <button class="mode-btn" onclick="window.location.href='anatomy/'" style="background-color: #7a4a05;">
-                        <span class="material-icons">accessibility_new</span> Option 5: Human Anatomy Atlas
+                        <span aria-hidden="true">🫀</span> Human Anatomy Atlas
                     </button>
                 <div style="height: 8px;"></div>
 <button class="mode-btn" onclick="window.location.href='research-present.html'" style="background-color: #2563eb;">
-    <span class="material-icons">school</span> Option 6: Research & Present
+    <span aria-hidden="true">🎓</span> Research & Present
 </button>
+                    </section>
                     <section id="study-library" class="study-library" style="margin-top:24px;" aria-label="Your saved study work">
                         <h3>Your Study Tools</h3>
                         <p class="study-help">Saved in this browser on this device.</p>

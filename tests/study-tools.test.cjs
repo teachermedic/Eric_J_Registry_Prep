@@ -14,7 +14,7 @@ const assert = require('node:assert/strict');
  let page=await context.newPage();
  const errors=[]; page.on('pageerror', e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:8765/');
- const option6=page.getByRole('button',{name:'Option 6: Research & Present',exact:false});
+ const option6=page.getByRole('button',{name:'Research & Present',exact:false});
  assert.equal(await option6.isVisible(),true);
  for(const width of [1440,1101,1100,390,320]) {
   await page.setViewportSize({width,height:900});
@@ -104,7 +104,7 @@ const assert = require('node:assert/strict');
  await page.evaluate(()=>{studyWork.session=null;studyActive=false;writeStudyWork();document.getElementById('quiz-area').style.display='none';document.getElementById('setup-area').style.display='block'});
  await page.locator('#topic-select').selectOption('Foundations');
  await page.locator('#question-slider').fill('5'); await page.evaluate(()=>Math.random=()=>0.5);
- await page.getByRole('button',{name:'Option 1: Review Mode',exact:false}).click();
+ await page.getByRole('button',{name:'Review Mode',exact:false}).click();
  const questionCount=await page.evaluate(()=>sessionQuestions.length);
  for(let i=0;i<questionCount;i++){if(await page.evaluate(()=>sessionQuestions[currentIdx].type)==='open-review'){await page.locator('#reveal-btn').click();await page.locator('#next-open-btn').click()}else{await answer(true);await page.locator('#action-btn').click()}}
  assert.equal(await page.locator('#results-area').isVisible(),true);
@@ -143,7 +143,7 @@ const assert = require('node:assert/strict');
  await op.goto('http://127.0.0.1:8765/');
  await op.evaluate(async()=>{await navigator.serviceWorker.ready});
  await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
- const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v9'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
+ const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v10'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
  assert.equal(await op.evaluate(async()=>!!(await caches.match('./study-tools.js'))),true);
  await offline.setOffline(true);await op.reload();assert.equal(await op.locator('#study-library').isVisible(),true);
  await browser.close(); server.close();
