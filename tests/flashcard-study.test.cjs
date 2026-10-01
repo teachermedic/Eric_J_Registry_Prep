@@ -26,17 +26,27 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
  // Ratings need a reveal; bookmarks and exact shuffled order/flip survive navigating away.
  await page.goto(base+'flashcards.html');assert.match(await page.locator('.card-study-summary').innerText(),/1\/\d+ reviewed/);
  await page.locator('#deckGrid button').first().click();assert.equal(await page.locator('.card-rating-panel').isVisible(),false);
+ // Flagging before reveal persists without recording a review or changing the session.
+ const beforeFlag=await page.evaluate(()=>CardStudy.getState());
+ const flaggedId=beforeFlag.sessions.clinical.keys[beforeFlag.sessions.clinical.index];
+ await page.getByRole('button',{name:'Mark Difficult',exact:true}).click();
+ s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.records[flaggedId].difficult,true);assert.equal(s.history.length,beforeFlag.history.length);assert.deepEqual(s.sessions.clinical,beforeFlag.sessions.clinical);assert.equal(s.records[flaggedId].due,beforeFlag.records[flaggedId]?.due);
+ await page.reload();await page.getByRole('button',{name:'Continue Last Deck',exact:true}).click();assert.equal(await page.getByRole('button',{name:'Difficult ✓',exact:true}).getAttribute('aria-pressed'),'true');assert.equal(await page.locator('.card-rating-panel').isVisible(),false);
+ await page.getByRole('button',{name:'Difficult ✓',exact:true}).click();assert.equal((await page.evaluate(()=>CardStudy.getState())).records[flaggedId].difficult,false);
+ await page.getByRole('button',{name:'Mark Difficult',exact:true}).click();
+ page.once('dialog',d=>d.accept());await page.getByLabel('Study mode',{exact:true}).selectOption('difficult');await page.getByRole('button',{name:'Start Selected Mode',exact:true}).click();assert((await page.evaluate(()=>CardStudy.getState())).sessions.clinical.keys.includes(flaggedId));
+ page.once('dialog',d=>d.accept());await page.getByLabel('Study mode',{exact:true}).selectOption('all');await page.getByRole('button',{name:'Start Selected Mode',exact:true}).click();
  await page.getByRole('button',{name:'Bookmark Card',exact:true}).click();
  await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();assert.equal(await page.locator('.card-rating-panel').isVisible(),true);
- await page.getByRole('button',{name:'Good',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,1);assert.equal(s.records[ids.clinical[0]].bookmark,true);assert(s.records[ids.clinical[0]].due>Date.now());
+ await page.getByRole('button',{name:'Good',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,1);assert.equal(s.records[flaggedId].difficult,false);assert.equal(s.records[ids.clinical[0]].bookmark,true);assert(s.records[ids.clinical[0]].due>Date.now());
  await page.getByRole('button',{name:'🔀 Shuffle',exact:true}).click();await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();
  const session=await page.evaluate(()=>CardStudy.getState().sessions.clinical);
  await page.getByRole('button',{name:'Save & Exit',exact:true}).click();await page.goto(base);
  assert.equal(await page.locator('#card-study-dashboard').getByRole('link',{name:'Continue Last Deck'}).count(),1);
  await page.locator('#card-study-dashboard').getByRole('link',{name:'Continue Last Deck'}).click();await page.waitForFunction(()=>window.CardStudy);assert.deepEqual(await page.evaluate(()=>CardStudy.getState().sessions.clinical),session);assert.equal(await page.locator('.card-rating-panel').isVisible(),true);
- await page.getByRole('button',{name:'Hard',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,2);
+ await page.getByRole('button',{name:'Hard',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,2);assert.equal(s.records[session.keys[session.index]].difficult,true);
  // Terms have their own session and history; self-ratings do not touch quiz results.
- await page.goto(base+'terminology-decks.html');await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();await page.getByRole('button',{name:'Again',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,3);assert.equal(s.records[ids.terms[0]].rating,'again');assert(s.records[ids.terms[0]].due>Date.now()+590000);assert(s.sessions.clinical&&s.sessions.terms);
+ await page.goto(base+'terminology-decks.html');await page.getByRole('button',{name:'Difficult ✓',exact:true}).click();assert.equal((await page.evaluate(()=>CardStudy.getState())).records[ids.terms[0]].difficult,false);await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();await page.getByRole('button',{name:'Again',exact:true}).click();s=await page.evaluate(()=>CardStudy.getState());assert.equal(s.history.length,3);assert.equal(s.records[ids.terms[0]].rating,'again');assert(s.records[ids.terms[0]].due>Date.now()+590000);assert(s.sessions.clinical&&s.sessions.terms);
  await page.getByRole('button',{name:'Bookmark Card',exact:true}).click();await page.getByRole('button',{name:'Reveal / Hide Answer'}).click();const termSession=await page.evaluate(()=>CardStudy.getState().sessions.terms);await page.reload();assert.deepEqual(await page.evaluate(()=>CardStudy.getState().sessions.terms),termSession);assert.equal(await page.locator('.card-rating-panel').isVisible(),true);
  const quiz=await page.evaluate(()=>JSON.parse(localStorage.getItem('field_notes_study_v1')));assert.deepEqual(quiz.missed,['keep']);assert.deepEqual(quiz.bookmarks,['keep']);assert.equal(quiz.history.length,0);
  // Complete a one-card bookmark session; due filtering includes a card once its date arrives.
