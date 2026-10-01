@@ -23,10 +23,14 @@ window.CHANGE_FINDING_CASES=[
       }
     ],
     "source": {
-      "label": "American Red Cross: Adult and child choking",
-      "url": "https://www.redcross.org/take-a-class/resources/learn-first-aid/adult-child-choking"
+      "label": "AHA 2025 Adult Basic Life Support",
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "adult-pulse",
@@ -54,17 +58,21 @@ window.CHANGE_FINDING_CASES=[
       "label": "AHA 2025: Adult Basic Life Support",
       "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "tachy-pressure",
     "category": "Cardiac",
     "title": "A fast rhythm, a different pressure",
     "scene": "An adult has a persistent regular narrow-complex tachyarrhythmia at 180/min with a pulse. They are alert, without ischemic chest discomfort or acute heart failure.",
-    "prompt": "Which treatment pathway fits?",
+    "prompt": "Which care priority fits an EMT or AEMT?",
     "choices": [
-      "Evaluate and treat stable tachycardia under protocol.",
-      "Prepare synchronized cardioversion through ALS."
+      "Support and monitor while arranging appropriate evaluation.",
+      "Recognize rhythm-related instability, provide support, and request paramedic-level intervention."
     ],
     "variants": [
       {
@@ -75,42 +83,50 @@ window.CHANGE_FINDING_CASES=[
       {
         "finding": "Blood pressure is 72/40 mmHg because of the tachyarrhythmia.",
         "correct": 1,
-        "note": "Hypotension caused by the rhythm changes the priority to synchronized cardioversion. Sedate when feasible without delaying urgent care."
+        "note": "Hypotension caused by the rhythm signals instability. Continue support and request higher-level care. Synchronized cardioversion is outside EMT/AEMT scope in the supplied national model."
       }
     ],
     "source": {
       "label": "AHA 2025: Tachyarrhythmia with a pulse algorithm",
       "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-Tachycardia-250514.pdf"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "arrest-rhythm",
     "category": "Cardiac",
     "title": "The rhythm changes the next step",
-    "scene": "An adult is pulseless. CPR is underway and the monitor is attached.",
-    "prompt": "Which rhythm pathway applies?",
+    "scene": "An adult is pulseless. CPR is underway and an AED is attached.",
+    "prompt": "Which AED-directed action applies?",
     "choices": [
-      "Defibrillate, then immediately resume CPR.",
-      "Continue CPR and the nonshockable-arrest pathway."
+      "Deliver the advised shock, then immediately resume CPR.",
+      "Immediately resume CPR and follow AED prompts."
     ],
     "variants": [
       {
-        "finding": "The confirmed rhythm is ventricular fibrillation.",
+        "finding": "The AED advises a shock.",
         "correct": 0,
         "note": "VF is shockable. Keep pauses brief and resume compressions immediately after the shock."
       },
       {
-        "finding": "The confirmed rhythm is asystole.",
+        "finding": "The AED advises no shock.",
         "correct": 1,
-        "note": "Asystole is not shockable. Continue CPR, ALS medication care, and assessment of reversible causes."
+        "note": "No shock advised does not establish a pulse. Resume CPR and follow the AED prompts while higher-level care is obtained."
       }
     ],
     "source": {
       "label": "AHA 2025: Adult Advanced Life Support",
       "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "bleed-location",
@@ -138,7 +154,11 @@ window.CHANGE_FINDING_CASES=[
       "label": "American Red Cross: Life-threatening bleeding",
       "url": "https://www.redcross.org/take-a-class/resources/learn-first-aid/bleeding-life-threatening-external"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "embedded-object",
@@ -166,7 +186,11 @@ window.CHANGE_FINDING_CASES=[
       "label": "American Red Cross: Life-threatening bleeding",
       "url": "https://www.redcross.org/take-a-class/resources/learn-first-aid/bleeding-life-threatening-external"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "pregnancy-seizure",
@@ -194,7 +218,11 @@ window.CHANGE_FINDING_CASES=[
       "label": "Merck Manual: Preeclampsia and eclampsia",
       "url": "https://www.merckmanuals.com/professional/gynecology-and-obstetrics/antenatal-complications/preeclampsia-and-eclampsia"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "uterine-tone",
@@ -222,7 +250,11 @@ window.CHANGE_FINDING_CASES=[
       "label": "Merck Manual: Postpartum hemorrhage",
       "url": "https://www.merckmanuals.com/professional/gynecology-and-obstetrics/intrapartum-complications/postpartum-hemorrhage"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "pediatric-rate",
@@ -250,7 +282,11 @@ window.CHANGE_FINDING_CASES=[
       "label": "AHA 2025: Pediatric Advanced Life Support",
       "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   },
   {
     "id": "infant-response",
@@ -275,9 +311,13 @@ window.CHANGE_FINDING_CASES=[
       }
     ],
     "source": {
-      "label": "American Red Cross: Infant choking",
-      "url": "https://www.redcross.org/take-a-class/resources/learn-first-aid/infant-choking"
+      "label": "AHA 2025 Pediatric Basic Life Support",
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support"
     },
-    "checkedOn": "2026-10-01"
+    "checkedOn": "2026-10-01",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
   }
 ];
