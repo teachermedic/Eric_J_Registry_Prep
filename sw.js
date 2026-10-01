@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v8';
+const CACHE_NAME = 'field-notes-study-tools-v9';
 const assets = [
   './',
   './index.html',
