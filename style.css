@@ -344,3 +344,10 @@ body {
 .sponsor-banner a { color: var(--accent-blue); overflow-wrap: anywhere; text-underline-offset: 3px; }
 .sponsor-banner a:hover { text-decoration-thickness: 2px; }
 .sponsor-banner a:focus-visible { outline: 3px solid var(--accent-blue); outline-offset: 3px; }
+
+.quiz-setup-group { padding:20px; margin-bottom:24px; border:1px solid var(--border-color,#d6d3d1); border-radius:12px; background:var(--bg-color,#f8fafc); }
+.quiz-setup-group h3, .independent-study-group h3 { margin:0 0 12px; color:var(--primary-blue,#a16207); font-size:1.1rem; }
+.independent-study-group { padding-top:20px; border-top:2px solid var(--border-color,#d6d3d1); }
+body.dark-mode .quiz-setup-group { background:#1e293b; border-color:#334155; }
+body.dark-mode .quiz-setup-group h3, body.dark-mode .independent-study-group h3 { color:#fbbf24; }
+@media(max-width:400px) { .quiz-setup-group { padding:12px; } }
