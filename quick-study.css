@@ -1,0 +1,15 @@
+.clock { font-weight:bold; font-variant-numeric:tabular-nums; color:var(--green); }
+#quick-level { display:block; width:100%; margin:10px 0; }
+#quick-confidence { margin:18px 0; border:1px solid var(--line); border-radius:8px; padding:12px; }
+#quick-confidence label { display:inline-flex; align-items:center; gap:6px; margin:8px 14px 8px 0; min-height:36px; }
+#quick-error { color:#b91c1c; } body.dark-mode #quick-error { color:#fca5a5; }
+#quick-feedback { border-top:3px solid var(--green); padding-top:18px; margin-top:18px; }
+#quick-sources a { display:block; margin-bottom:8px; }
+#quick-card-rating { margin:12px 0; }
+#quick-known[aria-pressed="true"] { background:#86efac; color:#06402b; }
+#quick-difficult[aria-pressed="true"] { background:#dc2626; color:#fff; }
+#quick-exit,#quick-finish { margin-top:18px; }
+#quick-dashboard p { border-bottom:1px solid var(--line); padding:10px 0; }
+#quick-front { overflow-wrap:anywhere; }
+#quick-options label { display:flex; align-items:flex-start; gap:8px; min-height:44px; padding:12px; border:1px solid var(--line); border-radius:8px; background:var(--paper); }
+#quick-options input { flex-shrink:0; margin-top:5px; }
