@@ -918,6 +918,10 @@ function updateSliderLabel(val) {
 }
 
 function startQuiz(selectedMode) {
+    clearInterval(timerInterval);
+    currentIdx = 0;
+    score = 0;
+    missedQuestions = [];
     mode = selectedMode;
     const topic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
@@ -927,7 +931,7 @@ function startQuiz(selectedMode) {
 
     // FIX 2: If in Exam Mode, remove all "onlyStudy" (open-review) items
     if (mode === 'exam') {
-        filteredBank = filteredBank.filter(q => !q.onlyStudy);
+        filteredBank = filteredBank.filter(q => !q.onlyStudy && q.type !== 'open-review');
     }
 
     // FIX 3: Safety check for Physician/Exam mismatch
@@ -949,7 +953,10 @@ function startQuiz(selectedMode) {
         }
     });
 
-    units.sort(() => Math.random() - 0.5);
+    for (let i = units.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [units[i], units[j]] = [units[j], units[i]];
+    }
 
     sessionQuestions = [];
     for (let unit of units) {
@@ -961,11 +968,14 @@ function startQuiz(selectedMode) {
     document.getElementById('quiz-area').style.display = 'block';
 
     categoryStats = {};
-    sessionQuestions.forEach(q => {
+    sessionQuestions.filter(q => q.type !== 'open-review').forEach(q => {
         if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
         categoryStats[q.category].total++;
     });
 
+    document.getElementById('timer-container').style.display = mode === 'exam' ? 'block' : 'none';
+    document.getElementById('action-btn').innerText = 'Submit Answer';
+    document.getElementById('action-btn').onclick = handleAction;
     if (mode === 'exam') {
         timeLeft = sessionQuestions.length * 2 * 60; 
         document.getElementById('timer-container').style.display = 'block';
@@ -975,6 +985,7 @@ function startQuiz(selectedMode) {
 }
 
 function startTimer() {
+    document.getElementById('timer-display').innerText = `${Math.floor(timeLeft / 60)}:00`;
     timerInterval = setInterval(() => {
         timeLeft--;
         let mins = Math.floor(timeLeft / 60);
@@ -1115,19 +1126,16 @@ function showQuestion() {
         input.addEventListener("keypress", (e) => { if (e.key === "Enter") handleAction(); });
     } else {
         data.options.forEach(opt => {
-            const div = document.createElement('div');
+            const div = document.createElement('label');
             div.className = "option-item";
             const input = document.createElement('input');
             input.type = data.type === 'single' ? 'radio' : 'checkbox';
             input.name = "option";
             input.value = opt;
-            input.id = opt;
-            const label = document.createElement('label');
-            label.htmlFor = opt;
+            const label = document.createElement('span');
             label.innerText = opt;
             div.appendChild(input);
             div.appendChild(label);
-            div.onclick = () => input.click();
             container.appendChild(div);
         });
     }
@@ -1206,9 +1214,10 @@ function showResults() {
     }
 
     // 3. Score Calculations
-    const percent = Math.round((score / sessionQuestions.length) * 100);
-    document.getElementById('score-display').innerText = `Final Score: ${score} / ${sessionQuestions.length}`;
-    document.getElementById('percentage-display').innerText = `Total Mastery: ${percent}%`;
+    const gradedTotal = sessionQuestions.filter(q => q.type !== 'open-review').length;
+    const percent = gradedTotal ? Math.round((score / gradedTotal) * 100) : 0;
+    document.getElementById('score-display').innerText = gradedTotal ? `Final Score: ${score} / ${gradedTotal}` : `Reviewed ${sessionQuestions.length} clinical cases`;
+    document.getElementById('percentage-display').innerText = gradedTotal ? `Session Accuracy: ${percent}%` : 'Self-study cases are not scored.';
 
     // 4. Build Performance Profile UI
     const breakdown = document.getElementById('category-breakdown');
@@ -1225,6 +1234,7 @@ function showResults() {
     }
 
     // 5. DATA Handoff to Google Sheets
+    if (!gradedTotal) return;
     fetch('https://script.google.com/macros/s/AKfycbw9Bs67ZwoEiMa4gRH1m6EctG67Y1TMP3B-sKDAAse8ZLISyBXDn76gDBexnTmWv-6Bbw/exec', {
         method: 'POST',
         mode: 'no-cors', 
@@ -1234,7 +1244,7 @@ function showResults() {
             module: document.getElementById('topic-select').value, 
             mode: mode,
             score: score, 
-            total: sessionQuestions.length, 
+            total: gradedTotal, 
             percentage: percent, 
             timestamp: new Date().toLocaleString() 
         })
@@ -1251,7 +1261,7 @@ function startMissedDrill() {
     document.getElementById('quiz-area').style.display = 'block';
     document.getElementById('timer-container').style.display = 'none';
     categoryStats = {};
-    sessionQuestions.forEach(q => {
+    sessionQuestions.filter(q => q.type !== 'open-review').forEach(q => {
         if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
         categoryStats[q.category].total++;
     });
@@ -1355,3 +1365,4 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('PWA Failure', err));
   });
 }
+
