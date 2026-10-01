@@ -1,10 +1,17 @@
-const CACHE_NAME = 'field-notes-study-tools-v4';
+const CACHE_NAME = 'field-notes-study-tools-v5';
 const assets = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './study-tools.js'
+  './study-tools.js',
+  './flashcards.html',
+  './flashcard_data.js',
+  './terminology-decks.html',
+  './terminology-data.js',
+  './card-catalog.js',
+  './flashcard-study.js',
+  './flashcard-study.css'
 ];
 
 // Install Service Worker
@@ -29,4 +36,3 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
-
