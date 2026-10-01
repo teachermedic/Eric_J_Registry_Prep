@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v1';
+const CACHE_NAME = 'field-notes-study-tools-v2';
 const assets = [
   './',
   './index.html',
@@ -29,3 +29,4 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+

@@ -14,6 +14,15 @@ const assert = require('node:assert/strict');
  let page=await context.newPage();
  const errors=[]; page.on('pageerror', e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:8765/');
+ const option6=page.getByRole('button',{name:'Option 6: Research & Present',exact:false});
+ assert.equal(await option6.isVisible(),true);
+ for(const width of [1440,1101,1100,390,320]) {
+  await page.setViewportSize({width,height:900});
+  const layout=await page.evaluate(()=>{const m=document.getElementById('quiz-container').getBoundingClientRect(),s=document.getElementById('substack-sidebar').getBoundingClientRect();return{right:m.right,bottom:m.bottom,left:s.left,top:s.top,overflow:document.documentElement.scrollWidth>innerWidth}});
+  assert.equal(layout.overflow,false);if(width>1100)assert.ok(layout.right+23<=layout.left);else assert.ok(layout.top>=layout.bottom+19);
+ }
+ await page.setViewportSize({width:1280,height:900});
+
  const fixture=async(types, exam=false)=>page.evaluate(({types,exam})=>{
   clearInterval(timerInterval); studyWork.session=null;
   const seen={};sessionQuestions=types.map(type=>quizData.filter(q=>q.type===type && !q.chainID)[seen[type]=(seen[type]??-1)+1]);
@@ -28,6 +37,7 @@ const assert = require('node:assert/strict');
   await page.locator('#action-btn').click();
  };
  await fixture(['single','single']);
+ assert.equal(await option6.isVisible(),false);
  await page.locator('#bookmark-question-button').click();
  assert.equal(await page.locator('#bookmark-question-button').getAttribute('aria-pressed'),'true');
  await answer(false);
@@ -40,6 +50,7 @@ const assert = require('node:assert/strict');
  await page.locator('#action-btn').click();
  await answer(true); await page.locator('#action-btn').click();
  assert.equal(await page.evaluate(()=>studyWork.session),null);
+ assert.equal(await option6.isVisible(),false);
  assert.equal(await page.evaluate(()=>studyWork.history.length),1);
  await page.reload();
  assert.match(await page.locator('#saved-missed-button').innerText(),/\(1\)/);
@@ -132,7 +143,7 @@ const assert = require('node:assert/strict');
  await op.goto('http://127.0.0.1:8765/');
  await op.evaluate(async()=>{await navigator.serviceWorker.ready});
  await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
- const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v1'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
+ const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v2'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
  assert.equal(await op.evaluate(async()=>!!(await caches.match('./study-tools.js'))),true);
  await offline.setOffline(true);await op.reload();assert.equal(await op.locator('#study-library').isVisible(),true);
  await browser.close(); server.close();
