@@ -107,11 +107,11 @@
                     <button class="mode-btn" onclick="window.location.href='anatomy/'" style="background-color: #7a4a05;">
                         <span class="material-icons">accessibility_new</span> Option 5: Human Anatomy Atlas
                     </button>
-                </div>
                 <div style="height: 8px;"></div>
 <button class="mode-btn" onclick="window.location.href='research-present.html'" style="background-color: #2563eb;">
     <span class="material-icons">school</span> Option 6: Research & Present
 </button>
+                </div>
 
                 <div id="quiz-area" style="display:none;">
                     <div class="study-question-tools">
@@ -202,13 +202,25 @@
     .main-content {
         flex: 1;
         min-width: 0; /* prevents flex overflow */
+        width: 100%;
     }
 
     /* Override the default quiz-container centering since we're in a flex layout now */
     .main-content #quiz-container {
+        box-sizing: border-box;
         margin-left: 0;
         margin-right: 0;
         width: 100%;
+        max-width: 100%;
+    }
+
+    .main-content #quiz-container .home-link {
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .main-content #quiz-container img {
         max-width: 100%;
     }
 
@@ -244,6 +256,7 @@
     }
     #substack-posts li.error { color: #b45309; font-style: normal; }
     #substack-posts a {
+        overflow-wrap: anywhere;
         color: var(--text-main); text-decoration: none; font-size: 0.88rem;
         font-weight: 500; line-height: 1.35; display: block; transition: color 0.15s ease;
     }
