@@ -324,3 +324,23 @@ body {
 #quiz-container {
     margin-top: 0;
 }
+
+/* Advertising inquiries appear below the study menu. */
+.sponsor-banner {
+    box-sizing: border-box;
+    margin-top: 24px;
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--accent-blue);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text-main);
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.sponsor-banner strong { color: var(--primary-blue); font-size: 1rem; }
+.sponsor-banner p { margin: 4px 0 0; }
+.sponsor-banner a { color: var(--accent-blue); overflow-wrap: anywhere; text-underline-offset: 3px; }
+.sponsor-banner a:hover { text-decoration-thickness: 2px; }
+.sponsor-banner a:focus-visible { outline: 3px solid var(--accent-blue); outline-offset: 3px; }
