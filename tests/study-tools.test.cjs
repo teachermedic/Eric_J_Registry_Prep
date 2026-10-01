@@ -1,0 +1,140 @@
+// Run from the repository root with Playwright installed: node tests/study-tools.test.cjs
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+(async () => {
+ const browser = await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,args:['--no-sandbox','--disable-gpu','--disable-software-rasterizer','--no-zygote']});
+ const fs=require('fs'),http=require('http');
+ const server=http.createServer((req,res)=>{try{const path=require('node:path').join(__dirname,'..')+'/'+(req.url.split('?')[0]==='/'?'index.html':req.url.split('?')[0].slice(1));res.setHeader('Content-Type',path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html');res.end(fs.readFileSync(path));}catch{res.statusCode=404;res.end()}});await new Promise(r=>server.listen(8765,'127.0.0.1',r));
+ const context = await browser.newContext({serviceWorkers:'block'});
+ await context.route('**/*', route => {
+  const u=new URL(route.request().url());
+  if(u.hostname==='127.0.0.1') return route.continue();
+  return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({items:[]})});
+ });
+ let page=await context.newPage();
+ const errors=[]; page.on('pageerror', e=>errors.push(e.message));
+ await page.goto('http://127.0.0.1:8765/');
+ const fixture=async(types, exam=false)=>page.evaluate(({types,exam})=>{
+  clearInterval(timerInterval); studyWork.session=null;
+  const seen={};sessionQuestions=types.map(type=>quizData.filter(q=>q.type===type && !q.chainID)[seen[type]=(seen[type]??-1)+1]);
+  mode=exam?'exam':'review'; studyBeginSession('Test'); categoryStats={};
+  sessionQuestions.forEach(q=>{categoryStats[q.category] ||= {total:0,correct:0};categoryStats[q.category].total++});
+  document.getElementById('setup-area').style.display='none';document.getElementById('quiz-area').style.display='block'; showQuestion();
+  if(exam) startTimer();
+ },{types,exam});
+ const answer=async(correct)=>{
+  const values=await page.evaluate(correct=>{const q=sessionQuestions[currentIdx];return correct?q.answer:[q.options.find(o=>!q.answer.includes(o))];},correct);
+  await page.locator('input[name="option"]').evaluateAll((els,values)=>{for(const e of els.filter(e=>values.includes(e.value))) e.click()},values);
+  await page.locator('#action-btn').click();
+ };
+ await fixture(['single','single']);
+ await page.locator('#bookmark-question-button').click();
+ assert.equal(await page.locator('#bookmark-question-button').getAttribute('aria-pressed'),'true');
+ await answer(false);
+ assert.equal(await page.evaluate(()=>studyWork.missed.length),1);
+ assert.equal(await page.locator('#action-btn').innerText(),'Next Question');
+ await page.reload(); await page.locator('#resume-card button').first().click();
+ assert.equal(await page.locator('#action-btn').innerText(),'Next Question');
+ assert.equal(await page.evaluate(()=>score),0);
+ assert.equal(await page.locator('input[name="option"]:checked').count(),1);
+ await page.locator('#action-btn').click();
+ await answer(true); await page.locator('#action-btn').click();
+ assert.equal(await page.evaluate(()=>studyWork.session),null);
+ assert.equal(await page.evaluate(()=>studyWork.history.length),1);
+ await page.reload();
+ assert.match(await page.locator('#saved-missed-button').innerText(),/\(1\)/);
+ assert.match(await page.locator('#saved-bookmark-button').innerText(),/\(1\)/);
+ await page.locator('#saved-missed-button').click();
+ await page.getByRole('button',{name:'Practice All',exact:true}).click();
+ await answer(true); await page.locator('#action-btn').click();
+ assert.equal(await page.evaluate(()=>studyWork.missed.length),0);
+ assert.equal(await page.evaluate(()=>studyWork.history.length),2);
+ await page.reload(); await page.getByRole('button',{name:'Progress History',exact:true}).click();
+ assert.equal(await page.locator('.study-history-item').count(),2);
+ await page.getByRole('button',{name:'Close study tools'}).click();
+ await fixture(['text']);
+ await page.locator('#text-answer').fill('unsubmitted draft');
+ await page.reload(); await page.locator('#resume-card button').first().click();
+ assert.equal(await page.locator('#text-answer').inputValue(),'unsubmitted draft');
+ await fixture(['grid']);
+ await page.locator('.matrix-check').first().check();
+ await page.reload(); await page.locator('#resume-card button').first().click();
+ assert.equal(await page.locator('.matrix-check:checked').count(),1);
+ await fixture(['open-review']);
+ await page.locator('#reveal-btn').click(); await page.reload();
+ await page.locator('#resume-card button').first().click();
+ assert.equal(await page.locator('#reveal-box').isVisible(),true);
+ await page.locator('#next-open-btn').click();
+ assert.equal(await page.evaluate(()=>studyWork.history.at(-1).graded),0);
+ assert.equal(await page.evaluate(()=>studyWork.history.at(-1).reviewed),1);
+ await fixture(['single'],true);
+ await page.waitForTimeout(1100);
+ await page.getByRole('button',{name:'Save & Exit',exact:true}).click();
+ const remaining=await page.evaluate(()=>studyWork.session.timeLeft);
+ await page.reload(); await page.waitForTimeout(1100); await page.locator('#resume-card button').first().click();
+ assert.equal(await page.evaluate(()=>timeLeft),remaining);
+ await page.evaluate(()=>{timeLeft=1}); await page.waitForTimeout(1150);
+ assert.equal(await page.locator('#results-area').isVisible(),true);
+ assert.equal(await page.evaluate(()=>studyWork.history.at(-1).timedOut),true);
+ assert.equal(await page.evaluate(()=>studyWork.session),null);
+ await fixture(['single']);
+ await page.getByRole('button',{name:'Report Question',exact:true}).click();
+ await page.locator('#study-report-concern').fill('Ambiguous answer & wording?');
+ const href=await page.locator('#study-report-email').getAttribute('href');
+ assert.match(href,/^mailto:teachermedic84@gmail.com\?/);
+ assert.ok(decodeURIComponent(href).includes('Ambiguous answer & wording?'));
+ assert.ok(decodeURIComponent(href).includes('Accidental Death'));
+ await page.getByRole('button',{name:'Close study tools'}).click();
+ // Cancel replacement keeps the existing session and question intact.
+ page.once('dialog',d=>d.dismiss());
+ await page.evaluate(()=>startQuiz('exam'));
+ assert.equal(await page.evaluate(()=>mode),'review');
+ // Complete normal Review using the actual setup controls after clearing the draft.
+ await page.evaluate(()=>{studyWork.session=null;studyActive=false;writeStudyWork();document.getElementById('quiz-area').style.display='none';document.getElementById('setup-area').style.display='block'});
+ await page.locator('#topic-select').selectOption('Foundations');
+ await page.locator('#question-slider').fill('5'); await page.evaluate(()=>Math.random=()=>0.5);
+ await page.getByRole('button',{name:'Option 1: Review Mode',exact:false}).click();
+ const questionCount=await page.evaluate(()=>sessionQuestions.length);
+ for(let i=0;i<questionCount;i++){if(await page.evaluate(()=>sessionQuestions[currentIdx].type)==='open-review'){await page.locator('#reveal-btn').click();await page.locator('#next-open-btn').click()}else{await answer(true);await page.locator('#action-btn').click()}}
+ assert.equal(await page.locator('#results-area').isVisible(),true);
+ assert.equal(await page.evaluate(()=>studyWork.history.at(-1).correct),await page.evaluate(()=>studyWork.history.at(-1).graded));
+ // Small-screen and dark-mode views.
+ await page.reload(); await page.setViewportSize({width:390,height:844});
+ assert.equal(await page.locator('#study-library').isVisible(),true);
+ await page.evaluate(()=>document.body.classList.add('dark-mode'));
+ await page.locator('#saved-bookmark-button').click();
+ assert.equal(await page.locator('#study-dialog').isVisible(),true);
+ assert.equal(await page.locator('#study-dialog').isVisible(),true);
+ assert.deepEqual(errors,[]);
+ // Storage disabled must not crash the quiz or claim persistence.
+ const blocked=await browser.newContext({serviceWorkers:'block'});
+ await blocked.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Blocked','SecurityError')}});
+ await blocked.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.fulfill({status:200,body:'{"items":[]}'}));
+ const p=await blocked.newPage();await p.goto('http://127.0.0.1:8765/');await p.evaluate(()=>{startQuiz('review')});
+ assert.equal(await p.evaluate(()=>studyStorageAvailable),false);
+ assert.match(await p.locator('#study-storage-status').textContent(),/cannot save/);
+ await p.evaluate(()=>{currentIdx=sessionQuestions.length;showResults()});
+ assert.equal(await p.locator('#results-area').isVisible(),true);
+ // Invalid stored JSON falls back safely, and an obsolete question invalidates only the draft.
+ await page.getByRole('button',{name:'Close study tools'}).click();
+ await page.evaluate(()=>{localStorage.setItem(STUDY_STORAGE_KEY,'{invalid')});
+ await page.reload(); assert.equal(await page.evaluate(()=>studyWork.session),null);
+ await page.evaluate(()=>{const d=emptyStudyWork();d.bookmarks=[studyQuestionKey(quizData[0])];d.session={keys:['removed-question']};localStorage.setItem(STUDY_STORAGE_KEY,JSON.stringify(d))});
+ await page.reload();assert.equal(await page.evaluate(()=>studyWork.session),null);assert.equal(await page.evaluate(()=>studyWork.bookmarks.length),1);
+ // Practice preserves linked case context.
+ await page.evaluate(()=>{const q=quizData.find(q=>q.chainID);studyWork.bookmarks=[studyQuestionKey(q)];studyWork.session=null;startStudyCollection('bookmarks',studyWork.bookmarks)});
+ assert.equal(await page.evaluate(()=>sessionQuestions.length),await page.evaluate(()=>quizData.filter(q=>q.chainID===sessionQuestions[0].chainID).length));
+ // Service worker installs the feature script, clears only this site's old cache, and serves offline.
+ const offline=await browser.newContext();
+ await offline.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.fulfill({status:200,body:'{"items":[]}'}));
+ const op=await offline.newPage();await op.goto('http://127.0.0.1:8765/seed');
+ await op.evaluate(async()=>{await caches.open('field-notes-v1');await caches.open('unrelated-cache')});
+ await op.goto('http://127.0.0.1:8765/');
+ await op.evaluate(async()=>{await navigator.serviceWorker.ready});
+ await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
+ const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes('field-notes-study-tools-v1'));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
+ assert.equal(await op.evaluate(async()=>!!(await caches.match('./study-tools.js'))),true);
+ await offline.setOffline(true);await op.reload();assert.equal(await op.locator('#study-library').isVisible(),true);
+ await browser.close(); server.close();
+ console.log('PASS: missed persistence and correction, bookmarks, feedback resume, text/grid drafts, open-review resume, history, timed exam pause/timeout, report email encoding, replacement cancel, normal session, mobile/dark views, blocked/corrupt storage, linked case context, and offline cache installation/loading.');
+})().catch(e=>{console.error(e);process.exit(1)});
