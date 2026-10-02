@@ -31,3 +31,18 @@ Advanced-track references checked October 1, 2026:
 - Surviving Sepsis Campaign adult guidelines (2026; updates 2021): https://sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines . MAP question specifies a 45-year-old; first-line vasopressor question excludes concomitant cardiac dysfunction.
 
 These original educational items do not reproduce certification exam questions or imply AHA, NAEMT, ATS, SCCM, or specialty certification endorsement.
+
+## What Comes First?
+
+Six original sequencing challenges: two each for EMT, AEMT, and Paramedic. Cases are filtered to the selected track. Each stores stable step IDs, explicit priority dependencies, explanations, a parallel-task note, sources, scope reference, and check date. The reference sequence is a teaching model, not a full protocol; correctness is evaluated against dependency links. Changing states and failed-treatment conditions are explicit in the scenario. Confidence is chosen before feedback; attempts and drafts are browser-local and isolated from exam/flashcard scores.
+
+References checked October 1, 2026:
+- AHA 2025 Adult BLS and Pediatric BLS (links above): adult emergency activation/CPR/AED and infant choking transitions.
+- AHA 2025 Adult ALS and tachyarrhythmia algorithm (links above): one VF shock cycle and rhythm-related unstable regular narrow-complex tachycardia.
+- Lyng et al., *Prehospital Manual Ventilation: An NAEMSP Position Statement and Resource Document*, Prehospital Emergency Care (2022): https://pubmed.ncbi.nlm.nih.gov/35001826/
+- Lyng et al., *Prehospital Supraglottic Airways: An NAEMSP Position Statement and Resource Document*, Prehospital Emergency Care (2022): https://pubmed.ncbi.nlm.nih.gov/35001830/
+- Sanello et al., *Altered Mental Status: Current Evidence-based Recommendations for Prehospital Care*, Western Journal of Emergency Medicine (2018): https://pmc.ncbi.nlm.nih.gov/articles/PMC5942021/
+
+AEMT airway escalation is conditional on persistently ineffective ventilation after BVM optimization and local SGA authorization. The hypoglycemia case specifies supported airway/breathing, unsafe oral swallowing, confirmed severe hypoglycemia, and prompt IV access under an IV-dextrose protocol. These cases do not authorize EMT use of SGA placement or IV dextrose.
+
+SortableJS 1.15.6 is vendored locally for offline drag-and-drop; its MIT license is retained at `vendor/Sortable-LICENSE.txt`. Arrow buttons provide keyboard and library-failure fallback.
