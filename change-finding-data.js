@@ -1,4 +1,4 @@
-// Original teaching scenarios with linked clinical references.
+// Original educational cases with linked clinical references.
 window.CHANGE_FINDING_CASES=[
   {
     "id": "effective-cough",
@@ -318,6 +318,298 @@ window.CHANGE_FINDING_CASES=[
     "scopeSource": {
       "label": "NHTSA/NASEMSO national scope model",
       "url": "https://rosap.ntl.bts.gov/view/dot/56917"
+    }
+  },
+  {
+    "id": "param-manual-arrest",
+    "level": "Paramedic",
+    "category": "Cardiac",
+    "title": "Manual monitor: shock or early epinephrine?",
+    "scene": "An adult is pulseless. High-quality CPR is underway, pads are attached, and a patent IV is ready. This is the first rhythm assessment.",
+    "prompt": "Which ALS priority does the rhythm support?",
+    "choices": [
+      "Defibrillate promptly, then immediately resume CPR.",
+      "Continue CPR and give epinephrine as soon as feasible per protocol; do not shock this rhythm."
+    ],
+    "variants": [
+      {
+        "finding": "The monitor shows ventricular fibrillation.",
+        "correct": 0,
+        "note": "VF needs rapid defibrillation. Do not delay the first shock for epinephrine."
+      },
+      {
+        "finding": "The monitor shows an organized rhythm, but there is no pulse: PEA.",
+        "correct": 1,
+        "note": "PEA is not shockable. Prioritize CPR, early epinephrine, and reversible causes."
+      }
+    ],
+    "source": {
+      "label": "AHA 2025 Adult Advanced Life Support (Circulation)",
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+      "kind": "peer-reviewed clinical reference"
+    },
+    "sources": [
+      {
+        "label": "AHA 2025 Adult Advanced Life Support (Circulation)",
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+        "kind": "peer-reviewed clinical reference"
+      },
+      {
+        "label": "Drennan et al. 2025: ILCOR ALS CoSTR (Circulation)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41122842/",
+        "kind": "peer-reviewed consensus guideline"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
+    }
+  },
+  {
+    "id": "param-tube-waveform",
+    "level": "Paramedic",
+    "category": "Airway",
+    "title": "A tube is placed. Is it confirmed?",
+    "scene": "An adult with a definite pulse has just been intubated. A functioning capnograph is connected. You evaluate exhaled CO2 over repeated breaths.",
+    "prompt": "How should this finding change your airway plan?",
+    "choices": [
+      "Use clinical assessment plus the sustained waveform to confirm placement; continue monitoring.",
+      "Treat placement as unconfirmed; actively exclude esophageal intubation and restore reliable ventilation."
+    ],
+    "variants": [
+      {
+        "finding": "A sustained exhaled CO2 waveform is present.",
+        "correct": 0,
+        "note": "A sustained trace supports tracheal placement. Continue checking ventilation, depth, and oxygenation; a trace does not exclude mainstem placement."
+      },
+      {
+        "finding": "No sustained exhaled CO2 waveform is present.",
+        "correct": 1,
+        "note": "Do not accept chest movement alone as confirmation. Check the circuit promptly; if esophageal placement cannot be excluded, remove the tube and use BVM or an SGA per protocol."
+      }
+    ],
+    "source": {
+      "label": "Chrimes et al. 2022: preventing unrecognised oesophageal intubation (Anaesthesia)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9804892/",
+      "kind": "peer-reviewed consensus guideline"
+    },
+    "sources": [
+      {
+        "label": "Chrimes et al. 2022: preventing unrecognised oesophageal intubation (Anaesthesia)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9804892/",
+        "kind": "peer-reviewed consensus guideline"
+      },
+      {
+        "label": "AHA 2025 Adult Advanced Life Support (Circulation)",
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+        "kind": "peer-reviewed clinical reference"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
+    }
+  },
+  {
+    "id": "param-opioid-pulse",
+    "level": "Paramedic",
+    "category": "Medical",
+    "title": "Opioid emergency: the pulse changes the pathway",
+    "scene": "An adult with suspected opioid poisoning is unresponsive and not breathing. Help and resuscitation equipment are present; assess for a pulse for no more than 10 seconds.",
+    "prompt": "Which resuscitation priority fits?",
+    "choices": [
+      "Support ventilation immediately and give naloxone per protocol.",
+      "Start CPR with ventilation and the cardiac-arrest pathway; naloxone must not delay those actions."
+    ],
+    "variants": [
+      {
+        "finding": "A definite pulse is present.",
+        "correct": 0,
+        "note": "Respiratory arrest needs ventilation now, with naloxone to reverse suspected opioid effects. Continue reassessing breathing and circulation."
+      },
+      {
+        "finding": "No definite pulse is present.",
+        "correct": 1,
+        "note": "Use standard arrest care. Naloxone may be added without interrupting CPR, ventilation, or defibrillation. Reviews have not established a causal survival benefit for intra-arrest naloxone."
+      }
+    ],
+    "source": {
+      "label": "AHA 2025 Special Circumstances: opioid emergencies (Circulation)",
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation",
+      "kind": "peer-reviewed clinical reference"
+    },
+    "sources": [
+      {
+        "label": "AHA 2025 Special Circumstances: opioid emergencies (Circulation)",
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation",
+        "kind": "peer-reviewed clinical reference"
+      },
+      {
+        "label": "Grunau et al. 2025: opioid-associated arrest (Resuscitation Plus)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40129502/",
+        "kind": "systematic review"
+      },
+      {
+        "label": "Siddiqui et al. 2026: EMS naloxone in cardiac arrest (PLOS One)",
+        "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0351738",
+        "kind": "systematic review"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
+    }
+  },
+  {
+    "id": "param-allergy-airway",
+    "level": "Paramedic",
+    "category": "Medical",
+    "title": "Hives: listen for the airway clue",
+    "scene": "An adult develops generalized hives shortly after eating a known allergen. BP is 124/76, with no vomiting or other organ-system symptoms. You reassess the upper airway.",
+    "prompt": "Which treatment priority fits the new clue?",
+    "choices": [
+      "Monitor the skin-only reaction closely and reassess for progression.",
+      "Treat suspected anaphylaxis with prompt IM epinephrine and airway support per protocol."
+    ],
+    "variants": [
+      {
+        "finding": "There is no upper-airway involvement.",
+        "correct": 0,
+        "note": "Isolated hives in this defined presentation do not by themselves establish anaphylaxis. Reassess frequently; deterioration changes the plan."
+      },
+      {
+        "finding": "New stridor indicates upper-airway involvement.",
+        "correct": 1,
+        "note": "Hives plus airway involvement after allergen exposure warrant prompt epinephrine. Do not wait for hypotension or let antihistamines delay first-line treatment."
+      }
+    ],
+    "source": {
+      "label": "Abrams et al. 2024: Anaphylaxis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39654057/",
+      "kind": "peer-reviewed clinical review"
+    },
+    "sources": [
+      {
+        "label": "Abrams et al. 2024: Anaphylaxis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39654057/",
+        "kind": "peer-reviewed clinical review"
+      },
+      {
+        "label": "Dribin et al. 2026: epinephrine and EMS activation (JACI)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41386477/",
+        "kind": "peer-reviewed consensus report"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
+    }
+  },
+  {
+    "id": "param-rosc-oxygen",
+    "level": "Paramedic",
+    "category": "Cardiac",
+    "title": "After ROSC: can you trust the oxygen reading?",
+    "scene": "An adult has sustained ROSC and receives assisted ventilation with 100% oxygen. The oximeter displays 100%; you assess whether the measurement is trustworthy.",
+    "prompt": "When is oxygen titration appropriate?",
+    "choices": [
+      "Titrate oxygen to the protocol target while monitoring; this exercise uses the ILCOR 94–98% target.",
+      "Maintain 100% oxygen until oxygenation can be measured reliably; troubleshoot the sensor."
+    ],
+    "variants": [
+      {
+        "finding": "The pleth signal is strong and agrees with the measured pulse.",
+        "correct": 0,
+        "note": "A reliable measurement permits titration to avoid both low oxygen and unnecessary excess oxygen. ILCOR suggests 94–98%; follow your local target."
+      },
+      {
+        "finding": "The pleth signal is unreliable and does not agree with the measured pulse.",
+        "correct": 1,
+        "note": "An unreliable number cannot guide safe titration. Continue oxygen and obtain a reliable measure before reducing it."
+      }
+    ],
+    "source": {
+      "label": "ILCOR 2025 ALS CoSTR: oxygen targets after ROSC",
+      "url": "https://ilcor.org/uploads/ALS-2025-COSTR-Full-Chapter.pdf",
+      "kind": "peer-reviewed consensus guideline"
+    },
+    "sources": [
+      {
+        "label": "ILCOR 2025 ALS CoSTR: oxygen targets after ROSC",
+        "url": "https://ilcor.org/uploads/ALS-2025-COSTR-Full-Chapter.pdf",
+        "kind": "peer-reviewed consensus guideline"
+      },
+      {
+        "label": "AHA 2025 Post-Cardiac Arrest Care (Circulation)",
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/post-cardiac-arrest-care",
+        "kind": "peer-reviewed clinical reference"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
+    }
+  },
+  {
+    "id": "param-seizure-time",
+    "level": "Paramedic",
+    "category": "Neurology",
+    "title": "The seizure clock matters",
+    "scene": "An adult has an ongoing generalized convulsion. Airway support and monitoring are underway, glucose is normal, and no rescue benzodiazepine has been given. Reliable witnesses timed the onset.",
+    "prompt": "Which priority fits the elapsed time?",
+    "choices": [
+      "Continue support and close timing; prepare treatment for persistent or recurrent seizure activity per protocol.",
+      "Treat convulsive status epilepticus promptly with a protocol benzodiazepine while maintaining airway support."
+    ],
+    "variants": [
+      {
+        "finding": "Continuous convulsions have lasted 2 minutes.",
+        "correct": 0,
+        "note": "This duration alone has not reached the 5-minute operational threshold. Stay ready to treat; recurrent seizures without recovery can also indicate status."
+      },
+      {
+        "finding": "Continuous convulsions have lasted 6 minutes.",
+        "correct": 1,
+        "note": "Do not wait for a 30-minute duration. Give timely first-line benzodiazepine therapy by an available authorized route, with ventilation and reassessment."
+      }
+    ],
+    "source": {
+      "label": "2026: Status epilepticus systematic review and clinical update (Emergencias)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42345989/",
+      "kind": "systematic review and clinical update"
+    },
+    "sources": [
+      {
+        "label": "2026: Status epilepticus systematic review and clinical update (Emergencias)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42345989/",
+        "kind": "systematic review and clinical update"
+      },
+      {
+        "label": "2025: Emergency department management of status epilepticus (Emergency Medicine Practice)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40825177/",
+        "kind": "peer-reviewed clinical review"
+      },
+      {
+        "label": "2026: Prehospital rescue treatment of seizures and status epilepticus",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41486219/",
+        "kind": "peer-reviewed clinical review"
+      }
+    ],
+    "checkedOn": "2026-10-02",
+    "scopeSource": {
+      "label": "NHTSA/NASEMSO national scope model",
+      "url": "https://rosap.ntl.bts.gov/view/dot/56917",
+      "kind": "consensus scope framework"
     }
   }
 ];
