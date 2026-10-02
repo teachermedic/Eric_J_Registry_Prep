@@ -420,14 +420,14 @@
   <h2>Deck Complete!</h2>
   <p id="completionMessage">You've mastered every card in this deck.</p>
   <button id="resetFromCompleteBtn">↻ Start Over</button>
-  <button id="reviewMissedFromCompleteBtn" style="background: var(--review);">📚 Review Still Learning</button>
+  <button id="reviewMissedFromCompleteBtn" style="background: var(--review);">📚 Review Don’t Know</button>
 </div>
 
 <div class="term-card-container" id="termCardContainer">
   <div class="term-card" id="termCard">
     <div class="term-card-face term-card-front">
       <div class="term-card-label">Term</div>
-      <div class="term-card-review-badge" id="cardReviewBadge" style="display: none;">Still Learning</div>
+      <div class="term-card-review-badge" id="cardReviewBadge" style="display: none;">Don’t Know</div>
       <div class="term-card-term" id="termText">—</div>
       <div class="term-card-sub" id="termSub"></div>
       <div class="term-hint">Tap card to flip</div>
@@ -443,8 +443,8 @@
 
 <div class="term-controls">
   <button class="btn-nav" id="termPrevBtn">◀ Prev</button>
-  <button class="btn-review" id="termReviewBtn">Still Learning</button>
-  <button class="btn-know" id="termKnowBtn">Got It ✓</button>
+  <button class="btn-review" id="termReviewBtn">Don’t Know</button>
+  <button class="btn-know" id="termKnowBtn">Know</button>
   <button class="btn-nav" id="termNextBtn">Next ▶</button>
 </div>
 
@@ -454,18 +454,18 @@
 </div>
 
 <div class="term-secondary-controls">
-  <button id="reviewOnlyBtn">📚 Review Only (Still Learning)</button>
+  <button id="reviewOnlyBtn">📚 Review Don’t Know </button>
   <button id="clearProgressBtn">🗑️ Clear All Progress</button>
 </div>
 
 <div class="term-stats">
   <div class="term-stat known">
     <span class="num" id="termKnownCount">0</span>
-    <span class="lbl">Known</span>
+    <span class="lbl">Know</span>
   </div>
   <div class="term-stat review">
     <span class="num" id="termReviewCount">0</span>
-    <span class="lbl">Still Learning</span>
+    <span class="lbl">Don’t Know</span>
   </div>
   <div class="term-stat">
     <span class="num" id="termRemainingCount">0</span>
