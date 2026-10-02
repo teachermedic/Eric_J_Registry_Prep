@@ -202,7 +202,7 @@
  }
  function rate(rating){
   if(!active?.flipped||!['again','good'].includes(rating))return;
-  const id=current(),now=Date.now();
+  const id=current(),now=Date.now(),sessionId=active.badgeId||(active.badgeId='cards:'+now+':'+Math.random().toString(36).slice(2)),count=(active.badgeCount||0)+1,sessionMode=active.mode;active.badgeCount=count;
   mutate(s=>{
    const old=s.records[id]||{},streak=rating==='good'?(old.rating==='good'?(old.knowStreak||1)+1:1):0;
    const interval=rating==='again'?0:knowIntervals[Math.min(streak-1,knowIntervals.length-1)];
@@ -210,7 +210,10 @@
    s.history.push({id,rating,date:now});s.history=s.history.slice(-500);
    active.keys.splice(active.index,1);active.index=active.index%Math.max(1,active.keys.length);active.flipped=false;
    if(active.keys.length)s.sessions[kindOfPage]=JSON.parse(JSON.stringify(active));else{delete s.sessions[kindOfPage];active=null;}
-  });renderCard();
+  });
+  window.StudyBadges?.record({type:'card',id,know:rating==='good',date:now});
+  if(!active&&sessionMode!=='single'&&count>0)window.StudyBadges?.record({type:'session',id:sessionId,date:now});
+  renderCard();
   noticeNode.textContent=`${rating==='again'?'Don’t Know':'Know'} saved. Next review: ${new Date(state.records[id].due).toLocaleString()}.`;
  }
  function move(delta){if(!active)return;active.index=(active.index+delta+active.keys.length)%active.keys.length;active.flipped=false;persistActive();renderCard();}

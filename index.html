@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#004a99">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-</head>
+<link rel="stylesheet" href="study-badges.css"></head>
 <body>
     <div style="text-align: right; padding: 10px;">
         <button onclick="toggleDarkMode()" id="theme-toggle" style="background:none; border:none; cursor:pointer; color:var(--primary-blue);">
@@ -123,6 +123,7 @@
                         </div>
                         <div id="card-study-dashboard"></div>
                     </section>
+                    <section id="badge-case" aria-label="Your accomplishment badges"></section>
                     <section id="study-resource-tools" class="study-library" aria-labelledby="resource-heading">
                         <h3 id="resource-heading">🔎 Search & Printable Study Sheets</h3>
                         <label for="resource-search">Search questions and flashcards</label>
@@ -367,5 +368,8 @@
     <script src="terminology-data.js"></script>
     <script src="study-resources.js"></script>
 
+<script src="change-finding-data.js"></script>
+<script src="what-first-data.js"></script>
+<script src="study-badges.js"></script>
 </body>
 </html>

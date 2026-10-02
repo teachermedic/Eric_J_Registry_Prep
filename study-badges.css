@@ -1,0 +1,46 @@
+/* A green-and-gold display case, independent of activity page styles. */
+#badge-case { margin:24px 0; padding:20px; border:1px solid #c8b47f; border-radius:16px; background:#faf8f1; color:#173d32; }
+.badge-case-heading { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+#badge-case h3 { margin:0; font-size:1.15rem; color:#173d32; }
+.badge-total { border-radius:999px; background:#e8d9ab; padding:6px 10px; font-size:.8rem; font-weight:bold; }
+.badge-help { font-size:.82rem; line-height:1.6; color:#525b52; margin:8px 0 14px; }
+.badge-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:18px 0; }
+.achievement { display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 12px; border:1px solid #d4d7cd; border-radius:12px; background:#fff; min-width:0; }
+.achievement.earned { border-color:#b28c33; background:linear-gradient(155deg,#fffcf0,#f4edda); }
+.badge-seal { display:grid; place-items:center; width:66px; height:66px; border-radius:50%; border:3px solid #a6ada3; background:#edf0eb; box-shadow:0 0 0 4px #f3f4f0; margin:6px 0 14px; }
+.badge-seal svg { width:34px; height:34px; color:#536353; }
+.achievement.earned .badge-seal svg { color:#17513d; }
+.achievement.locked .badge-seal { filter:grayscale(1); opacity:.65; }
+.achievement.earned .badge-seal { border-color:#b08a30; background:#fff2bb; box-shadow:0 0 0 4px #ece0b8; }
+#badge-case h4 { margin:0 0 8px; color:#173d32; font-size:.92rem; overflow-wrap:anywhere; }
+.badge-rule { margin:0 0 12px; font-size:.78rem; line-height:1.5; flex:1; }
+.achievement progress { width:100%; height:8px; accent-color:#17664e; }
+.badge-progress,.badge-earned-date { font-size:.75rem; margin:8px 0 12px; line-height:1.5; }
+.badge-earned-date { color:#17513d; font-weight:bold; }
+.badge-action { font-size:.75rem; color:#17513d; padding:7px 4px; text-decoration:underline; }
+#badge-case summary { cursor:pointer; font-size:.85rem; }
+.badge-celebration { position:fixed; bottom:20px; right:20px; box-sizing:border-box; max-width:360px; width:calc(100% - 40px); background:#173d32; color:#fff7d6; border:2px solid #d2b965; border-radius:12px; box-shadow:0 6px 25px #0003; padding:16px; z-index:2000; animation:badge-appear .25s ease-out; }
+.badge-celebration p { margin:0 0 12px; font-weight:bold; line-height:1.5; font-size:.95rem; }
+.badge-celebration a { color:#fff7d6; text-decoration:underline; font-size:.85rem; }
+.badge-celebration button { margin-left:14px; padding:7px 9px; border:1px solid #d2b965; background:transparent; color:#fff7d6; border-radius:6px; cursor:pointer; font:inherit; font-size:.8rem; }
+#badge-case a:focus-visible,#badge-case summary:focus-visible,.badge-celebration a:focus-visible,.badge-celebration button:focus-visible { outline:3px solid #b18a24; outline-offset:3px; }
+body.dark-mode #badge-case { background:#162b24; border-color:#8f763f; color:#e7eee7; }
+body.dark-mode #badge-case h3,body.dark-mode #badge-case h4 { color:#f0d585; }
+body.dark-mode .badge-total { background:#534722; color:#f5e3a4; }
+body.dark-mode .achievement { background:#1b332b; border-color:#476252; }
+body.dark-mode .achievement.earned { background:#2b3827; border-color:#ad8e40; }
+body.dark-mode .badge-help { color:#c2cec4; }
+body.dark-mode .badge-action,body.dark-mode .badge-earned-date { color:#bbebce; }
+@keyframes badge-appear { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:reduce) { .badge-celebration { animation:none; } }
+@media(max-width:400px) { #badge-case { padding:12px; } .badge-grid { gap:8px; } .achievement { padding:12px 8px; } }
+@media print { #badge-case,.badge-celebration { display:none !important; } }
+
+@media(max-width:400px) { #badge-case h4 { font-size:.82rem; } }
+@media(max-width:600px) {
+ .badge-grid { grid-template-columns:minmax(0,1fr); }
+ .achievement { display:grid; grid-template-columns:54px minmax(0,1fr); gap:0 14px; text-align:left; align-items:start; }
+ .achievement > :not(.badge-seal) { grid-column:2; }
+ .achievement .badge-seal { grid-column:1; grid-row:1 / span 5; width:48px; height:48px; margin:4px 0; }
+ .badge-seal svg { width:28px; height:28px; }
+}
