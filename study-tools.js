@@ -117,6 +117,7 @@ function studyRecordAnswer(q, correct) {
     if (correct) studyWork.missed = studyWork.missed.filter(k => k !== key);
     else if (!studyWork.missed.includes(key)) studyWork.missed.push(key);
     studyCorrect = correct;
+    window.StudyBadges?.record({type:'activity',id:'question:'+key,date:Date.now()});
     studyPhase = mode === 'review' ? 'feedback' : 'answer';
     writeStudyWork();
 }
@@ -194,6 +195,7 @@ function studyFinishSession() {
         source: studySource, mode, correct: score, graded, total: sessionQuestions.length, completed,
         reviewed: sessionQuestions.slice(0, completed).filter(q => q.type === 'open-review').length,
         timedOut: mode === 'exam' && currentIdx < sessionQuestions.length, categories });
+    if(completed===sessionQuestions.length&&completed>0)window.StudyBadges?.record({type:'session',id:'quiz:'+studySessionId,date:Date.now()});
     studyWork.history = studyWork.history.slice(-100);
     studyWork.session = null;
     writeStudyWork();

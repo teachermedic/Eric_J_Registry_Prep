@@ -1,10 +1,12 @@
-const CACHE_NAME = 'field-notes-study-tools-v19';
+const CACHE_NAME = 'field-notes-study-tools-v20';
 const assets = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './study-tools.js',
+  './study-badges.js',
+  './study-badges.css',
   './flashcards.html',
   './flashcard_data.js',
   './terminology-decks.html',
