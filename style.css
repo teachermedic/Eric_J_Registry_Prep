@@ -351,3 +351,12 @@ body {
 body.dark-mode .quiz-setup-group { background:#1e293b; border-color:#334155; }
 body.dark-mode .quiz-setup-group h3, body.dark-mode .independent-study-group h3 { color:#fbbf24; }
 @media(max-width:400px) { .quiz-setup-group { padding:12px; } }
+
+/* Homepage menu: gold assessment actions, green study tools, blue Research. */
+#setup-area .mode-btn { background:#06402b; color:#fff; transition:background-color .15s ease,transform .15s ease; }
+#setup-area .mode-btn:hover { background:#042e1f; opacity:1; }
+#setup-area .quiz-setup-group .mode-btn { background:#8a5306; }
+#setup-area .quiz-setup-group .mode-btn:hover { background:#704305; }
+#setup-area .mode-btn.menu-research { background:#2563eb; }
+#setup-area .mode-btn.menu-research:hover { background:#1d4ed8; }
+#setup-area .mode-btn:focus-visible { outline:3px solid var(--primary-blue); outline-offset:3px; }
