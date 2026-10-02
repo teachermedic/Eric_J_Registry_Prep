@@ -1,0 +1,4 @@
+Instructor Corner includes adapted concepts from QuizParty.
+QuizParty copyright (c) 2026 Arvind Froiland and QuizParty contributors.
+QuizParty is licensed under the MIT License. See: https://github.com/arvindfroi/quizparty
+This implementation uses PeerJS for WebRTC signaling/data channels and qrcode-generator for join QR codes.
