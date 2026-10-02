@@ -22,7 +22,7 @@
    {id:'first-shift',icon:'🚑',name:'First Shift',goal:1,value:count('sessions'),rule:'Complete your first study session.',unit:'sessions',href:'quick-study.html'},
    {id:'showing-up',icon:'🔟',name:'Showing Up',goal:10,value:count('sessions'),rule:'Complete 10 study sessions.',unit:'sessions',href:'quick-study.html'},
    {id:'steady-student',icon:'📅',name:'Steady Student',goal:5,value:count('days'),rule:'Study on five different days. They do not need to be consecutive.',unit:'study days',href:'study-plan.html'},
-   {id:'pathophysiology-pass',icon:'🧠',name:'Pathophysiology Pass',goal:path.length||null,value:p,rule:'Reveal and mark every Pathophysiology flashcard Know at least once.',unit:'cards marked Know',href:'flashcards.html'},
+   {id:'pathophysiology-pass',icon:'🧠',name:'Pathophysiology Pass',goal:path.length||null,value:p,rule:'Mark every Pathophysiology flashcard Know at least once.',unit:'cards marked Know',href:'flashcards.html'},
    {id:'comeback-kid',icon:'🔄',name:'Comeback Kid',goal:10,value:count('recovered'),rule:'Mark 10 different cards Know after previously marking them Don’t Know.',unit:'cards recovered',href:'flashcards.html?mode=difficult'},
    {id:'finding-difference',icon:'🔍',name:'Finding the Difference',goal:5,value:count('findings'),rule:'Correctly answer both findings in five different Change One Finding cases.',unit:'cases',href:'change-finding.html'},
    {id:'priorities-order',icon:'🪜',name:'Priorities in Order',goal:5,value:count('orders'),rule:'Complete five different What Comes First cases with all priority links correct.',unit:'cases',href:'what-first.html'},

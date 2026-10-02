@@ -146,7 +146,7 @@
  }
  function current(){return active?active.keys[active.index]:null;}
  function flip(){if(!active)return;active.flipped=!active.flipped;renderFlip();persistActive();}
- function renderFlip(){const card=document.getElementById(kindOfPage==='clinical'?'main-card':'termCard');card.classList.toggle(kindOfPage==='clinical'?'is-flipped':'flipped',!!active?.flipped);ratingPanel.hidden=true;knownButton.disabled=difficultButton.disabled=!active?.flipped;}
+ function renderFlip(){const card=document.getElementById(kindOfPage==='clinical'?'main-card':'termCard');card.classList.toggle(kindOfPage==='clinical'?'is-flipped':'flipped',!!active?.flipped);ratingPanel.hidden=true;knownButton.disabled=difficultButton.disabled=!active;}
  function showEmpty() {
   const complete=document.getElementById('completionScreen');complete.classList.add('visible');
   if(kindOfPage==='clinical'){
@@ -201,7 +201,7 @@
   renderFlip();
  }
  function rate(rating){
-  if(!active?.flipped||!['again','good'].includes(rating))return;
+  if(!active||!['again','good'].includes(rating))return;
   const id=current(),now=Date.now(),sessionId=active.badgeId||(active.badgeId='cards:'+now+':'+Math.random().toString(36).slice(2)),count=(active.badgeCount||0)+1,sessionMode=active.mode;active.badgeCount=count;
   mutate(s=>{
    const old=s.records[id]||{},streak=rating==='good'?(old.rating==='good'?(old.knowStreak||1)+1:1):0;
@@ -225,7 +225,7 @@
  function setupPage(){
   setupSources();try{if(localStorage.getItem('ems_theme')==='dark')document.body.classList.add('dark-mode');}catch{}
   toolbar=el('section',undefined,'card-study-toolbar');toolbar.setAttribute('aria-label','Saved card study tools');
-  toolbar.append(el('p','Think of your answer, reveal the card, then choose Know or Don’t Know. Your choice saves and moves to the next card. Don’t Know returns in 10 minutes; consecutive Know reviews return in 1, 3, 7, 14, then 30 days. Cards to Review shows exactly what needs practice.','card-study-help'));
+  toolbar.append(el('p','Think of your answer, reveal the card, then choose Know or Don’t Know. You can choose from either side of the card; your choice saves and moves to the next card. Don’t Know returns in 10 minutes; consecutive Know reviews return in 1, 3, 7, 14, then 30 days. Cards to Review shows exactly what needs practice.','card-study-help'));
   const warn=el('p','','card-study-help card-storage-warning');warn.setAttribute('role','status');toolbar.append(warn);
   statusNode=el('p','','card-study-summary');toolbar.append(statusNode);
   noticeNode=el('p','','card-study-help');noticeNode.setAttribute('role','status');toolbar.append(noticeNode);
