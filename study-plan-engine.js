@@ -18,9 +18,33 @@
  for(const date of days)if(used(plan.tasks,date)>plan.config.minutes)return false;
  for(let i=0;i<plan.config.topics.length;i++){const tasks=plan.tasks.filter(t=>t.topicId==='topic-'+i),prep=tasks.filter(t=>t.phase==='prepare');if(tasks.length>3||tasks.length&&prep.length!==1||tasks.some(t=>t.phase==='review'&&t.date<=prep[0].date)||new Set(tasks.map(t=>t.date)).size!==tasks.length)return false;}
  return true;}catch{return false;}}
+ function instructions(task){
+ const first=Math.max(2,Math.floor(task.minutes*.3)),second=Math.max(3,Math.floor(task.minutes*.4)),last=task.minutes-first-second;
+ const guides={
+ 'Build a summary or concept map':[
+ 'Read a short section of your notes or textbook on this topic. Identify 3–5 key ideas and one example.',
+ 'Close the source. Write a short summary in your own words, or draw a map connecting those ideas. Include the example.',
+ 'Reopen the source. Correct errors, add missing ideas, and write one question you still need answered.'
+ ],
+ 'Recall from memory, then check':[
+ 'Close your notes. On a blank page, list what you remember about this topic. Include definitions, steps, or a worked example.',
+ 'Compare your recall with your notes or textbook. Mark omissions and errors; write the corrected explanation.',
+ 'Close the source again. Explain the missed ideas from memory. Record anything still unclear in this block’s notes.'
+ ],
+ 'Practice questions and review mistakes':[
+ 'Choose 3–5 questions or problems on this topic. If none are available, turn your note headings into questions.',
+ 'Answer without notes. Then check against a reliable answer key or your course materials.',
+ 'For each mistake, explain the correct reasoning and why your answer failed. Retry one missed item without looking.'
+ ],
+ 'Explain it in your own words':[
+ 'Close your notes. Explain the topic aloud or in writing as if teaching a beginner: what it means, how it works, and an example.',
+ 'Check your explanation against your notes or textbook. Identify missing steps, incorrect claims, and unfamiliar terms.',
+ 'Explain it again using simpler words and a clear example. Write down the question you still cannot answer.'
+ ]};return guides[task.method].map((text,i)=>({minutes:[first,second,last][i],text}));
+ }
  const escapeICS=s=>String(s).replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,');
  function fold(line){let out='',length=0;for(const char of line){const size=new TextEncoder().encode(char).length;if(length+size>75){out+='\r\n ';length=1;}out+=char;length+=size;}return out;}
  function calendar(plan,now=new Date()){if(!validatePlan(plan))throw new Error('This plan needs correction before export.');const stamp=now.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Eric J Field Notes//Study Planner//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'];const event=(uid,date,title,description)=>lines.push('BEGIN:VEVENT','UID:'+uid+'@field-notes-study','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+date.replace(/-/g,''),'DTEND;VALUE=DATE:'+dateString(dateValue(date)+DAY).replace(/-/g,''),'SUMMARY:'+escapeICS(title),'DESCRIPTION:'+escapeICS(description),'TRANSP:TRANSPARENT','END:VEVENT');
- for(const date of dates(plan.config)){const tasks=plan.tasks.filter(t=>t.date===date&&!t.done);if(tasks.length)event(plan.id+'-'+date,date,plan.config.title+' — study',tasks.map(t=>`${t.topic}: ${t.minutes} min — ${t.method}${t.notes?'\n'+t.notes:''}`).join('\n')+'\nReserve 5 minutes between blocks.');}event(plan.id+'-exam',plan.config.exam,'Exam: '+plan.config.title,'Exam date from your study plan. Confirm the actual time and location.');lines.push('END:VCALENDAR');return lines.map(fold).join('\r\n')+'\r\n';}
- return {dateValue,dateString,dates,validateConfig,generate,used,validatePlan,calendar};
+ for(const date of dates(plan.config)){const tasks=plan.tasks.filter(t=>t.date===date&&!t.done);if(tasks.length)event(plan.id+'-'+date,date,plan.config.title+' — study',tasks.map(t=>`${t.topic}: ${t.minutes} min — ${t.method}\n${instructions(t).map((step,i)=>`${i+1}. ${step.minutes} min: ${step.text}`).join('\n')}${t.notes?'\nNotes: '+t.notes:''}`).join('\n')+'\nReserve 5 minutes between blocks.');}event(plan.id+'-exam',plan.config.exam,'Exam: '+plan.config.title,'Exam date from your study plan. Confirm the actual time and location.');lines.push('END:VCALENDAR');return lines.map(fold).join('\r\n')+'\r\n';}
+ return {dateValue,dateString,dates,validateConfig,generate,used,validatePlan,instructions,calendar};
 });

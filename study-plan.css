@@ -35,3 +35,11 @@
 
 body.dark-mode .planner-shell input[type="date"] { color-scheme:dark; }
 @media print { #plan-warning:not(:empty) { background:none; border-color:#aaa; color:#000; } .plan-task { border-color:#aaa; } }
+
+.plan-directions { margin:10px 0 0; padding-left:22px; font-size:.9rem; }
+.plan-directions li { margin:7px 0; }
+.plan-break { padding:8px 12px; margin:0 0 10px; background:var(--soft); border-radius:6px; }
+@media print { .plan-break { background:none; color:#000; } .plan-directions { font-size:10pt; } }
+
+.plan-task label { flex:none; min-width:24px; }
+@media(max-width:560px) { .plan-task-content { flex-basis:calc(100% - 40px); } }
