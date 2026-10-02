@@ -1,0 +1,29 @@
+.order-pickers { display:grid; grid-template-columns:1fr 2fr; gap:14px; margin:20px 0 12px; }
+.order-pickers label { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.order-pickers select { width:100%; }
+#order-list { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+#order-list li { display:flex; align-items:center; gap:10px; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--paper); }
+.order-number { width:28px; height:28px; flex:none; display:grid; place-items:center; border-radius:50%; background:var(--soft); color:var(--gold); font-weight:bold; }
+.order-grip { cursor:grab; flex:none; padding:6px; color:var(--gold); touch-action:none; user-select:none; }
+.order-text { flex:1; min-width:0; overflow-wrap:anywhere; }
+.order-arrows { display:flex; gap:5px; flex:none; }
+.order-arrows button { padding:6px; min-width:44px; min-height:44px; }
+button:disabled { opacity:.45; cursor:default; }
+#order-confidence { padding:0; border:0; margin:22px 0 16px; display:flex; flex-wrap:wrap; gap:12px; }
+#order-confidence legend { margin-bottom:10px; font-weight:bold; }
+#order-confidence label { display:flex; align-items:center; gap:5px; min-height:44px; }
+.order-primary { background:#06402b; color:#fff; border-color:#06402b; }
+.order-primary:hover { background:#042e1f; border-color:#042e1f; }
+#order-error { color:var(--gold); }
+#order-feedback { margin-top:18px; }
+#order-explanation { padding-left:24px; }
+#order-explanation li { padding:8px 0; }
+#order-explanation small { display:block; font-size:.85rem; }
+#order-result { color:var(--green); }
+#order-sources { display:flex; flex-direction:column; gap:6px; }
+.order-progress { margin:20px 0; }
+.order-review-item { border-top:1px solid var(--line); padding:12px 0; }
+.order-review-item p { margin-bottom:8px; }
+.sortable-ghost { opacity:.4; }
+.sortable-chosen { border-color:var(--gold) !important; }
+@media(max-width:560px) { .order-pickers { grid-template-columns:1fr; } #order-list li { flex-wrap:wrap; } .order-text { flex-basis:calc(100% - 85px); } .order-arrows { margin-left:auto; } }
