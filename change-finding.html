@@ -3,7 +3,7 @@
 <body><main class="challenge-shell">
 <header><a href="index.html">← Back to Home</a><button id="challenge-theme" type="button">Toggle Theme</button></header>
 <p class="brand">Eric J’s Field Notes</p><h1>🔄 Change One Finding</h1><p>Same scene. One different clue. Does your next move change?</p>
-<p class="help">Practice clinical reasoning. EMT/AEMT practice follows the <a href="https://rosap.ntl.bts.gov/view/dot/56917" target="_blank" rel="noopener">national scope model</a>; apply care within your training and local protocols.</p>
+<p class="help">Practice foundational and Paramedic clinical reasoning. Paramedic cases are labeled in the menu. Follow the <a href="https://rosap.ntl.bts.gov/view/dot/56917" target="_blank" rel="noopener">national scope model</a> and apply care within your training and local protocols.</p>
 <div class="picker"><label for="challenge-select">Choose a challenge</label><select id="challenge-select"></select></div>
 <p id="challenge-progress" class="help" role="status"></p><p id="challenge-storage" class="help" role="status"></p>
 <article class="challenge-card">
@@ -11,7 +11,7 @@
 <div class="case-tabs" aria-label="Choose the finding"><button id="finding-original" type="button" aria-pressed="true">Original Finding</button><button id="finding-changed" type="button" aria-pressed="false">🔄 Change the Finding</button></div>
 <section class="patient"><h3>The scene</h3><p id="challenge-scene"></p><div class="finding"><small>The deciding clue</small><strong id="challenge-finding"></strong></div></section>
 <h3 id="challenge-prompt"></h3><div id="challenge-choices" class="choices"></div>
-<section id="challenge-feedback" hidden aria-live="polite"><p id="challenge-result"></p><p id="challenge-correct"></p><div class="field-note"><h3>✍️ Eric’s Field Note</h3><p id="challenge-note"></p><a id="challenge-source" target="_blank" rel="noopener noreferrer"></a><p id="challenge-checked" class="help"></p></div><p id="challenge-compare" class="help"></p></section>
+<section id="challenge-feedback" hidden aria-live="polite"><p id="challenge-result"></p><p id="challenge-correct"></p><div class="field-note"><h3>✍️ Eric’s Field Note</h3><p id="challenge-note"></p><a id="challenge-source" target="_blank" rel="noopener noreferrer"></a><div id="challenge-extra-sources" class="help"></div><p id="challenge-checked" class="help"></p></div><p id="challenge-compare" class="help"></p></section>
 </article>
 <nav class="challenge-nav" aria-label="Challenge navigation"><button id="challenge-prev" type="button">← Previous</button><button id="challenge-next" type="button">Next →</button></nav>
 </main><script src="change-finding-data.js"></script><script src="change-finding.js"></script></body></html>
