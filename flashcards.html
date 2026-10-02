@@ -337,7 +337,7 @@
     <div class="flashcard-wrapper" onclick="flipCard()">
         <div class="flashcard" id="main-card">
             <div class="card-face card-front">
-                <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Still Learning</div>
+                <div class="card-review-badge" id="cardReviewBadge" style="display:none;">Don’t Know</div>
                 <span class="material-icons card-icon" id="cardIcon">psychology</span>
                 <p id="card-question-text" style="font-size:1.05rem; font-weight:500; margin: 0;"></p>
                 <small class="flip-hint">Tap card to reveal clinical truth</small>
@@ -354,20 +354,20 @@
 
     <div class="fc-controls">
         <button class="btn-nav" type="button" onclick="prevCard(event)">◀ Prev</button>
-        <button class="btn-review" type="button" onclick="markReview(event)">Still Learning</button>
-        <button class="btn-know" type="button" onclick="markKnown(event)">Got It ✓</button>
+        <button class="btn-review" type="button" onclick="markReview(event)">Don’t Know</button>
+        <button class="btn-know" type="button" onclick="markKnown(event)">Know</button>
         <button class="btn-nav" type="button" onclick="nextCard(event)">Next ▶</button>
     </div>
 
     <div class="fc-secondary-controls">
         <button type="button" onclick="shuffleDeck()">🔀 Shuffle</button>
-        <button type="button" onclick="toggleReviewOnly()">📚 Review Only</button>
+        <button type="button" onclick="toggleReviewOnly()">📚 Review Don’t Know</button>
         <button type="button" onclick="resetCurrentDeck()">↻ Reset Deck</button>
     </div>
 
     <div class="fc-stats">
-        <div><span id="knownCount">0</span><small>Known</small></div>
-        <div class="stat-review"><span id="reviewCount">0</span><small>Still Learning</small></div>
+        <div><span id="knownCount">0</span><small>Know</small></div>
+        <div class="stat-review"><span id="reviewCount">0</span><small>Don’t Know</small></div>
         <div><span id="remainingCount">0</span><small>In Deck</small></div>
     </div>
 </div>

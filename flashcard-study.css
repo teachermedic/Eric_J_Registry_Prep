@@ -51,3 +51,13 @@ body.dark-mode .card-navigation button[aria-pressed="true"] { background:#06402b
 
 .card-navigation button.card-mark-known[aria-pressed="true"], body.dark-mode .card-navigation button.card-mark-known[aria-pressed="true"] { background:#86efac; color:#06402b; border-color:#4ade80; }
 .card-navigation button.card-mark-difficult[aria-pressed="true"], body.dark-mode .card-navigation button.card-mark-difficult[aria-pressed="true"] { background:#dc2626; color:#fff; border-color:#b91c1c; }
+
+.card-navigation button.card-mark-known, body.dark-mode .card-navigation button.card-mark-known { background:#86efac; color:#06402b; border-color:#4ade80; }
+.card-navigation button.card-mark-difficult, body.dark-mode .card-navigation button.card-mark-difficult { background:#dc2626; color:#fff; border-color:#b91c1c; }
+.card-navigation button:disabled { opacity:.55; cursor:default; }
+.card-review-list { margin-top:14px; }
+.card-review-list summary { cursor:pointer; font-weight:bold; }
+.card-review-item { display:flex; flex-direction:column; gap:4px; margin:10px 0; }
+.card-review-item a { white-space:normal; overflow-wrap:anywhere; }
+.card-review-item small { color:var(--text-muted,#6b6b6b); line-height:1.5; }
+body.dark-mode .card-review-item small { color:#cbd5e1; }

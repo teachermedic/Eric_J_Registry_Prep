@@ -32,7 +32,7 @@
  input.addEventListener('input',search);filter.addEventListener('change',search);more.onclick=renderMore;
  function saved(key){try{const s=JSON.parse(localStorage.getItem(key));return s?.version===1?s:{};}catch{return {};}}
  function collection(value){
-  const q=saved('field_notes_study_v1'),c=saved('field_notes_cards_v1');
+  const q=saved('field_notes_study_v1'),c=window.CardStudy?.getState()||saved('field_notes_cards_v1');
   if(value==='missed'||value==='question-bookmarks'){
    const raw=value==='missed'?q.missed:q.bookmarks;const ids=new Set(Array.isArray(raw)?raw:[]);
    const selected=rows.filter(r=>r.kind==='questions'&&ids.has(r.id)),chains=new Set(selected.map(r=>r.chain).filter(Boolean));
