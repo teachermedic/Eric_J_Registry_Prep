@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v15';
+const CACHE_NAME = 'field-notes-study-tools-v16';
 const assets = [
   './',
   './index.html',
@@ -28,7 +28,11 @@ const assets = [
   './what-first-data.js',
   './what-first.js',
   './vendor/Sortable.min.js',
-  './vendor/Sortable-LICENSE.txt'
+  './vendor/Sortable-LICENSE.txt',
+  './study-plan.html',
+  './study-plan.css',
+  './study-plan-engine.js',
+  './study-plan.js'
 ];
 
 // Install Service Worker

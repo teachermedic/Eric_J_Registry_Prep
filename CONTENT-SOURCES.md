@@ -46,3 +46,13 @@ References checked October 1, 2026:
 AEMT airway escalation is conditional on persistently ineffective ventilation after BVM optimization and local SGA authorization. The hypoglycemia case specifies supported airway/breathing, unsafe oral swallowing, confirmed severe hypoglycemia, and prompt IV access under an IV-dextrose protocol. These cases do not authorize EMT use of SGA placement or IV dextrose.
 
 SortableJS 1.15.6 is vendored locally for offline drag-and-drop; its MIT license is retained at `vendor/Sortable-LICENSE.txt`. Arrow buttons provide keyboard and library-failure fallback.
+
+## Build My Study Plan
+
+A subject-independent browser-local planning tool. Learners supply topics, priorities, exam/start dates, available weekdays, daily minutes, and block length. The original scheduling heuristic seeks one preparation block and two active reviews on separate selected days per topic, places higher priorities earlier, ends before the exam, and reserves five-minute breaks between blocks. It warns when time or spacing cannot accommodate the three-block goal. The first review is eligible on the next selected study day; final reviews are reserved toward the end of the available schedule, allowing enough closing-day slots for the topics. Capacity and coverage can shift the actual dates. These intervals are practical planning choices, not personalized memory estimates or a validated readiness prediction.
+
+Educational references checked October 1, 2026:
+- Cornell Learning Strategies Center, Five-Day Study Plan: https://lsc.cornell.edu/how-to-study/studying-for-and-taking-exams/the-five-day-study-plan/
+- Cornell Learning Strategies Center, Effective Study Strategies: https://lsc.cornell.edu/how-to-study/studying-for-and-taking-exams/effective-study-strategies/
+
+The planner adapts the preparation/review and spaced-practice principles rather than copying the university's chart or claiming endorsement. It contains no new clinical guidance. Editing preserves date availability, daily capacity, preparation-before-review, and separate-day practice. Drafts and completion persist locally; print output shows the current plan. ICS export includes unfinished blocks grouped into all-day reminders and an exam-date reminder, with date-only values, escaped text, folded UTF-8 lines, and stable event UIDs. It downloads a file and does not access calendar accounts. Offline cache v16 includes the planner.
