@@ -1,5 +1,8 @@
-const CACHE_NAME = 'field-notes-study-tools-v22';
+const CACHE_NAME = 'field-notes-study-tools-v23';
 const assets = [
+  './study-streak.js',
+  './study-streak.css',
+  './progress-backup.js',
   './',
   './index.html',
   './style.css',
@@ -63,3 +66,4 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+

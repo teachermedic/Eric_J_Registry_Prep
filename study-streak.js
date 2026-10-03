@@ -1,0 +1,31 @@
+/* Meaningful daily study, independent of quiz scores and the older participation badges. */
+((root)=>{
+'use strict';
+const KEY='field_notes_streak_v1',DAY=86400000;
+const localDay=n=>{const d=new Date(n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const validDay=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&Number.isFinite(Date.parse(s+'T12:00:00Z'))&&new Date(s+'T12:00:00Z').toISOString().slice(0,10)===s;
+const ordinal=s=>Math.floor(Date.parse(s+'T12:00:00Z')/DAY);
+const shift=(s,n)=>new Date((ordinal(s)+n)*DAY).toISOString().slice(0,10);
+const idOk=s=>typeof s==='string'&&s.length>0&&s.length<=4096&&!['__proto__','prototype','constructor'].includes(s);
+const blank=()=>({version:1,days:{},earned:{}}),qualifies=d=>!!d&&(Object.keys(d.cards||{}).length>=5||Object.keys(d.questions||{}).length>=5||d.challenge===true||d.block===true||d.quick===true);
+function clean(raw){const s=blank();if(raw?.version!==1)return s;for(const [date,d]of Object.entries(raw.days||{})){if(!validDay(date)||!d||typeof d!=='object')continue;const row={cards:{},questions:{},parts:{},challenge:d.challenge===true,block:d.block===true,quick:d.quick===true};for(const g of ['cards','questions','parts'])for(const [id,v]of Object.entries(d[g]||{}))if(idOk(id)&&v===true)row[g][id]=true;s.days[date]=row;}for(const n of [3,7,14,30])if(Number.isFinite(raw.earned?.[n])&&raw.earned[n]>=0)s.earned[n]=raw.earned[n];return s;}
+function record(s,e,today=localDay(Date.now())){if(!e||!idOk(e.id))return;const date=localDay(Number.isFinite(e.date)?e.date:Date.now());if(!validDay(date)||date>today||e.activity===false)return;
+let kind=e.type==='card'?'cards':e.type==='activity'&&e.id.startsWith('question:')?'questions':e.type==='block'?'block':e.type==='session'&&e.id.startsWith('quick:')?'quick':e.type==='challenge-complete'?'challenge':e.type==='finding-attempt'?'parts':null;if(!kind)return;
+const d=s.days[date]??={cards:{},questions:{},parts:{},challenge:false,block:false,quick:false};if(['cards','questions'].includes(kind))d[kind][e.id]=true;else if(kind==='parts'&&[0,1].includes(e.variant)){d.parts[JSON.stringify([e.id,e.variant])]=true;if([0,1].every(v=>d.parts[JSON.stringify([e.id,v])]))d.challenge=true;}else if(kind!=='parts')d[kind]=true;
+}
+function stats(s,today=localDay(Date.now())){const dates=Object.keys(s.days).filter(d=>d<=today&&qualifies(s.days[d])).sort();let longest=0,run=0,prev;for(const date of dates){run=prev&&ordinal(date)-ordinal(prev)===1?run+1:1;longest=Math.max(longest,run);prev=date;}let current=0,end=qualifies(s.days[today])?today:shift(today,-1);while(qualifies(s.days[end])){current++;end=shift(end,-1);}return {current,longest,todayDone:qualifies(s.days[today]),week:Array.from({length:7},(_,i)=>{const date=shift(today,i-6);return {date,done:qualifies(s.days[date])};})};}
+function award(s,today,now=Date.now()){const n=stats(s,today).longest,earned=[];for(const goal of [3,7,14,30])if(n>=goal&&!Object.hasOwn(s.earned,goal)){s.earned[goal]=now;earned.push(goal);}return earned;}
+const E={KEY,blank,clean,record,stats,award,localDay,shift};if(typeof module==='object'&&module.exports){module.exports=E;return;}
+let memory=blank(),available=true;
+const node=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
+function read(){try{return clean(JSON.parse(localStorage.getItem(KEY)));}catch{return memory;}}
+function save(s){memory=s;try{const v=JSON.stringify(s);if(localStorage.getItem(KEY)!==v)localStorage.setItem(KEY,v);available=true;}catch{available=false;}}
+function render(s){const host=document.getElementById('study-streak');if(!host)return;const today=localDay(Date.now()),v=stats(s,today);host.replaceChildren(node('h3','🔥 Your Study Streak'));const line=node('p',`${v.current} consecutive study ${v.current===1?'day':'days'} · Longest streak: ${v.longest} ${v.longest===1?'day':'days'}`);line.className='streak-total';host.append(line,node('p',v.todayDone?'✓ Daily goal completed. See you tomorrow!':v.current?'Study today to keep your streak.':'Complete a daily goal to start your streak.'));
+const week=node('div');week.className='streak-week';for(const d of v.week){const day=node('div');day.className='streak-day'+(d.done?' done':'');day.append(node('small',new Date(d.date+'T12:00:00Z').toLocaleDateString(undefined,{weekday:'short',timeZone:'UTC'})),node('span',d.done?'✓':'○'));day.setAttribute('aria-label',d.date+': '+(d.done?'goal completed':'goal not completed'));week.append(day);}host.append(week);
+const row=s.days[today]||{};host.append(node('p',`Today: ${Math.min(5,Object.keys(row.cards||{}).length)}/5 different cards · ${Math.min(5,Object.keys(row.questions||{}).length)}/5 different questions`));const details=node('details');details.append(node('summary','What counts as a study day?'),node('p','Choose any one: review five different flashcards, answer five different practice questions, check a What Comes First challenge, answer both findings in a Change One Finding case, finish a study-plan block, or complete all eight items in a 10-minute session. Opening the site alone does not count. Tracking starts with this feature. Days use your device’s local date.'));
+host.append(details);const medals=node('div');medals.className='streak-milestones';for(const n of [3,7,14,30])medals.append(node('span',Object.hasOwn(s.earned,n)?`🏅 ${n}-Day · Earned ${new Date(s.earned[n]).toLocaleDateString()}`:`${n}-Day badge · ${Math.min(n,v.longest)}/${n}`));host.append(medals,node('p',available?'Saved in this browser. Back up your progress to move devices.':'This browser cannot save your streak. Progress may be lost when you leave.'));}
+function refresh(e){const s=read();if(e)record(s,e);award(s,localDay(Date.now()));save(s);render(s);return s;}
+root.StudyStreak={record:e=>refresh(e),refresh:()=>refresh(),getState:()=>clean(read()),storageKey:KEY};
+if(root.StudyBadges){const original=root.StudyBadges.record;root.StudyBadges.record=e=>{const r=original(e);refresh(e);return r;};}
+refresh();window.addEventListener('storage',e=>{if(e.key===KEY)refresh();});window.addEventListener('focus',()=>refresh());document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});setInterval(()=>refresh(),60000);
+})(typeof window==='object'?window:globalThis);
