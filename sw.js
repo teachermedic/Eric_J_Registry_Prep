@@ -1,5 +1,9 @@
-const CACHE_NAME = 'field-notes-study-tools-v24';
+const CACHE_NAME = 'field-notes-study-tools-v25';
 const assets = [
+  './hearth-theme.css',
+  './hearth-emblem.svg',
+  './hearth-scene.svg',
+  './hearth-grain.svg',
   './home-dashboard.css',
   './home-dashboard.js',
   './study-streak.js',
