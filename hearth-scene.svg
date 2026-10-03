@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360">
+ <defs><linearGradient id="paper" x2="1" y2="1"><stop stop-color="#eee1c6"/><stop offset="1" stop-color="#dfcfac"/></linearGradient><radialGradient id="light"><stop stop-color="#ffefb7"/><stop offset="1" stop-color="#c99a51"/></radialGradient><pattern id="grain" width="11" height="13" patternUnits="userSpaceOnUse"><path d="m2 4 2 1m4 5 1 1" stroke="#705b39" stroke-width=".5" opacity=".12"/></pattern></defs>
+ <rect width="960" height="360" fill="url(#paper)"/><rect width="960" height="360" fill="url(#grain)"/>
+ <g fill="none" stroke="#88714a" stroke-width="1" opacity=".24"><path d="M0 312c144-9 234-3 379 4s288-4 581-8 M0 324c164-4 262 8 391 7s299-8 569-7 M68 79l76-5m-53 36 65-3m651-63 95 4m-86 18 53 3 M169 37l92-4m-72 17 51-1"/></g>
+ <!-- An old round study door, with lamplight and an open book. -->
+ <path d="M95 314V142C95 46 245 3 303 92c16 23 25 49 25 80v142Z" fill="#beac87" stroke="#806b48" stroke-width="2"/>
+ <path d="M112 314V146c0-83 128-121 179-44 15 20 21 45 21 72v140Z" fill="#294b38" stroke="#1e3a2c" stroke-width="3"/>
+ <g fill="none" stroke="#a8b394" stroke-width="1" opacity=".3"><path d="M132 115v199m27-226v226m28-239v239m28-239v239m28-227v227m29-213v213m23-171v171"/></g>
+ <circle cx="216" cy="151" r="42" fill="url(#light)" stroke="#9d783e" stroke-width="5"/><path d="M178 151h77m-39-39v78" stroke="#80643b" stroke-width="3"/><path d="M191 177c9-13 14-17 25-13s19-3 29-13" stroke="#a17243" fill="none" opacity=".4"/>
+ <circle cx="281" cy="239" r="7" fill="#bd8b49" stroke="#e1be77" stroke-width="1.5"/>
+ <path d="M84 314h255l18 13H71Z" fill="#aa9268" stroke="#806b48" stroke-width="1.5"/>
+ <!-- Shelves and copper lantern. -->
+ <g stroke="#715637" stroke-width="2"><path d="M452 85h347v9H452Z" fill="#a18558"/><path d="M470 42h18v42h-18Z" fill="#597057"/><path d="M492 34h24v50h-24Z" fill="#a65f3d"/><path d="M523 48h15v36h-15Z" fill="#697d70"/><path d="m549 40 15-3 9 44-16 3Z" fill="#bfa77b"/><path d="M714 45h17v39h-17Z" fill="#a65f3d"/><path d="M737 30h21v54h-21Z" fill="#46657a"/><path d="M764 44h16v40h-16Z" fill="#60765a"/></g>
+ <g fill="none" stroke="#d6c49b" stroke-width="1"><path d="M474 50h10m-10 23h10m13-29h14m-14 30h14m229-35h14m-14 33h14"/></g>
+ <path d="M624 47V30c0-15 25-15 25 0v17" fill="none" stroke="#947044" stroke-width="2"/><path d="M612 46h50l-7 12v49l7 9h-50l7-9V58Z" fill="#a97643" stroke="#785335" stroke-width="2"/><path d="M623 60h28v45h-28Z" fill="url(#light)"/><path d="M637 59v48" stroke="#a97643" stroke-width="2"/><path d="M633 91c-5-12 9-19 8-7s-2 18-8 7Z" fill="#fff4c1"/>
+ <!-- A desk: medicine is still the heart of this room. -->
+ <path d="M405 262h431l14 15H394Z" fill="#a18359" stroke="#715637" stroke-width="2"/><path d="M420 277v49m400-49v49" stroke="#715637" stroke-width="9"/>
+ <path d="M463 231c38-9 68-4 88 8 25-14 63-17 99-7l-5 29c-35-7-65-4-94 9-26-12-56-16-90-7Z" fill="#f7ecd1" stroke="#826846" stroke-width="2"/><path d="M551 239v31m-78-27 55 6m-55 4 54 5m39-11 69-4m-69 14 63-4" fill="none" stroke="#a28d68" stroke-width="1.3"/>
+ <g fill="none" stroke="#9b763b" stroke-width="3" stroke-linecap="round"><path d="M699 206v21c0 17 25 16 25 0v-21m-29 0h8m17 0h8m-17 34v7c0 18 43 18 43-1v-15"/><circle cx="754" cy="224" r="9"/><circle cx="754" cy="224" r="4"/></g>
+ <path d="m785 259 18-52 4 1-17 53Z" fill="#a65f3d" stroke="#7d5034" stroke-width="1"/>
+ <!-- Botanical pencilwork framing the room. -->
+ <g fill="none" stroke="#586b47" stroke-width="1.7" stroke-linecap="round"><path d="M30 305C73 220 28 163 69 78 88 42 128 31 180 26 M886 312c-35-69-4-106-8-158s-17-83-43-114"/><path d="M56 99C30 86 34 63 43 55c17 15 23 27 13 44ZM70 74c-5-24 4-40 21-43 1 24-6 36-21 43ZM112 37c-1-21 14-29 27-27-3 18-12 27-27 27ZM49 138c-24-4-34-22-30-36 23 5 32 15 30 36ZM48 176c-24-7-32-23-26-35 21 6 30 19 26 35ZM53 215c17-17 34-14 39-2-18 11-31 14-39 2ZM49 244c-24-10-34-27-26-39 19 12 29 24 26 39ZM881 185c21-20 42-15 47-1-21 13-36 17-47 1ZM876 139c18-21 40-18 46-5-19 16-33 18-46 5ZM863 91c16-22 35-23 45-12-16 19-32 23-45 12ZM878 243c-22-9-29-24-24-37 20 7 28 21 24 37ZM887 282c20-17 37-12 42 0-18 10-31 13-42 0Z"/></g>
+ <g fill="#82906b" opacity=".18"><ellipse cx="45" cy="118" rx="9" ry="16" transform="rotate(-40 45 118)"/><ellipse cx="897" cy="142" rx="17" ry="8" transform="rotate(-24 897 142)"/></g>
+ <path d="M372 160c9-6 22-6 31 0m-26 9c6-4 15-4 21 0" fill="none" stroke="#a38d65" stroke-width="1" opacity=".4"/>
+</svg>

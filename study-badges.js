@@ -61,7 +61,7 @@
   for(const t of Array.isArray(plan.plan?.tasks)?plan.plan.tasks:[])if(t?.done===true&&validId(t.id))record(s,{type:'block',id:t.id,activity:false});
  }
  function render(s){const host=document.getElementById('badge-case');if(!host)return;const list=definitions(s,catalog()),earned=list.filter(b=>Object.hasOwn(s.earned,b.id));host.replaceChildren();
-  const title=node('div',undefined,'badge-case-heading');title.append(node('h3','My Badge Case'),node('span',`${earned.length} / ${list.length} earned`,'badge-total'));host.append(title,node('p','Celebrate the work you put in. Earned badges stay yours, even when a topic needs another review.','badge-help'));
+  const title=node('div',undefined,'badge-case-heading');title.append(node('h3','Your Accomplishment Seals'),node('span',`${earned.length} / ${list.length} earned`,'badge-total'));host.append(title,node('p','Badges collected along your journey. Earned accomplishments stay yours, even when a topic needs another review.','badge-help'));
   const grid=node('div',undefined,'badge-grid');
   for(const b of list){const unlocked=Object.hasOwn(s.earned,b.id),card=node('article',undefined,'achievement'+(unlocked?' earned':' locked')),seal=node('div',undefined,'badge-seal');seal.setAttribute('aria-hidden','true');seal.innerHTML='<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+emblems[b.id]+'</svg>';card.append(seal,node('h4',b.name),node('p',b.rule,'badge-rule'));
    if(unlocked)card.append(node('p','✓ Earned '+new Date(s.earned[b.id]).toLocaleDateString(),'badge-earned-date'));
