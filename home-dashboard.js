@@ -58,7 +58,7 @@
  }
  old.remove();panels.study.append(grid,practiceBox);
  const library=get('study-library'),resume=get('resume-card');
- const scene=node('figure',null,'hearth-scene');const artwork=node('img');artwork.src='hearth-scene.svg';artwork.alt='';artwork.width=960;artwork.height=360;scene.append(artwork,node('figcaption','A quiet place to become field ready.'));panels.today.append(scene);
+ const scene=node('figure',null,'hearth-scene');const artwork=node('img');artwork.src='hearth-scene.svg';artwork.alt='';artwork.width=960;artwork.height=360;scene.append(artwork,node('figcaption','A quiet place to become field ready.'));panels.today.append(get('ems-study-intro'),scene);
  const welcome=node('div',null,'today-welcome');welcome.append(node('span','YOUR NEXT STEP','eyebrow'));
  const start=tile('Start studying','Choose questions, flashcards, or a clinical challenge.','#study','→');start.classList.add('tile-primary');start.id='today-start';
  const cardResume=tile('Continue your last deck','Pick up your saved flashcard session.','flashcards.html?resume=1','→');cardResume.classList.add('tile-primary');cardResume.hidden=true;
@@ -109,7 +109,7 @@
  const title=document.querySelector('h1 .home-link');title.querySelector('img')?.remove();title.textContent='Eric J’s Hearth';
  const sketch=node('span',null,'brand-sketch');sketch.setAttribute('aria-hidden','true');
  sketch.innerHTML='<img src="hearth-emblem.svg" alt="" width="70" height="80">';
- title.prepend(sketch);document.querySelector('h2.subtitle').textContent='EMS & Registry Prep · One study session at a time.';
+ title.prepend(sketch);document.querySelector('h2.subtitle').textContent='Free EMS Practice & Registry Prep · One study session at a time.';
  const theme=get('theme-toggle');theme.setAttribute('aria-label','Toggle dark mode');get('theme-icon').setAttribute('aria-hidden','true');
  document.body.classList.add('dashboard-ready');
 })();
