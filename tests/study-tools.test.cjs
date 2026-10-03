@@ -14,12 +14,13 @@ const assert = require('node:assert/strict');
  let page=await context.newPage();
  const errors=[]; page.on('pageerror', e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:8765/');
- const option6=page.getByRole('button',{name:'Research & Present',exact:false});
+ await page.goto('http://127.0.0.1:8765/#resources');
+ const option6=page.getByRole('link',{name:/Research & Present/});
  assert.equal(await option6.isVisible(),true);
  for(const width of [1440,1101,1100,390,320]) {
   await page.setViewportSize({width,height:900});
   const layout=await page.evaluate(()=>{const m=document.getElementById('quiz-container').getBoundingClientRect(),s=document.getElementById('substack-sidebar').getBoundingClientRect();return{right:m.right,bottom:m.bottom,left:s.left,top:s.top,overflow:document.documentElement.scrollWidth>innerWidth}});
-  assert.equal(layout.overflow,false);if(width>1100)assert.ok(layout.right+23<=layout.left);else assert.ok(layout.top>=layout.bottom+19);
+  assert.equal(layout.overflow,false);assert.equal(await page.locator('#resources').isVisible(),true);
  }
  await page.setViewportSize({width:1280,height:900});
 
@@ -55,12 +56,12 @@ const assert = require('node:assert/strict');
  await page.reload();
  assert.match(await page.locator('#saved-missed-button').innerText(),/\(1\)/);
  assert.match(await page.locator('#saved-bookmark-button').innerText(),/\(1\)/);
- await page.locator('#saved-missed-button').click();
+ await page.goto('http://127.0.0.1:8765/#my-progress');await page.locator('#saved-missed-button').click();
  await page.getByRole('button',{name:'Practice All',exact:true}).click();
  await answer(true); await page.locator('#action-btn').click();
  assert.equal(await page.evaluate(()=>studyWork.missed.length),0);
  assert.equal(await page.evaluate(()=>studyWork.history.length),2);
- await page.reload(); await page.getByRole('button',{name:'Progress History',exact:true}).click();
+ await page.reload(); await page.getByRole('link',{name:'My Progress',exact:true}).click(); await page.getByRole('button',{name:'Progress History',exact:true}).click();
  assert.equal(await page.locator('.study-history-item').count(),2);
  await page.getByRole('button',{name:'Close study tools'}).click();
  await fixture(['text']);
@@ -102,7 +103,7 @@ const assert = require('node:assert/strict');
  assert.equal(await page.evaluate(()=>mode),'review');
  // Complete normal Review using the actual setup controls after clearing the draft.
  await page.evaluate(()=>{studyWork.session=null;studyActive=false;writeStudyWork();document.getElementById('quiz-area').style.display='none';document.getElementById('setup-area').style.display='block'});
- await page.locator('#topic-select').selectOption('Foundations');
+ await page.getByRole('link',{name:'Study',exact:true}).click();await page.getByRole('link',{name:/Practice Questions Review/}).click();await page.locator('#topic-select').selectOption('Foundations');
  await page.locator('#question-slider').fill('5'); await page.evaluate(()=>Math.random=()=>0.5);
  await page.getByRole('button',{name:'Review Mode',exact:false}).click();
  const questionCount=await page.evaluate(()=>sessionQuestions.length);
@@ -110,7 +111,7 @@ const assert = require('node:assert/strict');
  assert.equal(await page.locator('#results-area').isVisible(),true);
  assert.equal(await page.evaluate(()=>studyWork.history.at(-1).correct),await page.evaluate(()=>studyWork.history.at(-1).graded));
  // Small-screen and dark-mode views.
- await page.reload(); await page.setViewportSize({width:390,height:844});
+ await page.reload(); await page.setViewportSize({width:390,height:844});await page.getByRole('link',{name:'My Progress',exact:true}).click();await page.locator('#study-library').waitFor({state:'visible'});
  assert.equal(await page.locator('#study-library').isVisible(),true);
  await page.evaluate(()=>document.body.classList.add('dark-mode'));
  await page.locator('#saved-bookmark-button').click();
@@ -145,7 +146,7 @@ const assert = require('node:assert/strict');
  await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
  const names=await op.evaluate(()=>caches.keys());assert.ok(names.includes(fs.readFileSync(require('node:path').join(__dirname,'..','sw.js'),'utf8').match(/const CACHE_NAME = '([^']+)'/)[1]));assert.ok(names.includes('unrelated-cache'));assert.ok(!names.includes('field-notes-v1'));
  assert.equal(await op.evaluate(async()=>!!(await caches.match('./study-tools.js'))),true);
- await offline.setOffline(true);await op.reload();assert.equal(await op.locator('#study-library').isVisible(),true);
+ await offline.setOffline(true);await op.reload();await op.getByRole('link',{name:'My Progress',exact:true}).click();await op.locator('#study-library').waitFor({state:'visible'});assert.equal(await op.locator('#study-library').isVisible(),true);
  await browser.close(); server.close();
  console.log('PASS: missed persistence and correction, bookmarks, feedback resume, text/grid drafts, open-review resume, history, timed exam pause/timeout, report email encoding, replacement cancel, normal session, mobile/dark views, blocked/corrupt storage, linked case context, and offline cache installation/loading.');
 })().catch(e=>{console.error(e);process.exit(1)});

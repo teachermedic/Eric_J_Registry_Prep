@@ -360,3 +360,42 @@ body.dark-mode .quiz-setup-group h3, body.dark-mode .independent-study-group h3 
 #setup-area .mode-btn.menu-research { background:#2563eb; }
 #setup-area .mode-btn.menu-research:hover { background:#1d4ed8; }
 #setup-area .mode-btn:focus-visible { outline:3px solid var(--primary-blue); outline-offset:3px; }
+
+/* Shared Field Notes palette across the study tools. */
+.mode-btn { background:var(--deep-green); }
+body.dark-mode .quiz-setup-group { background:var(--container-bg);border-color:var(--border-color); }
+body.dark-mode .quiz-setup-group h3,body.dark-mode .independent-study-group h3 { color:var(--primary-blue); }
+:root {
+    --bg-color: #f4ede2;
+    --container-bg: #eee5d7;
+    --white: #fffcf6;
+    --light-gray: #f4ede2;
+    --text-main: #28332d;
+    --text-muted: #62695e;
+    --primary-blue: #234c3c;
+    --accent-blue: #8c4e31;
+    --border-color: #d9cdbb;
+    --deep-green: #234c3c;
+    --deep-green-dark: #19392c;
+    --gold: #a65f3d;
+    --gold-dark: #8c4e31;
+    --success-green: #234c3c;
+    --error-red: #9f3d37;
+}
+body.dark-mode {
+    --bg-color: #17221c;
+    --container-bg: #27362d;
+    --white: #202c25;
+    --light-gray: #17221c;
+    --text-main: #f0eee5;
+    --text-muted: #b5c0b3;
+    --primary-blue: #dce9dc;
+    --accent-blue: #dfa786;
+    --border-color: #48574a;
+    --deep-green: #234c3c;
+    --deep-green-dark: #19392c;
+    --gold: #dfa786;
+    --gold-dark: #a65f3d;
+    --success-green: #366d52;
+    --error-red: #f0a49a;
+}
