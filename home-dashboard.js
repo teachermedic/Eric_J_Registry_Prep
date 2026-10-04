@@ -1,3 +1,4 @@
+
 /* Arrange existing study tools without changing their IDs, events, or saved data. */
 (() => {
  'use strict';
@@ -88,6 +89,7 @@
  const cardDetails=node('details',null,'card-progress-details');cardDetails.append(node('summary','Flashcard progress & exact review lists'),get('card-study-dashboard'));library.append(cardDetails);
  panels['my-progress'].append(library,streak,get('badge-case'),get('progress-backup'));
  panels.resources.append(get('study-resource-tools'));
+ panels.resources.prepend(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
  const posts=get('substack-sidebar');posts.classList.add('dashboard-posts');panels.resources.append(posts);
  const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='The Gathering Hall';instructor.querySelector('.study-help').textContent='Instructor Corner · Host a live classroom or distance review.';
  const footer=node('div',null,'dashboard-footer');footer.append(instructor,setup.querySelector('.sponsor-banner'));

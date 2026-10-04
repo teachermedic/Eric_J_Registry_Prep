@@ -1,0 +1,1469 @@
+[
+  {
+    "slug": "mitochondria-heart-failure",
+    "title": "Mitochondria → Heart Failure",
+    "subtitle": "How cellular energy connects to a struggling heart.",
+    "intro": "Follow energy from a heart muscle cell to organ function and patient findings. This is one contributing pathway: heart failure also involves pressure, structure, valves, and other causes.",
+    "case": "A patient with a history of heart failure becomes breathless walking across the room and reports needing extra pillows to sleep. Use the trail to connect the findings to physiology.",
+    "caution": "Heart failure can occur with reduced or preserved ejection fraction. Symptoms do not identify mitochondrial dysfunction in an individual patient.",
+    "sketch": "<svg class=\"trail-sketch\" viewBox=\"0 0 530 200\" role=\"img\" aria-label=\"Sketch connecting mitochondria, heart function, and patient findings\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><ellipse cx=\"123\" cy=\"91\" rx=\"84\" ry=\"46\" transform=\"rotate(-12 123 91)\"/><path d=\"M65 103Q66 74 79 76Q90 77 87 103Q89 117 101 99Q110 78 109 65Q123 49 127 82Q131 115 144 111Q154 107 151 71Q158 52 168 70Q176 82 177 92Q183 101 187 77\"/><path d=\"M215 90h45m-9-7 9 7-9 7\"/><path d=\"M298 76c-26-33-63 12 5 58 66-52 24-87-5-58Z\"/><path d=\"M349 91h38m-9-7 9 7-9 7\"/><path d=\"M431 64v30m0-8c-44-45-45 54-23 54 18 0 23-9 23-25m0-29c44-45 45 54 23 54-18 0-23-9-23-25\"/><text x=\"122\" y=\"176\">Mitochondria</text><text x=\"301\" y=\"176\">Heart function</text><text x=\"431\" y=\"176\">Patient findings</text><text x=\"242\" y=\"44\" class=\"note\">contributes to</text><text x=\"377\" y=\"44\" class=\"note\">connect to</text></g></svg>",
+    "sources": [
+      {
+        "label": "JCI · Mitochondrial dysfunction in heart failure",
+        "url": "https://www.jci.org/articles/view/120849",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "NHLBI · Heart failure overview",
+        "url": "https://www.nhlbi.nih.gov/health/heart-failure",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "NHLBI · Heart failure causes",
+        "url": "https://www.nhlbi.nih.gov/health/heart-failure/causes",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "NHLBI · Heart failure symptoms",
+        "url": "https://www.nhlbi.nih.gov/health/heart-failure/symptoms",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "Acute heart failure: differential diagnosis and treatment (2023)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10132568/",
+        "kind": "Peer-reviewed clinical review"
+      },
+      {
+        "label": "Nitrates as a Treatment of Acute Heart Failure (2017)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5490950/",
+        "kind": "Peer-reviewed treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Mitochondria",
+        "lead": "Meet the cell’s energy machinery.",
+        "levels": {
+          "emt": "Mitochondria are structures inside cells that help turn nutrients and oxygen into usable energy.",
+          "aemt": "Heart muscle works continuously, so its cells contain many mitochondria.",
+          "paramedic": "Oxidative metabolism supplies most cardiac ATP. Mitochondria also participate in calcium regulation and cellular signaling."
+        },
+        "question": "Why do heart muscle cells need a steady energy supply?",
+        "answers": [
+          "They continuously contract and relax.",
+          "They only work during exercise.",
+          "They store all energy for later."
+        ],
+        "correct": 0,
+        "feedback": "A beating heart repeatedly spends energy, even at rest.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "ATP",
+        "lead": "Energy supports both squeeze and release.",
+        "levels": {
+          "emt": "ATP is usable cellular energy. Heart muscle needs it to contract and relax.",
+          "aemt": "Energy also powers pumps that move calcium, helping each heartbeat reset.",
+          "paramedic": "ATP supports cross-bridge cycling and calcium reuptake into the sarcoplasmic reticulum; relaxation requires energy too."
+        },
+        "question": "Which part of a heartbeat needs energy?",
+        "answers": [
+          "Only contraction.",
+          "Both contraction and relaxation.",
+          "Only a fast heartbeat."
+        ],
+        "correct": 1,
+        "feedback": "Relaxation is an active process, not just stopping contraction.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "Cellular stress",
+        "lead": "Energy is part of a larger system.",
+        "levels": {
+          "emt": "Disrupted cellular energy can contribute to heart muscle that pumps or fills poorly.",
+          "aemt": "Energy supply, calcium handling, and oxidative stress can become disrupted together.",
+          "paramedic": "Mitochondrial dysfunction can promote maladaptive signaling and cell injury. Heart failure is more complex than simply running out of ATP."
+        },
+        "question": "Does mitochondrial dysfunction explain every case of heart failure?",
+        "answers": [
+          "Yes, it is the only cause.",
+          "Yes, symptoms prove it.",
+          "No, it is one contributing mechanism."
+        ],
+        "correct": 2,
+        "feedback": "A useful connection is not a universal explanation.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "Heart function",
+        "lead": "A problem with pumping, filling, or both.",
+        "levels": {
+          "emt": "A heart may be too weak to pump well or too stiff to fill properly.",
+          "aemt": "Heart failure can involve impaired contraction or impaired filling, even when ejection fraction is preserved.",
+          "paramedic": "Reduced ejection fraction and preserved ejection fraction describe different patterns; both can involve elevated filling pressures and inadequate effective circulation."
+        },
+        "question": "Can a patient have heart failure with preserved ejection fraction?",
+        "answers": [
+          "Yes, filling dysfunction can still matter.",
+          "No, all heart failure requires a low value.",
+          "Only when the heart stops."
+        ],
+        "correct": 0,
+        "feedback": "A preserved proportion ejected does not guarantee normal filling or pressures.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Two branches",
+        "lead": "Think flow AND pressure.",
+        "levels": {
+          "emt": "Reduced effective circulation can contribute to fatigue. Fluid congestion can make breathing difficult.",
+          "aemt": "Left-sided congestion can raise pressure in the lung circulation, while systemic congestion can cause swelling.",
+          "paramedic": "Elevated pulmonary venous pressure can favor fluid movement into lung tissue. Congestion and reduced forward flow may coexist."
+        },
+        "question": "Which branch helps explain breathlessness with lung congestion?",
+        "answers": [
+          "More mitochondrial size.",
+          "Elevated pressure and fluid accumulation.",
+          "A normal heart stopping briefly."
+        ],
+        "correct": 1,
+        "feedback": "Trace congestion through pressures, rather than assuming all symptoms come from low output.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Patient findings",
+        "lead": "Bring the science back to assessment.",
+        "levels": {
+          "emt": "Heart failure can cause breathlessness, trouble lying flat, or swelling. Assess breathing and perfusion and arrange care.",
+          "aemt": "Compare breathing effort, oxygenation, perfusion, and changes over time. Look for other possible causes.",
+          "paramedic": "Integrate the clinical picture rather than assigning a molecular cause from symptoms. Assess oxygenation, ventilation, perfusion, and reassessment trends."
+        },
+        "question": "Do extra pillows and breathlessness establish the cellular cause?",
+        "answers": [
+          "Yes, they prove an ATP deficiency.",
+          "Yes, no further assessment is needed.",
+          "No, they guide assessment but do not establish the cause."
+        ],
+        "correct": 2,
+        "feedback": "Patient findings support a differential; they do not reveal mitochondrial function.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      }
+    ],
+    "emtStops": [
+      1,
+      3,
+      6
+    ],
+    "treatment": {
+      "emt": "Recognize breathlessness, difficulty lying flat, and possible poor perfusion. Support ABCs, provide indicated oxygen and protocol-authorized care, and arrange transport. Symptoms do not reveal mitochondrial function.",
+      "aemt": "Connect impaired pumping or filling to congestion and circulation. Reassess breathing effort, oxygenation, and perfusion after support. Positive-pressure support can help selected patients but requires attention to blood pressure and contraindications.",
+      "paramedic": "Prehospital: distinguish hypertensive pulmonary edema from hypotensive pump failure. CPAP can recruit lung units and reduce left-ventricular transmural pressure, improving oxygenation and reducing afterload. It also reduces venous return; reassess for hypotension and inadequate perfusion. Protocol-directed nitrates can reduce cardiac loading in appropriately selected patients, but vasodilation may worsen an already preload-dependent or hypotensive circulation.\nDefinitive care: acute congestion may involve fluid redistribution as well as excess total volume. Diuresis is appropriate when volume overload contributes, with monitoring of kidney function and electrolytes. Treat ischemia, dysrhythmia, or other triggers when present. Oxygenation, respiratory effort, blood pressure, mental status, and treatment response should guide repeated assessment. A patient with pulmonary edema and shock needs a different strategy from one with severe hypertension. These therapies improve loading conditions and organ perfusion; they are not direct evidence that mitochondrial ATP production has recovered."
+    },
+    "advanced": {
+      "question": "Why can CPAP help pulmonary edema yet worsen a hypotensive circulation?",
+      "answers": [
+        "It can reduce LV afterload but also reduce venous return.",
+        "It always increases both preload and arterial pressure.",
+        "It directly repairs mitochondrial DNA."
+      ],
+      "correct": 0,
+      "feedback": "Positive intrathoracic pressure changes cardiac loading in two directions. Reassess oxygenation and perfusion rather than assuming respiratory improvement guarantees hemodynamic tolerance."
+    },
+    "treatmentRefs": [
+      5,
+      6
+    ]
+  },
+  {
+    "slug": "airway-resistance-asthma",
+    "title": "Airway Resistance → Asthma",
+    "subtitle": "From a narrowing airway to the work of breathing.",
+    "intro": "Follow airway narrowing into airflow limitation and the patient’s breathing effort. The goal is to explain what you assess, not to diagnose asthma from a single sound.",
+    "case": "A patient with asthma is struggling to speak in full sentences. During reassessment, wheezing becomes quieter but the patient becomes drowsier. Has the patient improved?",
+    "caution": "Less wheezing can mean improvement or dangerously reduced airflow. Interpret sounds alongside air movement, effort, speech, oxygenation, and mental status.",
+    "sketch": "<svg class=\"trail-sketch\" viewBox=\"0 0 530 200\" role=\"img\" aria-label=\"Sketch comparing open and narrowed airways\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"115\" cy=\"91\" r=\"53\"/><circle cx=\"115\" cy=\"91\" r=\"36\"/><path d=\"M181 91h56m-9-7 9 7-9 7\"/><circle cx=\"304\" cy=\"91\" r=\"53\"/><path d=\"M304 70c25-9 28 27 8 38-25 8-37-23-8-38Z\"/><path d=\"M363 91h34m-9-7 9 7-9 7\"/><path d=\"M429 60v41m0-19c-37-34-35 55-17 55 12 0 17-11 17-24m0-31c37-34 35 55 17 55-12 0-17-11-17-24\"/><text x=\"115\" y=\"176\">Open airway</text><text x=\"304\" y=\"176\">Narrowed airway</text><text x=\"431\" y=\"176\">Breathing effort</text></g></svg>",
+    "sources": [
+      {
+        "label": "NHLBI · What is asthma?",
+        "url": "https://www.nhlbi.nih.gov/health/asthma",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "NHLBI · Asthma attacks",
+        "url": "https://www.nhlbi.nih.gov/health/asthma/attacks",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "NHLBI · Asthma symptoms",
+        "url": "https://www.nhlbi.nih.gov/health/asthma/symptoms",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "GINA · 2026 strategy report",
+        "url": "https://ginasthma.org/wp-content/uploads/2026/05/GINA-2026-Strategy-Report-WMS.pdf",
+        "kind": "International clinical strategy report (2026)"
+      },
+      {
+        "label": "Corticosteroids in the treatment of acute asthma (2014)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4166064/",
+        "kind": "Peer-reviewed treatment review"
+      },
+      {
+        "label": "Critical Care Management of Severe Asthma Exacerbations (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10856115/",
+        "kind": "Peer-reviewed physiology and treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "The airway",
+        "lead": "A pathway for moving air.",
+        "levels": {
+          "emt": "Air travels through tubes in the lungs. Open airways allow air to move in and out.",
+          "aemt": "Asthma affects the conducting airways; narrowing can interfere particularly with breathing out.",
+          "paramedic": "Airflow limitation in asthma reflects changes in airway caliber, with variability over time."
+        },
+        "question": "What does an airway primarily provide?",
+        "answers": [
+          "A route for air movement.",
+          "A place to produce insulin.",
+          "A direct measure of cardiac output."
+        ],
+        "correct": 0,
+        "feedback": "The tube must remain open enough for air movement.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Narrowing",
+        "lead": "More than one change can shrink the space.",
+        "levels": {
+          "emt": "During an attack, airway tightening and swelling make it harder to move air.",
+          "aemt": "Inflammation, airway muscle contraction, and mucus can contribute to obstruction.",
+          "paramedic": "Bronchoconstriction, mucosal edema, and secretions can act together; a bronchodilator addresses muscle constriction rather than every mechanism."
+        },
+        "question": "Which combination can narrow airways?",
+        "answers": [
+          "Only a fast heart rate.",
+          "Tightening, swelling, and mucus.",
+          "Only low blood glucose."
+        ],
+        "correct": 1,
+        "feedback": "Asthma obstruction is not always a single change.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Resistance",
+        "lead": "A smaller passage makes airflow harder.",
+        "levels": {
+          "emt": "Narrowed airways resist airflow, so breathing requires more effort.",
+          "aemt": "Greater resistance means more pressure is needed to move air through the narrowed passage.",
+          "paramedic": "Airflow limitation increases respiratory workload. A simple tube analogy helps, but real airways are branching and dynamically changing."
+        },
+        "question": "What happens when an airway narrows?",
+        "answers": [
+          "Breathing always becomes effortless.",
+          "Air can only move faster.",
+          "Moving air generally requires more effort."
+        ],
+        "correct": 2,
+        "feedback": "Follow the physical obstruction to the work needed to breathe.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Exhalation",
+        "lead": "Getting air out can become difficult.",
+        "levels": {
+          "emt": "A patient may have trouble breathing out and may wheeze.",
+          "aemt": "Obstruction can prolong exhalation; the patient may not empty the lungs fully before the next breath.",
+          "paramedic": "Expiratory airflow limitation can cause gas trapping. Consider expiratory time and ventilation as well as oxygen saturation."
+        },
+        "question": "Why does the outward part of a breath matter?",
+        "answers": [
+          "Obstruction can limit lung emptying.",
+          "It never changes in asthma.",
+          "Oxygen saturation measures it completely."
+        ],
+        "correct": 0,
+        "feedback": "Breathing assessment includes how air leaves the lungs.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Patient findings",
+        "lead": "Listen to more than the wheeze.",
+        "levels": {
+          "emt": "Look for breathing effort, limited speech, and difficulty breathing, not just a wheezing sound.",
+          "aemt": "Assess air movement and mental status alongside respiratory rate and oxygenation.",
+          "paramedic": "Drowsiness, confusion, or a silent chest can indicate a life-threatening exacerbation. Wheeze intensity alone does not grade severity."
+        },
+        "question": "Which finding is especially concerning?",
+        "answers": [
+          "A quieter room.",
+          "Drowsiness with very poor air movement.",
+          "A history of asthma without symptoms."
+        ],
+        "correct": 1,
+        "feedback": "Reduced airflow and altered mental status require urgent attention.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Reassessment",
+        "lead": "Quiet is not automatically better.",
+        "levels": {
+          "emt": "Quieter wheezing with worsening alertness is concerning, not reassuring.",
+          "aemt": "Compare the whole assessment before and after care; worsening effort or air movement changes the interpretation.",
+          "paramedic": "Evaluate the trajectory of ventilation and fatigue. A quieter chest with deteriorating mental status may reflect worsening airflow."
+        },
+        "question": "In the opening case, what does quieter wheezing prove?",
+        "answers": [
+          "Complete recovery.",
+          "That assessment can stop.",
+          "Nothing by itself; worsening drowsiness is concerning."
+        ],
+        "correct": 2,
+        "feedback": "Interpret the sound in context and reassess the patient.",
+        "refs": [
+          4
+        ]
+      }
+    ],
+    "emtStops": [
+      1,
+      3,
+      6
+    ],
+    "treatment": {
+      "emt": "Recognize increased work of breathing, prolonged exhalation, and worsening ability to speak. Support ABCs, assist with authorized bronchodilator care, and reassess. Very little air movement in a distressed patient can indicate severe obstruction.",
+      "aemt": "Bronchospasm, swelling, and mucus can all narrow airways. A bronchodilator relaxes smooth muscle but does not rapidly reverse every cause of narrowing. Reassess air movement, work of breathing, and mental status; follow escalation protocols.",
+      "paramedic": "Prehospital: an inhaled beta-2 agonist increases signaling that relaxes airway smooth muscle; ipratropium addresses a different bronchoconstrictor pathway in selected acute care. Systemic corticosteroids reduce inflammatory activity over hours, rather than acting as an immediate substitute for bronchodilation. Selected severe exacerbations may warrant protocol-directed magnesium or other escalation.\nVentilation: severe obstruction slows exhalation. Assisted breaths delivered before adequate emptying can increase dynamic hyperinflation and intrinsic PEEP. Rising intrathoracic pressure can reduce venous return and worsen hypotension. When ventilation is required, allow sufficient expiratory time and reassess chest movement, pressure, ventilation, oxygenation, and hemodynamics under local protocols. A quieter chest in an exhausted patient may mean falling airflow rather than recovery. Hospital care continues treatment of inflammation and obstruction and evaluates complications. Match the intervention to the mechanism and the trajectory, not wheeze loudness alone."
+    },
+    "advanced": {
+      "question": "An obstructed patient develops hypotension during rapid assisted ventilation. What mechanism should be considered?",
+      "answers": [
+        "Incomplete exhalation and dynamic hyperinflation can reduce venous return.",
+        "Rapid breaths always eliminate air trapping.",
+        "A quieter chest always proves bronchodilation."
+      ],
+      "correct": 0,
+      "feedback": "Severe obstruction delays emptying. Air trapping can increase intrathoracic pressure and impair filling; reassess ventilation timing and the full clinical picture."
+    },
+    "treatmentRefs": [
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "slug": "insulin-ketoacidosis",
+    "title": "Insulin → Diabetic Ketoacidosis",
+    "subtitle": "Two connected branches: ketones and water loss.",
+    "intro": "Connect insufficient insulin action to excess ketones and dehydration. Follow both branches to understand why blood glucose alone does not explain the whole emergency.",
+    "case": "A patient with diabetes has vomiting, thirst, frequent urination, and unusually deep breathing. A glucose reading is one clue; which other mechanisms could explain the presentation?",
+    "caution": "DKA can occur without markedly elevated glucose, including with SGLT2 inhibitor use. Confirmation requires ketone and acid-base assessment, not a glucose reading alone.",
+    "sketch": "<svg class=\"trail-sketch\" viewBox=\"0 0 530 200\" role=\"img\" aria-label=\"Sketch showing ketones and water loss as two branches\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"91\" cy=\"70\" r=\"13\"/><circle cx=\"124\" cy=\"105\" r=\"13\"/><path d=\"m104 82 10 11 M145 91h67 M212 91v-32h62 M212 91v42h62\"/><path d=\"m267 52 8 7-8 7m0 60 8 7-8 7\"/><path d=\"M315 43v29m-14-14h29 M392 124c-29-5-37 28-14 32 25 5 20-23 32-22 13 7 28-14 6-22-13-6-20 7-24 12Z\"/><text x=\"103\" y=\"176\">Insulin action</text><text x=\"355\" y=\"48\">Ketones / acid</text><text x=\"355\" y=\"93\">Glucose / water loss</text></g></svg>",
+    "sources": [
+      {
+        "label": "NIDDK · Diabetes symptoms and causes",
+        "url": "https://www.niddk.nih.gov/health-information/diabetes/overview/symptoms-causes",
+        "kind": "Official clinical overview"
+      },
+      {
+        "label": "CDC · Diabetic ketoacidosis",
+        "url": "https://www.cdc.gov/diabetes/about/diabetic-ketoacidosis.html",
+        "kind": "Clinical reference"
+      },
+      {
+        "label": "ADA/EASD and partner societies · 2024 consensus report",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+        "kind": "Peer-reviewed clinical consensus (2024)"
+      },
+      {
+        "label": "Effects of diabetic ketoacidosis in the respiratory system (2019)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6347653/",
+        "kind": "Peer-reviewed physiology review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Insulin",
+        "lead": "A signal that helps regulate fuel use.",
+        "levels": {
+          "emt": "Insulin helps the body use glucose and regulates how fuel is handled.",
+          "aemt": "Insulin supports glucose uptake in muscle and fat and helps restrain excess glucose production.",
+          "paramedic": "Insulin regulates substrate use; its actions extend beyond glucose entry into insulin-sensitive tissues."
+        },
+        "question": "Is insulin only relevant to a number on the meter?",
+        "answers": [
+          "No, it regulates how the body handles fuel.",
+          "Yes, it has no other effects.",
+          "Yes, it only changes thirst."
+        ],
+        "correct": 0,
+        "feedback": "Start with the hormone’s function, not just the measurement.",
+        "refs": [
+          3
+        ]
+      },
+      {
+        "title": "Insufficient action",
+        "lead": "The fuel balance shifts.",
+        "levels": {
+          "emt": "Too little effective insulin can lead to high blood glucose and increased fat use.",
+          "aemt": "Illness or interrupted insulin delivery can precipitate this imbalance.",
+          "paramedic": "Insulin deficiency and increased counterregulatory hormones promote hepatic glucose production and lipolysis."
+        },
+        "question": "Which situation can help trigger DKA?",
+        "answers": [
+          "A normal insulin response.",
+          "Illness or interrupted insulin delivery.",
+          "Normal digestion alone."
+        ],
+        "correct": 1,
+        "feedback": "Ask about illness, medications, and insulin delivery.",
+        "refs": [
+          3
+        ]
+      },
+      {
+        "title": "Ketones",
+        "lead": "Follow the acid branch.",
+        "levels": {
+          "emt": "Too little insulin can lead to ketone acids and high glucose with water loss: diabetic ketoacidosis.",
+          "aemt": "Ketone production links the fuel problem to metabolic acidosis.",
+          "paramedic": "Hepatic ketogenesis increases; ketonemia and metabolic acidosis distinguish DKA from uncomplicated hyperglycemia."
+        },
+        "question": "What connects fat breakdown to DKA’s acid problem?",
+        "answers": [
+          "Loss of wheezing.",
+          "Normal airway resistance.",
+          "Excess ketone production."
+        ],
+        "correct": 2,
+        "feedback": "Ketoacidosis involves ketones and acid-base disturbance.",
+        "refs": [
+          3
+        ]
+      },
+      {
+        "title": "Water loss",
+        "lead": "Follow the glucose branch.",
+        "levels": {
+          "emt": "High blood glucose can cause glucose and water loss in urine, contributing to dehydration.",
+          "aemt": "Frequent urination and thirst can reflect this water loss.",
+          "paramedic": "Glycosuria causes osmotic diuresis with water and electrolyte losses; serum potassium may not reflect total-body stores."
+        },
+        "question": "How can high glucose contribute to dehydration?",
+        "answers": [
+          "Glucose in urine promotes water loss.",
+          "Glucose always prevents urination.",
+          "It closes the airway."
+        ],
+        "correct": 0,
+        "feedback": "Trace glucose through the kidney to fluid loss.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Patient findings",
+        "lead": "Both branches reach the bedside.",
+        "levels": {
+          "emt": "Vomiting, thirst, and fast, deep breathing can occur in DKA.",
+          "aemt": "Deep breathing can be a response to metabolic acidosis; assess it in the whole clinical picture.",
+          "paramedic": "Respiratory compensation increases carbon dioxide elimination. Acidosis and volume depletion can coexist."
+        },
+        "question": "Why might a patient with DKA breathe deeply?",
+        "answers": [
+          "It proves asthma.",
+          "It can help compensate for metabolic acidosis.",
+          "It means the glucose must be normal."
+        ],
+        "correct": 1,
+        "feedback": "Do not automatically label every breathing change as a primary lung problem.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Reasoning",
+        "lead": "A meter reading is one part of the story.",
+        "levels": {
+          "emt": "DKA may cause dehydration, vomiting, and deep rapid breathing. Support ABCs and arrange urgent care.",
+          "aemt": "Consider the history and patient findings; laboratory assessment establishes ketones and acid-base status.",
+          "paramedic": "Euglycemic DKA is possible. Diagnosis requires the appropriate diabetes/glucose context plus ketosis and metabolic acidosis."
+        },
+        "question": "Does a glucose reading alone confirm or exclude DKA?",
+        "answers": [
+          "Yes, it explains all symptoms.",
+          "Yes, ketones never matter.",
+          "No, ketosis and acid-base status also matter."
+        ],
+        "correct": 2,
+        "feedback": "Follow both branches instead of stopping at the glucose value.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      }
+    ],
+    "emtStops": [
+      1,
+      3,
+      6
+    ],
+    "treatment": {
+      "emt": "Consider a diabetic emergency when dehydration, vomiting, altered mental status, or deep rapid breathing occurs. Check glucose if authorized, support ABCs, and arrange urgent evaluation. A field glucose value alone does not confirm DKA.",
+      "aemt": "Glucose-related osmotic diuresis lowers circulating volume, while ketone acids drive compensatory breathing. Protocol-directed fluids may support perfusion; reassess. Insulin and electrolyte decisions require authorized protocols and laboratory-informed care.",
+      "paramedic": "Prehospital: assess perfusion, mental status, glucose, breathing, and the potential trigger. Fluid supports circulation compromised by osmotic diuresis. Deep rapid breathing may be compensation for metabolic acidosis; if ventilatory support becomes necessary, avoid unintentionally removing that compensation and worsening acidemia. Reassess after each intervention.\nDefinitive care: insulin suppresses ketone production as well as lowering glucose. A patient can still need insulin after glucose improves; hospital teams may add dextrose so insulin can continue while ketoacidosis resolves. Total-body potassium is often depleted even if the initial serum value is normal or elevated. Insulin shifts potassium into cells, so potassium assessment and replacement planning are essential, and severe hypokalemia changes insulin timing. Fluid, insulin, and electrolyte therapy require coordinated monitoring rather than independent treatment of one number. Pediatric protocols and risks differ. Treat the precipitating illness and use laboratory criteria to judge resolution; neither lower glucose nor slower breathing alone establishes that the metabolic problem is resolved."
+    },
+    "advanced": {
+      "question": "Why may hospital teams add dextrose while continuing insulin after glucose falls in DKA?",
+      "answers": [
+        "Insulin may still be needed to stop ketogenesis while dextrose prevents hypoglycemia.",
+        "Glucose improvement always means ketoacidosis is gone.",
+        "Dextrose itself removes all ketone acids."
+      ],
+      "correct": 0,
+      "feedback": "Glucose and ketoacidosis resolve on different trajectories. Insulin treatment and electrolyte monitoring continue according to laboratory-guided care."
+    },
+    "treatmentRefs": [
+      3,
+      4
+    ]
+  },
+  {
+    "slug": "endoplasmic-reticulum-heart-injury",
+    "title": "Endoplasmic Reticulum → Ischemic Heart Injury",
+    "subtitle": "From protein folding and calcium storage to an ischemic heart.",
+    "intro": "The endoplasmic reticulum (ER) helps maintain proteins and calcium inside heart cells. Ischemia can overwhelm that system. ER stress is one contributor to cell injury, not a bedside diagnosis or the sole cause of an infarction.",
+    "case": "A patient has new chest pressure, sweating, and nausea. Their symptoms began at rest. Connect possible coronary ischemia to cellular stress while prioritizing the time-sensitive assessment.",
+    "caution": "An unfolded protein response can protect a stressed cell. Much of the ER-specific causal evidence comes from experimental models. No symptom or field ECG measures ER stress; a normal initial ECG does not exclude ACS.",
+    "sources": [
+      {
+        "label": "ER Protein Quality Control and the Unfolded Protein Response in the Heart (2019)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6459409/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Endoplasmic reticulum stress serves an important role in cardiac ischemia/reperfusion injury (2020)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7664614/",
+        "kind": "Peer-reviewed review; substantial experimental evidence"
+      },
+      {
+        "label": "The unfolded protein response in ischemic heart disease",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7043020/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "2025 ACC/AHA/ACEP/NAEMSP/SCAI Acute Coronary Syndromes Guideline",
+        "url": "https://doi.org/10.1016/j.jacc.2024.11.009",
+        "kind": "Peer-reviewed clinical guideline"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Fold proteins; store calcium",
+        "lead": "Fold proteins; store calcium",
+        "levels": {
+          "emt": "The ER helps fold proteins and store calcium, which heart cells need to work.",
+          "aemt": "Rough ER processes many membrane and secreted proteins. The specialized smooth ER in muscle, the sarcoplasmic reticulum, stores calcium for contraction.",
+          "paramedic": "ER quality control retains misfolded proteins. Calcium within the ER supports folding enzymes; disturbance can couple defective protein processing to impaired excitation–contraction handling."
+        },
+        "question": "Which pair of jobs belongs to the ER?",
+        "answers": [
+          "Protein processing and calcium storage.",
+          "Filtering blood outside the cell.",
+          "Making every heartbeat without energy."
+        ],
+        "correct": 0,
+        "feedback": "Protein quality and calcium handling both help a heart cell function.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "Ischemia changes the environment",
+        "lead": "Ischemia changes the environment",
+        "levels": {
+          "emt": "Too little blood flow deprives heart cells of oxygen and nutrients.",
+          "aemt": "When coronary flow falls, ATP production declines. Energy-dependent ion transport becomes harder, and the ER environment becomes less favorable for protein folding.",
+          "paramedic": "Ischemia disturbs ATP-dependent calcium transport, redox balance, and protein folding. These changes activate stress pathways alongside mitochondrial and membrane injury; the pathways interact rather than occur in isolation."
+        },
+        "question": "Why can ischemia strain ER function?",
+        "answers": [
+          "It disrupts energy and the environment needed for folding.",
+          "It adds unlimited ATP.",
+          "It removes the need for calcium handling."
+        ],
+        "correct": 0,
+        "feedback": "Loss of adequate perfusion can upset several connected cellular systems.",
+        "refs": [
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Stress can become injury",
+        "lead": "Stress can become injury",
+        "levels": {
+          "emt": "Low blood flow can overwhelm the ER’s protective response and contribute to heart-cell injury.",
+          "aemt": "The unfolded protein response initially reduces workload and increases repair capacity. If stress persists, that adaptation may fail and cell injury can follow.",
+          "paramedic": "PERK, IRE1, and ATF6 coordinate an adaptive unfolded protein response. Persistent activation can favor pro-death signaling, including CHOP-associated pathways; a protective response is not automatically evidence of irreversible damage."
+        },
+        "question": "Is ER stress always immediately destructive?",
+        "answers": [
+          "No. An early response can protect the cell.",
+          "Yes. Every stressed cell dies.",
+          "No. It can never contribute to injury."
+        ],
+        "correct": 0,
+        "feedback": "Duration and severity help determine whether adaptation succeeds.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Injury impairs the heart",
+        "lead": "Injury impairs the heart",
+        "levels": {
+          "emt": "Injured heart muscle may contract poorly.",
+          "aemt": "Damaged myocardium can impair pumping, and disrupted ion handling can increase electrical instability. Infarction reflects cell death after sustained ischemic injury.",
+          "paramedic": "The amount and location of injured myocardium influence ventricular function, conduction, and filling pressures. Reperfusion may add oxidative and calcium stress, but restoring coronary flow remains essential to salvage threatened muscle."
+        },
+        "question": "Does reperfusion injury mean coronary flow should stay blocked?",
+        "answers": [
+          "No. Timely reperfusion remains essential.",
+          "Yes. Continued ischemia protects the heart.",
+          "Yes. ER stress replaces ACS care."
+        ],
+        "correct": 0,
+        "feedback": "A mechanism of additional injury does not cancel the benefit of restoring perfusion.",
+        "refs": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Find the time-sensitive pattern",
+        "lead": "Find the time-sensitive pattern",
+        "levels": {
+          "emt": "Chest pressure, sweating, nausea, or breathlessness can signal a serious cardiac problem.",
+          "aemt": "Assess symptom onset, perfusion, oxygenation, and associated findings. Presentations vary; unexplained dyspnea or weakness can also accompany ACS.",
+          "paramedic": "Acquire and repeat ECGs when indicated, examine for shock or heart failure, and use the clinical pattern to guide destination and notification. Symptoms cannot identify which organelle is injured."
+        },
+        "question": "What should guide field decisions?",
+        "answers": [
+          "Symptoms, ECG, perfusion, and the evolving clinical picture.",
+          "A guess about the patient's ER proteins.",
+          "The assumption that all chest pain is infarction."
+        ],
+        "correct": 0,
+        "feedback": "Treat a time-sensitive syndrome while maintaining a differential.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Patient findings → urgent care",
+        "lead": "Patient findings → urgent care",
+        "levels": {
+          "emt": "Heart-cell injury may show as chest pressure, sweating, or breathlessness. Support ABCs and arrange prompt evaluation.",
+          "aemt": "Support oxygenation and circulation, obtain appropriate access and monitoring within scope, and expedite assessment for ACS. Reassess after each intervention.",
+          "paramedic": "Treatment targets the coronary supply–demand problem and complications. Distinguish restoring flow from relieving pain; symptom improvement alone does not establish that the artery is open."
+        },
+        "question": "Does pain relief prove coronary reperfusion?",
+        "answers": [
+          "No. Symptom relief and restored blood flow are different.",
+          "Yes. Pain is a direct flow meter.",
+          "Yes. Further ECG assessment is unnecessary."
+        ],
+        "correct": 0,
+        "feedback": "A patient can feel better while coronary ischemia continues.",
+        "refs": [
+          4
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Assess ABCs, perfusion, symptom onset, and vital signs. Use oxygen for hypoxemia and assist with approved care under local protocols. Arrange prompt transport and reassess; the molecular explanation should not delay ACS care.",
+      "aemt": "Connect reduced coronary flow to oxygen delivery and contractile dysfunction. Monitoring and vascular access support recognition and treatment of complications, but do not reopen an artery. Follow local ACS protocols and watch for hypotension or evolving heart failure.",
+      "paramedic": "Prehospital: prioritize ECG interpretation, serial reassessment, and rapid access to a reperfusion pathway. Aspirin reduces platelet activation in appropriate patients; it does not directly repair the ER. Nitrates can reduce venous return and myocardial workload, but falling preload may worsen hypotension or right-ventricular infarction; assess blood pressure, the clinical pattern, and contraindications such as recent PDE5-inhibitor use. Oxygen corrects hypoxemia; routine oxygen in a normoxemic patient adds no established benefit. Relief of pain or ST changes must be interpreted alongside perfusion and ongoing ischemia.\nDefinitive care: PCI, or selected fibrinolysis when indicated, restores coronary supply and limits further cell loss. Experimental ER-targeted treatments are not routine ACS rescue therapy. Reassess ECG, respiratory status, blood pressure, rhythm, and symptoms after interventions. The practical goal is myocardial salvage and stable circulation, not normalization of an unmeasurable field ER-stress signal."
+    },
+    "treatmentRefs": [
+      4
+    ],
+    "advanced": {
+      "question": "A suspected right-ventricular infarction patient becomes hypotensive after a nitrate. What mechanism matters?",
+      "answers": [
+        "Reduced venous return can lower filling and cardiac output.",
+        "Nitrates always increase ventricular filling.",
+        "Pain relief proves the coronary artery is open."
+      ],
+      "correct": 0,
+      "feedback": "A preload-sensitive circulation may deteriorate when venous return falls. Reassess perfusion and follow the ACS protocol; symptom relief is not proof of reperfusion."
+    }
+  },
+  {
+    "slug": "lysosomes-pancreatitis",
+    "title": "Lysosomes → Acute Pancreatitis",
+    "subtitle": "When cellular recycling and digestive enzymes lose their separation.",
+    "intro": "Lysosomes break down and recycle material. In pancreatic acinar cells, disturbed recycling and enzyme handling can contribute to inflammation and injury. This is a research-supported pathway within a disease with several causes.",
+    "case": "A patient has severe persistent upper-abdominal pain and repeated vomiting. They appear dehydrated and their pulse is fast. Consider pancreatitis among other urgent abdominal causes.",
+    "caution": "Abdominal pain cannot identify lysosomal dysfunction. Gallstones, alcohol, medications, and other triggers can cause pancreatitis. The detailed lysosome–enzyme sequence draws heavily on experimental work and is not identical in every patient.",
+    "sources": [
+      {
+        "label": "Acute Pancreatitis: A Multifaceted Set of Organelle and Cellular Interactions (2019)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6613790/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Autophagy, Acute Pancreatitis and the Metamorphoses of a Trypsinogen-Activating Organelle (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9406838/",
+        "kind": "Peer-reviewed review; substantial experimental evidence"
+      },
+      {
+        "label": "Autophagy and pancreatitis (2012)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3517664/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "American College of Gastroenterology Guidelines: Management of Acute Pancreatitis (2024)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38857482/",
+        "kind": "Peer-reviewed clinical guideline"
+      },
+      {
+        "label": "Aggressive or Moderate Fluid Resuscitation in Acute Pancreatitis (WATERFALL, 2022)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/36103415/",
+        "kind": "Randomized clinical trial"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Recycle cell material",
+        "lead": "Recycle cell material",
+        "levels": {
+          "emt": "Lysosomes use enzymes to break down worn-out cell material for recycling.",
+          "aemt": "Lysosomes receive cargo from autophagy and other pathways. Their acidic interior allows enzymes to digest material within a separated compartment.",
+          "paramedic": "Autophagic flux requires cargo sequestration, fusion, and effective lysosomal degradation. More autophagic vacuoles can reflect failed clearance rather than successful recycling."
+        },
+        "question": "What do lysosomes normally do?",
+        "answers": [
+          "Break down and recycle material inside the cell.",
+          "Pump blood around the body.",
+          "Deliver oxygen from the lungs."
+        ],
+        "correct": 0,
+        "feedback": "Lysosomes are part of controlled intracellular cleanup.",
+        "refs": [
+          1,
+          3
+        ]
+      },
+      {
+        "title": "Keep digestive enzymes controlled",
+        "lead": "Keep digestive enzymes controlled",
+        "levels": {
+          "emt": "The pancreas makes digestive enzymes that should work mainly in the intestine.",
+          "aemt": "Acinar cells package digestive enzyme precursors for secretion. Compartmental separation and protective mechanisms help prevent enzymes from injuring the pancreas.",
+          "paramedic": "Trypsinogen activation is normally controlled. Abnormal endolysosomal interactions can bring precursors into contact with activating enzymes; cathepsin B is implicated in experimental trypsin activation."
+        },
+        "question": "Why does enzyme location matter?",
+        "answers": [
+          "Premature activation inside the pancreas can injure tissue.",
+          "Digestive enzymes are harmless everywhere.",
+          "All pancreatic enzymes normally digest the acinar cell."
+        ],
+        "correct": 0,
+        "feedback": "Activation and compartmental location both matter.",
+        "refs": [
+          2
+        ]
+      },
+      {
+        "title": "Disrupted recycling → injury",
+        "lead": "Disrupted recycling → injury",
+        "levels": {
+          "emt": "Disrupted recycling and premature enzyme activation can contribute to pancreatic injury and inflammation.",
+          "aemt": "Impaired lysosomal clearance can accompany abnormal enzyme activation, damaged organelles, and acinar-cell injury. These processes can reinforce each other.",
+          "paramedic": "Defective autophagic degradation, disturbed calcium signaling, and mitochondrial dysfunction interact. Trypsin-related pathways contribute, but inflammation and cell death cannot be reduced to a single enzyme or a universal one-way sequence."
+        },
+        "question": "Does one enzyme explain all pancreatitis?",
+        "answers": [
+          "No. Several cellular pathways interact.",
+          "Yes. Every case follows an identical sequence.",
+          "Yes. Other organelles are unaffected."
+        ],
+        "correct": 0,
+        "feedback": "The trail simplifies a network; it does not establish the patient's molecular cause.",
+        "refs": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Local injury becomes inflammation",
+        "lead": "Local injury becomes inflammation",
+        "levels": {
+          "emt": "Inflammation can cause severe pain and swelling.",
+          "aemt": "Local inflammation increases vascular leak and fluid movement out of the circulation. Vomiting and poor intake add to volume loss.",
+          "paramedic": "Inflammatory mediators and endothelial permeability can produce third spacing and reduced effective circulating volume. Severe disease can progress beyond the pancreas to organ dysfunction."
+        },
+        "question": "Why can a patient become hypovolemic without bleeding?",
+        "answers": [
+          "Vomiting and fluid shifting out of the circulation.",
+          "Lysosomes remove all blood cells.",
+          "Abdominal pain always increases circulating volume."
+        ],
+        "correct": 0,
+        "feedback": "Fluid loss and redistribution can both lower effective circulation.",
+        "refs": [
+          1,
+          4
+        ]
+      },
+      {
+        "title": "Assess the whole patient",
+        "lead": "Assess the whole patient",
+        "levels": {
+          "emt": "Upper-abdominal pain and vomiting require an assessment for urgent causes.",
+          "aemt": "Compare mental status, vital signs, tenderness, hydration, and perfusion. Pancreatitis is a differential, not a diagnosis based on pain location alone.",
+          "paramedic": "Watch for shock and respiratory deterioration. Pancreatic inflammation can coexist with sepsis or biliary obstruction; diagnostic confirmation requires hospital evaluation and testing."
+        },
+        "question": "Can upper-abdominal pain alone confirm pancreatitis?",
+        "answers": [
+          "No. Assess other serious causes and arrange evaluation.",
+          "Yes. No testing is needed.",
+          "Yes. It proves a lysosome ruptured."
+        ],
+        "correct": 0,
+        "feedback": "The cellular trail explains plausibility, not diagnostic certainty.",
+        "refs": [
+          4
+        ]
+      },
+      {
+        "title": "Patient findings → supportive care",
+        "lead": "Patient findings → supportive care",
+        "levels": {
+          "emt": "Pancreatic inflammation may cause severe upper-abdominal pain, vomiting, and poor perfusion. Support ABCs and transport.",
+          "aemt": "Fluid support, analgesia, and antiemetic care address consequences within authorized scope. Reassess response instead of assuming every patient needs the same volume.",
+          "paramedic": "Perfusion support must balance hypovolemia against inflammatory leak and overload. Severe pancreatitis needs organ support and cause-directed hospital care, not a field lysosome-repair treatment."
+        },
+        "question": "Why reassess after giving fluid?",
+        "answers": [
+          "Both inadequate perfusion and fluid overload can harm the patient.",
+          "More fluid is always better.",
+          "Fluids permanently stop pancreatic enzyme production."
+        ],
+        "correct": 0,
+        "feedback": "Restore needed perfusion while watching for overload and worsening breathing.",
+        "refs": [
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Assess pain, vomiting, perfusion, and breathing. Support ABCs and transport for evaluation. Repeated reassessment matters because a patient with abdominal pain can develop shock or respiratory difficulty.",
+      "aemt": "Vomiting, poor intake, and vascular leak can lower circulating volume. Give protocol-directed support and reassess blood pressure, mental status, pulse, and lung findings. Analgesia and antiemetic care improve symptoms but do not establish the cause.",
+      "paramedic": "Prehospital: use protocol-directed crystalloid, analgesia, and antiemetic care to support perfusion and reduce distress. The physiological target is effective circulating volume, not simply a fixed number of liters. Capillary leak can move added fluid into interstitial spaces; reassess respiratory findings, perfusion, and treatment response. Shock still requires prompt resuscitation.\nDefinitive care: the ACG guideline favors lactated Ringer’s and a reassessed, moderately aggressive approach. WATERFALL found more fluid overload with aggressive resuscitation without improved outcomes in its studied early-pancreatitis population; it does not establish a reason to withhold needed fluid from a shocked patient. Hospital care determines severity and the trigger, provides nutrition and organ support, and addresses complications. Antibiotics are not routine treatment for sterile pancreatic inflammation or sterile necrosis. Suspected infection or cholangitis changes the plan, and biliary obstruction with cholangitis may require urgent endoscopic treatment. None of these interventions directly demonstrates that lysosomal function has normalized."
+    },
+    "treatmentRefs": [
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "A pancreatitis patient’s perfusion improves after fluid, but breathing worsens. What is the best physiological interpretation?",
+      "answers": [
+        "Reassess for overload or other respiratory complications before automatic additional fluid.",
+        "More fluid is always required until pain stops.",
+        "Worsening breathing proves digestive enzymes are cured."
+      ],
+      "correct": 0,
+      "feedback": "Fluid may improve intravascular perfusion while also aggravating interstitial accumulation. Reassess the whole clinical picture and titrate care to response."
+    }
+  },
+  {
+    "slug": "cell-membrane-rhabdomyolysis",
+    "title": "Cell Membrane → Rhabdomyolysis",
+    "subtitle": "From a muscle cell’s boundary to potassium release and kidney injury.",
+    "intro": "The cell membrane separates the inside of a cell from its surroundings. Muscle-cell injury can disrupt that boundary and release contents into blood, producing rhabdomyolysis and potentially dangerous systemic effects.",
+    "case": "A patient has been immobilized for a prolonged period after a fall. They report painful swollen muscles and weakness. Think about muscle breakdown even if their urine is not dark.",
+    "caution": "The classic combination of muscle pain, weakness, and dark urine is not always present. A normal ECG does not exclude hyperkalemia. Rhabdomyolysis requires laboratory evaluation; symptoms alone cannot quantify potassium or kidney injury.",
+    "sources": [
+      {
+        "label": "Rhabdomyolysis: Pathogenesis, Diagnosis, and Treatment (2015)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4365849/",
+        "kind": "Peer-reviewed mechanism and clinical review"
+      },
+      {
+        "label": "Beyond muscle destruction: a systematic review of rhabdomyolysis for clinical practice (2016)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4908773/",
+        "kind": "Peer-reviewed systematic review"
+      },
+      {
+        "label": "AAST Critical Care Committee Clinical Consensus Document: Rhabdomyolysis (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8804685/",
+        "kind": "Peer-reviewed clinical consensus"
+      },
+      {
+        "label": "Management of hyperkalemia in the acutely ill patient (2019)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6395464/",
+        "kind": "Peer-reviewed treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Maintain a boundary",
+        "lead": "Maintain a boundary",
+        "levels": {
+          "emt": "The cell membrane controls movement between the inside and outside of a muscle cell.",
+          "aemt": "The muscle membrane is called the sarcolemma. Channels and energy-dependent transport maintain different ion concentrations inside and outside.",
+          "paramedic": "Ion gradients support excitability. Na+/K+-ATPase and calcium transport rely directly or indirectly on energy; membrane integrity alone is not enough if transport fails."
+        },
+        "question": "What does a healthy muscle membrane help maintain?",
+        "answers": [
+          "Controlled movement and ion gradients.",
+          "Identical ion concentrations everywhere.",
+          "A direct connection from muscle to the urinary bladder."
+        ],
+        "correct": 0,
+        "feedback": "A membrane plus functioning transport helps keep cellular contents controlled.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "Injury overwhelms control",
+        "lead": "Injury overwhelms control",
+        "levels": {
+          "emt": "Crushing, heat, or prolonged pressure can damage muscle cells.",
+          "aemt": "Direct injury or energy depletion disrupts ion regulation. Calcium can accumulate inside the cell and activate damaging processes.",
+          "paramedic": "Intracellular calcium overload activates proteases and phospholipases, increasing membrane and organelle injury. Sustained contraction and mitochondrial dysfunction can worsen ATP depletion, reinforcing the cycle."
+        },
+        "question": "Why is excess intracellular calcium harmful here?",
+        "answers": [
+          "It can activate processes that damage the cell.",
+          "It always shuts down all damaging enzymes.",
+          "It makes membrane rupture impossible."
+        ],
+        "correct": 0,
+        "feedback": "Calcium overload can amplify injury rather than simply trigger normal contraction.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Membrane failure → muscle breakdown",
+        "lead": "Membrane failure → muscle breakdown",
+        "levels": {
+          "emt": "Damaged muscle cells leak potassium and proteins into blood. This muscle breakdown is called rhabdomyolysis.",
+          "aemt": "Released potassium can alter cardiac conduction. Myoglobin reaches the kidneys, where hypoperfusion and its effects can contribute to acute kidney injury.",
+          "paramedic": "Necrotic muscle releases electrolytes, myoglobin, and CK. Myoglobin-associated tubular injury and obstruction interact with volume depletion; circulating CK helps detect injury but is not itself the main renal toxin."
+        },
+        "question": "What makes muscle breakdown a systemic danger?",
+        "answers": [
+          "Released contents can affect the heart and kidneys.",
+          "It can only cause local soreness.",
+          "Every injured membrane stays completely sealed."
+        ],
+        "correct": 0,
+        "feedback": "The consequences extend beyond the original muscle injury.",
+        "refs": [
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Potassium changes excitability",
+        "lead": "Potassium changes excitability",
+        "levels": {
+          "emt": "Too much potassium in blood can cause dangerous heart rhythms.",
+          "aemt": "Rising extracellular potassium reduces the gradient across excitable-cell membranes. Severe changes can impair normal conduction.",
+          "paramedic": "Progressive depolarization can inactivate fast sodium channels and slow conduction, producing potentially lethal electrical instability. ECG manifestations vary, so a reassuring tracing does not establish a safe serum potassium."
+        },
+        "question": "Does a normal ECG rule out hyperkalemia?",
+        "answers": [
+          "No. ECG sensitivity is limited.",
+          "Yes. ECG is a potassium laboratory test.",
+          "Yes. Potassium cannot change before dark urine appears."
+        ],
+        "correct": 0,
+        "feedback": "Use context, monitoring, and hospital electrolyte measurement together.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Kidney risk and perfusion",
+        "lead": "Kidney risk and perfusion",
+        "levels": {
+          "emt": "Weakness, pain, swelling, or dark urine can follow muscle injury; not everyone has all of them.",
+          "aemt": "Fluid sequestration in injured muscle and poor intake can lower circulating volume. Impaired kidney function can further reduce potassium elimination.",
+          "paramedic": "The combination of ongoing potassium release and reduced renal clearance can rapidly magnify risk. Track perfusion, rhythm, and respiratory findings; clinical assessment cannot replace CK, creatinine, and electrolyte testing."
+        },
+        "question": "Which statement avoids missing the disease?",
+        "answers": [
+          "Consider muscle breakdown even without dark urine.",
+          "Only dark urine justifies concern.",
+          "Muscle pain always excludes kidney injury."
+        ],
+        "correct": 0,
+        "feedback": "The classic symptom triad is incomplete in many patients.",
+        "refs": [
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Patient findings → protect circulation",
+        "lead": "Patient findings → protect circulation",
+        "levels": {
+          "emt": "Muscle breakdown can cause weakness, kidney injury, or dangerous rhythms. Support ABCs and arrange urgent evaluation.",
+          "aemt": "Assess the injury context, perfusion, and rhythm. Fluid and other interventions depend on authorized scope and repeated reassessment.",
+          "paramedic": "Separate three goals: support perfusion, protect the myocardium from hyperkalemia when indicated, and reduce or remove excess potassium. Those actions are not interchangeable."
+        },
+        "question": "Does IV calcium remove excess potassium?",
+        "answers": [
+          "No. It stabilizes cardiac excitability when indicated.",
+          "Yes. It filters potassium through the kidneys.",
+          "Yes. It stops all muscle breakdown."
+        ],
+        "correct": 0,
+        "feedback": "Cardiac protection buys time; shifting and removing potassium are different tasks.",
+        "refs": [
+          3,
+          4
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support ABCs, identify crush injury or prolonged immobilization, assess perfusion, and expedite transport. Do not wait for dark urine. Escalate care for altered mental status, shock, or rhythm concerns.",
+      "aemt": "Protocol-directed fluids may support renal perfusion and circulating volume. Reassess lungs and perfusion; injured muscle can sequester fluid while kidney dysfunction limits excretion. Obtain monitoring and higher-level support as indicated.",
+      "paramedic": "Prehospital: use the injury context and serial ECG assessment to anticipate hyperkalemia, while recognizing that an ECG cannot measure or exclude it. Give protocol-directed isotonic crystalloid to support perfusion, with reassessment for overload, particularly when renal clearance is impaired.\nFor suspected hyperkalemia with appropriate clinical or ECG indications, calcium protects cardiac excitability but does not lower potassium. Insulin with glucose shifts potassium into cells by stimulating cellular uptake; glucose surveillance is essential because hypoglycemia can follow. A beta-2 agonist can also shift potassium, but neither approach removes it from the body. Use only therapies authorized by medical direction and local protocols.\nDefinitive care: repeat electrolytes and renal assessment guide ongoing treatment; selected patients require dialysis for refractory hyperkalemia or other standard indications. Routine bicarbonate or mannitol solely to prevent rhabdomyolysis-associated kidney injury is not supported by the AAST consensus. The clinical target is safe circulation and electrolyte control, not a falsely reassuring improvement in muscle pain."
+    },
+    "treatmentRefs": [
+      3,
+      4
+    ],
+    "advanced": {
+      "question": "The ECG improves after calcium in suspected severe hyperkalemia. What still needs attention?",
+      "answers": [
+        "Potassium shifting/removal, repeat assessment, and the continuing source of potassium.",
+        "Nothing; calcium has removed all potassium.",
+        "Only muscle pain; electrical improvement proves normal kidney function."
+      ],
+      "correct": 0,
+      "feedback": "Calcium protects the myocardium without reducing the potassium burden. Redistribution is temporary, and removal plus management of ongoing injury may still be needed."
+    }
+  },
+  {
+    "slug": "cytoplasm-sepsis",
+    "title": "Cytoplasm & Cytosol → Sepsis",
+    "subtitle": "Connect cellular metabolism, lactate, and failing organ function.",
+    "intro": "Cytoplasm includes the cytosol and structures outside the nucleus. Glycolysis occurs in the cytosol. Sepsis can disrupt metabolism and perfusion, but an elevated lactate is not proof that the cytoplasm has been destroyed.",
+    "case": "A patient with a suspected infection is newly confused, tachypneic, and poorly perfused. Use the pattern to consider sepsis rather than waiting for any single number to confirm it.",
+    "caution": "Lactate can rise through increased production or reduced clearance, with or without severe tissue hypoxia. Sepsis is a clinical syndrome of infection-associated organ dysfunction, not a lactate diagnosis or a direct measure of cellular destruction.",
+    "sources": [
+      {
+        "label": "Sepsis-associated hyperlactatemia (2014)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4421917/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Lactate kinetics in sepsis and septic shock: a review of the literature (2015)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4594907/",
+        "kind": "Peer-reviewed review"
+      },
+      {
+        "label": "Lactate and Lactylation in Sepsis: A Comprehensive Review (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11244620/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock (2026)",
+        "url": "https://doi.org/10.1007/s00134-026-08361-1",
+        "kind": "Peer-reviewed clinical guideline"
+      },
+      {
+        "label": "2026 guideline recommendations and evidence ratings",
+        "url": "https://sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026",
+        "kind": "Official guideline companion"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Metabolism in the cytosol",
+        "lead": "Metabolism in the cytosol",
+        "levels": {
+          "emt": "The cytosol is fluid inside the cell where glycolysis begins breaking down glucose for energy.",
+          "aemt": "Cytoplasm includes cytosol and organelles outside the nucleus. Glycolysis in cytosol produces pyruvate; subsequent metabolism depends on cellular conditions.",
+          "paramedic": "Lactate dehydrogenase interconverts pyruvate and lactate while coupling NADH/NAD+ balance. Lactate production is compatible with oxygen availability and can participate in normal fuel exchange."
+        },
+        "question": "Where does glycolysis occur?",
+        "answers": [
+          "In the cytosol, part of the cytoplasm.",
+          "Only outside cells.",
+          "Only inside the nucleus."
+        ],
+        "correct": 0,
+        "feedback": "Cytosol and cytoplasm are related terms, not exact synonyms.",
+        "refs": [
+          1,
+          3
+        ]
+      },
+      {
+        "title": "Infection provokes a systemic response",
+        "lead": "Infection provokes a systemic response",
+        "levels": {
+          "emt": "Infection can trigger a harmful body-wide response.",
+          "aemt": "In sepsis, a dysregulated host response can impair organs. Vascular tone, permeability, and microcirculatory flow may all change.",
+          "paramedic": "Inflammatory and endothelial dysfunction interact with altered cellular energetics. Macrohemodynamic improvement does not guarantee uniform restoration of microvascular flow or oxygen use."
+        },
+        "question": "What makes sepsis more than an uncomplicated infection?",
+        "answers": [
+          "Infection-associated organ dysfunction from a dysregulated response.",
+          "Any fever alone.",
+          "A mandatory destruction of every cytoplasmic structure."
+        ],
+        "correct": 0,
+        "feedback": "Organ dysfunction and the clinical context matter.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Stress changes metabolism and perfusion",
+        "lead": "Stress changes metabolism and perfusion",
+        "levels": {
+          "emt": "Sepsis can disrupt circulation and cell metabolism, contributing to organ dysfunction.",
+          "aemt": "Lactate may rise from impaired oxygen delivery, accelerated glycolysis during stress, or reduced clearance. An elevated value does not prove one mechanism.",
+          "paramedic": "Catecholamine-driven aerobic glycolysis can increase lactate production, while liver dysfunction can reduce clearance. Interpret lactate alongside perfusion and trajectory rather than equating every elevation with anaerobic cell death."
+        },
+        "question": "Does high lactate always prove oxygen-starved cells?",
+        "answers": [
+          "No. Production and clearance have several determinants.",
+          "Yes. It is a direct organelle-destruction measurement.",
+          "Yes. Adrenergic stress cannot affect lactate."
+        ],
+        "correct": 0,
+        "feedback": "Lactate is useful context, not a unique molecular explanation.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Circulatory dysfunction",
+        "lead": "Circulatory dysfunction",
+        "levels": {
+          "emt": "Low pressure or uneven flow can reduce delivery to organs.",
+          "aemt": "Vasodilation and vascular leak may lower effective filling and arterial pressure. Some patients also develop myocardial dysfunction.",
+          "paramedic": "Reduced vascular resistance, altered venous return, and cardiac dysfunction can coexist. A restored arterial pressure is a useful target but does not, by itself, confirm adequate tissue-level perfusion."
+        },
+        "question": "Why might fluid alone fail to restore circulation?",
+        "answers": [
+          "Vasodilation or cardiac dysfunction may persist.",
+          "Fluids always correct every mechanism.",
+          "Only cytoplasmic volume determines blood pressure."
+        ],
+        "correct": 0,
+        "feedback": "Different mechanisms require different support and repeated assessment.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Look for organ dysfunction",
+        "lead": "Look for organ dysfunction",
+        "levels": {
+          "emt": "New confusion, fast breathing, and poor perfusion during infection are concerning.",
+          "aemt": "Assess respiratory status, mental status, circulation, temperature, and the suspected source. Older or immunocompromised patients may not have a high fever.",
+          "paramedic": "Integrate the history with trends in vital signs, capillary refill, mental status, and available testing. No isolated screening score or lactate result should replace clinical assessment."
+        },
+        "question": "Which finding matters even without fever?",
+        "answers": [
+          "New confusion or poor perfusion with suspected infection.",
+          "Only a normal temperature.",
+          "Only the appearance of the skin without vital signs."
+        ],
+        "correct": 0,
+        "feedback": "Sepsis can present without a classic high fever.",
+        "refs": [
+          4,
+          5
+        ]
+      },
+      {
+        "title": "Patient findings → restore perfusion",
+        "lead": "Patient findings → restore perfusion",
+        "levels": {
+          "emt": "Infection with new confusion, fast breathing, or poor perfusion needs urgent assessment, support, and transport.",
+          "aemt": "Support oxygenation and protocol-directed circulation care. Communicate the suspected infection and organ dysfunction early to the receiving team.",
+          "paramedic": "Treat the physiology and the infection together. Reassess fluid response and consider authorized vasopressor support for persistent hypotension; hospital antibiotics and source control address the trigger."
+        },
+        "question": "Should fluid continue automatically until lactate is normal?",
+        "answers": [
+          "No. Reassess perfusion and response; avoid chasing lactate alone.",
+          "Yes. Lactate is the only treatment target.",
+          "Yes. More fluid cannot cause harm."
+        ],
+        "correct": 0,
+        "feedback": "Lactate trends belong alongside clinical perfusion and fluid responsiveness.",
+        "refs": [
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support ABCs, identify suspected infection plus new organ dysfunction, and arrange prompt transport. Reassess mental status, breathing, and perfusion, and provide an early receiving-team report.",
+      "aemt": "Vascular leak and vasodilation can compromise effective circulation. Use protocol-directed fluids and reassess their effect rather than treating tachycardia alone. Support oxygenation and monitor for worsening respiratory findings.",
+      "paramedic": "Prehospital: assess likely infection, organ dysfunction, and hemodynamic response. Crystalloid can improve filling and venous return, but capillary leak or cardiac dysfunction can limit benefit and increase congestion. Reassess after fluid using perfusion findings and authorized response measures. Persistent hypotension may require protocol-directed vasopressor support; unstable shock may require concurrent support rather than prolonged fluid-only treatment.\nNorepinephrine generally restores pressure by increasing vascular tone, but pressure recovery does not guarantee normal microcirculation. Interpret lactate trends with mental status, capillary refill, urine output when available, and respiratory status. Do not repeatedly add fluid solely to normalize lactate.\nDefinitive care: timely antimicrobials and source control address the infection; give antimicrobials in the field only where specifically authorized. The 2026 guideline generally recommends norepinephrine first line, with individualized choices for concomitant cardiac dysfunction. Continued management balances perfusion, oxygen delivery, organ function, and adverse effects. There is no routine EMS therapy that directly measures or repairs cytosolic metabolism."
+    },
+    "treatmentRefs": [
+      1,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Pressure improves after treatment, but lactate remains elevated. What follows?",
+      "answers": [
+        "Reassess perfusion, production/clearance, and fluid response before more treatment.",
+        "Give fluid until lactate normalizes regardless of lung findings.",
+        "Assume every cell is irreversibly destroyed."
+      ],
+      "correct": 0,
+      "feedback": "A persistent lactate elevation can have several mechanisms. Pressure and lactate are useful signals, but neither replaces a repeated whole-patient assessment."
+    }
+  },
+  {
+    "slug": "golgi-cystic-fibrosis",
+    "title": "Golgi Apparatus → Cystic Fibrosis",
+    "subtitle": "Follow protein processing and delivery to an airway ion channel.",
+    "intro": "The Golgi modifies and sorts proteins for delivery. CFTR follows a route from the ER through the Golgi to the cell surface. In cystic fibrosis, variant-dependent folding, trafficking, or channel-function defects disrupt that system; this is not simply destruction of the Golgi.",
+    "case": "A patient with known cystic fibrosis has increasing cough, breathlessness, and lower oxygen saturation than usual. Connect the chronic channel problem to airway disease while considering an acute exacerbation or another complication.",
+    "caution": "Cystic fibrosis has several CFTR defect classes. Some proteins are retained in the ER, others reach the membrane but function poorly. The Golgi is a waypoint in the pathway, not the universal primary site of disease.",
+    "sources": [
+      {
+        "label": "From the endoplasmic reticulum to the plasma membrane: mechanisms of CFTR folding and trafficking",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11107782/",
+        "kind": "Peer-reviewed trafficking review"
+      },
+      {
+        "label": "Distribution and Role of CFTR Protein in Intracellular Compartments (2021)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8618639/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Golgi Apparatus Regulates Plasma Membrane Composition and Function (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8834378/",
+        "kind": "Peer-reviewed cell-biology review"
+      },
+      {
+        "label": "Elexacaftor–Tezacaftor–Ivacaftor for Cystic Fibrosis with a Single Phe508del Allele (2019)",
+        "url": "https://doi.org/10.1056/NEJMoa1908639",
+        "kind": "Randomized clinical trial; genotype-specific"
+      },
+      {
+        "label": "Acute pulmonary exacerbation in cystic fibrosis",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7528649/",
+        "kind": "Peer-reviewed clinical review"
+      },
+      {
+        "label": "Treatment of pulmonary exacerbations in cystic fibrosis",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9487366/",
+        "kind": "Peer-reviewed treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Modify and sort proteins",
+        "lead": "Modify and sort proteins",
+        "levels": {
+          "emt": "The Golgi modifies and sorts proteins so they can reach the right place in a cell.",
+          "aemt": "Proteins travel from the ER to the Golgi for further processing, sorting, and delivery. This includes proteins destined for the cell membrane.",
+          "paramedic": "Golgi processing changes glycans and helps route cargo through the trans-Golgi network. Protein delivery involves coordinated vesicular transport, not a single independent organelle."
+        },
+        "question": "What is a normal Golgi job?",
+        "answers": [
+          "Modify, sort, and route proteins.",
+          "Replace every cell membrane with mucus.",
+          "Generate the patient's entire oxygen supply."
+        ],
+        "correct": 0,
+        "feedback": "The Golgi helps deliver cellular cargo to useful destinations.",
+        "refs": [
+          1,
+          3
+        ]
+      },
+      {
+        "title": "CFTR travels to the surface",
+        "lead": "CFTR travels to the surface",
+        "levels": {
+          "emt": "CFTR is a channel protein that needs to reach the cell surface to do its job.",
+          "aemt": "Properly folded CFTR leaves ER quality control, passes through the Golgi, and is delivered to the membrane. Some variants disrupt this route.",
+          "paramedic": "For folding-defective variants such as Phe508del, ER retention and degradation can greatly reduce delivery. Other variants alter gating or conductance after surface delivery; trafficking failure is not universal."
+        },
+        "question": "Is every CFTR defect a Golgi defect?",
+        "answers": [
+          "No. Folding, delivery, or channel function can be affected.",
+          "Yes. All variants destroy the Golgi.",
+          "Yes. CFTR never passes through the ER."
+        ],
+        "correct": 0,
+        "feedback": "A shared transport pathway does not mean all variants disrupt the same step.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Channel defects → poor clearance",
+        "lead": "Channel defects → poor clearance",
+        "levels": {
+          "emt": "CFTR defects disturb salt and water movement, making airway mucus harder to clear.",
+          "aemt": "Abnormal chloride and bicarbonate transport alters airway surface conditions. Impaired mucus clearance helps promote infection and inflammation.",
+          "paramedic": "Reduced CFTR function changes airway hydration and bicarbonate-dependent mucus properties. Clearance failure and inflammation reinforce each other; the airway disease is more than mucus quantity alone."
+        },
+        "question": "How can a channel defect affect breathing?",
+        "answers": [
+          "It changes airway surface conditions and mucus clearance.",
+          "It directly removes all lung air sacs at birth.",
+          "It only changes the color of the Golgi."
+        ],
+        "correct": 0,
+        "feedback": "Surface transport links a molecular defect to airway defense.",
+        "refs": [
+          2,
+          5
+        ]
+      },
+      {
+        "title": "Obstruction and infection",
+        "lead": "Obstruction and infection",
+        "levels": {
+          "emt": "Retained secretions can contribute to airway obstruction and recurrent infection.",
+          "aemt": "Mucus retention, infection, and inflammation can worsen airway function and contribute to structural damage over time.",
+          "paramedic": "Chronic infection and inflammatory injury can produce bronchiectasis and heterogeneous ventilation. An exacerbation may increase airway obstruction and gas-exchange impairment on top of chronic disease."
+        },
+        "question": "What can make an exacerbation physiologically serious?",
+        "answers": [
+          "Worsened ventilation and gas exchange on top of chronic disease.",
+          "A change in protein names alone.",
+          "A guarantee that all symptoms are harmless mucus."
+        ],
+        "correct": 0,
+        "feedback": "Acute deterioration should be assessed against the patient's baseline.",
+        "refs": [
+          5,
+          6
+        ]
+      },
+      {
+        "title": "Compare with baseline",
+        "lead": "Compare with baseline",
+        "levels": {
+          "emt": "More cough, breathlessness, or low oxygen compared with usual needs assessment.",
+          "aemt": "Ask about usual oxygenation, current therapies, sputum changes, fever, chest pain, and hemoptysis. Do not assume all deterioration is an uncomplicated exacerbation.",
+          "paramedic": "Assess ventilation, oxygenation, and perfusion. Sudden pleuritic pain or marked deterioration raises concern for complications such as pneumothorax; substantial hemoptysis also changes urgency and airway risk."
+        },
+        "question": "Why ask about the patient's baseline?",
+        "answers": [
+          "Chronic findings may differ from a new dangerous change.",
+          "Baseline makes vital signs unnecessary.",
+          "Known CF rules out other acute problems."
+        ],
+        "correct": 0,
+        "feedback": "Trend and context help distinguish chronic disease from acute deterioration.",
+        "refs": [
+          5,
+          6
+        ]
+      },
+      {
+        "title": "Patient findings → support gas exchange",
+        "lead": "Patient findings → support gas exchange",
+        "levels": {
+          "emt": "CF airway disease can cause worsening cough and breathlessness. Support breathing and arrange evaluation for acute deterioration.",
+          "aemt": "Support oxygenation and ventilation within scope, communicate the baseline and new changes, and arrange appropriate transport. Chronic specialty therapy is not a field rescue substitute.",
+          "paramedic": "Treat acute respiratory failure and complications while specialists evaluate the exacerbation. CFTR modulators address selected underlying defects over time, not an immediate episode of respiratory distress."
+        },
+        "question": "Are CFTR modulators an immediate EMS rescue treatment?",
+        "answers": [
+          "No. They are genotype-dependent chronic specialist therapies.",
+          "Yes. They replace ventilation support in a crisis.",
+          "Yes. They work identically for every CFTR variant."
+        ],
+        "correct": 0,
+        "feedback": "Disease-modifying therapy and immediate respiratory support serve different time scales.",
+        "refs": [
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Assess ABCs and the change from baseline. Provide indicated oxygen and ventilation support under protocol, and transport for evaluation. New major hemoptysis, sudden chest pain, or severe distress requires urgent escalation.",
+      "aemt": "Relate obstruction and uneven ventilation to worsening gas exchange. Support oxygenation and ventilation within scope and reassess work of breathing, mental status, and saturation. Bronchodilator use depends on the clinical picture and local protocol.",
+      "paramedic": "Prehospital: support oxygenation and ventilation according to severity and protocol while assessing for exacerbation, pneumothorax, major hemoptysis, or other causes. Obstruction and secretion burden can create uneven ventilation; reassess breathing effort, oxygenation, mental status, and response. A bronchodilator may address coexisting bronchospasm, but it does not correct CFTR trafficking or clear every obstructed airway.\nDefinitive care: specialist-directed airway clearance and antimicrobial treatment address retained secretions and infection, with selection informed by the patient's prior organisms and current illness. Complications can require a different urgent plan.\nLong-term physiology: in eligible patients, CFTR correctors such as elexacaftor and tezacaftor improve processing and delivery of some defective proteins, while ivacaftor improves channel gating. The 2019 trial demonstrated benefit in its specified Phe508del population; it does not establish identical benefit for every genotype. These therapies help address the upstream defect over time. They do not replace acute respiratory support or prove that a patient's Golgi is structurally repaired."
+    },
+    "treatmentRefs": [
+      4,
+      5,
+      6
+    ],
+    "advanced": {
+      "question": "Why combine a CFTR corrector with a potentiator in eligible patients?",
+      "answers": [
+        "Delivery of usable protein and channel opening are different problems.",
+        "Both are immediate oxygen-replacement therapies.",
+        "Both work by destroying the Golgi."
+      ],
+      "correct": 0,
+      "feedback": "A corrector can improve processing/trafficking of susceptible variants; a potentiator improves channel activity. Eligibility depends on the variant and specialist guidance."
+    }
+  }
+]
