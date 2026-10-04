@@ -25,8 +25,19 @@ def sketch(t):
         'cytoplasm-sepsis': '<ellipse cx="101" cy="82" rx="60" ry="47"/><circle cx="83" cy="75" r="15"/><path d="m119 66 10-5 10 5v12l-10 5-10-5Zm-8 41h29m-20-9 9 9-9 9"/><circle cx="62" cy="103" r="2"/><circle cx="99" cy="113" r="2"/>',
         'golgi-cystic-fibrosis': '<path d="M50 57q50-20 100 0M55 72q45-20 90 0M61 87q39-20 78 0M68 102q32-20 64 0"/><circle cx="157" cy="77" r="6"/><circle cx="148" cy="104" r="5"/><circle cx="45" cy="105" r="5"/>'
     }
-    short = {'endoplasmic-reticulum-heart-injury':'ER','lysosomes-pancreatitis':'Lysosome','cell-membrane-rhabdomyolysis':'Membrane','cytoplasm-sepsis':'Cytoplasm','golgi-cystic-fibrosis':'Golgi'}[t['slug']]
-    return f'''<svg class="trail-sketch" viewBox="0 0 530 185" role="img" aria-label="Concept sketch: {esc(short)} connects through dysfunction to patient findings"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{shapes[t['slug']]}<path d="M174 82h48m-9-7 9 7-9 7"/><path d="M259 50h53v66h-53zm9 14h35m-35 13h35m-35 13h25"/><path d="M330 82h47m-9-7 9 7-9 7"/><circle cx="426" cy="53" r="16"/><path d="M426 69v49m0-31-24 15m24-15 24 15m-24 16-18 17m18-17 18 17"/><text x="101" y="165">{short}</text><text x="286" y="165">Dysfunction</text><text x="427" y="165">Patient findings</text></g></svg>'''
+    shapes.update({
+        'neuron':'<circle cx="87" cy="83" r="22"/><circle cx="87" cy="83" r="6"/><path d="M65 83H49l-12-17m12 17-12 17m41-38-9-22m9 22 14-24m9 67-2 25m22-47h31l14-15m-14 15 14 15"/>',
+        'mast':'<circle cx="99" cy="82" r="45"/><circle cx="90" cy="78" r="14"/>'+''.join(f'<circle cx="{x}" cy="{y}" r="3"/>' for x,y in [(70,64),(73,95),(100,110),(119,96),(117,64),(99,48),(137,70),(153,67),(155,98)]),
+        'receptor':'<path d="M44 86h41m28 0h43M44 104h112m-71-18V65l14 12 14-12v21m-28 0v28h28V86"/><path d="m89 47 10-12 10 12-10 12Z"/>',
+        'glucose':'<path d="m73 55 52 0 24 40-24 35H73L49 95Zm76 40h13m-37 35 8 13M73 55l-8-13"/><text x="99" y="101">Glucose</text>',
+        'hemoglobin':'<ellipse cx="99" cy="83" rx="58" ry="37"/><ellipse cx="99" cy="83" rx="27" ry="14"/><circle cx="57" cy="40" r="7"/><circle cx="143" cy="40" r="7"/><path d="m66 44 9 9m59-9-9 9"/>',
+        'vessel':'<path d="M43 62h37l22 18h55M43 100h37l22-18h55M82 62l15-22h59m-53 40 16 26h38"/><path d="M123 76q7-9 16 0l-4 12-12-3Z"/>',
+        'alveoli':'<path d="M94 38v30m12-30v30m-6-2-21 18m21-18 21 18"/><circle cx="69" cy="95" r="21"/><circle cx="104" cy="110" r="21"/><circle cx="135" cy="93" r="21"/><path d="M47 121q47 25 110 0"/>'
+    })
+    labels = {'endoplasmic-reticulum-heart-injury':'ER','lysosomes-pancreatitis':'Lysosome','cell-membrane-rhabdomyolysis':'Membrane','cytoplasm-sepsis':'Cytoplasm','golgi-cystic-fibrosis':'Golgi'}
+    short = t.get('sketchLabel',labels.get(t['slug'],'Cell function'))
+    drawing = shapes[t.get('sketchKind',t['slug'])]
+    return f'''<svg class="trail-sketch" viewBox="0 0 530 185" role="img" aria-label="Concept sketch: {esc(short)} connects through dysfunction to patient findings"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{drawing}<path d="M174 82h48m-9-7 9 7-9 7"/><path d="M259 50h53v66h-53zm9 14h35m-35 13h35m-35 13h25"/><path d="M330 82h47m-9-7 9 7-9 7"/><circle cx="426" cy="53" r="16"/><path d="M426 69v49m0-31-24 15m24-15 24 15m-24 16-18 17m18-17 18 17"/><text x="101" y="165">{esc(short)}</text><text x="286" y="165">Dysfunction</text><text x="427" y="165">Patient findings</text></g></svg>'''
 def render(t):
     out = head(t['title'].replace('→','and'), t['subtitle']+' EMT recognition, AEMT mechanisms, and Paramedic treatment physiology.', t['slug'])
     out += f'''<a class="trail-back" href="connection-trails.html">All Connection Trails</a><p class="eyebrow">From cell to patient</p><h1>{esc(t['title'])}</h1><p class="trail-lead">{esc(t['subtitle'])}</p><p>{esc(t['intro'])}</p>{sketch(t)}
@@ -37,13 +48,16 @@ def render(t):
         out += f'<li><a href="#step={i}"><span class="stone-number">{i}</span><span class="stone-label" data-full-label="{esc(s["title"])}">{esc(s["title"])}</span></a></li>'
     out += '</ol></nav><div id="trail-steps">'
     for i,s in enumerate(t['steps'],1):
-        out += f'<article class="trail-step challenge-card" id="stone-{i}" data-step="{i}"><p class="eyebrow">Stepping stone {i} of 6</p><h2 tabindex="-1">{esc(s["title"])}</h2><p class="trail-lead">{esc(s["lead"])}</p>'
+        out += f'<article class="trail-step challenge-card" id="stone-{i}" data-step="{i}"><p class="eyebrow"><span class="stone-reading-position">Stepping stone {i} of 6</span><span class="stone-print-position" hidden>Stepping stone {i} of 6</span></p><h2 tabindex="-1">{esc(s["title"])}</h2><p class="trail-lead">{esc(s["lead"])}</p>'
         for level,label in LEVELS.items():
             out += f'<div class="trail-depth" data-level="{level}"><h3>{label}</h3><p>{esc(s["levels"][level])}</p></div>'
         out += f'<p class="help">{citations(s["refs"])}</p>' + check(s,'basic')
         if i==6:
             out += check(t['advanced'],'paramedic')
-        out += f'<details class="trail-explanation"><summary>Explain the connection</summary><p>{esc(s["feedback"])}</p></details></article>\n'
+        out += f'<details class="trail-explanation"><summary>Explain the connection</summary><p data-explanation-level="basic">{esc(s["feedback"])}</p>'
+        if i==6:
+            out += f'<p data-explanation-level="paramedic" hidden>{esc(t["advanced"]["feedback"])}</p>'
+        out += '</details></article>\n'
     out += '</div><nav class="trail-paging" aria-label="Trail navigation" hidden><button id="trail-prev" type="button">← Previous stone</button><p id="trail-position" role="status"></p><button id="trail-next" type="button">Next stone →</button></nav><p id="trail-check-status" class="help" role="status" hidden></p>'
     out += '<section class="trail-treatment field-note"><h2>Treatment: connect the why</h2><p class="help">Prehospital actions require authorization. Definitive and long-term care are included to explain physiology, not to expand field scope.</p>'
     for level,label in LEVELS.items():
@@ -60,12 +74,17 @@ def main():
         assert all(set(s['levels']) == set(LEVELS) for s in t['steps'])
         (ROOT/(t['slug']+'.html')).write_text(render(t))
     hub = head('The Connection Trails: Science to Patient','Sourced EMS learning trails from cell function to disease, with EMT, AEMT, and Paramedic physiology and treatment views.','connection-trails')
-    hub += '<p class="eyebrow">From cell to patient</p><h1>The Connection Trails</h1><p class="trail-lead">Follow the why.</p><p>Start with a cell’s job. Follow what changes. Meet the patient at the end of the trail.</p><p>EMT gives you a straight three-stop path. AEMT adds the mechanism. Paramedic explores deeper physiology, treatment tradeoffs, and reassessment.</p>'
-    for title,group in [('Inside the cell',[t for t in trails if t['slug'] not in ['airway-resistance-asthma','insulin-ketoacidosis']]),('Beyond the cell',[t for t in trails if t['slug'] in ['airway-resistance-asthma','insulin-ketoacidosis']])]:
-        hub += f'<h2>{title}</h2><div class="trail-library">'
+    hub += '<p class="eyebrow">From cell to patient</p><h1>The Connection Trails</h1><p class="trail-lead">Follow the why.</p><p>Start with normal function. Follow what changes. Meet the patient at the end of the trail.</p><p>EMT gives you a straight three-stop path. AEMT adds the mechanism. Paramedic explores deeper physiology, treatment tradeoffs, and reassessment.</p>'
+    hub += '<div class="trail-controls" id="trail-library-controls" hidden><label for="trail-complaint">Find a trail by chief complaint<select id="trail-complaint">'
+    for value,label in [('all','All trails'),('dyspnea','Breathlessness'),('altered-mental-status','Altered mental status'),('neurological-deficit','Sudden neurological changes'),('chest-discomfort','Chest discomfort'),('syncope','Fainting / near-fainting'),('allergic-reaction','Allergic reaction'),('toxic-exposure','Possible toxic exposure'),('abdominal-pain','Abdominal pain'),('muscle-pain','Muscle pain / weakness')]:
+        hub += f'<option value="{value}">{label}</option>'
+    hub += '</select></label><p id="trail-library-count" role="status"></p></div><p class="help">Complaint tags help you explore possible mechanisms. They are not a diagnostic checklist or a ranking of likely causes.</p>'
+    for title in ['Inside the cell','Beyond the cell','From physiology to field calls']:
+        group=[t for t in trails if t['group']==title]
+        hub += f'<section class="trail-library-group"><h2>{title}</h2><div class="trail-library">'
         for t in group:
-            hub += f'<a class="trail-cover" href="{t["slug"]}.html">{sketch(t)}<span class="eyebrow">EMT: 3 stops · AEMT &amp; Paramedic: 6</span><h3>{esc(t["title"])}</h3><p>{esc(t["subtitle"])}</p><span class="trail-open">Follow this trail →</span></a>'
-        hub += '</div>'
+            hub += f'<a class="trail-cover" data-complaints="{esc(" ".join(t["complaints"]))}" href="{t["slug"]}.html">{sketch(t)}<span class="eyebrow">EMT: 3 stops · AEMT &amp; Paramedic: 6</span><h3>{esc(t["title"])}</h3><p>{esc(t["subtitle"])}</p><span class="trail-open">Follow this trail →</span></a>'
+        hub += '</div></section>'
     hub += '<section class="field-note"><h2>A little science. A clearer assessment.</h2><p>Every trail includes a patient scene, three learning depths, reasoning checks, treatment physiology, and linked evidence. Reviews explain mechanisms; clinical guidelines and trials support treatment reasoning.</p><p class="help">Not every disease is caused by destruction of its featured organelle. Some trails follow dysfunction or protein trafficking. Learning depth does not define permission to perform care.</p></section></main><script src="connection-trails.js"></script></body></html>\n'
     (ROOT/'connection-trails.html').write_text(hub)
 if __name__ == '__main__':
