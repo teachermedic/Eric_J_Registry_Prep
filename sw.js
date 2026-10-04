@@ -1,7 +1,12 @@
-const CACHE_NAME = 'field-notes-study-tools-v27';
+const CACHE_NAME = 'field-notes-study-tools-v28';
 const assets = [
   './connection-trails.html',
   './mitochondria-heart-failure.html',
+  './endoplasmic-reticulum-heart-injury.html',
+  './lysosomes-pancreatitis.html',
+  './cell-membrane-rhabdomyolysis.html',
+  './cytoplasm-sepsis.html',
+  './golgi-cystic-fibrosis.html',
   './airway-resistance-asthma.html',
   './insulin-ketoacidosis.html',
   './connection-trails.css',
