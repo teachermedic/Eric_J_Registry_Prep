@@ -57,6 +57,7 @@
   else if(href==='study-plan.html')panels['my-progress'].append(t);
   else grid.append(t);
  }
+ grid.append(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
  old.remove();panels.study.append(grid,practiceBox);
  const library=get('study-library'),resume=get('resume-card');
  const scene=node('figure',null,'hearth-scene');const artwork=node('img');artwork.src='hearth-scene.svg';artwork.alt='';artwork.width=960;artwork.height=360;scene.append(artwork,node('figcaption','A quiet place to become field ready.'));panels.today.append(get('ems-study-intro'),scene);
@@ -89,7 +90,6 @@
  const cardDetails=node('details',null,'card-progress-details');cardDetails.append(node('summary','Flashcard progress & exact review lists'),get('card-study-dashboard'));library.append(cardDetails);
  panels['my-progress'].append(library,streak,get('badge-case'),get('progress-backup'));
  panels.resources.append(get('study-resource-tools'));
- panels.resources.prepend(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
  const posts=get('substack-sidebar');posts.classList.add('dashboard-posts');panels.resources.append(posts);
  const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='The Gathering Hall';instructor.querySelector('.study-help').textContent='Instructor Corner · Host a live classroom or distance review.';
  const footer=node('div',null,'dashboard-footer');footer.append(instructor,setup.querySelector('.sponsor-banner'));

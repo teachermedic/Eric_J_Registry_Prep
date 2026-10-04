@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v28';
+const CACHE_NAME = 'field-notes-study-tools-v29';
 const assets = [
   './connection-trails.html',
   './mitochondria-heart-failure.html',
