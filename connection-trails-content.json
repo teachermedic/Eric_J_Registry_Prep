@@ -190,7 +190,12 @@
     "treatmentRefs": [
       5,
       6
-    ]
+    ],
+    "complaints": [
+      "dyspnea",
+      "chest-discomfort"
+    ],
+    "group": "Inside the cell"
   },
   {
     "slug": "airway-resistance-asthma",
@@ -378,7 +383,11 @@
       4,
       5,
       6
-    ]
+    ],
+    "complaints": [
+      "dyspnea"
+    ],
+    "group": "Beyond the cell"
   },
   {
     "slug": "insulin-ketoacidosis",
@@ -561,7 +570,12 @@
     "treatmentRefs": [
       3,
       4
-    ]
+    ],
+    "complaints": [
+      "altered-mental-status",
+      "abdominal-pain"
+    ],
+    "group": "Beyond the cell"
   },
   {
     "slug": "endoplasmic-reticulum-heart-injury",
@@ -735,7 +749,12 @@
       ],
       "correct": 0,
       "feedback": "A preload-sensitive circulation may deteriorate when venous return falls. Reassess perfusion and follow the ACS protocol; symptom relief is not proof of reperfusion."
-    }
+    },
+    "complaints": [
+      "chest-discomfort",
+      "dyspnea"
+    ],
+    "group": "Inside the cell"
   },
   {
     "slug": "lysosomes-pancreatitis",
@@ -916,7 +935,11 @@
       ],
       "correct": 0,
       "feedback": "Fluid may improve intravascular perfusion while also aggravating interstitial accumulation. Reassess the whole clinical picture and titrate care to response."
-    }
+    },
+    "complaints": [
+      "abdominal-pain"
+    ],
+    "group": "Inside the cell"
   },
   {
     "slug": "cell-membrane-rhabdomyolysis",
@@ -1092,7 +1115,11 @@
       ],
       "correct": 0,
       "feedback": "Calcium protects the myocardium without reducing the potassium burden. Redistribution is temporary, and removal plus management of ongoing injury may still be needed."
-    }
+    },
+    "complaints": [
+      "muscle-pain"
+    ],
+    "group": "Inside the cell"
   },
   {
     "slug": "cytoplasm-sepsis",
@@ -1275,7 +1302,12 @@
       ],
       "correct": 0,
       "feedback": "A persistent lactate elevation can have several mechanisms. Pressure and lactate are useful signals, but neither replaces a repeated whole-patient assessment."
-    }
+    },
+    "complaints": [
+      "altered-mental-status",
+      "dyspnea"
+    ],
+    "group": "Inside the cell"
   },
   {
     "slug": "golgi-cystic-fibrosis",
@@ -1464,6 +1496,1363 @@
       ],
       "correct": 0,
       "feedback": "A corrector can improve processing/trafficking of susceptible variants; a potentiator improves channel activity. Eligibility depends on the variant and specialist guidance."
+    },
+    "complaints": [
+      "dyspnea"
+    ],
+    "group": "Inside the cell"
+  },
+  {
+    "slug": "cellular-energy-ischemic-stroke",
+    "title": "Cellular Energy → Ischemic Stroke",
+    "subtitle": "Follow loss of blood flow to disrupted neurons and sudden neurological deficits.",
+    "complaints": [
+      "altered-mental-status",
+      "neurological-deficit"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "neuron",
+    "sketchLabel": "Neuron",
+    "intro": "Brain cells need a continuous energy supply to maintain ion gradients and signaling. An ischemic stroke interrupts that supply. This trail follows one injury pathway; hemorrhagic stroke and stroke mimics require different evaluation and care.",
+    "case": "A patient suddenly has facial asymmetry, arm weakness, and difficulty speaking. Family last saw them at their usual baseline shortly before the symptoms began. Connect the findings to interrupted brain perfusion without delaying stroke assessment.",
+    "caution": "Field findings cannot distinguish ischemic from hemorrhagic stroke with certainty or define the salvageable tissue. Hypoglycemia and other conditions can mimic stroke. Improvement or mild symptoms do not make the initial event unimportant.",
+    "sources": [
+      {
+        "label": "Ionic Regulation of Cell Volume Changes and Cell Death after Ischemic Stroke (2014)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3978072/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "The science of cerebral ischemia and the quest for neuroprotection: navigating past failure to future success",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4652647/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Role of Na+/K+-ATPase in ischemic stroke: in-depth perspectives from physiology to pharmacology (2021)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/34839371/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "2026 AHA/ASA Guideline for the Early Management of Patients With Acute Ischemic Stroke",
+        "url": "https://doi.org/10.1161/STR.0000000000000513",
+        "kind": "Peer-reviewed clinical guideline"
+      },
+      {
+        "label": "2025 update to ESO guideline on blood pressure management in acute ischaemic stroke and intracerebral haemorrhage",
+        "url": "https://academic.oup.com/esj/article/11/5/aakag004/8671384",
+        "kind": "Peer-reviewed clinical guideline"
+      },
+      {
+        "label": "Acute Ischemic Stroke: Acute Management and Selection for Endovascular Therapy (2020)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7224969/",
+        "kind": "Peer-reviewed foundational assessment review; use current guideline for eligibility"
+      },
+      {
+        "label": "Redefining the Cerebral Ischemic Core–Penumbra–Oligemia Continuum (2026)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13296640/",
+        "kind": "Peer-reviewed physiology review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Energy maintains signaling",
+        "lead": "Energy maintains signaling",
+        "levels": {
+          "emt": "Neurons need energy to maintain the ion differences that allow brain signals.",
+          "aemt": "ATP supports sodium–potassium pumping and other transport. These gradients help neurons send signals and regulate cell volume.",
+          "paramedic": "Na+/K+-ATPase maintains electrochemical gradients at substantial energy cost. Signaling, calcium control, and volume regulation depend on that energy-supported homeostasis."
+        },
+        "question": "What does energy help a neuron maintain?",
+        "answers": [
+          "Ion gradients and signaling.",
+          "Unlimited energy storage for days without blood flow.",
+          "Identical ion concentrations inside and outside."
+        ],
+        "correct": 0,
+        "feedback": "Neuronal signaling depends on maintained gradients, not merely the presence of a membrane.",
+        "refs": [
+          1,
+          3
+        ]
+      },
+      {
+        "title": "Blood flow is interrupted",
+        "lead": "Blood flow is interrupted",
+        "levels": {
+          "emt": "A blocked brain artery can reduce delivery of oxygen and glucose.",
+          "aemt": "Reduced perfusion limits substrates needed for ATP production. The effect varies with the obstruction, collateral blood flow, and duration.",
+          "paramedic": "The ischemic core and surrounding threatened tissue have different perfusion and injury states. Collateral circulation and metabolic demand influence the rate at which injury develops."
+        },
+        "question": "Do all affected brain cells become irreversibly injured at the same instant?",
+        "answers": [
+          "Yes. There is never threatened tissue.",
+          "No. Perfusion and tissue states vary.",
+          "Yes. Collateral blood flow cannot matter."
+        ],
+        "correct": 1,
+        "feedback": "The tissue pattern is variable; timely evaluation remains essential.",
+        "refs": [
+          2,
+          7
+        ]
+      },
+      {
+        "title": "Pump failure → cell injury",
+        "lead": "Pump failure → cell injury",
+        "levels": {
+          "emt": "Insufficient energy disrupts neuronal signaling and can injure brain cells.",
+          "aemt": "Failing transport allows ion redistribution and cellular swelling. Abnormal signaling can amplify injury beyond the initial energy shortage.",
+          "paramedic": "Depolarization, excessive glutamate signaling, and calcium entry promote excitotoxic injury. Cytotoxic edema is intracellular swelling; it is not identical to later barrier-leak edema."
+        },
+        "question": "Why does an ATP shortage affect more than energy supply?",
+        "answers": [
+          "It stops every chemical reaction harmlessly.",
+          "It makes neurons independent of blood flow.",
+          "It disrupts ion control, signaling, and cell volume."
+        ],
+        "correct": 2,
+        "feedback": "Energy failure changes several connected processes.",
+        "refs": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Location determines function lost",
+        "lead": "Location determines function lost",
+        "levels": {
+          "emt": "Injury in different brain areas causes different neurological problems.",
+          "aemt": "Weakness, language difficulty, visual changes, or imbalance depend on the affected structures. No single symptom covers every stroke.",
+          "paramedic": "Deficits reflect disrupted neural networks and vascular territories. Posterior-circulation presentations may not fit a simple face–arm–speech pattern; maintain a broader assessment."
+        },
+        "question": "Can a normal face–arm–speech screen exclude every stroke?",
+        "answers": [
+          "No. Other patterns can occur.",
+          "Yes. All strokes affect the same network.",
+          "Yes. Only a headache can occur outside that screen."
+        ],
+        "correct": 0,
+        "feedback": "Screening supports recognition but does not capture every presentation.",
+        "refs": [
+          4,
+          6
+        ]
+      },
+      {
+        "title": "Preserve the timeline",
+        "lead": "Preserve the timeline",
+        "levels": {
+          "emt": "Sudden neurological changes need prompt assessment and an accurate last-known-well time.",
+          "aemt": "Obtain last-known-well, symptoms, glucose when authorized, and relevant medications. Use the local stroke screen and destination pathway.",
+          "paramedic": "Differentiate symptom discovery from last-known-well and communicate both. Stroke severity, suspected large-vessel occlusion, transport time, and local system capabilities shape destination decisions."
+        },
+        "question": "Which time is essential when symptoms are discovered after sleep?",
+        "answers": [
+          "Only the ambulance arrival time.",
+          "The last time the patient was known to be at baseline.",
+          "A guessed time halfway through the night."
+        ],
+        "correct": 1,
+        "feedback": "Do not invent onset; provide the known timeline and uncertainty.",
+        "refs": [
+          4,
+          6
+        ]
+      },
+      {
+        "title": "Patient findings → stroke pathway",
+        "lead": "Patient findings → stroke pathway",
+        "levels": {
+          "emt": "Sudden weakness or speech changes can mean stroke. Support ABCs and activate the local stroke pathway.",
+          "aemt": "Support oxygenation and perfusion, correct documented hypoglycemia within scope, and arrange timely stroke evaluation. Continue reassessment even if deficits improve.",
+          "paramedic": "Care aims to preserve threatened tissue and enable safe reperfusion assessment. Field neurological findings cannot authorize thrombolysis without the required imaging and eligibility evaluation."
+        },
+        "question": "Does symptom improvement cancel the need for urgent stroke evaluation?",
+        "answers": [
+          "Yes. All threatened tissue is proven safe.",
+          "Yes. Improvement excludes a vascular cause.",
+          "No. The event still needs prompt evaluation."
+        ],
+        "correct": 2,
+        "feedback": "Clinical improvement does not reveal the full vascular or tissue state.",
+        "refs": [
+          4,
+          6
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support ABCs, use an approved stroke screen, check glucose if authorized, document last-known-well, and follow the destination and notification pathway. Avoid delays for the science explanation. Reassess symptoms and perfusion.",
+      "aemt": "Connect cerebral blood flow to substrate delivery and neuronal function. Support oxygenation and circulation within scope, treat documented hypoglycemia, and communicate the timeline, medications, and changing deficits. A stroke mimic can coexist with another illness.",
+      "paramedic": "Prehospital: prioritize stroke recognition, last-known-well, serial neurological assessment, glucose, and timely transport to the appropriate facility. Support hypoxemia and avoid hypotension. A high blood pressure is not, by itself, a reason for routine field normalization: impaired autoregulation can make threatened tissue dependent on perfusion pressure. Follow the stroke protocol and medical direction rather than applying a chronic hypertension target.\nDefinitive care: brain and vascular imaging distinguish hemorrhage, occlusion, and treatment eligibility. Selected patients receive intravenous thrombolysis or thrombectomy to restore flow; the benefit must be balanced with bleeding risk and patient-specific criteria. Blood-pressure requirements differ before and after treatment and with competing emergencies. Restoring perfusion may salvage threatened tissue, but it cannot guarantee recovery of already infarcted cells. Reassess neurological status, airway protection, oxygenation, circulation, and the timeline. Do not infer an individual molecular injury stage from a field symptom or a single blood-pressure reading."
+    },
+    "treatmentRefs": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "advanced": {
+      "question": "Why can indiscriminate blood-pressure lowering be risky before stroke imaging?",
+      "answers": [
+        "Threatened ischemic tissue may depend on systemic perfusion pressure, and stroke type is uncertain.",
+        "All elevated pressure is harmless and never needs treatment.",
+        "Lower pressure always increases cerebral oxygen delivery."
+      ],
+      "correct": 0,
+      "feedback": "Maintain perfusion while following the stroke pathway. Imaging, treatment eligibility, and competing conditions determine the appropriate blood-pressure plan."
+    }
+  },
+  {
+    "slug": "mast-cells-anaphylaxis",
+    "title": "Mast Cells → Anaphylaxis",
+    "subtitle": "From mediator release to airway problems and circulatory collapse.",
+    "complaints": [
+      "dyspnea",
+      "allergic-reaction"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "mast",
+    "sketchLabel": "Mast cell",
+    "intro": "Mast cells participate in immune defense. In anaphylaxis, widespread mediator release can rapidly affect airways and circulation. The familiar IgE pathway is one mechanism; not all anaphylaxis follows an identical immune route.",
+    "case": "After a likely allergen exposure, a patient develops throat tightness, wheezing, dizziness, and a spreading itchy rash. Connect the reaction to both breathing and circulatory risk.",
+    "caution": "Anaphylaxis can occur without a rash. A normal early blood pressure does not exclude progression. Different immune mechanisms can produce similar clinical emergencies; field treatment should not await molecular confirmation.",
+    "sources": [
+      {
+        "label": "Mechanisms of mast cell signaling in anaphylaxis (2009)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2788154/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Regulation of vascular permeability in anaphylaxis (2018)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6003654/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Pathophysiological, Cellular, and Molecular Events of the Vascular System in Anaphylaxis (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8965328/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Evidence update for the treatment of anaphylaxis (2021)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8139870/",
+        "kind": "Peer-reviewed evidence review and treatment recommendations"
+      },
+      {
+        "label": "Management of anaphylaxis",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12594539/",
+        "kind": "Peer-reviewed clinical treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Immune cells release mediators",
+        "lead": "Immune cells release mediators",
+        "levels": {
+          "emt": "Mast cells release chemical signals that help coordinate immune responses.",
+          "aemt": "Mast cells store some mediators in granules and synthesize others after activation. Their location near vessels and tissues helps shape the response.",
+          "paramedic": "In a common pathway, allergen cross-linking of receptor-bound IgE initiates signaling and degranulation. Histamine, lipid mediators, and other signals have overlapping but distinct effects."
+        },
+        "question": "What is released when mast cells activate?",
+        "answers": [
+          "A complete replacement for oxygen.",
+          "Chemical mediators.",
+          "Only red blood cells."
+        ],
+        "correct": 1,
+        "feedback": "Immune mediators act on nearby and distant tissues.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "The response becomes systemic",
+        "lead": "The response becomes systemic",
+        "levels": {
+          "emt": "A severe reaction can spread beyond a local itch or swelling.",
+          "aemt": "Mediator effects can involve skin, the airway, breathing, and circulation at the same time. The clinical pattern matters more than identifying one mediator.",
+          "paramedic": "IgE-independent mechanisms can also generate anaphylaxis. Heterogeneous signaling converges on airway and cardiovascular dysfunction; an IgE test is not a prerequisite for emergency treatment."
+        },
+        "question": "Must the exact immune pathway be known before responding?",
+        "answers": [
+          "Yes. Treatment waits for an IgE result.",
+          "Yes. A rash establishes every mechanism.",
+          "No. Recognize the clinical emergency."
+        ],
+        "correct": 2,
+        "feedback": "The syndrome can require treatment before laboratory evidence is available.",
+        "refs": [
+          1,
+          3,
+          5
+        ]
+      },
+      {
+        "title": "Mediator effects → airway and vessel changes",
+        "lead": "Mediator effects → airway and vessel changes",
+        "levels": {
+          "emt": "Anaphylaxis can narrow airways and make vessels dilate and leak, causing breathing difficulty or shock.",
+          "aemt": "Bronchospasm and mucosal swelling threaten airflow. Vasodilation and capillary leak reduce effective circulation through different mechanisms.",
+          "paramedic": "Endothelial barrier changes permit fluid escape while vascular relaxation reduces resistance. These can sharply lower filling and pressure even without external fluid loss."
+        },
+        "question": "Why can anaphylaxis impair circulation without bleeding?",
+        "answers": [
+          "Vasodilation and vascular leakage can reduce effective circulation.",
+          "Histamine replaces all circulating blood.",
+          "Only bronchospasm determines blood pressure."
+        ],
+        "correct": 0,
+        "feedback": "The airway and circulation may both need urgent treatment.",
+        "refs": [
+          2,
+          3
+        ]
+      },
+      {
+        "title": "One drug addresses several mechanisms",
+        "lead": "One drug addresses several mechanisms",
+        "levels": {
+          "emt": "Epinephrine acts on several parts of the reaction.",
+          "aemt": "Alpha effects support vascular tone and reduce mucosal edema; beta effects help cardiac support and bronchodilation.",
+          "paramedic": "Adrenergic receptor effects counter multiple physiological threats. The first-line intramuscular route offers a practical safety–effectiveness balance; IV bolus dosing errors can cause serious harm."
+        },
+        "question": "Why is epinephrine central to anaphylaxis care?",
+        "answers": [
+          "It only reduces itching.",
+          "It addresses multiple airway and circulatory effects.",
+          "It replaces the need to assess breathing."
+        ],
+        "correct": 1,
+        "feedback": "Epinephrine has actions that an antihistamine does not.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "title": "Recognize severity and progression",
+        "lead": "Recognize severity and progression",
+        "levels": {
+          "emt": "Exposure plus breathing difficulty or circulatory problems can indicate anaphylaxis even without a rash.",
+          "aemt": "Assess airway sounds, breathing effort, perfusion, mental status, and exposure history. Reassess because symptoms can evolve quickly.",
+          "paramedic": "Distinguish a limited skin reaction from anaphylaxis while recognizing incomplete presentations. Persistent or recurrent symptoms require further assessment and protocol-directed escalation."
+        },
+        "question": "Can absent hives rule out anaphylaxis?",
+        "answers": [
+          "Yes. Hives are always required.",
+          "Yes. Shock cannot occur without itching.",
+          "No. Serious airway or circulation involvement may occur without them."
+        ],
+        "correct": 2,
+        "feedback": "Skin findings are helpful but not mandatory in every presentation.",
+        "refs": [
+          4,
+          5
+        ]
+      },
+      {
+        "title": "Patient findings → prompt epinephrine",
+        "lead": "Patient findings → prompt epinephrine",
+        "levels": {
+          "emt": "Anaphylaxis may cause airway swelling, wheeze, or shock. Give authorized epinephrine promptly and support ABCs.",
+          "aemt": "Follow the anaphylaxis protocol for epinephrine and supportive care. Reassess breathing and circulation; adjuncts should not delay first-line treatment.",
+          "paramedic": "Separate treatment of the life-threatening physiology from relief of skin symptoms. Refractory reactions can require advanced circulatory support and hospital monitoring."
+        },
+        "question": "Can an antihistamine replace epinephrine for airway obstruction or shock?",
+        "answers": [
+          "No. It does not reverse those threats adequately.",
+          "Yes. Relief of itching guarantees stable circulation.",
+          "Yes. Both drugs act identically."
+        ],
+        "correct": 0,
+        "feedback": "A less itchy patient can still have a life-threatening reaction.",
+        "refs": [
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Recognize the exposure and multisystem pattern, provide authorized intramuscular epinephrine promptly, support ABCs, and arrange transport. Reassess frequently. Do not wait for hives or for low blood pressure to appear.",
+      "aemt": "Treat both breathing and circulation under the anaphylaxis protocol. Vascular leak and vasodilation may require protocol-directed fluid support; bronchospasm may require an adjunct bronchodilator. Neither replaces epinephrine.",
+      "paramedic": "Prehospital: intramuscular epinephrine is first-line treatment for anaphylaxis. Alpha-mediated vasoconstriction counters loss of vascular tone and mucosal swelling; beta effects support the heart and relax airway smooth muscle. Support oxygenation and ventilation when needed, and reassess perfusion, mental status, airway sounds, and breathing after treatment. Crystalloid can support reduced effective circulating volume, but repeated assessment still matters.\nPersistent shock or airway compromise requires protocol-directed escalation and early medical direction. An authorized epinephrine infusion may be needed for refractory physiology with appropriate monitoring; routine unmonitored IV bolus epinephrine is not equivalent to the first-line IM approach. Bronchodilators can supplement care for bronchospasm but cannot correct vascular collapse. Antihistamines chiefly relieve skin symptoms, and current evidence does not support them or corticosteroids as substitutes for epinephrine or reliable prevention of biphasic reactions.\nDefinitive care: continued observation and escalation are individualized to severity and response. Initial improvement does not establish that recurrence is impossible or that discharge is safe."
+    },
+    "treatmentRefs": [
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Wheezing improves after an adjunct bronchodilator, but the patient remains hypotensive. What still needs treatment?",
+      "answers": [
+        "Nothing; improved wheezing proves the reaction is over.",
+        "The anaphylactic circulatory physiology; bronchodilation does not replace epinephrine and support.",
+        "Only itching; airway drugs always restore vascular tone."
+      ],
+      "correct": 1,
+      "feedback": "Different symptoms arise through different mechanisms. Treat and reassess the airway and circulation, not just one improved finding."
+    }
+  },
+  {
+    "slug": "opioid-receptors-respiratory-depression",
+    "title": "Opioid Receptors → Respiratory Depression",
+    "subtitle": "Follow suppressed respiratory signaling to inadequate gas exchange.",
+    "complaints": [
+      "dyspnea",
+      "altered-mental-status"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "receptor",
+    "sketchLabel": "Receptor",
+    "intro": "Opioid receptors influence neural signaling. Opioid effects on breathing networks can reduce ventilation, leading to carbon dioxide retention and hypoxemia. This trail explains why respiratory support and receptor reversal serve complementary goals.",
+    "case": "An unresponsive patient has slow, shallow breathing and a possible opioid exposure. Focus on airway and ventilation while assessing other causes of altered mental status.",
+    "caution": "Small pupils or reported exposure do not establish the only cause. Co-ingestants, hypoglycemia, brain injury, and other problems can coexist. A reassuring saturation on supplemental oxygen does not prove adequate ventilation.",
+    "sources": [
+      {
+        "label": "Multi-Level Regulation of Opioid-Induced Respiratory Depression (2020)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7864237/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Opioid-induced respiratory depression (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10874713/",
+        "kind": "Peer-reviewed physiology and rescue-treatment review"
+      },
+      {
+        "label": "Treatment of opioid overdose: current approaches and recent advances (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8986509/",
+        "kind": "Peer-reviewed treatment review"
+      },
+      {
+        "label": "Review of naloxone safety for opioid overdose: practical considerations for new technology and expanded public access (2015)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4308412/",
+        "kind": "Peer-reviewed safety review"
+      },
+      {
+        "label": "Management of Opioid Analgesic Overdose (2012)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3739053/",
+        "kind": "Peer-reviewed clinical review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Brain signals organize breathing",
+        "lead": "Brain signals organize breathing",
+        "levels": {
+          "emt": "Brainstem networks help control breathing rate and depth.",
+          "aemt": "Breathing reflects rhythm generation plus inputs from chemical sensors and higher centers. Opioid receptors are present in several relevant networks.",
+          "paramedic": "Mu-opioid receptor activation modifies neural excitability and synaptic transmission across breathing circuits. Respiratory control is distributed, not confined to a single switch."
+        },
+        "question": "What controls automatic breathing?",
+        "answers": [
+          "Only the patient's voluntary effort.",
+          "Only the amount of oxygen in the room.",
+          "Interacting neural networks and inputs."
+        ],
+        "correct": 2,
+        "feedback": "Automatic breathing integrates multiple signals.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "Opioids suppress the drive",
+        "lead": "Opioids suppress the drive",
+        "levels": {
+          "emt": "Opioids can weaken the signals that maintain breathing.",
+          "aemt": "Opioid effects can reduce respiratory rhythm and the response to rising carbon dioxide. Sedation and upper-airway effects may add to the problem.",
+          "paramedic": "Effects vary with receptor occupancy, drug kinetics, co-ingestants, and individual susceptibility. Rate and tidal volume may both fall, decreasing alveolar ventilation."
+        },
+        "question": "Can shallow breathing matter even if a few breaths are present?",
+        "answers": [
+          "Yes. Rate and depth both affect ventilation.",
+          "No. Any breathing rate guarantees gas exchange.",
+          "No. Respiratory depth cannot change."
+        ],
+        "correct": 0,
+        "feedback": "Count and assess breaths; do not use rate alone.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Less ventilation → CO2 retention",
+        "lead": "Less ventilation → CO2 retention",
+        "levels": {
+          "emt": "Slow or shallow breathing removes too little carbon dioxide and can also cause low oxygen.",
+          "aemt": "Hypoventilation raises arterial carbon dioxide and can lead to respiratory acidemia. Oxygen alone does not restore the missing ventilation.",
+          "paramedic": "Alveolar ventilation determines CO2 clearance. Supplemental oxygen may improve saturation while hypoventilation continues; saturation and ventilation are different physiological signals."
+        },
+        "question": "Does oxygen alone ensure adequate CO2 clearance?",
+        "answers": [
+          "Yes. Oxygen mechanically creates breaths.",
+          "No. Ventilation is still required.",
+          "Yes. A normal saturation excludes hypoventilation."
+        ],
+        "correct": 1,
+        "feedback": "Oxygen support and ventilation support address different needs.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Naloxone competes at receptors",
+        "lead": "Naloxone competes at receptors",
+        "levels": {
+          "emt": "Naloxone can reverse opioid effects on breathing.",
+          "aemt": "Naloxone blocks opioid receptor effects but does not remove the opioid from the body. Response depends on the drug, route, and timing.",
+          "paramedic": "Competitive antagonism can restore respiratory activity, but antagonist exposure may decline while opioid effects persist. Recurrent depression is therefore possible even after an initial response."
+        },
+        "question": "Does naloxone remove every opioid molecule?",
+        "answers": [
+          "Yes. It filters all opioids into urine immediately.",
+          "Yes. A response prevents any recurrence.",
+          "No. It antagonizes receptor effects."
+        ],
+        "correct": 2,
+        "feedback": "Receptor blockade and drug elimination are different.",
+        "refs": [
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Measure response in breathing",
+        "lead": "Measure response in breathing",
+        "levels": {
+          "emt": "Improved breathing is more useful than wakefulness alone.",
+          "aemt": "Reassess airway protection, respiratory rate and depth, oxygenation, and mental status. Continue evaluating coexisting causes.",
+          "paramedic": "Capnography, when available, complements clinical assessment but must be interpreted with waveform quality and perfusion. Vomiting or withdrawal after reversal can add airway and safety risks."
+        },
+        "question": "What is a meaningful immediate response?",
+        "answers": [
+          "Adequate breathing and airway support with ongoing reassessment.",
+          "Only opening the eyes once.",
+          "Only a change in pupil size."
+        ],
+        "correct": 0,
+        "feedback": "The rescue goal centers on sustained respiratory function.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "title": "Patient findings → support ventilation",
+        "lead": "Patient findings → support ventilation",
+        "levels": {
+          "emt": "Suspected opioid depression with inadequate breathing needs airway support, ventilation, and authorized naloxone.",
+          "aemt": "Provide protocol-directed respiratory support while giving naloxone; do not delay needed ventilation awaiting drug response. Reassess and arrange further evaluation.",
+          "paramedic": "Match naloxone use to the rescue protocol, the route, and repeated assessment. Lack of response or recurrent depression requires continued respiratory support and a broader differential."
+        },
+        "question": "Should needed ventilation wait until naloxone works?",
+        "answers": [
+          "Yes. Oxygen saturation always stays safe.",
+          "No. Support breathing immediately.",
+          "Yes. Naloxone eliminates all airway risks."
+        ],
+        "correct": 1,
+        "feedback": "Rescue treatment and gas-exchange support should proceed together.",
+        "refs": [
+          2,
+          3,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support the airway and assist ventilation when breathing is inadequate. Give naloxone if authorized and follow the rescue protocol. Reassess rate, depth, airway protection, and mental status; improvement can be temporary.",
+      "aemt": "Connect insufficient ventilation to CO2 retention as well as low oxygen. Respiratory support is essential even when naloxone is being given. Use available monitoring and reassess for recurrent depression and co-ingestants.",
+      "paramedic": "Prehospital: establish effective ventilation and oxygenation while treating suspected opioid effects under protocol. Naloxone antagonizes receptors; it does not clear the opioid or reverse unrelated sedatives. Where protocols permit titration, aim for adequate ventilation rather than an unnecessarily abrupt full reversal, while never delaying adequate rescue in apnea or severe deterioration. Precipitated withdrawal can cause agitation and vomiting, creating additional airway and safety concerns.\nReassess respiratory rate, tidal excursion, airway protection, oxygenation, mental status, and capnography when available. Supplemental oxygen may mask hypoventilation on pulse oximetry. Persistent respiratory failure warrants escalation regardless of whether some arousal occurs.\nDefinitive care: recurrence may require further antagonist dosing, an infusion, or advanced respiratory support, especially with longer-acting exposures. Observation depends on the agent, response, and clinical context; one successful dose does not establish safe discharge. Maintain the differential for co-ingestion, hypoglycemia, trauma, or other neurological disease. Sustained gas exchange is the practical endpoint, not a single moment of wakefulness."
+    },
+    "treatmentRefs": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "A patient wakes after naloxone, then becomes slow-breathing again. What explains the risk?",
+      "answers": [
+        "Naloxone has permanently removed the opioid, so recurrence is impossible.",
+        "A normal earlier saturation proves the new breathing pattern is safe.",
+        "Opioid effects can outlast antagonist effects, so respiratory support and reassessment remain necessary."
+      ],
+      "correct": 2,
+      "feedback": "Duration of receptor blockade may be shorter than the exposure's effect. Reassess and repeat or escalate treatment under protocol while supporting ventilation."
+    }
+  },
+  {
+    "slug": "glucose-hypoglycemia-brain",
+    "title": "Glucose → Hypoglycemia & the Brain",
+    "subtitle": "Connect inadequate fuel to confusion, seizures, and recurrent risk.",
+    "complaints": [
+      "altered-mental-status",
+      "neurological-deficit"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "glucose",
+    "sketchLabel": "Glucose",
+    "intro": "Glucose is a major brain fuel. When circulating glucose is too low, both protective stress responses and impaired brain function can appear. This complements the DKA trail: high and low glucose create different physiological problems.",
+    "case": "A patient with diabetes is confused and sweaty after taking medication and missing a meal. Their measured glucose is low. Connect the symptoms to both counterregulation and inadequate brain fuel.",
+    "caution": "Not every confused or sweaty patient is hypoglycemic. Confirm glucose when possible and keep the differential open. Symptoms may be less noticeable after recurrent episodes, and recovery after treatment can be temporary.",
+    "sources": [
+      {
+        "label": "Impact of hypoglycemia on brain metabolism during diabetes (2018)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6179939/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Central Mechanisms of Glucose Sensing and Counterregulation in Defense of Hypoglycemia (2019)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6505456/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Glycemic Goals, Hypoglycemia, and Hyperglycemic Crises: Standards of Care in Diabetes—2026",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690178/",
+        "kind": "Peer-reviewed clinical standards"
+      },
+      {
+        "label": "Diabetes: how to manage patients experiencing hypoglycaemia (2022)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9205569/",
+        "kind": "Peer-reviewed clinical review"
+      },
+      {
+        "label": "Treatment of sulfonylurea and insulin overdose (2016)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4767194/",
+        "kind": "Peer-reviewed toxicology treatment review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Glucose supports brain function",
+        "lead": "Glucose supports brain function",
+        "levels": {
+          "emt": "The brain uses glucose as a major fuel for normal activity.",
+          "aemt": "Blood glucose supplies substrate for brain metabolism. A limited available supply can impair neuronal function before causing permanent injury.",
+          "paramedic": "Glucose uptake, glycolysis, and oxidative metabolism support ATP generation. Fuel alternatives and adaptation exist, but they do not make severe acute hypoglycemia safe."
+        },
+        "question": "Why is low glucose clinically important?",
+        "answers": [
+          "It can impair brain function.",
+          "The brain never uses glucose.",
+          "Only skin cells need circulating fuel."
+        ],
+        "correct": 0,
+        "feedback": "Fuel availability affects neuronal function.",
+        "refs": [
+          1
+        ]
+      },
+      {
+        "title": "The body detects falling glucose",
+        "lead": "The body detects falling glucose",
+        "levels": {
+          "emt": "The body tries to protect against falling blood glucose.",
+          "aemt": "Reduced insulin secretion and increased counterregulatory hormones help preserve glucose. Diabetes treatment or impaired responses can overwhelm those defenses.",
+          "paramedic": "Glucagon and sympathoadrenal responses promote fuel availability. Recurrent hypoglycemia can shift warning and counterregulatory thresholds, contributing to impaired awareness."
+        },
+        "question": "Are warning symptoms equally reliable in every patient?",
+        "answers": [
+          "Yes. Everyone always sweats first.",
+          "No. Recurrent episodes can blunt awareness.",
+          "Yes. A patient without tremor cannot be hypoglycemic."
+        ],
+        "correct": 1,
+        "feedback": "A lack of typical warnings does not establish safe glucose.",
+        "refs": [
+          2
+        ]
+      },
+      {
+        "title": "Low fuel → brain dysfunction",
+        "lead": "Low fuel → brain dysfunction",
+        "levels": {
+          "emt": "Too little glucose can cause confusion, seizures, or unconsciousness.",
+          "aemt": "Neuroglycopenia is impaired brain function from insufficient glucose. Sweating and tremor often reflect the accompanying autonomic response.",
+          "paramedic": "Separate substrate-related neurological dysfunction from adrenergic warning symptoms. Severity and duration influence risk; a measured glucose and serial examination are more useful than symptom stereotypes."
+        },
+        "question": "Which symptom most directly reflects impaired brain function?",
+        "answers": [
+          "A glucose meter turning on.",
+          "Only a fast pulse without any context.",
+          "Confusion or seizure."
+        ],
+        "correct": 2,
+        "feedback": "Autonomic warning signs and neuroglycopenia are related but distinct.",
+        "refs": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "title": "Restore substrate safely",
+        "lead": "Restore substrate safely",
+        "levels": {
+          "emt": "Glucose treatment supplies fuel, but the route must be safe.",
+          "aemt": "Oral glucose requires safe swallowing and adequate alertness. Parenteral treatment is needed when oral intake is unsafe, according to scope and protocol.",
+          "paramedic": "Dextrose directly increases available glucose. Glucagon promotes hepatic glucose release, so its effect can be limited when glycogen stores are depleted; treatment selection depends on access and context."
+        },
+        "question": "Why is oral glucose unsafe in a patient who cannot protect the airway?",
+        "answers": [
+          "They may aspirate and cannot safely swallow.",
+          "It always destroys brain cells.",
+          "All glucose preparations are inhaled."
+        ],
+        "correct": 0,
+        "feedback": "Choose the route according to airway safety and authorized care.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Look for recurrence and cause",
+        "lead": "Look for recurrence and cause",
+        "levels": {
+          "emt": "Improvement does not prove that glucose will remain normal.",
+          "aemt": "Medication duration, reduced intake, illness, or impaired clearance can cause recurrence. Repeat glucose and neurological assessment.",
+          "paramedic": "Long-acting insulin and sulfonylureas can sustain risk after a brief glucose response. In sulfonylurea toxicity, glucose-stimulated insulin release can contribute to repeated hypoglycemia."
+        },
+        "question": "Why repeat glucose after initial improvement?",
+        "answers": [
+          "One treatment always lasts indefinitely.",
+          "The underlying medication or illness may still be active.",
+          "Normal speech proves all drug effects have ended."
+        ],
+        "correct": 1,
+        "feedback": "Correction and elimination of the trigger happen on different timelines.",
+        "refs": [
+          4,
+          5
+        ]
+      },
+      {
+        "title": "Patient findings → correct and reassess",
+        "lead": "Patient findings → correct and reassess",
+        "levels": {
+          "emt": "Low glucose can cause altered behavior or unconsciousness. Treat by an authorized safe route and reassess.",
+          "aemt": "Support ABCs, confirm and correct low glucose under protocol, and reassess mental status and glucose. Continued deficits need further evaluation.",
+          "paramedic": "Treat the measured abnormality and the patient. Persistent neurological findings after correction may indicate additional pathology; a single recovery is not a universal discharge criterion."
+        },
+        "question": "What if weakness persists after glucose correction?",
+        "answers": [
+          "Assume every neurological problem is cured.",
+          "Ignore the exam because the number improved.",
+          "Continue urgent assessment for another or coexisting cause."
+        ],
+        "correct": 2,
+        "feedback": "A corrected number does not replace reassessment of brain function.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Check glucose when authorized. Use oral glucose only when alertness and swallowing are adequate, and follow protocol for other authorized options. Support ABCs, reassess glucose and mental status, and arrange appropriate evaluation.",
+      "aemt": "Dextrose provides glucose directly; glucagon mobilizes liver stores and may work less well when those stores are depleted. Choose an authorized route that protects the airway, and reassess for recurrent low glucose.",
+      "paramedic": "Prehospital: confirm and correct hypoglycemia while protecting the airway. Protocol-directed dextrose supplies circulating substrate; titrate and reassess rather than judging success by a large glucose overshoot. Verify vascular access because extravasation of concentrated solutions can injure tissue. Glucagon can provide rescue when appropriate but depends partly on hepatic reserves and may be less effective in depleted states. Vomiting can add aspiration risk.\nRepeat glucose and neurological assessment. A recovering patient can deteriorate again if long-acting insulin, a sulfonylurea, organ dysfunction, or another trigger persists. Continued focal deficits require assessment for stroke or another coexisting problem.\nDefinitive care: prolonged insulin effects may require monitored dextrose support. Sulfonylurea toxicity has a different mechanism: drug-driven insulin secretion can continue, and hospital-directed octreotide can suppress that secretion after initial glucose correction. Treatment and observation depend on the exposure and trajectory. Improving one glucose reading does not demonstrate stable brain function or elimination of the cause."
+    },
+    "treatmentRefs": [
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Why might sulfonylurea-associated hypoglycemia recur after dextrose?",
+      "answers": [
+        "The drug can continue driving insulin release; specialist care may need to suppress that process.",
+        "Dextrose is never useful for initial rescue.",
+        "A corrected glucose value proves the drug has been eliminated."
+      ],
+      "correct": 0,
+      "feedback": "Initial glucose rescues substrate deficiency, but continued insulin secretion can recreate it. Repeated monitoring and cause-directed care remain important."
+    }
+  },
+  {
+    "slug": "hemoglobin-carbon-monoxide",
+    "title": "Hemoglobin → Carbon Monoxide Poisoning",
+    "subtitle": "Follow impaired oxygen carriage and cellular toxicity to brain and heart injury.",
+    "complaints": [
+      "altered-mental-status",
+      "chest-discomfort",
+      "toxic-exposure"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "hemoglobin",
+    "sketchLabel": "Hemoglobin",
+    "intro": "Hemoglobin transports oxygen in blood. Carbon monoxide (CO) interferes with oxygen carriage and unloading, and also affects cellular respiration. A familiar oxygen-saturation number may therefore be misleading.",
+    "case": "Several people in one building develop headache and nausea while a fuel-burning appliance is running. One becomes confused. Consider a shared exposure and scene safety before entering or treating.",
+    "caution": "Do not enter an unsafe atmosphere without appropriate protection and scene clearance. Normal conventional pulse oximetry does not exclude CO poisoning. COHb concentration alone does not reliably predict the full clinical severity.",
+    "sources": [
+      {
+        "label": "Carbon Monoxide Poisoning: Pathogenesis, Management, and Future Directions of Therapy",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5363978/",
+        "kind": "Peer-reviewed mechanism and treatment review"
+      },
+      {
+        "label": "Carbon Monoxide Poisoning: From Microbes to Therapeutics",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11160397/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "S2k guideline diagnosis and treatment of carbon monoxide poisoning (2021)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8607608/",
+        "kind": "Peer-reviewed clinical consensus guideline"
+      },
+      {
+        "label": "The Diagnosis and Treatment of Carbon Monoxide Poisoning (2018)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6381775/",
+        "kind": "Peer-reviewed clinical review"
+      },
+      {
+        "label": "BTS guideline for oxygen use in adults in healthcare and emergency settings (2017)",
+        "url": "https://doi.org/10.1136/thoraxjnl-2016-209729",
+        "kind": "Peer-reviewed clinical guideline"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Hemoglobin transports oxygen",
+        "lead": "Hemoglobin transports oxygen",
+        "levels": {
+          "emt": "Hemoglobin in red blood cells carries oxygen from the lungs to tissues.",
+          "aemt": "Oxygen bound to hemoglobin supplies most arterial oxygen content. Dissolved oxygen contributes a smaller portion under ordinary conditions.",
+          "paramedic": "Oxygen delivery depends on hemoglobin concentration, its oxygen loading and unloading, and blood flow. Oxygen tension and oxygen content describe different properties."
+        },
+        "question": "What carries most oxygen in normal arterial blood?",
+        "answers": [
+          "Only oxygen dissolved in plasma.",
+          "Hemoglobin.",
+          "The pulse oximeter itself."
+        ],
+        "correct": 1,
+        "feedback": "Gas tension is not the same as total oxygen content.",
+        "refs": [
+          1,
+          5
+        ]
+      },
+      {
+        "title": "CO competes for binding",
+        "lead": "CO competes for binding",
+        "levels": {
+          "emt": "Carbon monoxide binds hemoglobin and interferes with its oxygen job.",
+          "aemt": "CO occupies binding sites and impairs release of oxygen from remaining oxygenated sites. Tissue delivery can fall even when lungs contain oxygen.",
+          "paramedic": "Carboxyhemoglobin reduces available oxygen-binding capacity and shifts the remaining oxygen-binding relationship toward tighter retention. Arterial oxygen tension can remain normal despite impaired carriage."
+        },
+        "question": "Can normal oxygen tension prove normal oxygen delivery in CO exposure?",
+        "answers": [
+          "Yes. It measures every hemoglobin site.",
+          "Yes. CO affects only the air outside the patient.",
+          "No. Hemoglobin carriage and unloading may still be impaired."
+        ],
+        "correct": 2,
+        "feedback": "A normal PaO2 is not proof of adequate oxygen content or unloading.",
+        "refs": [
+          1,
+          5
+        ]
+      },
+      {
+        "title": "Delivery and respiration fail",
+        "lead": "Delivery and respiration fail",
+        "levels": {
+          "emt": "CO can reduce oxygen delivery and disrupt cellular energy use, causing brain or heart dysfunction.",
+          "aemt": "CO toxicity extends beyond hemoglobin. Interactions with cellular proteins can impair respiration and contribute to oxidative injury.",
+          "paramedic": "Binding at cytochrome c oxidase can interfere with the mitochondrial electron transport chain. Inflammatory and oxidative pathways contribute to injury, so COHb alone does not summarize the entire toxic effect."
+        },
+        "question": "Is CO poisoning only a problem of occupied hemoglobin sites?",
+        "answers": [
+          "No. Cellular respiration and other injury pathways also matter.",
+          "Yes. Mitochondria are always unaffected.",
+          "Yes. Symptoms exactly match one COHb percentage."
+        ],
+        "correct": 0,
+        "feedback": "The blood-carriage effect is central but not the whole disease.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "A saturation can mislead",
+        "lead": "A saturation can mislead",
+        "levels": {
+          "emt": "A conventional pulse oximeter may appear reassuring despite CO poisoning.",
+          "aemt": "Conventional two-wavelength oximetry does not adequately distinguish oxyhemoglobin from carboxyhemoglobin. History and the clinical pattern remain essential.",
+          "paramedic": "Blood co-oximetry measures hemoglobin species. A conventional SpO2 or normal PaO2 cannot rule out exposure; interpretation of COHb also depends on elapsed time and prior oxygen treatment."
+        },
+        "question": "Does normal conventional SpO2 rule out CO poisoning?",
+        "answers": [
+          "Yes. It is a blood COHb test.",
+          "No. Its measurement can be misleading.",
+          "Yes. CO must always make the displayed value zero."
+        ],
+        "correct": 1,
+        "feedback": "Use the exposure history and appropriate diagnostic testing.",
+        "refs": [
+          3,
+          5
+        ]
+      },
+      {
+        "title": "Recognize the shared exposure",
+        "lead": "Recognize the shared exposure",
+        "levels": {
+          "emt": "Headache, nausea, confusion, or chest symptoms in several people can suggest a shared CO exposure.",
+          "aemt": "Assess symptoms, potential combustion sources, duration, pregnancy, and cardiac or neurological involvement. Protect responders and remove patients only through a safe rescue process.",
+          "paramedic": "Brain and heart dysfunction indicate important severity even when the measured COHb is lower than expected. Exposure may have ended or oxygen treatment begun before sampling."
+        },
+        "question": "What matters beyond a COHb value?",
+        "answers": [
+          "Only the color of the patient's skin.",
+          "Only one normal saturation reading.",
+          "Symptoms, organ involvement, exposure timing, and treatment already given."
+        ],
+        "correct": 2,
+        "feedback": "The clinical pattern and sampling context shape interpretation.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Patient findings → oxygen and evaluation",
+        "lead": "Patient findings → oxygen and evaluation",
+        "levels": {
+          "emt": "Suspected CO exposure needs a safe scene, oxygen treatment, and urgent evaluation.",
+          "aemt": "Provide high-concentration oxygen and support ventilation under protocol. Notify the receiving team about the exposure, neurological or cardiac findings, and pregnancy when relevant.",
+          "paramedic": "Oxygen speeds CO elimination and supports oxygenation, while hospital assessment determines organ injury and specialist treatment needs. Improvement does not rule out delayed neurological complications."
+        },
+        "question": "Should oxygen be withheld because conventional SpO2 is normal?",
+        "answers": [
+          "No. Suspected CO poisoning is a special oxygen indication.",
+          "Yes. Displayed SpO2 proves no exposure.",
+          "Yes. Oxygen prevents diagnostic history taking."
+        ],
+        "correct": 0,
+        "feedback": "Do not use conventional saturation as a reason to withhold indicated CO treatment.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Prioritize scene safety and a protected rescue. Provide high-concentration oxygen and ventilation support as indicated by local protocol. Arrange evaluation and communicate exposure details and the number of potentially affected people.",
+      "aemt": "Oxygen increases the gradient for CO elimination and supports tissue oxygen availability. Conventional saturation does not guide exclusion of poisoning. Reassess neurological function, chest symptoms, breathing, and perfusion.",
+      "paramedic": "Prehospital: provide high-concentration oxygen without waiting for conventional SpO2 to fall, and support ventilation if inadequate. The goal is faster displacement and elimination of CO plus support of oxygen delivery. Monitor for dysrhythmia, myocardial ischemia, altered consciousness, and other complications. A normal PaO2 reflects dissolved oxygen, not intact hemoglobin transport; normal conventional saturation can also mislead.\nDefinitive care: blood co-oximetry and organ assessment help characterize the exposure, but COHb can fall with time and oxygen and does not reliably encode injury severity. Hyperbaric oxygen may be considered through urgent specialist consultation for selected patients, including serious neurological or cardiac involvement and pregnancy-related risk. Its additional long-term benefit is debated across studies; it should not be presented as an automatic treatment for every exposure or as proven by one cutoff.\nContinue serial neurological and cardiovascular assessment and provide the receiving team with exposure duration, treatment timing, and observed findings. Initial recovery does not exclude delayed neurological effects, so hospital guidance and follow-up matter."
+    },
+    "treatmentRefs": [
+      1,
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Why can normal PaO2 and conventional SpO2 coexist with serious CO poisoning?",
+      "answers": [
+        "They prove every hemoglobin binding site is normal.",
+        "They do not establish normal usable hemoglobin carriage or cellular respiration.",
+        "CO only affects pulse-oximeter batteries."
+      ],
+      "correct": 1,
+      "feedback": "Oxygen tension, conventional saturation, hemoglobin species, and tissue utilization measure different things. Treat the exposure and clinical pattern."
+    }
+  },
+  {
+    "slug": "pulmonary-circulation-embolism",
+    "title": "Pulmonary Circulation → Pulmonary Embolism",
+    "subtitle": "From an obstructed lung vessel to right-heart strain and shock.",
+    "complaints": [
+      "dyspnea",
+      "chest-discomfort",
+      "syncope"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "vessel",
+    "sketchLabel": "Pulmonary flow",
+    "intro": "The right ventricle normally sends blood through a low-resistance pulmonary circulation. A pulmonary embolism obstructs that route and can disturb gas exchange, right-heart loading, and systemic circulation.",
+    "case": "A patient develops sudden breathlessness and pleuritic chest discomfort after prolonged immobility. They are tachycardic and nearly faint on standing. Consider PE while evaluating other serious causes.",
+    "caution": "Symptoms and risk factors cannot confirm PE or determine its severity alone. A normal oxygen saturation or absence of one classic ECG pattern does not exclude it. Collapse can occur through circulatory failure as well as impaired oxygenation.",
+    "sources": [
+      {
+        "label": "Epidemiology, Etiology, and Pathophysiology of Pulmonary Embolism (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11152621/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Right ventricle in acute and chronic pulmonary embolism (2013 Grover Conference series)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4278597/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Pulmonary Embolism in Critically Ill Patients—Prevention, Diagnosis, and Management (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11475110/",
+        "kind": "Peer-reviewed clinical and physiology review"
+      },
+      {
+        "label": "Critical Care Management of Acute Venous Thromboembolism: Integrating Pharmacotherapy, Thrombectomy, and Temporary Mechanical Support (2025)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11702009/",
+        "kind": "Peer-reviewed critical-care review"
+      },
+      {
+        "label": "2026 AHA/ACC Multisociety Guideline for Evaluation and Management of Acute Pulmonary Embolism in Adults",
+        "url": "https://doi.org/10.1016/j.jacc.2025.11.005",
+        "kind": "Peer-reviewed clinical guideline"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Low-resistance lung circulation",
+        "lead": "Low-resistance lung circulation",
+        "levels": {
+          "emt": "The right ventricle pumps blood through the lungs for gas exchange.",
+          "aemt": "The pulmonary circulation normally accepts flow at lower pressures than the systemic circulation. Right-heart function depends on that loading environment.",
+          "paramedic": "The relatively thin-walled RV is adapted to a low-resistance vascular bed. Abrupt afterload increases differ from gradual pressure loading with time for structural adaptation."
+        },
+        "question": "Which loading environment normally suits the RV?",
+        "answers": [
+          "The same high-pressure task as the LV under all conditions.",
+          "No forward flow at all.",
+          "A relatively low-resistance pulmonary circulation."
+        ],
+        "correct": 2,
+        "feedback": "The RV's normal job helps explain its vulnerability to an abrupt obstruction.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "An embolus blocks vessels",
+        "lead": "An embolus blocks vessels",
+        "levels": {
+          "emt": "A clot can travel to a pulmonary artery and obstruct blood flow.",
+          "aemt": "Venous thrombi can embolize to the lungs. Obstructed vessels reduce perfusion to some ventilated regions and increase resistance to RV ejection.",
+          "paramedic": "Mechanical obstruction and vascular responses raise pulmonary vascular resistance. Consequences depend on clot distribution and cardiopulmonary reserve, not clot size alone."
+        },
+        "question": "Does the effect depend only on clot size?",
+        "answers": [
+          "No. Distribution and the patient's reserve also matter.",
+          "Yes. Every embolus produces identical shock.",
+          "Yes. Baseline pulmonary pressure is irrelevant."
+        ],
+        "correct": 0,
+        "feedback": "A patient's reserve changes the response to an obstruction.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Obstruction → gas-exchange and pump problems",
+        "lead": "Obstruction → gas-exchange and pump problems",
+        "levels": {
+          "emt": "Blocked lung circulation can cause breathlessness and strain the right heart, sometimes leading to shock.",
+          "aemt": "Some air reaches lung units with inadequate blood flow. Meanwhile, the RV has to pump against increased resistance.",
+          "paramedic": "PE increases alveolar dead space in affected units and can create broader V/Q abnormalities. RV pressure loading can decrease output even when ventilation continues."
+        },
+        "question": "Can severe PE be a circulatory problem as well as a breathing problem?",
+        "answers": [
+          "No. It only changes breathing sounds.",
+          "Yes. Increased RV afterload can threaten output.",
+          "No. The right heart cannot be affected."
+        ],
+        "correct": 1,
+        "feedback": "PE links gas exchange to obstructive circulatory physiology.",
+        "refs": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "title": "RV strain reduces LV filling",
+        "lead": "RV strain reduces LV filling",
+        "levels": {
+          "emt": "A struggling right heart can reduce blood reaching the left heart.",
+          "aemt": "RV dilation can interfere with LV filling, and reduced forward flow lowers the supply available to the LV. Systemic output may fall.",
+          "paramedic": "Septal displacement and ventricular interdependence compound low LV preload. Systemic hypotension can then impair RV coronary perfusion, worsening the failure cycle."
+        },
+        "question": "How can a lung clot reduce systemic output?",
+        "answers": [
+          "It always increases LV filling.",
+          "It only prevents air entering the mouth.",
+          "It can impair RV ejection and LV filling."
+        ],
+        "correct": 2,
+        "feedback": "Ventricular loading connects the two sides of the circulation.",
+        "refs": [
+          1,
+          2,
+          4
+        ]
+      },
+      {
+        "title": "Assess shock and differential",
+        "lead": "Assess shock and differential",
+        "levels": {
+          "emt": "Sudden breathlessness, chest pain, or fainting needs a serious-cause assessment.",
+          "aemt": "Assess perfusion, mental status, respiratory effort, risk context, and competing diagnoses. Neither a symptom nor a risk factor confirms PE.",
+          "paramedic": "Monitoring and ECG help assess complications but do not exclude PE when normal or nonspecific. Definitive testing and risk assessment guide treatment rather than a single ECG stereotype."
+        },
+        "question": "Does absence of a classic PE ECG pattern rule it out?",
+        "answers": [
+          "No. ECG findings can be nonspecific.",
+          "Yes. Every PE produces one identical tracing.",
+          "Yes. The history is irrelevant when ECG is normal."
+        ],
+        "correct": 0,
+        "feedback": "ECG contributes to assessment; it is not a definitive exclusion test.",
+        "refs": [
+          3,
+          5
+        ]
+      },
+      {
+        "title": "Patient findings → support and escalation",
+        "lead": "Patient findings → support and escalation",
+        "levels": {
+          "emt": "PE may cause sudden breathlessness, chest pain, fainting, or shock. Support ABCs and expedite evaluation.",
+          "aemt": "Support oxygenation and circulation under protocol, reassess, and communicate concern and instability to the receiving team.",
+          "paramedic": "Protect the failing RV while arranging cause-directed care. Fluid, vasopressor, and ventilation decisions require attention to loading conditions and response, not an automatic treatment for every dyspneic patient."
+        },
+        "question": "Does better saturation establish resolution of the obstruction?",
+        "answers": [
+          "Yes. Oxygen immediately dissolves all emboli.",
+          "No. RV loading and the clot may still be a problem.",
+          "Yes. Blood pressure and perfusion no longer matter."
+        ],
+        "correct": 1,
+        "feedback": "Oxygenation and pulmonary vascular obstruction are separate targets.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support ABCs, assess perfusion and respiratory status, and arrange prompt transport. Provide indicated oxygen and ventilation support under protocol. Communicate sudden onset, risk context, syncope, and shock findings.",
+      "aemt": "Connect obstruction to both gas exchange and increased RV work. Support circulation within scope and reassess after interventions. Improving oxygenation does not establish normal cardiac output or eliminate the clot.",
+      "paramedic": "Prehospital: in suspected severe PE, support oxygenation and systemic perfusion while anticipating RV failure. Fluid may help a genuinely underfilled circulation, but indiscriminate large volumes can worsen RV dilation, septal shift, and LV filling. Protocol-directed vasopressor support may be needed for shock. Reassess pressure, mental status, rhythm, respiratory status, and response.\nPositive-pressure ventilation can reduce venous return and increase RV loading. Needed ventilatory support must not be withheld, but severe RV failure makes sedation and airway transition high risk; prepare hemodynamic support and use authorized strategies that avoid unnecessary pressure. Oxygen improvement alone does not correct vascular obstruction.\nDefinitive care: anticoagulation limits thrombus propagation and recurrence; it is not immediate mechanical removal of the existing clot. Selected higher-risk patients may need thrombolysis, catheter-based treatment, or surgical embolectomy, balancing hemodynamic benefit against bleeding and procedural risks. Those decisions require diagnostic confirmation and specialist assessment under the current PE pathway. Keep supportive physiology separate from clot-directed therapy."
+    },
+    "treatmentRefs": [
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Why can an automatic large fluid load worsen severe PE with RV failure?",
+      "answers": [
+        "Fluid always lowers pulmonary vascular resistance to zero.",
+        "The RV and LV cannot influence each other's filling.",
+        "It may worsen RV dilation and septal shift, reducing LV filling."
+      ],
+      "correct": 2,
+      "feedback": "Assess volume status and response. Supporting an underfilled patient is different from overloading an already strained RV."
+    }
+  },
+  {
+    "slug": "alveolar-cells-surfactant-ards",
+    "title": "Alveolar Cells & Surfactant → ARDS",
+    "subtitle": "From barrier injury and unstable alveoli to difficult oxygenation.",
+    "complaints": [
+      "dyspnea"
+    ],
+    "group": "From physiology to field calls",
+    "sketchKind": "alveoli",
+    "sketchLabel": "Alveoli",
+    "intro": "Alveolar cells, capillary barriers, and surfactant help maintain gas exchange. In ARDS, inflammatory injury can disrupt the barrier and surfactant function, causing edema, collapse, and poor oxygenation. This differs from primarily pressure-driven cardiogenic edema.",
+    "case": "A patient with a serious infection has worsening respiratory distress and low oxygen despite increasing support. Consider inflammatory lung injury alongside heart failure and other causes of respiratory failure.",
+    "caution": "ARDS is a syndrome requiring clinical and diagnostic assessment; field crackles or low saturation alone cannot establish it. Cardiogenic and inflammatory mechanisms can coexist. Adult ARDS is not simply neonatal surfactant deficiency.",
+    "sources": [
+      {
+        "label": "Pulmonary Surfactant in Adult ARDS: Current Perspectives and Future Directions (2023)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10528901/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "Surfactant Therapy of ALI and ARDS (2011)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3153076/",
+        "kind": "Peer-reviewed mechanism review"
+      },
+      {
+        "label": "An Update on Management of Adult Patients with ARDS: An Official ATS Clinical Practice Guideline (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10870893/",
+        "kind": "Peer-reviewed clinical guideline"
+      },
+      {
+        "label": "Summary for Clinicians: Mechanical Ventilation in Adult Patients with ARDS Clinical Practice Guideline (2017)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5566274/",
+        "kind": "Peer-reviewed guideline summary"
+      },
+      {
+        "label": "Prone Positioning in Acute Respiratory Distress Syndrome",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10965391/",
+        "kind": "Peer-reviewed physiology and clinical review"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Keep alveoli stable and thin",
+        "lead": "Keep alveoli stable and thin",
+        "levels": {
+          "emt": "Alveoli exchange gases. Their lining and surfactant help keep them stable and functioning.",
+          "aemt": "The alveolar–capillary barrier limits fluid leakage, while type II cells produce surfactant that lowers surface tension.",
+          "paramedic": "Type I cells provide much of the thin exchange surface; type II cells support surfactant and repair. Surfactant reduces surface forces that otherwise promote instability and collapse."
+        },
+        "question": "What is one normal surfactant function?",
+        "answers": [
+          "Reducing alveolar surface tension.",
+          "Pumping blood through the pulmonary artery.",
+          "Eliminating every possible infection."
+        ],
+        "correct": 0,
+        "feedback": "Mechanical stability supports usable gas-exchange units.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Inflammation injures the barrier",
+        "lead": "Inflammation injures the barrier",
+        "levels": {
+          "emt": "Severe inflammation can damage the lung’s gas-exchange surfaces.",
+          "aemt": "Pneumonia, aspiration, sepsis, and other insults can contribute to alveolar epithelial and endothelial injury. Barrier damage allows abnormal fluid movement.",
+          "paramedic": "Inflammatory injury can increase permeability across the gas-exchange unit. Protein-rich edema and cellular debris alter the alveolar environment, rather than merely reflecting elevated left-heart pressure."
+        },
+        "question": "How does inflammatory edema differ from a purely hydrostatic explanation?",
+        "answers": [
+          "It cannot contain any fluid.",
+          "Barrier leak contributes directly, beyond pressure alone.",
+          "It always requires isolated LV failure."
+        ],
+        "correct": 1,
+        "feedback": "Pressure and permeability are different mechanisms and can coexist.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Leak and dysfunction → poor oxygenation",
+        "lead": "Leak and dysfunction → poor oxygenation",
+        "levels": {
+          "emt": "Leaky barriers and impaired surfactant can leave alveoli flooded or collapsed, making oxygenation difficult.",
+          "aemt": "Loss of aerated lung and reduced compliance increase breathing work. Blood may pass through poorly ventilated regions.",
+          "paramedic": "Protein-rich fluid can inhibit surfactant, while epithelial injury affects its production and handling. These processes interact with inflammation and atelectasis; surfactant dysfunction is one contributor, not a complete explanation."
+        },
+        "question": "Is adult ARDS only a shortage of surfactant?",
+        "answers": [
+          "Yes. The blood vessels are always intact.",
+          "Yes. It is identical to every neonatal case.",
+          "No. Barrier injury, inflammation, and other mechanisms interact."
+        ],
+        "correct": 2,
+        "feedback": "Adult inflammatory lung injury involves multiple connected structures.",
+        "refs": [
+          1,
+          2
+        ]
+      },
+      {
+        "title": "Shunt limits oxygen response",
+        "lead": "Shunt limits oxygen response",
+        "levels": {
+          "emt": "Blood passing poorly ventilated lung units can remain inadequately oxygenated.",
+          "aemt": "Collapsed or flooded units contribute to shunt-like physiology. Added oxygen helps available units but may not fully compensate for the lost exchange areas.",
+          "paramedic": "Perfused but nonventilated regions create intrapulmonary shunt, and injury is heterogeneous. Escalating oxygen concentration alone does not restore ventilation to every affected unit."
+        },
+        "question": "Why might oxygen alone have an incomplete effect?",
+        "answers": [
+          "Some blood passes units with little or no ventilation.",
+          "Oxygen cannot enter any healthy alveolus.",
+          "Pulse oximetry creates the edema."
+        ],
+        "correct": 0,
+        "feedback": "Support may need to address aeration as well as oxygen concentration.",
+        "refs": [
+          2,
+          4
+        ]
+      },
+      {
+        "title": "Support can also injure",
+        "lead": "Support can also injure",
+        "levels": {
+          "emt": "Ventilation support can help, but excessive stretch or pressure can harm injured lungs.",
+          "aemt": "A smaller functioning lung receives the delivered breath. Repeated collapse and reopening and excessive distension can add injury.",
+          "paramedic": "Lung-protective strategies limit tidal stretch and inspiratory pressures. PEEP may maintain aeration, but recruitment benefit competes with overdistension and hemodynamic effects."
+        },
+        "question": "Why not simply use ever-larger breaths?",
+        "answers": [
+          "Large breaths always repair the barrier.",
+          "They may overstretch the remaining aerated lung.",
+          "Ventilation volume has no physiological effect."
+        ],
+        "correct": 1,
+        "feedback": "Rescue gas exchange while limiting additional lung injury.",
+        "refs": [
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Patient findings → reassessed support",
+        "lead": "Patient findings → reassessed support",
+        "levels": {
+          "emt": "Inflammatory lung injury can cause severe breathing difficulty and low oxygen. Support ABCs and arrange urgent evaluation.",
+          "aemt": "Support oxygenation and ventilation under protocol and reassess work of breathing, mental status, and perfusion. Consider the trigger and other respiratory diagnoses.",
+          "paramedic": "Management combines treatment of the precipitating illness with appropriately protective respiratory support. Formal ARDS diagnosis and advanced ventilator strategies require the clinical context and available monitoring."
+        },
+        "question": "Does a better saturation prove the lung injury has resolved?",
+        "answers": [
+          "Yes. All collapsed alveoli are permanently repaired.",
+          "Yes. Perfusion no longer needs assessment.",
+          "No. Oxygenation can improve while injury and treatment risks persist."
+        ],
+        "correct": 2,
+        "feedback": "Improved oxygenation is useful, but it is not the only endpoint.",
+        "refs": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "treatment": {
+      "emt": "Support ABCs and provide indicated oxygen and ventilation support. Assess breathing effort, mental status, and perfusion repeatedly. Communicate infection, aspiration, or other possible triggers and arrange urgent evaluation.",
+      "aemt": "Connect flooding or collapse to lost gas-exchange area and increased work of breathing. Use authorized support and reassess both respiratory and circulatory effects. Low saturation does not identify one specific edema mechanism.",
+      "paramedic": "Prehospital: support gas exchange and assess tolerance of the chosen respiratory support under protocol. Positive pressure may improve aeration but can reduce venous return or cause overdistension; reassess oxygenation, ventilation, work of breathing, and hemodynamics. Avoid treating every crackle as an isolated fluid-overload problem.\nDefinitive care: lung-protective ventilation limits tidal volume according to predicted body weight and controls inspiratory pressures, aiming to reduce injury to the remaining aerated lung. PEEP can stabilize recruitable units, but higher pressure is not universally better; benefit must be balanced against overdistension and circulation. Prone positioning in selected severe ARDS redistributes ventilation and stress across the lungs; it is a monitored team intervention, not an automatic field maneuver.\nThe ATS guideline also discusses selected adjuncts according to severity. Treat the precipitating illness and distinguish improved oxygenation from improved survival. Adult surfactant replacement has not demonstrated routine survival benefit, so the trail should not imply that a simple replacement drug repairs all ARDS. Ongoing reassessment balances recruitment, ventilation, perfusion, and treatment-related injury."
+    },
+    "treatmentRefs": [
+      1,
+      3,
+      4,
+      5
+    ],
+    "advanced": {
+      "question": "Why might increasing PEEP improve oxygenation yet worsen circulation?",
+      "answers": [
+        "Recruitment can improve gas exchange while increased intrathoracic pressure reduces venous return.",
+        "Improved saturation guarantees increased cardiac output.",
+        "PEEP directly removes every inflammatory mediator."
+      ],
+      "correct": 0,
+      "feedback": "Respiratory and hemodynamic effects can diverge. Reassess recruitment benefit, overdistension, and perfusion."
     }
   }
 ]
