@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict'),{grade}=require('../study-quiz-engine.js');
+assert(grade({type:'single',answer:['A']},['A']));
+assert(!grade({type:'single',answer:['A']},['B']));
+assert(!grade({type:'single',answer:['A']},[]));
+assert(grade({type:'multiple',answer:['A','B']},['B','A']));
+assert(!grade({type:'multiple',answer:['A','B']},['A']));
+assert(!grade({type:'multiple',answer:['A','B']},['A','B','C']));
+assert(grade({type:'text',answer:['Test Answer','Alternative']},['  TEST   answer  ']));
+assert(grade({type:'text',answer:['Test Answer','Alternative']},['alternative']));
+assert(!grade({type:'text',answer:['Test Answer']},['Test Anser']));
+assert(!grade({type:'text',answer:['Test Answer']},['  ']));
+console.log('PASS: single answers, exact-set scoring, blank rejection, typed normalization, aliases, no fuzzy credit.');

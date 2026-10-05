@@ -1,5 +1,9 @@
-const CACHE_NAME = 'field-notes-study-tools-v30';
+const CACHE_NAME = 'field-notes-study-tools-v31';
 const assets = [
+  './study-quiz.html',
+  './study-quiz.css',
+  './study-quiz.js',
+  './study-quiz-engine.js',
   './connection-trails.html',
   './cellular-energy-ischemic-stroke.html',
   './mast-cells-anaphylaxis.html',
