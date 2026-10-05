@@ -42,6 +42,7 @@
  grid.append(action('Practice Questions','Review explanations or test yourself in Exam Mode.',()=>{practiceBox.open=true;practiceBox.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});get('topic-select').focus({preventScroll:true});},'01'));
  const old=setup.querySelector('.independent-study-group');
  const descriptions={
+  'study-quiz.html':['Study Quiz','Check answers, score your round, and retry what you missed.','↻'],
   'flashcards.html':['Clinical Flashcards','Reveal, recall, then choose Know or Don’t Know.','02'],
   'terminology-decks.html':['Terminology','Build confidence with roots, prefixes, and suffixes.','03'],
   'anatomy/':['Anatomy Atlas','Explore the structures behind the medicine.','04'],
