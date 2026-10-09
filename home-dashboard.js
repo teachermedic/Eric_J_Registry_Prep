@@ -44,7 +44,7 @@
  const descriptions={
   'flashcards.html':['Clinical Flashcards','Reveal, recall, then choose Know or Don’t Know.','02'],
   'terminology-decks.html':['Terminology','Build confidence with roots, prefixes, and suffixes.','03'],
-  'anatomy/':['Anatomy Atlas','Explore the structures behind the medicine.','04'],
+  'anatomy-explorer.html':['Anatomy Explorer','Explore the heart from chest to cell, or open the whole-body atlas.','04'],
   'research-present.html':['Research & Present','Follow your questions and share what you learn.','↗'],
   'change-finding.html':['Change One Finding','See how a single detail changes your clinical thinking.','05'],
   'what-first.html':['What Comes First?','Practice the order of your next decisions.','06'],
