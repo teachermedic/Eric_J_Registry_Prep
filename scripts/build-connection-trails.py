@@ -65,7 +65,10 @@ def render(t):
     out += f'</section><section class="field-note"><h2>Keep the whole picture</h2><p>{esc(t["caution"])}</p></section><section class="trail-sources"><h2>Evidence &amp; further reading</h2><p class="help">Sources checked October 4, 2026. Teaching synthesis with original concept sketches. Mechanism reviews and experimental evidence explain plausibility; clinical trials and guidelines inform treatment. No field finding establishes an organelle-level diagnosis.</p><ol>'
     for i,r in enumerate(t['sources'],1):
         out += f'<li id="source-{i}"><a href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">{esc(r["label"])}</a><br><span class="help">{esc(r["kind"])}</span></li>'
-    out += '</ol></section><section class="trail-practice"><h2>Take the next step</h2><a href="what-first.html">Practice clinical priorities →</a><a href="flashcards.html">Review clinical flashcards →</a><a href="connection-trails.html">Explore another trail →</a></section><noscript><p>All six stones and all learning views appear in reading order. For a short EMT path, read EMT at stones 1, 3, and 6, then EMT treatment.</p></noscript></main><script src="study-streak.js"></script><script src="connection-trails.js"></script></body></html>\n'
+    out += '</ol></section>'
+    if t['slug'] == 'mitochondria-heart-failure':
+        out += '<section class="field-note"><h2>See the cell</h2><p><a href="heart-explorer.html#cell">Inspect the cardiomyocyte in The Heart: Inside Out →</a></p></section>'
+    out += '<section class="trail-practice"><h2>Take the next step</h2><a href="what-first.html">Practice clinical priorities →</a><a href="flashcards.html">Review clinical flashcards →</a><a href="connection-trails.html">Explore another trail →</a></section><noscript><p>All six stones and all learning views appear in reading order. For a short EMT path, read EMT at stones 1, 3, and 6, then EMT treatment.</p></noscript></main><script src="study-streak.js"></script><script src="connection-trails.js"></script></body></html>\n'
     return out
 def main():
     trails=json.loads((ROOT/'connection-trails-content.json').read_text())

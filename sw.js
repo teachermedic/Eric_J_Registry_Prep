@@ -1,5 +1,9 @@
-const CACHE_NAME = 'field-notes-study-tools-v32';
+const CACHE_NAME = 'field-notes-study-tools-v33';
 const assets = [
+  './anatomy-explorer.html',
+  './heart-explorer.html',
+  './heart-explorer.css',
+  './heart-explorer.js',
   './connection-trails.html',
   './cellular-energy-ischemic-stroke.html',
   './mast-cells-anaphylaxis.html',
