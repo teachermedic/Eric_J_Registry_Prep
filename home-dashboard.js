@@ -57,6 +57,7 @@
   else if(href==='study-plan.html')panels['my-progress'].append(t);
   else grid.append(t);
  }
+ grid.append(tile('Review Games','Spot the mistake in a short call, then work through the correction.','review-games.html'));
  grid.append(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
  old.remove();panels.study.append(grid,practiceBox);
  const library=get('study-library'),resume=get('resume-card');
