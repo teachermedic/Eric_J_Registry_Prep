@@ -1,9 +1,5 @@
-const CACHE_NAME = 'field-notes-study-tools-v34';
+const CACHE_NAME = 'field-notes-study-tools-v35';
 const assets = [
-  './review-games.html',
-  './review-games.css',
-  './review-game-data.js',
-  './review-games.js',
   './anatomy-explorer.html',
   './heart-explorer.html',
   './heart-explorer.css',
