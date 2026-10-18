@@ -17,8 +17,8 @@ $('#ic-host-open').onclick=()=>{if(draftQuestions.length){renderEditor();view('e
 $('#character-choices').innerHTML=G.CHARACTERS.map((c,i)=>'<label><input type="radio" name="character" value="'+c.id+'" '+(i===0?'checked':'')+'><span>'+c.icon+' '+c.name+'</span></label>').join('');
 const character=id=>G.CHARACTERS.find(c=>c.id===id)||G.CHARACTERS[0];
 Object.entries(G.TYPES).forEach(([v,t])=>$('#editor-type').add(new Option(t,v)));
-[...new Set(bank.map(q=>q.section).filter(Boolean))].sort().forEach(x=>$('#host-section').add(new Option(x,x)));
-function filteredBank(){const s=$('#host-section').value;return bank.filter(q=>s==='All'||q.section===s)}
+QuestionModules.NAMES.forEach(x=>$('#host-section').add(new Option(x,x)));
+function filteredBank(){const s=$('#host-section').value;return bank.filter(q=>s==='All'||QuestionModules.forQuestion(q)===s)}
 function refreshStatus(){$('#bank-status').textContent=filteredBank().length+' multiple-choice and select-all questions available.';}
 $('#host-section').onchange=refreshStatus;refreshStatus();
 function shuffled(a){a=[...a];for(let i=a.length-1;i;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
@@ -56,7 +56,7 @@ async function prepareImage(file){
  const url=URL.createObjectURL(file);
  try{const img=new Image();img.src=url;await img.decode();if(img.width*img.height>40000000)throw Error('Use an image smaller than 40 megapixels.');let size=1280;while(size>=640){const scale=Math.min(1,size/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);for(const quality of [.85,.7,.55]){const data=canvas.toDataURL('image/jpeg',quality);if(data.length<=450000)return data;}size-=320;}throw Error('This image is too detailed for live sharing. Try a smaller image.');}finally{URL.revokeObjectURL(url);}
 }
-$('#host-start').onclick=()=>{draftQuestions=shuffled(filteredBank()).slice(0,+$('#host-count').value).map(G.fromBank);renderEditor();view('editor')};
+$('#host-start').onclick=()=>{draftQuestions=shuffled(filteredBank()).slice(0,+$('#host-count').value).map(q=>({...G.fromBank(q),category:QuestionModules.forQuestion(q)}));renderEditor();view('editor')};
 $('#host-blank').onclick=()=>{draftQuestions=[G.newItem('slide')];renderEditor();view('editor')};
 $('#editor-back').onclick=()=>view('builder');
 $('#builder-resume').onclick=()=>{renderEditor();view('editor')};

@@ -9,6 +9,7 @@ const assets = [
   './question-workshop.css',
   './question-workshop.js',
   './question-author-engine.js',
+  './question-modules.js',
   './authored-questions.js',
   './authored-question-loader.js',
   './instructor-music.js',

@@ -6,7 +6,7 @@
  const plain=value=>{const n=document.createElement('div');n.innerHTML=String(value||'');return n.textContent||'';};
  const qkey=q=>JSON.stringify([q.section||'',q.category||'',q.type,q.q]);
  const catalog=new Map((window.FIELD_NOTE_CARDS||[]).map(c=>[c.id,c]));
- const rows=[...quizData.map(q=>({id:qkey(q),kind:'questions',title:q.q,category:q.category,answer:q.answer,rationale:q.rationale,options:q.options,gridRows:q.rows,gridCols:q.cols,context:[q.history,q.physical,q.vitals].filter(Boolean).map(v=>typeof v==='object'?JSON.stringify(v):plain(v)).join('\n'),chain:q.chainID})),
+ const rows=[...quizData.map(q=>({id:qkey(q),kind:'questions',title:q.q,category:QuestionModules.forQuestion(q),answer:q.answer,rationale:q.rationale,options:q.options,gridRows:q.rows,gridCols:q.cols,context:[q.history,q.physical,q.vitals].filter(Boolean).map(v=>typeof v==='object'?JSON.stringify(v):plain(v)).join('\n'),chain:q.chainID})),
  ...(window.STUDY_CLINICAL_CARDS||[]).map(c=>{const id=JSON.stringify(['clinical',c.category||'unknown',c.q]);return {id,kind:'clinical',title:c.q,category:catalog.get(id)?.deck||c.category,answer:c.answer,rationale:c.rationale};}),
  ...TERM_DECKS.map(c=>({id:JSON.stringify(['terms',c.cat,c.term]),kind:'terms',title:c.term,category:catalog.get(JSON.stringify(['terms',c.cat,c.term]))?.deck||c.cat,answer:c.def,rationale:plain(c.breakdown)}))];
  const label={questions:'Practice Question',clinical:'Clinical Flashcard',terms:'Terminology Card'};

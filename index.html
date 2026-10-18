@@ -57,19 +57,18 @@
 
                     <section class="quiz-setup-group" aria-labelledby="quiz-setup-heading">
                     <h3 id="quiz-setup-heading">📝 Practice Questions & Exams</h3>
-                    <p class="study-help">Choose a module and question count, then start Review or Exam Mode.</p>
+                    <p class="study-help">Choose a category and question count, then start Review or Exam Mode.</p>
                     
                     <div style="margin-bottom: 20px; text-align: center;">
-                        <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Module:</label>
+                        <label for="topic-select" style="font-weight: bold; display: block; margin-bottom: 8px;">Select Category:</label>
                         <select id="topic-select" onchange="adjustSliderRange()" style="width: 95%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent-blue); font-size: 1rem; cursor: pointer;">
                             <option value="All">Comprehensive (All Content)</option>
                             <option value="Foundations">Foundations</option>
-                            <option value="Pathophysiology">Pathophysiology</option>
-                            <option value="Medical">Medical Emergencies</option>
-                            <option value="Trauma">Trauma & Environmental</option>
-                            <option value="OBPeds">OB/GYN & Pediatrics</option>
-                            <option value="Terminology">Medical Terminology (Open Text)</option>
-                            <option value="Physician">Make Me a Physician (Elite Study)</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Trauma">Trauma</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="OB/GYN">OB/GYN</option>
                         </select>
                     </div>
 
@@ -378,7 +377,7 @@
         <div class="resource-print-actions"><button id="resource-print" type="button" class="study-button">Print / Save as PDF</button> <button id="resource-close" type="button" class="study-button">Close Preview</button></div>
         <div id="resource-print-sheet"></div>
     </dialog>
-    <script src="script.js"></script>
+    <script src="question-modules.js"></script><script src="script.js"></script>
 <script src="question-author-engine.js"></script>
 <script src="authored-questions.js"></script>
 <script src="authored-question-loader.js"></script>
