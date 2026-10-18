@@ -12,3 +12,5 @@ assert.throws(()=>G.parseDeck('{"format":"other","version":2,"items":[]}'));asse
 for(const q of [single,multi,typed,order]){const publicQ=G.publicItem(q);assert.equal(publicQ.correct,undefined);assert.equal(publicQ.accepted,undefined);assert.equal(publicQ.rationale,'');if(q.type==='order')assert.deepEqual(publicQ.answers,[]);}
 assert.equal(G.csvCell('=HYPERLINK("x")'),'"\'=HYPERLINK(""x"")"');assert.equal(G.csvCell('a,b'),'"a,b"');
 console.log('PASS: grading, malformed responses, select-all exact matching, typed normalization, ordering, unscored polls/slides, bank conversion, deck validation/roundtrip, answer-key redaction and spreadsheet formula escaping.');
+
+assert.equal(G.CHARACTERS.length,12);for(const id of ['wizard','elf','dwarf','hobbit','orc','goblin'])assert.ok(G.CHARACTERS.some(c=>c.id===id));assert.equal(new Set(G.CHARACTERS.map(c=>c.id)).size,12);

@@ -3,7 +3,7 @@
 'use strict';
 const VERSION=2,MAX_ITEMS=60,MAX_BYTES=10*1024*1024;
 const TYPES={single:'Multiple choice',multiple:'Select all that apply',typed:'Typed answer',order:'Put in order',poll:'Class poll',slide:'Teaching slide'};
-const CHARACTERS=[{id:'fox',icon:'🦊',name:'Fox'},{id:'owl',icon:'🦉',name:'Owl'},{id:'badger',icon:'🦡',name:'Badger'},{id:'hedgehog',icon:'🦔',name:'Hedgehog'},{id:'deer',icon:'🦌',name:'Deer'},{id:'dragon',icon:'🐉',name:'Dragon'}];
+const CHARACTERS=[{id:'fox',icon:'🦊',name:'Fox'},{id:'owl',icon:'🦉',name:'Owl'},{id:'badger',icon:'🦡',name:'Badger'},{id:'hedgehog',icon:'🦔',name:'Hedgehog'},{id:'deer',icon:'🦌',name:'Deer'},{id:'dragon',icon:'🐉',name:'Dragon'},{id:'wizard',icon:'🧙',name:'Wizard'},{id:'elf',icon:'🧝',name:'Elf'},{id:'dwarf',icon:'🧔',name:'Dwarf'},{id:'hobbit',icon:'🧑‍🌾',name:'Hobbit'},{id:'orc',icon:'👹',name:'Orc'},{id:'goblin',icon:'👺',name:'Goblin'}];
 const normalize=s=>String(s).normalize('NFKC').trim().replace(/\s+/g,' ').toLowerCase();
 function newItem(type='single'){return {type,text:'',answers:type==='slide'||type==='typed'?[]:['','','',''],correct:[0],accepted:[],rationale:'',category:'Custom',image:'',imageAlt:''};}
 function fromBank(q){const a=q.options||[],correct=a.map((v,i)=>(q.answer||[]).includes(v)?i:-1).filter(i=>i>=0);return {...newItem(correct.length>1?'multiple':'single'),text:q.q||'',answers:[...a],correct,rationale:q.rationale||'',category:q.category||'Question bank'};}
