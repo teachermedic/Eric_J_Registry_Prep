@@ -48,7 +48,7 @@ function fakePeer(){
  await h.locator('#live-campaign').selectOption(savedClass.cid);await h.locator('#live-class').selectOption(savedClass.aid);await h.locator('#live-activity').fill('EMS-1');
  await h.locator('#builder-resume').click();await h.locator('#editor-launch').click();await h.locator('#host-pin').waitFor({state:'visible'});const pin=await h.locator('#host-pin').innerText();
  async function join(name,char='fox'){const p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(base+'instructor-corner.html?join='+pin);await p.locator('#join-name').fill(name);await p.locator('input[value="'+char+'"]').check();await p.locator('#join-btn').click();await p.waitForFunction(()=>document.querySelector('#ic-player').classList.contains('active')&&!player.pending);return p;}
- const p=await join('<b>Medic</b>','owl');assert.match(await p.locator('#player-name').innerText(),/🦉 <b>Medic<\/b>/);assert.equal(await h.locator('#host-players b').count(),0);
+ const p=await join('<b>Medic</b>','wizard');assert.match(await p.locator('#player-name').innerText(),/🧙 <b>Medic<\/b>/);assert.equal(await h.locator('#host-players b').count(),0);
  assert.equal(await h.locator('.hl-live-team select').count(),1);await p.locator('#live-world').waitFor({state:'visible'});
  await p.locator('#world-team-name').fill('River medics');await p.locator('#world-create-team').click();await p.waitForFunction(()=>document.querySelector('#world-team-status').textContent.includes('You joined River medics'));
  await p.locator('#world-team').selectOption({label:'Foxes'});await p.locator('#world-join-team').click();await p.waitForFunction(()=>document.querySelector('#world-team-status').textContent==='You joined Foxes.');
@@ -57,7 +57,7 @@ function fakePeer(){
 
  await h.locator('#host-begin').click();await p.locator('#pq-image img').waitFor();assert.equal(await p.locator('#world-team-controls').isVisible(),false);await p.evaluate(()=>window.HearthlandsTeamSend({t:'team-create',name:'Too late'}));await p.waitForFunction(()=>document.querySelector('#world-team-status').textContent.includes('locked'));assert.equal(await p.locator('#pq-options button').count(),0);assert.match(await p.locator('#pq-slide').innerText(),/Follow the blood flow/);
  // Late join receives the current teaching slide; duplicate nickname is disambiguated.
- const late=await join('<b>Medic</b>','dragon');await late.waitForFunction(()=>document.querySelector('#pq-text').textContent==='The heart at work');
+ const late=await join('<b>Medic</b>','goblin');await late.waitForFunction(()=>document.querySelector('#pq-text').textContent==='The heart at work');
  await h.locator('#hq-reveal').click();await p.waitForFunction(()=>document.querySelector('#pq-text').textContent==='single question');await p.locator('#pq-options button').nth(1).click();await p.locator('#player-locked').waitFor({state:'visible'});
  // Host rejects forged and duplicate answers and does not reset a player on a repeated join.
  await p.evaluate(()=>{player.conn.send({t:'a',i:1,c:99});player.conn.send({t:'a',i:1,c:0});player.conn.send({t:'join',v:2,name:'Reset'});});
@@ -73,7 +73,7 @@ function fakePeer(){
  await h.evaluate(bid=>{const r=new window.Hearthlands.Repository(localStorage);r.change(s=>s.activeClassId=bid);},savedClass.bid);
  await h.getByRole('button',{name:'Award campaign supplies',exact:true}).click();await p.waitForFunction(()=>document.querySelector('#world-supplies').textContent.includes('40 supplies'));
  const progress=await h.evaluate(({cid,aid,bid})=>{const H=window.Hearthlands,r=new H.Repository(localStorage),c=H.campaign(r.state,cid);return {a:H.classroom(c,aid).teams.find(t=>t.name==='River medics').balance,b:H.classroom(c,bid).teams[0].balance,rounds:H.classroom(c,aid).rounds.length};},savedClass);assert.deepEqual(progress,{a:40,b:0,rounds:1});assert.equal(await h.getByRole('button',{name:'Award campaign supplies',exact:true}).isDisabled(),true);
- const resultDownload=h.waitForEvent('download');await h.locator('#download-results').click();const result=await resultDownload;assert.match(fs.readFileSync(await result.path(),'utf8'),/Owl","4","4000/);
+ const resultDownload=h.waitForEvent('download');await h.locator('#download-results').click();const result=await resultDownload;assert.match(fs.readFileSync(await result.path(),'utf8'),/Wizard","4","4000/);
  await h.setViewportSize({width:1440,height:1000});await h.screenshot({path:'/tmp/gathering-hall-results.png',fullPage:true});
  await h.locator('#ic-leave').click();await h.locator('#ic-host-open').click();await h.screenshot({path:'/tmp/gathering-hall-editor.png',fullPage:true});
  for(const page of [h,p])for(const width of [1440,768,390,320]){await page.setViewportSize({width,height:850});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Overflow '+width);}

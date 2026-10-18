@@ -1,5 +1,11 @@
-const CACHE_NAME = 'field-notes-study-tools-v38';
+const CACHE_NAME = 'field-notes-study-tools-v39';
 const assets = [
+  './question-workshop.html',
+  './question-workshop.css',
+  './question-workshop.js',
+  './question-author-engine.js',
+  './authored-questions.js',
+  './authored-question-loader.js',
   './instructor-music.js',
   './audio/bards-tale-loop.mp3',
   './hearthlands.html',
@@ -89,6 +95,18 @@ self.addEventListener('install', evt => {
 
 // Fetch Assets
 self.addEventListener('fetch', evt => {
+  // Published question additions must update without requiring a cache-version edit.
+  const url = new URL(evt.request.url);
+  if (evt.request.method === 'GET' && url.origin === self.location.origin && url.pathname.endsWith('/authored-questions.js')) {
+    evt.respondWith((async () => {
+      try {
+        const response = await fetch(new Request(evt.request, {cache:'no-cache'}));
+        if (response.ok) { try { const cache = await caches.open(CACHE_NAME); await cache.put(evt.request, response.clone()); } catch { /* Fresh questions still work when caching is unavailable. */ } return response; }
+        return (await caches.match(evt.request)) || response;
+      } catch { return (await caches.match(evt.request)) || Response.error(); }
+    })());
+    return;
+  }
   evt.respondWith(
     caches.match(evt.request).then(rec => {
       return rec || fetch(evt.request);
