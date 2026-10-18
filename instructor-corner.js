@@ -18,10 +18,9 @@ $('#character-choices').innerHTML=G.CHARACTERS.map((c,i)=>'<label><input type="r
 const character=id=>G.CHARACTERS.find(c=>c.id===id)||G.CHARACTERS[0];
 Object.entries(G.TYPES).forEach(([v,t])=>$('#editor-type').add(new Option(t,v)));
 [...new Set(bank.map(q=>q.section).filter(Boolean))].sort().forEach(x=>$('#host-section').add(new Option(x,x)));
-function filteredBank(){const s=$('#host-section').value,c=$('#host-category').value;return bank.filter(q=>(s==='All'||q.section===s)&&(c==='All'||q.category===c))}
+function filteredBank(){const s=$('#host-section').value;return bank.filter(q=>s==='All'||q.section===s)}
 function refreshStatus(){$('#bank-status').textContent=filteredBank().length+' multiple-choice and select-all questions available.';}
-function refreshCats(){const sec=$('#host-section').value;$('#host-category').innerHTML='<option value="All">All categories</option>';[...new Set(bank.filter(q=>sec==='All'||q.section===sec).map(q=>q.category).filter(Boolean))].sort().forEach(x=>$('#host-category').add(new Option(x,x)));refreshStatus();}
-$('#host-section').onchange=refreshCats;$('#host-category').onchange=refreshStatus;refreshCats();
+$('#host-section').onchange=refreshStatus;refreshStatus();
 function shuffled(a){a=[...a];for(let i=a.length-1;i;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
 function download(content,type,filename){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function showImage(selector,q){const el=$(selector);el.replaceChildren();if(q.image&&G.imageAllowed(q.image)){const img=new Image();img.src=q.image;img.alt=q.imageAlt||'';img.className='ic-teaching-image';el.append(img);}}

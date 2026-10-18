@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v40';
+const CACHE_NAME = 'field-notes-study-tools-v41';
 const assets = [
   './instructor-access.html',
   './instructor-access.js',
