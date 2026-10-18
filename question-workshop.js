@@ -1,4 +1,10 @@
 'use strict';
+let workshopStarted=false;
+function openWorkshop(){window.InstructorAccess.open(()=>{document.querySelector('#qa-locked').hidden=true;document.querySelector('#qa-tools').hidden=false;document.querySelector('#qa-tools').inert=false;if(!workshopStarted){workshopStarted=true;startWorkshop();}});}
+document.querySelector('#qa-unlock').onclick=openWorkshop;
+document.querySelector('#qa-lock').onclick=()=>window.InstructorAccess.lock();
+window.addEventListener('instructor-access-locked',()=>{document.querySelector('#qa-tools').hidden=true;document.querySelector('#qa-tools').inert=true;document.querySelector('#qa-locked').hidden=false;document.querySelector('#qa-unlock').focus();});
+function startWorkshop(){
 const A=window.QuestionAuthor,$=s=>document.querySelector(s),esc=A.esc;
 let questions=[],published=[],raw=null,storage=null,warning='',protectedDraft=false,editingId='',dirty=false,removed=null,limit=25,formOptions=['','','',''],formCorrect=[0];
 function status(text){$('#qa-status').textContent=text;$('#qa-storage').textContent=warning;}
@@ -27,3 +33,5 @@ $('#qa-import').onchange=async ev=>{const file=ev.target.files[0];if(!file)retur
 $('#qa-publish').onclick=()=>{try{if(dirty)throw Error('Save the current question edits before exporting.');download(A.js(questions),'authored-questions.js','text/javascript;charset=utf-8');status('Website file downloaded. Upload authored-questions.js to the repository root and commit it to publish.');}catch(e){status(e.message);}};
 window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});window.addEventListener('storage',event=>{if(event.key===A.KEY)status('The draft changed in another tab. Reload before saving; your current form has not been replaced.');});
 edit();renderList();status('Draft ready. Saving here does not publish to the public site.');
+
+}
