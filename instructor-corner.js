@@ -9,7 +9,7 @@ function sub(prefix,id){document.querySelectorAll('#ic-'+prefix+' > [id]').forEa
 function tone(kind){if(!$('#ic-sound').checked)return;try{audioContext=audioContext||new (window.AudioContext||window.webkitAudioContext)();audioContext.resume().catch(()=>{});const now=audioContext.currentTime,notes=kind==='correct'?[523,659,784]:kind==='join'?[392,523]:kind==='wrong'?[220,196]:[440];notes.forEach((hz,i)=>{const o=audioContext.createOscillator(),g=audioContext.createGain(),t=now+i*.1;o.type='sine';o.frequency.value=hz;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.connect(g);g.connect(audioContext.destination);o.start(t);o.stop(t+.16)});}catch(_){notice('Sound is unavailable in this browser. You can continue without it.');}}
 $('#ic-sound').onchange=()=>tone('join');
 $('#ic-fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notice('Full screen is unavailable here. Use your browser’s presentation or full-screen controls.');}catch(_){notice('Your browser could not enter full screen.');}};
-function cleanup(){const oldHost=host;host=null;if(oldHost)oldHost.destroy();const oldPeer=player.peer;player.peer=null;player.conn=null;player.pending=false;player.submitted=false;$('#join-btn').disabled=false;if(oldPeer)oldPeer.destroy();}
+function cleanup(){window.InstructorMusic?.reset();window.HearthlandsLive?.clear();const oldHost=host;host=null;if(oldHost)oldHost.destroy();const oldPeer=player.peer;player.peer=null;player.conn=null;player.pending=false;player.submitted=false;$('#join-btn').disabled=false;if(oldPeer)oldPeer.destroy();}
 document.querySelectorAll('[data-go="home"]').forEach(b=>b.onclick=()=>{cleanup();view('home')});
 $('#ic-leave').onclick=()=>{cleanup();view('home');notice('Room closed on this device. Your presentation is still in the editor.');};
 window.addEventListener('beforeunload',e=>{if(host||draftQuestions.length){e.preventDefault();e.returnValue='';}});
@@ -68,19 +68,20 @@ $('#deck-import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{
 function launch(preview){try{const qs=checkedDeck();if(!preview&&typeof Peer!=='function')throw Error('Live-room connection software could not load. Check internet access or use Preview on this device.');cleanup();host=new Host(qs,+$('#host-time').value,$('#host-points').checked,preview);view('host');if(preview)host.question(0);else host.open();}catch(e){editorError(e);view('editor')}}
 $('#editor-launch').onclick=()=>launch(false);$('#editor-preview').onclick=()=>launch(true);
 class Host{
- constructor(qs,time,points,preview=false){this.qs=qs;this.time=time;this.points=points;this.preview=preview;this.players=new Map();this.i=-1;this.phase='lobby';this.timer=null;this.participants=new Set();this.stats=qs.map(()=>({correct:0,total:0,responses:0}));this.destroyed=false;}
+ constructor(qs,time,points,preview=false){this.campaign=window.HearthlandsLive?.capture(preview)||null;this.qs=qs;this.time=time;this.points=points;this.preview=preview;this.players=new Map();this.i=-1;this.phase='lobby';this.timer=null;this.participants=new Set();this.stats=qs.map(()=>({correct:0,total:0,responses:0}));this.destroyed=false;}
  open(){sub('host','host-status');$('#host-status').textContent='Opening room…';this.pin=String(Math.floor(100000+Math.random()*900000));this.peer=new Peer(PEER_PREFIX+this.pin);this.peer.on('open',()=>{if(!this.destroyed)this.lobby()});this.peer.on('connection',c=>this.connect(c));this.peer.on('error',e=>{if(this.destroyed)return;notice('Connection problem: '+e.type+'. Check your network; return to the editor to open a new room.');if(this.phase==='lobby'){sub('host','host-status');$('#host-status').textContent='The live room could not open. Your presentation is still available in the editor.';}});this.peer.on('disconnected',()=>{if(!this.destroyed)notice('Signaling disconnected. Existing connections may continue, but new students may not be able to join.');});}
  connect(c){c.on('data',d=>this.message(c,d));c.on('close',()=>{const p=this.players.get(c.connectionId);if(p){p.active=false;this.renderPlayers();}});c.on('error',()=>{const p=this.players.get(c.connectionId);if(p)p.active=false;this.renderPlayers();});}
  active(){return [...this.players.values()].filter(p=>p.active&&p.conn.open);}
  message(c,d){
  if(this.destroyed||!d||typeof d!=='object')return;
+ if(d.t==='team-create'||d.t==='team-join'){window.HearthlandsLive?.teamRequest(this,this.players.get(c.connectionId),d);return;}
  if(d.t==='join'){
  if(this.players.has(c.connectionId))return;
  if(d.v!==G.VERSION){c.send({t:'error',message:'Your page uses a different version. Reload this page, then rejoin.'});return;}
  if(this.phase==='end'){c.send({t:'error',message:'This session has finished.'});return;}
  if(this.players.size>=60){c.send({t:'error',message:'This room has reached its 60-join limit. Rejoining uses a new place.'});return;}
  let name=String(d.name||'Learner').trim().slice(0,20)||'Learner',base=name,n=2;const names=new Set([...this.players.values()].map(p=>p.name.toLowerCase()));while(names.has(name.toLowerCase()))name=base.slice(0,16)+' '+n++;
- const p={conn:c,name,character:character(d.character).id,score:0,correct:0,choice:null,ms:0,active:true};this.players.set(c.connectionId,p);c.send({t:'welcome',v:G.VERSION,name,character:p.character});this.renderPlayers();tone('join');
+ const p={conn:c,name,character:character(d.character).id,score:0,correct:0,choice:null,ms:0,active:true,teamId:window.HearthlandsLive?.assign(this)||''};this.players.set(c.connectionId,p);c.send({t:'welcome',v:G.VERSION,name,character:p.character});this.renderPlayers();window.HearthlandsLive?.joined(this,p);tone('join');
  if(this.phase==='question'){this.participants.add(c.connectionId);this.sendQuestion(p);}else if(this.phase==='reveal')c.send({t:'waiting',message:'You joined between questions. The next item will appear here.'});
  }else if(d.t==='a'&&this.phase==='question'&&d.i===this.i){
  const p=this.players.get(c.connectionId),q=this.qs[this.i];if(!p||p.choice!==null||!this.participants.has(c.connectionId))return;
@@ -91,21 +92,22 @@ class Host{
  }
  broadcast(d){this.active().forEach(p=>p.conn.send(d));}
  lobby(){sub('host','host-lobby');$('#host-pin').textContent=this.pin;$('#host-qr').replaceChildren();if(typeof qrcode==='function'){const qr=qrcode(0,'M');qr.addData(location.href.split('?')[0].split('#')[0]+'?join='+this.pin);qr.make();$('#host-qr').innerHTML=qr.createSvgTag({cellSize:3,margin:2});}this.renderPlayers();$('#host-begin').disabled=false;$('#host-begin').onclick=()=>this.question(0);}
- renderPlayers(){$('#host-players').innerHTML=this.active().map(p=>'<span>'+character(p.character).icon+' '+esc(p.name)+' <button type="button" class="ic-remove" data-kick="'+esc(p.conn.connectionId)+'" aria-label="Remove '+esc(p.name)+'">×</button></span>').join('');$('#host-count-num').textContent=this.active().length;$('#host-players').querySelectorAll('[data-kick]').forEach(b=>b.onclick=()=>{const p=this.players.get(b.dataset.kick);if(p){p.conn.send({t:'error',message:'The instructor removed you from this room.'});p.active=false;p.conn.close();this.renderPlayers();}});}
+ renderPlayers(){$('#host-players').innerHTML=this.active().map(p=>'<span>'+character(p.character).icon+' '+esc(p.name)+' <button type="button" class="ic-remove" data-kick="'+esc(p.conn.connectionId)+'" aria-label="Remove '+esc(p.name)+'">×</button></span>').join('');$('#host-count-num').textContent=this.active().length;$('#host-players').querySelectorAll('[data-kick]').forEach(b=>b.onclick=()=>{const p=this.players.get(b.dataset.kick);if(p){p.conn.send({t:'error',message:'The instructor removed you from this room.'});p.active=false;p.conn.close();this.renderPlayers();}});window.HearthlandsLive?.controls(this);}
  sendQuestion(p){const q=this.qs[this.i];p.order=q.type==='order'?shuffled(q.answers.map((_,i)=>i)):null;const publicQ=G.publicItem(q);if(p.order)publicQ.answers=p.order.map(i=>q.answers[i]);p.conn.send({t:'q',i:this.i,n:this.qs.length,q:publicQ,time:q.type==='slide'?0:this.time,remaining:q.type==='slide'||!this.time?0:Math.max(0,Math.ceil((this.deadline-Date.now())/1000))});}
  question(i){
  clearInterval(this.timer);this.i=i;this.phase='question';this.participants=new Set(this.active().map(p=>p.conn.connectionId));for(const p of this.players.values()){p.choice=null;p.ms=0;p.order=null;}
- const q=this.qs[i];this.started=Date.now();this.deadline=this.started+this.time*1000;this.active().forEach(p=>this.sendQuestion(p));sub('host','host-question');$('#hq-progress').textContent=(this.preview?'Preview · ':'')+'Item '+(i+1)+' of '+this.qs.length+' · '+G.TYPES[q.type];$('#hq-text').textContent=q.text;showImage('#hq-image',q);$('#hq-slide').textContent=q.type==='slide'?q.rationale:'';$('#hq-answered').textContent='0';$('#hq-answered').parentElement.hidden=q.type==='slide';$('#hq-options').innerHTML=['single','multiple','poll'].includes(q.type)?q.answers.map((a,k)=>'<div class="ic-option">'+String.fromCharCode(65+k)+'. '+esc(a)+'</div>').join(''):q.type==='typed'?'<p>Students type their answer on their device.</p>':q.type==='order'?'<p>Students arrange the steps on their device.</p>':'';
+ const q=this.qs[i];window.InstructorMusic?.setQuestion(q.type!=='slide');this.started=Date.now();this.deadline=this.started+this.time*1000;this.active().forEach(p=>{window.HearthlandsLive?.joined(this,p);this.sendQuestion(p)});sub('host','host-question');$('#hq-progress').textContent=(this.preview?'Preview · ':'')+'Item '+(i+1)+' of '+this.qs.length+' · '+G.TYPES[q.type];$('#hq-text').textContent=q.text;showImage('#hq-image',q);$('#hq-slide').textContent=q.type==='slide'?q.rationale:'';$('#hq-answered').textContent='0';$('#hq-answered').parentElement.hidden=q.type==='slide';$('#hq-options').innerHTML=['single','multiple','poll'].includes(q.type)?q.answers.map((a,k)=>'<div class="ic-option">'+String.fromCharCode(65+k)+'. '+esc(a)+'</div>').join(''):q.type==='typed'?'<p>Students type their answer on their device.</p>':q.type==='order'?'<p>Students arrange the steps on their device.</p>':'';
  $('#hq-reveal').textContent=q.type==='slide'?(i===this.qs.length-1?'Finish Session':'Next Item'):'Reveal Responses';$('#hq-reveal').onclick=()=>q.type==='slide'?this.advance():this.reveal();
  if(this.time&&q.type!=='slide'&&!this.preview){let previous=-1;const tick=()=>{const left=Math.max(0,Math.ceil((this.deadline-Date.now())/1000));$('#hq-timer').textContent=left+' sec';if(left!==previous&&left<=5&&left>0)tone('tick');previous=left;if(!left)this.reveal();};tick();this.timer=setInterval(tick,200);}else $('#hq-timer').textContent='Instructor paced';
  }
  advance(){clearInterval(this.timer);if(this.i===this.qs.length-1)this.end();else this.question(this.i+1);}
  reveal(){
- if(this.phase!=='question'||this.qs[this.i].type==='slide')return;this.phase='reveal';clearInterval(this.timer);const q=this.qs[this.i],ps=[...this.participants].map(id=>this.players.get(id)).filter(Boolean);let correct=0,responses=0;
+ if(this.phase!=='question'||this.qs[this.i].type==='slide')return;this.phase='reveal';window.InstructorMusic?.setQuestion(false);clearInterval(this.timer);const q=this.qs[this.i],ps=[...this.participants].map(id=>this.players.get(id)).filter(Boolean);let correct=0,responses=0;
  const counts=q.answers.map(()=>0),typed=new Map();
  ps.forEach(p=>{
  let value=p.choice;if(q.type==='order'&&Array.isArray(value))value=value.map(n=>p.order[n]);
  const ok=q.type==='poll'?null:G.grade(q,value);if(p.choice!==null){responses++;if(q.type==='multiple')p.choice.forEach(n=>counts[n]++);else if(['single','poll'].includes(q.type))counts[p.choice]++;else if(q.type==='typed'){const text=String(p.choice);typed.set(text,(typed.get(text)||0)+1);}}
+ if(!['slide','poll'].includes(q.type))window.HearthlandsLive?.tally(this,p,ok,p.choice!==null);
  if(ok){correct++;p.correct++;p.score+=this.points?(this.time?Math.max(500,1000-Math.floor(p.ms/(this.time*1000)*500)):1000):1;}
  if(p.active&&p.conn.open)p.conn.send({t:'reveal',ok,answered:p.choice!==null,answer:G.answerText(q),rationale:q.rationale,score:p.score,points:this.points,poll:q.type==='poll'});
  });
@@ -114,14 +116,14 @@ class Host{
  $('#hr-rationale').textContent=q.rationale||'Discuss these responses with your class.';$('#hr-next').textContent=this.i===this.qs.length-1?'Finish Session':'Next Item';$('#hr-next').onclick=()=>this.advance();tone('join');
  }
  end(){
- clearInterval(this.timer);this.phase='end';const ps=[...this.players.values()],questions=this.qs.filter(q=>!['slide','poll'].includes(q.type)).length;this.active().forEach(p=>p.conn.send({t:'end',score:p.score,correct:p.correct,questions,points:this.points}));sub('host','host-end');
+ clearInterval(this.timer);window.InstructorMusic?.setQuestion(false);this.phase='end';const ps=[...this.players.values()],questions=this.qs.filter(q=>!['slide','poll'].includes(q.type)).length;this.active().forEach(p=>p.conn.send({t:'end',score:p.score,correct:p.correct,questions,points:this.points}));sub('host','host-end');
  const total=this.stats.reduce((a,s,i)=>a+(!['slide','poll'].includes(this.qs[i].type)?s.total:0),0),correct=this.stats.reduce((a,s)=>a+s.correct,0);
  $('#host-summary').innerHTML='<p><strong>'+ps.length+'</strong> learners · <strong>'+questions+'</strong> scored questions · '+(total?'<strong>'+Math.round(correct/total*100)+'%</strong> class accuracy':'No scored responses')+'</p>'+this.stats.map((s,i)=>'<p>Item '+(i+1)+' · '+G.TYPES[this.qs[i].type]+': '+(this.qs[i].type==='slide'?'Teaching slide':this.qs[i].type==='poll'?s.responses+' responses':(s.total?Math.round(s.correct/s.total*100):0)+'% correct')+'</p>').join('');
  $('#host-leaderboard').innerHTML=this.points?'<h3>Class leaderboard</h3><ol>'+[...ps].sort((a,b)=>b.score-a.score).map(p=>'<li>'+character(p.character).icon+' '+esc(p.name)+' — '+p.score+' points</li>').join('')+'</ol>':'';
- $('#download-results').onclick=()=>this.csv();
+ $('#download-results').onclick=()=>this.csv();window.HearthlandsLive?.awards(this);
  }
  csv(){const rows=[['Nickname','Character','Correct answers',this.points?'Points':'Score','Connected at end'],...[...this.players.values()].map(p=>[p.name,character(p.character).name,p.correct,p.score,p.active?'Yes':'No'])];download(rows.map(r=>r.map(G.csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8','hearth-live-results.csv');}
- destroy(){this.destroyed=true;clearInterval(this.timer);this.broadcast({t:'closed'});if(this.peer)this.peer.destroy();}
+ destroy(){window.InstructorMusic?.reset();this.destroyed=true;clearInterval(this.timer);this.broadcast({t:'closed'});if(this.peer)this.peer.destroy();}
 }
 function join(){
  if(player.pending)return;const pin=$('#join-pin').value.replace(/\D/g,''),name=$('#join-name').value.trim();$('#join-error').textContent='';if(pin.length!==6||!name){$('#join-error').textContent='Enter a six-digit code and your nickname.';return;}
@@ -150,7 +152,7 @@ function renderPlayerQuestion(q){
  }
 }
 function playerMsg(d){
- if(!d||typeof d!=='object')return;view('player');
+ if(!d||typeof d!=='object')return;if(d.t==='world'){window.HearthlandsLive?.receive(d.world,d.teamId,d.canChange);return;}if(d.t==='team-status'){document.querySelector('#world-team-status').textContent=d.message;return;}view('player');
  if(d.t==='welcome'){player.name=d.name;$('#player-name').textContent=character(d.character).icon+' '+d.name;$('#player-wait p').textContent='Waiting for the instructor…';sub('player','player-wait');}
  else if(d.t==='waiting'){sub('player','player-wait');$('#player-wait p').textContent=d.message;}
  else if(d.t==='q'){
@@ -162,3 +164,5 @@ function playerMsg(d){
  else if(d.t==='closed'){sub('player','player-dropped');}
 }
 const params=new URLSearchParams(location.search);if(params.get('join')){$('#join-pin').value=params.get('join').replace(/\D/g,'').slice(0,6);$('#join-name').focus();}
+
+window.HearthlandsTeamSend=data=>{if(player.conn?.open)player.conn.send(data);};

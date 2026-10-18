@@ -30,3 +30,7 @@ Presentation images and results are not uploaded to a Hearth storage server. Liv
 The live protocol is version 2. Instructors and students must reload the updated page before joining; mixed old/new sessions are rejected with a reload message.
 
 Run `node tests/instructor-corner-engine.test.cjs` for deck and grading checks. Run `node tests/instructor-corner.test.cjs` with Playwright and a Chromium executable configured in `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` for editor and host/student UI coverage. The browser test uses a simulated peer transport; an actual instructor/student connection test on the target school network is still needed before classroom use.
+
+## Optional quiz music
+
+Turn on **Quiz music · instructor only** to play RandomMind’s CC0 fantasy instrumental **The Bard’s Tale** during question screens. Music is off by default, with independent volume and mute controls. Teaching slides, answer reveals, the session end, leaving the room, and hiding the tab stop the loop. Student devices do not start it. The compressed MP3 is hosted locally and cached for offline use. See `audio/README.md` for source and license details.
