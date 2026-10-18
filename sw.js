@@ -1,5 +1,7 @@
-const CACHE_NAME = 'field-notes-study-tools-v37';
+const CACHE_NAME = 'field-notes-study-tools-v38';
 const assets = [
+  './instructor-music.js',
+  './audio/bards-tale-loop.mp3',
   './hearthlands.html',
   './hearthlands.css',
   './hearthlands-engine.js',
