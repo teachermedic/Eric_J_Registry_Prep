@@ -1,6 +1,6 @@
 # Question Workshop
 
-Open **Gathering Hall → Question Workshop** to add your own question collection. It supports multiple choice and select-all, 2–6 choices, correct answers, a module/category, explanation, and optional source/reference. You can edit, duplicate, delete/undo, search, and preview questions. This edits your additional collection; it does not replace the built-in question bank.
+Open **the homepage → Question Workshop** or **Gathering Hall → Question Workshop**, then enter the configured instructor password to add your own question collection. The one-time setup and the browser-side lock’s limits are documented in `INSTRUCTOR-ACCESS.md`. It supports multiple choice and select-all, 2–6 choices, correct answers, a module/category, explanation, and optional source/reference. You can edit, duplicate, delete/undo, search, and preview questions. This edits your additional collection; it does not replace the built-in question bank.
 
 ## Save, import, and publish
 

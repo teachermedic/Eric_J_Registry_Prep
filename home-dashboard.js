@@ -10,6 +10,7 @@
  const panels={};
  for(const [id,title,help] of [
   ['today','Welcome to the Hearth.','Pull up a chair. Continue your study session, revisit a card, or fit in ten minutes.'],
+  ['classroom','The Gathering Hall','Join a live class, teach a lesson, or grow your team settlement.'],
   ['study','The Study Hall','Questions, flashcards, and clinical challenges. A little practice for the road ahead.'],
   ['my-progress','Your Journey','Study history, plans, and accomplishment seals. Every small step counts.'],
   ['resources','The Archives','Research, articles, and printable notes for curious minds.']
@@ -17,7 +18,7 @@
   const p=node('section',null,'dashboard-panel');p.id=id;p.hidden=true;
   const h=node('h2',title,'dashboard-heading');h.id=id+'-heading';h.tabIndex=-1;p.setAttribute('aria-labelledby',h.id);
   p.append(h,node('p',help,'dashboard-intro'));panels[id]=p;
-  const a=node('a');a.append(node('span',{'today':'The Hearth','study':'Study Hall','my-progress':'Your Journey','resources':'The Archives'}[id]),node('small',{'today':'Today','study':'Study','my-progress':'My Progress','resources':'Resources'}[id]));a.href='#'+id;nav.append(a);
+  const a=node('a');a.append(node('span',{'today':'The Hearth','study':'Study Hall','classroom':'Gathering Hall','my-progress':'Your Journey','resources':'The Archives'}[id]),node('small',{'today':'Today','study':'Study','classroom':'Live Class','my-progress':'My Progress','resources':'Resources'}[id]));a.href='#'+id;nav.append(a);
  }
  const tile=(title,description,href,mark='→')=>{
   const a=node('a',null,'dashboard-tile');a.href=href;
@@ -60,7 +61,8 @@
  grid.append(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
  old.remove();panels.study.append(grid,practiceBox);
  const library=get('study-library'),resume=get('resume-card');
- const scene=node('figure',null,'hearth-scene');const artwork=node('img');artwork.src='hearth-scene.svg';artwork.alt='';artwork.width=960;artwork.height=360;scene.append(artwork,node('figcaption','A quiet place to become field ready.'));panels.today.append(get('ems-study-intro'),scene);
+ const scene=node('figure',null,'hearth-scene');const artwork=node('img');artwork.src='hearth-scene.svg';artwork.alt='';artwork.width=960;artwork.height=360;scene.append(artwork,node('figcaption','A quiet place to become field ready.'));panels.today.append(get('ems-study-intro'));
+ const gathering=node('section',null,'gathering-feature');gathering.setAttribute('aria-labelledby','gathering-feature-heading');gathering.append(node('span','LEARN TOGETHER','eyebrow'));const gh=node('h2','The Gathering Hall');gh.id='gathering-feature-heading';gathering.append(gh,node('p','Live questions, image presentations, fantasy characters, and team settlements.'));const gatheringLinks=node('div',null,'gathering-feature-links');for(const [label,url] of [['Join / host a live class','instructor-corner.html'],['Class campaigns','hearthlands.html'],['🔒 Question Workshop','question-workshop.html']]){const a=node('a',label);a.href=url;gatheringLinks.append(a);}gathering.append(gatheringLinks);panels.today.append(gathering,scene);
  const welcome=node('div',null,'today-welcome');welcome.append(node('span','YOUR NEXT STEP','eyebrow'));
  const start=tile('Start studying','Choose questions, flashcards, or a clinical challenge.','#study','→');start.classList.add('tile-primary');start.id='today-start';
  const cardResume=tile('Continue your last deck','Pick up your saved flashcard session.','flashcards.html?resume=1','→');cardResume.classList.add('tile-primary');cardResume.hidden=true;
@@ -91,8 +93,8 @@
  panels['my-progress'].append(library,streak,get('badge-case'),get('progress-backup'));
  panels.resources.append(get('study-resource-tools'));
  const posts=get('substack-sidebar');posts.classList.add('dashboard-posts');panels.resources.append(posts);
- const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='The Gathering Hall';instructor.querySelector('.study-help').textContent='Instructor Corner · Host a live classroom or distance review.';
- const footer=node('div',null,'dashboard-footer');footer.append(instructor,setup.querySelector('.sponsor-banner'));
+ const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='The Gathering Hall';instructor.querySelector('.study-help').textContent='Teach a live lesson, join with a room code, or create new questions in the locked Workshop.';for(const p of instructor.querySelectorAll('p'))if(p.querySelector('a[href="question-workshop.html"]'))p.remove();panels.classroom.append(instructor);const classGrid=node('div',null,'dashboard-grid');classGrid.append(tile('The Hearthlands','Build team settlements and compare class progress.','hearthlands.html'),tile('Question Workshop','Password prompt for creating, importing, and exporting questions.','question-workshop.html'));panels.classroom.append(classGrid);
+ const footer=node('div',null,'dashboard-footer');footer.append(setup.querySelector('.sponsor-banner'));
  // Keep the original visit-streak elements for existing quiz callbacks, out of the student dashboard.
  const oldStreak=get('streak-container');oldStreak.hidden=true;oldStreak.setAttribute('aria-hidden','true');
  for(const child of [...setup.children])if(child!==oldStreak)child.remove();
