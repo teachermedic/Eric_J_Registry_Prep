@@ -899,8 +899,8 @@ function adjustSliderRange() {
     if (!topicSelect || !slider) return;
 
     const topic = topicSelect.value;
-    // FIX: Look for category (Physician) OR section (Medical/Trauma)
-    const filtered = topic === "All" ? quizData : quizData.filter(i => i.section === topic || i.category === topic);
+    // All questions belong to one of the six shared modules.
+    const filtered = topic === "All" ? quizData : quizData.filter(i => QuestionModules.forQuestion(i) === topic);
     const availableCount = filtered.length > 0 ? filtered.length : 5;
     
     slider.max = availableCount;
@@ -923,15 +923,15 @@ function startQuiz(selectedMode) {
     const topic = document.getElementById('topic-select').value;
     const numToPull = parseInt(document.getElementById('question-slider').value);
     
-    // FIX 1: Filter by Category OR Section
-    let filteredBank = topic === "All" ? [...quizData] : quizData.filter(i => i.section === topic || i.category === topic);
+    // Filter using the same six modules as the Workshop and Gathering Hall.
+    let filteredBank = topic === "All" ? [...quizData] : quizData.filter(i => QuestionModules.forQuestion(i) === topic);
 
     // FIX 2: If in Exam Mode, remove all "onlyStudy" (open-review) items
     if (mode === 'exam') {
         filteredBank = filteredBank.filter(q => !q.onlyStudy);
     }
 
-    // FIX 3: Safety check for Physician/Exam mismatch
+    // Some modules may contain review-only items.
     if (filteredBank.length === 0) {
         return alert("This module contains Study-Mode content only. Please select 'Review Mode' to begin.");
     }
@@ -964,8 +964,8 @@ function startQuiz(selectedMode) {
 
     categoryStats = {};
     sessionQuestions.forEach(q => {
-        if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 };
-        categoryStats[q.category].total++;
+        if (!categoryStats[QuestionModules.forQuestion(q)]) categoryStats[QuestionModules.forQuestion(q)] = { total: 0, correct: 0 };
+        categoryStats[QuestionModules.forQuestion(q)].total++;
     });
 
     if (mode === 'exam') {
@@ -996,7 +996,7 @@ function showQuestion() {
     const container = document.getElementById('options-container');
     const mainSubmitBtn = document.getElementById('action-btn'); // 1. GRAB THE MAIN BUTTON
     
-    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${sessionQuestions.length} | ${data.category}`;
+    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of ${sessionQuestions.length} | ${QuestionModules.forQuestion(data)}`;
     container.innerHTML = '';
     document.getElementById('feedback').innerText = '';
 
@@ -1165,7 +1165,7 @@ function handleAction() {
     studyRecordAnswer(q, isCorrect);
     if (isCorrect) {
         score++;
-        categoryStats[q.category].correct++;
+        categoryStats[QuestionModules.forQuestion(q)].correct++;
     } else {
         if (!missedQuestions.includes(q)) missedQuestions.push(q);
     }
@@ -1229,7 +1229,7 @@ function showResults() {
     breakdown.innerHTML = '<h3>Performance Profile</h3>';
 
     for (const [cat, data] of Object.entries(categoryStats)) {
-        const catTotal = sessionQuestions.filter(q => q.category === cat && q.type !== 'open-review').length;
+        const catTotal = sessionQuestions.filter(q => QuestionModules.forQuestion(q) === cat && q.type !== 'open-review').length;
         if (!catTotal) continue;
         const catPercent = Math.round((data.correct / catTotal) * 100);
         let masteryClass = catPercent >= 75 ? 'high-mastery' : (catPercent >= 50 ? 'mid-mastery' : 'low-mastery');

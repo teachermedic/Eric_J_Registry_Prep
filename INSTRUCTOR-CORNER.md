@@ -4,7 +4,7 @@ Open `instructor-corner.html` to teach or join a class. Review and Exam modes on
 
 ## Prepare a lesson
 
-1. Choose **Build a Session**. Select a module and category to draw from the question bank, choose the timer and optional game scoring, then select **Review Questions**. Or choose **Start a blank presentation**.
+1. Choose **Build a Session**. Select a category to draw from the question bank, choose the timer and optional game scoring, then select **Review Questions**. Or choose **Start a blank presentation**.
 2. Add multiple-choice, select-all, typed-answer, ordering, poll, or teaching-slide items. Use the arrows to arrange the lesson. For a true/false question, use two multiple-choice answers.
 3. Select the correct answers. Enter ordering steps in the correct order; learners receive shuffled steps. Typed answers match the accepted list while ignoring capitalization and repeated spaces. Add accepted abbreviations or equivalent wording explicitly.
 4. Upload JPG, PNG, or WebP images and provide image descriptions. Images appear on the instructor and student screens. Image-identification questions use an image with an ordinary question type. Images are resized to at most 1280 pixels on the longest edge and compressed for sharing, so inspect fine details such as ECG labels in Preview before teaching. Original files stay unchanged.
@@ -34,3 +34,5 @@ Run `node tests/instructor-corner-engine.test.cjs` for deck and grading checks. 
 ## Optional quiz music
 
 Turn on **Quiz music · instructor only** to play RandomMind’s CC0 fantasy instrumental **The Bard’s Tale** during question screens. Music is off by default, with independent volume and mute controls. Teaching slides, answer reveals, the session end, leaving the room, and hiding the tab stop the loop. Student devices do not start it. The compressed MP3 is hosted locally and cached for offline use. See `audio/README.md` for source and license details.
+
+Question-bank selection uses only Foundations, Medical, Trauma, Operations, Pediatrics, and OB/GYN (plus Comprehensive to mix them). These are shared with the Question Workshop and Review/Exam.

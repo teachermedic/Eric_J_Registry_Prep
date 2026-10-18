@@ -57,7 +57,7 @@ function renderStudyHome() {
     const s = studyWork.session;
     document.getElementById('resume-card').hidden = !s;
     if (s) {
-        document.getElementById('resume-description').textContent = `${s.mode === 'exam' ? 'Exam' : 'Review'} · ${s.topic} · Question ${s.index + 1} of ${s.keys.length}${s.mode === 'exam' ? ' · Timer pauses while closed.' : ''}`;
+        document.getElementById('resume-description').textContent = `${s.mode === 'exam' ? 'Exam' : 'Review'} · ${QuestionModules.selection(s.topic)} · Question ${s.index + 1} of ${s.keys.length}${s.mode === 'exam' ? ' · Timer pauses while closed.' : ''}`;
     }
     const status = document.getElementById('study-storage-status');
     status.textContent = studyStorageAvailable ? '' : 'This browser cannot save study work. It may be lost when this page closes.';
@@ -138,11 +138,21 @@ function resumeStudySession() {
     sessionQuestions = s.keys.map(k => studyQuestionMap.get(k));
     currentIdx = s.index; score = s.score; mode = s.mode; timeLeft = s.timeLeft;
     categoryStats = JSON.parse(JSON.stringify(s.stats));
+    if (Object.keys(categoryStats).some(name => !QuestionModules.NAMES.includes(name))) {
+        // Old sessions stored fine-grained categories. Rebuild their broad totals from stable keys.
+        categoryStats = {};
+        const answered = s.index + (s.phase === 'feedback' ? 1 : 0), missed = new Set(s.missed);
+        sessionQuestions.forEach((q, index) => {
+            const name = QuestionModules.forQuestion(q);
+            categoryStats[name] ||= {total:0,correct:0}; categoryStats[name].total++;
+            if(index < answered && q.type !== 'open-review' && !missed.has(studyQuestionKey(q))) categoryStats[name].correct++;
+        });
+    }
     missedQuestions = s.missed.map(k => studyQuestionMap.get(k));
     studySessionId = s.id; studyStartedAt = s.startedAt; studySource = s.source;
     studyActive = true; studyFinished = false; studyShownIndex = currentIdx;
     studyPhase = s.phase; studyCorrect = s.correct;
-    document.getElementById('topic-select').value = s.topic;
+    document.getElementById('topic-select').value = QuestionModules.selection(s.topic);
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('results-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
@@ -189,7 +199,7 @@ function studyFinishSession() {
     const completed = Math.min(currentIdx + (studyPhase === 'feedback' || studyPhase === 'revealed' ? 1 : 0), sessionQuestions.length);
     const categories = Object.entries(categoryStats).map(([name, value]) => ({
         name, correct: value.correct,
-        total: sessionQuestions.filter(q => q.category === name && q.type !== 'open-review').length
+        total: sessionQuestions.filter(q => QuestionModules.forQuestion(q) === name && q.type !== 'open-review').length
     })).filter(c => c.total > 0);
     studyWork.history.push({ id: studySessionId, date: new Date().toISOString(), topic: document.getElementById('topic-select').value,
         source: studySource, mode, correct: score, graded, total: sessionQuestions.length, completed,
@@ -245,7 +255,7 @@ function openStudyCollection(kind) {
     keys.forEach(key => {
         const q = studyQuestionMap.get(key);
         const row = studyElement('div', undefined, 'study-saved-item');
-        row.append(studyElement('small', q.category), studyElement('p', q.q));
+        row.append(studyElement('small', QuestionModules.forQuestion(q)), studyElement('p', q.q));
         row.append(studyButton('Practice', () => startStudyCollection(kind, [key])));
         row.append(studyButton('Remove', () => { studyWork[kind] = studyWork[kind].filter(k => k !== key); writeStudyWork(); renderStudyHome(); openStudyCollection(kind); }));
         body.append(row);
@@ -262,7 +272,7 @@ function startStudyCollection(kind, keys) {
     document.getElementById('topic-select').value = 'All';
     studyBeginSession(kind === 'missed' ? 'Saved missed questions' : 'Bookmarks');
     categoryStats = {};
-    sessionQuestions.forEach(q => { if (!categoryStats[q.category]) categoryStats[q.category] = { total: 0, correct: 0 }; categoryStats[q.category].total++; });
+    sessionQuestions.forEach(q => { if (!categoryStats[QuestionModules.forQuestion(q)]) categoryStats[QuestionModules.forQuestion(q)] = { total: 0, correct: 0 }; categoryStats[QuestionModules.forQuestion(q)].total++; });
     document.getElementById('study-dialog').close();
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('quiz-area').style.display = 'block';
@@ -274,17 +284,17 @@ function openStudyHistory() {
     if (!studyWork.history.length) { body.append(studyElement('p', 'Complete a session to see your progress here.')); return; }
     [...studyWork.history].reverse().forEach(h => {
         const row = studyElement('div', undefined, 'study-history-item');
-        row.append(studyElement('strong', `${h.topic} · ${h.mode === 'exam' ? 'Exam' : 'Review'}`));
+        row.append(studyElement('strong', `${QuestionModules.selection(h.topic)} · ${h.mode === 'exam' ? 'Exam' : 'Review'}`));
         row.append(studyElement('p', `${new Date(h.date).toLocaleString()} · ${h.source || 'Module'}`, 'study-help'));
         row.append(studyElement('p', h.graded ? `${h.correct}/${h.graded} scored questions · ${Math.round(h.correct / h.graded * 100)}% accuracy` : 'Self-study session · not scored'));
         if (h.reviewed) row.append(studyElement('p', `${h.reviewed} self-study cases reviewed.`));
         if (h.timedOut) row.append(studyElement('p', `Timer expired after ${h.completed}/${h.total} questions completed. Unanswered scored questions count in the total.`));
-        if (Array.isArray(h.categories)) h.categories.forEach(c => row.append(studyElement('p', `${c.name}: ${c.correct}/${c.total} (${Math.round(c.correct / c.total * 100)}%)`, 'study-help')));
+        if (Array.isArray(h.categories)) QuestionModules.groupStats(h.categories).forEach(c => row.append(studyElement('p', `${c.name}: ${c.correct}/${c.total} (${Math.round(c.correct / c.total * 100)}%)`, 'study-help')));
         body.append(row);
     });
 }
 function studyReportBody(q, concern) {
-    return `Question report\n\nModule: ${q.section || ''}\nCategory: ${q.category || ''}\nQuestion: ${q.q}\nQuestion reference: ${quizData.indexOf(q) + 1}\n\n${q.options ? 'Options:\n' + q.options.join('\n') + '\n\n' : ''}${q.rows ? 'Grid rows: ' + q.rows.join(', ') + '\nGrid columns: ' + q.cols.join(', ') + '\n\n' : ''}${q.vitals ? 'Vitals: ' + q.vitals + '\n' : ''}${q.history ? 'History: ' + q.history + '\n' : ''}${q.physical ? 'Physical: ' + q.physical + '\n' : ''}Student concern:\n${concern}\n\nPage: ${location.origin}${location.pathname}`;
+    return `Question report\n\nModule: ${QuestionModules.forQuestion(q)}\nQuestion: ${q.q}\nQuestion reference: ${quizData.indexOf(q) + 1}\n\n${q.options ? 'Options:\n' + q.options.join('\n') + '\n\n' : ''}${q.rows ? 'Grid rows: ' + q.rows.join(', ') + '\nGrid columns: ' + q.cols.join(', ') + '\n\n' : ''}${q.vitals ? 'Vitals: ' + q.vitals + '\n' : ''}${q.history ? 'History: ' + q.history + '\n' : ''}${q.physical ? 'Physical: ' + q.physical + '\n' : ''}Student concern:\n${concern}\n\nPage: ${location.origin}${location.pathname}`;
 }
 function openQuestionReport() {
     const q = sessionQuestions[currentIdx];
@@ -296,7 +306,7 @@ function openQuestionReport() {
     const input = studyElement('textarea'); input.id = 'study-report-concern'; input.maxLength = 1500;
     const link = studyElement('a', 'Open Email Draft', 'study-report-link');
     link.id = 'study-report-email';
-    const update = () => { link.href = `mailto:teachermedic84@gmail.com?subject=${encodeURIComponent('Field Notes question report: ' + q.category)}&body=${encodeURIComponent(studyReportBody(q, input.value))}`; };
+    const update = () => { link.href = `mailto:teachermedic84@gmail.com?subject=${encodeURIComponent('Field Notes question report: ' + QuestionModules.forQuestion(q))}&body=${encodeURIComponent(studyReportBody(q, input.value))}`; };
     input.addEventListener('input', update); update();
     body.append(label, input, studyElement('p', 'Opens your email app with a draft addressed to teachermedic84@gmail.com. Review it and click Send. Nothing is sent automatically.', 'study-help'), link);
     const copied = studyElement('p', '', 'study-help'); copied.setAttribute('role', 'status');

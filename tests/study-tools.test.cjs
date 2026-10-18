@@ -28,7 +28,7 @@ const assert = require('node:assert/strict');
   clearInterval(timerInterval); studyWork.session=null;
   const seen={};sessionQuestions=types.map(type=>quizData.filter(q=>q.type===type && !q.chainID)[seen[type]=(seen[type]??-1)+1]);
   mode=exam?'exam':'review'; studyBeginSession('Test'); categoryStats={};
-  sessionQuestions.forEach(q=>{categoryStats[q.category] ||= {total:0,correct:0};categoryStats[q.category].total++});
+  sessionQuestions.forEach(q=>{categoryStats[QuestionModules.forQuestion(q)] ||= {total:0,correct:0};categoryStats[QuestionModules.forQuestion(q)].total++});
   document.getElementById('setup-area').style.display='none';document.getElementById('quiz-area').style.display='block'; showQuestion();
   if(exam) startTimer();
  },{types,exam});
