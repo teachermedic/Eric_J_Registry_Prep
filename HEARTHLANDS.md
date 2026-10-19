@@ -49,8 +49,8 @@ If browser storage is blocked or full, the interface warns that progress exists 
 
 Automated checks cover progression, class isolation, common-activity league calculations, backups/import copies, duplicate awards, team creation/limits, reload, stale-tab protection, storage failure, browser layouts, host/student team creation and locking, result awards, and world broadcasts. Host/student tests use a simulated peer transport. Real school-network WebRTC connectivity and classroom-scale image delivery remain deployment checks inherited from Gathering Hall 2.0.
 
-## Living island artwork and motion
+## Illustrated island and building upgrades
 
-The map uses original inline SVG artwork: a floating woodland island, distant mountains, round-door cottages, copper roofs, a stone watchtower, a garden, and a stream. Upgrades add structural details. Gentle CSS animations provide clouds, flowing water, chimney smoke, warm windows, a campfire, a wandering villager, birds, trees and fireflies. The same map is used on the team page and in live student views. No external art, map assets, or animation framework is required.
+Use the owner-supplied island as a fixed background. All six saved building IDs and levels stay unchanged. Each building has matching generated raster artwork for levels 1–3, anchored to an existing plot. A seventh celebration garden appears automatically when all six buildings reach at least level 1; it costs nothing and adds no new stored progression state. The original cottage, wizard, horse, dragon, mountains and coast remain part of the background.
 
-**Pause island animation** persists on this browser with `field_notes_hearthlands_motion`. Reduced-motion settings disable animation and pause controls explain the device preference. Hidden documents pause animation. This preference does not alter team progress or backups.
+On the instructor page, select a plot with a pointer or keyboard to focus its building card; this action never spends supplies. Construction still requires the explicit Build/Upgrade button. The live student map remains read-only. An accessible progress line shows 6 plots and 18 upgrade levels. No animation is used. The old motion script is retained as a no-op entry point for compatibility with cached pages. Artwork and source notes are in `assets/hearthlands/README.md`; the assets are precached for offline use.

@@ -1,4 +1,1 @@
-/* Shared settlement motion preference; no animation timers or external assets. */
-(()=>{'use strict';const key='field_notes_hearthlands_motion',media=matchMedia('(prefers-reduced-motion: reduce)');let paused=false;try{paused=localStorage.getItem(key)==='paused';}catch{}
-function render(){document.documentElement.classList.toggle('hl-motion-paused',paused||media.matches||document.hidden);document.querySelectorAll('[data-hearth-motion]').forEach(button=>{button.disabled=media.matches;button.setAttribute('aria-pressed',String(paused||media.matches));button.textContent=media.matches?'Motion reduced on this device':paused?'Resume island animation':'Pause island animation';});}
-document.querySelectorAll('[data-hearth-motion]').forEach(button=>button.onclick=()=>{paused=!paused;try{localStorage.setItem(key,paused?'paused':'playing');}catch{}render();});media.addEventListener('change',render);document.addEventListener('visibilitychange',render);window.addEventListener('storage',event=>{if(event.key===key){paused=event.newValue==='paused';render();}});render();})();
+/* Compatibility entry point for older cached pages. Hearthlands artwork is now static. */
