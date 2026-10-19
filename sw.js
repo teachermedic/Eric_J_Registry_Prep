@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v41';
+const CACHE_NAME = 'field-notes-study-tools-v42';
 const assets = [
   './instructor-access.html',
   './instructor-access.js',
@@ -18,6 +18,7 @@ const assets = [
   './hearthlands.css',
   './hearthlands-engine.js',
   './hearthlands.js',
+  './hearthlands-motion.js',
   './hearthlands-live.js',
   './anatomy-explorer.html',
   './heart-explorer.html',
