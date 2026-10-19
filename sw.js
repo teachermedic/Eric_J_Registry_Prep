@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v42';
+const CACHE_NAME = 'field-notes-study-tools-v43';
 const assets = [
   './instructor-access.html',
   './instructor-access.js',
@@ -89,6 +89,7 @@ const assets = [
   './instructor-corner.html',
   './instructor-corner.css',
   './instructor-corner.js',
+  './instructor-boot.js',
   './instructor-corner-engine.js',
   './INSTRUCTOR-CORNER-NOTICE.txt'
 ];

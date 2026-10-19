@@ -2,25 +2,30 @@
 const G=window.GatheringHall,PEER_PREFIX='ej-fieldnotes-live-', $=s=>document.querySelector(s);
 const bank=(window.STUDY_CLINICAL_CARDS||[]).filter(q=>Array.isArray(q.options)&&q.options.length>=2&&q.options.length<=6&&Array.isArray(q.answer)&&q.answer.length&&q.answer.every(a=>q.options.includes(a)));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let host=null,player={peer:null,conn:null,name:'',index:-1,character:'fox',pending:false,submitted:false},draftQuestions=[],audioContext=null,imageJobs=0;
+let host=null,player={peer:null,conn:null,name:'',index:-1,character:'fox',pending:false,submitted:false},draftQuestions=[],audioContext=null,imageJobs=0,connectionEpoch=0;
 function notice(s){$('#ic-notice').textContent=s;}
 function view(id){$('#builder-resume').hidden=!draftQuestions.length;document.querySelectorAll('.ic-view').forEach(v=>v.classList.remove('active'));$('#ic-'+id).classList.add('active');$('#ic-leave').hidden=!['host','player'].includes(id);}
 function sub(prefix,id){document.querySelectorAll('#ic-'+prefix+' > [id]').forEach(x=>x.hidden=true);$('#'+id).hidden=false;}
 function tone(kind){if(!$('#ic-sound').checked)return;try{audioContext=audioContext||new (window.AudioContext||window.webkitAudioContext)();audioContext.resume().catch(()=>{});const now=audioContext.currentTime,notes=kind==='correct'?[523,659,784]:kind==='join'?[392,523]:kind==='wrong'?[220,196]:[440];notes.forEach((hz,i)=>{const o=audioContext.createOscillator(),g=audioContext.createGain(),t=now+i*.1;o.type='sine';o.frequency.value=hz;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.connect(g);g.connect(audioContext.destination);o.start(t);o.stop(t+.16)});}catch(_){notice('Sound is unavailable in this browser. You can continue without it.');}}
 $('#ic-sound').onchange=()=>tone('join');
 $('#ic-fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notice('Full screen is unavailable here. Use your browser’s presentation or full-screen controls.');}catch(_){notice('Your browser could not enter full screen.');}};
-function cleanup(){window.InstructorMusic?.reset();window.HearthlandsLive?.clear();const oldHost=host;host=null;if(oldHost)oldHost.destroy();const oldPeer=player.peer;player.peer=null;player.conn=null;player.pending=false;player.submitted=false;$('#join-btn').disabled=false;if(oldPeer)oldPeer.destroy();}
+function cleanup(){connectionEpoch++;clearTimeout(player.timeout);$('#join-btn').textContent='Join Session';$('#join-cancel')?.setAttribute('hidden','');window.InstructorMusic?.reset();window.HearthlandsLive?.clear();const oldHost=host;host=null;if(oldHost)oldHost.destroy();const oldPeer=player.peer;player.peer=null;player.conn=null;player.pending=false;player.submitted=false;$('#join-btn').disabled=false;if(oldPeer)oldPeer.destroy();}
 document.querySelectorAll('[data-go="home"]').forEach(b=>b.onclick=()=>{cleanup();view('home')});
 $('#ic-leave').onclick=()=>{cleanup();view('home');notice('Room closed on this device. Your presentation is still in the editor.');};
 window.addEventListener('beforeunload',e=>{if(host||draftQuestions.length){e.preventDefault();e.returnValue='';}});
 $('#ic-host-open').onclick=()=>{if(draftQuestions.length){renderEditor();view('editor')}else view('builder')};
 $('#character-choices').innerHTML=G.CHARACTERS.map((c,i)=>'<label><input type="radio" name="character" value="'+c.id+'" '+(i===0?'checked':'')+'><span>'+c.icon+' '+c.name+'</span></label>').join('');
 const character=id=>G.CHARACTERS.find(c=>c.id===id)||G.CHARACTERS[0];
+$('#join-btn').onclick=join;$('#join-name').onkeydown=e=>{if(e.key==='Enter')join()};$('#join-pin').onkeydown=e=>{if(e.key==='Enter')join()};
+if($('#join-cancel'))$('#join-cancel').onclick=()=>{cleanup();$('#join-error').textContent='Joining canceled. You can try again.';view('home');};
+window.GatheringJoinBoot?.ready();$('#join-btn').disabled=false;$('#join-btn').textContent='Join Session';
+function peerReady(){return typeof Peer==='function'?Promise.resolve():window.GatheringJoinBoot?.peerReady()||Promise.reject(Error('Connection software could not load. Reload the page and check internet access.'));}
+
 Object.entries(G.TYPES).forEach(([v,t])=>$('#editor-type').add(new Option(t,v)));
-QuestionModules.NAMES.forEach(x=>$('#host-section').add(new Option(x,x)));
-function filteredBank(){const s=$('#host-section').value;return bank.filter(q=>s==='All'||QuestionModules.forQuestion(q)===s)}
+(window.QuestionModules?.NAMES||[]).forEach(x=>$('#host-section').add(new Option(x,x)));
+function filteredBank(){const s=$('#host-section').value;return bank.filter(q=>s==='All'||window.QuestionModules?.forQuestion(q)===s)}
 function refreshStatus(){$('#bank-status').textContent=filteredBank().length+' multiple-choice and select-all questions available.';}
-$('#host-section').onchange=refreshStatus;refreshStatus();
+$('#host-section').onchange=refreshStatus;refreshStatus();if(!window.QuestionModules){$('#bank-status').textContent='Quiz categories did not load. Reload this page to build from the bank. Students can still join a room.';$('#host-start').disabled=true;}
 function shuffled(a){a=[...a];for(let i=a.length-1;i;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
 function download(content,type,filename){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function showImage(selector,q){const el=$(selector);el.replaceChildren();if(q.image&&G.imageAllowed(q.image)){const img=new Image();img.src=q.image;img.alt=q.imageAlt||'';img.className='ic-teaching-image';el.append(img);}}
@@ -64,7 +69,7 @@ $('#editor-add').onclick=()=>{if(draftQuestions.length>=60){editorError('A sessi
 function checkedDeck(){if(imageJobs)throw Error('Wait for image preparation to finish.');return G.validate(draftQuestions);}
 $('#deck-export').onclick=()=>{try{const items=checkedDeck();download(JSON.stringify({format:'hearth-gathering-hall',version:G.VERSION,items}),'application/json','hearth-presentation.json');$('#editor-error').textContent='Presentation downloaded. Keep this file to reopen and teach again.';}catch(e){editorError(e)}};
 $('#deck-import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>G.MAX_BYTES)throw Error('Choose a presentation smaller than 10 MB.');draftQuestions=G.parseDeck(await f.text());$('#import-error').textContent='';renderEditor();view('editor');}catch(err){$('#import-error').textContent=err.message}finally{e.target.value=''}};
-function launch(preview){try{const qs=checkedDeck();if(!preview&&typeof Peer!=='function')throw Error('Live-room connection software could not load. Check internet access or use Preview on this device.');cleanup();host=new Host(qs,+$('#host-time').value,$('#host-points').checked,preview);view('host');if(preview)host.question(0);else host.open();}catch(e){editorError(e);view('editor')}}
+async function launch(preview){const epoch=connectionEpoch;try{const qs=checkedDeck();if(!preview){$('#editor-error').textContent='Loading room connection…';await peerReady();if(epoch!==connectionEpoch)return;}cleanup();$('#editor-error').textContent='';host=new Host(qs,+$('#host-time').value,$('#host-points').checked,preview);view('host');if(preview)host.question(0);else host.open();}catch(e){editorError(e);view('editor')}}
 $('#editor-launch').onclick=()=>launch(false);$('#editor-preview').onclick=()=>launch(true);
 class Host{
  constructor(qs,time,points,preview=false){this.campaign=window.HearthlandsLive?.capture(preview)||null;this.qs=qs;this.time=time;this.points=points;this.preview=preview;this.players=new Map();this.i=-1;this.phase='lobby';this.timer=null;this.participants=new Set();this.stats=qs.map(()=>({correct:0,total:0,responses:0}));this.destroyed=false;}
@@ -124,16 +129,17 @@ class Host{
  csv(){const rows=[['Nickname','Character','Correct answers',this.points?'Points':'Score','Connected at end'],...[...this.players.values()].map(p=>[p.name,character(p.character).name,p.correct,p.score,p.active?'Yes':'No'])];download(rows.map(r=>r.map(G.csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8','hearth-live-results.csv');}
  destroy(){window.InstructorMusic?.reset();this.destroyed=true;clearInterval(this.timer);this.broadcast({t:'closed'});if(this.peer)this.peer.destroy();}
 }
-function join(){
+async function join(){
  if(player.pending)return;const pin=$('#join-pin').value.replace(/\D/g,''),name=$('#join-name').value.trim();$('#join-error').textContent='';if(pin.length!==6||!name){$('#join-error').textContent='Enter a six-digit code and your nickname.';return;}
- if(typeof Peer!=='function'){$('#join-error').textContent='Connection software could not load. Check your internet connection and reload.';return;}
- cleanup();player.name=name;player.character=$('input[name="character"]:checked').value;player.pending=true;$('#join-btn').disabled=true;tone('join');
- const peer=new Peer();player.peer=peer;let timeout=setTimeout(()=>fail('Could not reach the room. Check the code and your network.'),15000);
- function fail(message){if(player.peer!==peer)return;clearTimeout(timeout);cleanup();$('#join-btn').disabled=false;$('#join-error').textContent=message;view('home');}
- peer.on('open',()=>{if(player.peer!==peer)return;const c=peer.connect(PEER_PREFIX+pin,{reliable:true});player.conn=c;c.on('open',()=>c.send({t:'join',v:G.VERSION,name,character:player.character}));c.on('data',d=>{if(player.peer!==peer)return;if(d?.t==='welcome'&&d.v!==G.VERSION){fail('The instructor is using an older page. Ask them to reload and open a new room.');return;}if(d?.t==='welcome'){clearTimeout(timeout);player.pending=false;$('#join-btn').disabled=false;}if(d?.t==='error'){fail(d.message);return;}playerMsg(d);});c.on('close',()=>{if(player.peer!==peer)return;clearTimeout(timeout);player.pending=false;$('#join-btn').disabled=false;view('player');sub('player','player-dropped');});c.on('error',()=>fail('The connection was interrupted. Rejoin using the room code.'));});
- peer.on('error',e=>fail(e.type==='peer-unavailable'?'Session not found. Check the code.':'Could not connect. Check your internet connection.'));
+ cleanup();const epoch=connectionEpoch;player.name=name;player.character=$('input[name="character"]:checked')?.value||G.CHARACTERS[0].id;player.pending=true;$('#join-btn').disabled=true;$('#join-btn').textContent='Connecting…';if($('#join-cancel'))$('#join-cancel').hidden=false;$('#join-error').textContent='Connecting to the instructor’s room…';if($('#join-reload'))$('#join-reload').hidden=true;tone('join');
+ try{await peerReady();}catch(err){if(epoch!==connectionEpoch)return;cleanup();$('#join-error').textContent=err.message;if($('#join-reload'))$('#join-reload').hidden=false;return;}
+ if(epoch!==connectionEpoch)return;let peer;
+ try{peer=new Peer();}catch{cleanup();$('#join-error').textContent='The room connection could not start. Reload this page and try again.';return;}
+ player.peer=peer;player.timeout=setTimeout(()=>fail('Could not reach the room. Ask the instructor to keep the room open, check the code, and try again. Your network may be blocking the connection.'),15000);
+ function fail(message){if(player.peer!==peer)return;cleanup();$('#join-error').textContent=message;view('home');}
+ peer.on('open',()=>{if(player.peer!==peer)return;$('#join-error').textContent='Contacting the instructor’s room…';let c;try{c=peer.connect(PEER_PREFIX+pin,{reliable:true});}catch{fail('Could not open the room connection. Check the code and try again.');return;}player.conn=c;c.on('open',()=>c.send({t:'join',v:G.VERSION,name,character:player.character}));c.on('data',d=>{if(player.peer!==peer)return;if(d?.t==='welcome'&&d.v!==G.VERSION){fail('The instructor is using an older page. Ask them to reload and open a new room.');return;}if(d?.t==='welcome'){clearTimeout(player.timeout);player.pending=false;$('#join-btn').disabled=false;$('#join-btn').textContent='Join Session';if($('#join-cancel'))$('#join-cancel').hidden=true;$('#join-error').textContent='';}if(d?.t==='error'){fail(d.message);return;}playerMsg(d);});c.on('close',()=>{if(player.peer!==peer)return;if(player.pending){fail('The room closed before you could join. Ask the instructor to open a new room.');return;}clearTimeout(player.timeout);player.pending=false;$('#join-btn').disabled=false;view('player');sub('player','player-dropped');});c.on('error',()=>fail('The connection was interrupted. Rejoin using the room code.'));});
+ peer.on('error',e=>fail(e.type==='peer-unavailable'?'Session not found. Check that the instructor has opened the live room and that your code matches.':'Could not connect ('+e.type+'). Check internet access and try again.'));
 }
-$('#join-btn').onclick=join;$('#join-name').onkeydown=e=>{if(e.key==='Enter')join()};
 function submit(value){if(player.submitted||!player.conn?.open)return;player.conn.send({t:'a',i:player.index,c:value});player.submitted=true;$('#pq-options').querySelectorAll('button,input').forEach(e=>e.disabled=true);notice('Sending answer…');}
 function renderPlayerQuestion(q){
  const el=$('#pq-options');el.replaceChildren();let selected=new Set(),order=q.answers.map((_,i)=>i);
