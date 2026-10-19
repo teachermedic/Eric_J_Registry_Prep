@@ -36,3 +36,9 @@ Run `node tests/instructor-corner-engine.test.cjs` for deck and grading checks. 
 Turn on **Quiz music · instructor only** to play RandomMind’s CC0 fantasy instrumental **The Bard’s Tale** during question screens. Music is off by default, with independent volume and mute controls. Teaching slides, answer reveals, the session end, leaving the room, and hiding the tab stop the loop. Student devices do not start it. The compressed MP3 is hosted locally and cached for offline use. See `audio/README.md` for source and license details.
 
 Question-bank selection uses only Foundations, Medical, Trauma, Operations, Pediatrics, and OB/GYN (plus Comprehensive to mix them). These are shared with the Question Workshop and Review/Exam.
+
+## If Join Session does not respond
+
+After deploying an update, refresh both the host and student pages. The instructor must select **Open Live Room** and keep the room open; **Preview on this device** does not create a joinable room. Enter the displayed six-digit room code and a nickname. The Join button now displays **Connecting…** immediately and allows cancellation. Slow/blocked connection software, a missing room, and timeouts show messages rather than silently leaving a disabled button. If startup cannot finish, use **Reload session page**. Do not clear browser storage to refresh the page; that would remove local progress.
+
+Student join controls initialize before the optional question-category builder. PeerJS and QR scripts load asynchronously so a slow external script cannot block the controls. Core-load failures have a startup watchdog; PeerJS loading has an eight-second deadline and the room handshake has a fifteen-second deadline. Canceled attempts cannot reopen the student view later. This improves client loading and diagnostics; it does not add a TURN relay or remove school-network restrictions on WebRTC. Real-device connectivity is still a classroom check.
