@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v44';
+const CACHE_NAME = 'field-notes-study-tools-v45';
 const assets = [
   './instructor-access.html',
   './instructor-access.js',
@@ -130,3 +130,4 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+

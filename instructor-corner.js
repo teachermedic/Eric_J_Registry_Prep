@@ -30,7 +30,38 @@ function shuffled(a){a=[...a];for(let i=a.length-1;i;i--){const j=Math.floor(Mat
 function download(content,type,filename){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function showImage(selector,q){const el=$(selector);el.replaceChildren();if(q.image&&G.imageAllowed(q.image)){const img=new Image();img.src=q.image;img.alt=q.imageAlt||'';img.className='ic-teaching-image';el.append(img);}}
 function editorError(e){$('#editor-error').textContent=e.message||String(e);}
+let draggedItem=null;
+function moveItem(from,to){
+ if(imageJobs||!Number.isInteger(from)||!Number.isInteger(to)||from<0||to<0||from>=draftQuestions.length||to>=draftQuestions.length)return;
+ const [item]=draftQuestions.splice(from,1);draftQuestions.splice(to,0,item);renderEditor();
+ $('#editor-outline').querySelector('[data-edit="'+to+'"]')?.focus();
+}
+function insertItem(index){
+ if(imageJobs)return;
+ if(draftQuestions.length>=60){editorError('A session can contain up to 60 items.');return;}
+ draftQuestions.splice(index,0,G.newItem($('#editor-type').value));renderEditor();
+ document.querySelector('.ic-edit-card[data-i="'+index+'"] textarea')?.focus();
+}
+function setImageBusy(busy){
+ $('#editor-list').inert=busy;$('#editor-outline').inert=busy;
+ ['editor-add','editor-type','bulk-slides','deck-export','editor-preview','editor-launch','editor-back'].forEach(id=>$('#'+id).disabled=busy);
+}
+function renderOutline(){
+ const list=$('#editor-outline');
+ list.innerHTML='<button class="study-button ic-insert" data-insert="0">+ Add selected item here</button>'+draftQuestions.map((q,i)=>
+ '<div class="ic-outline-row" data-position="'+i+'"><span class="ic-drag" draggable="true" data-drag="'+i+'" title="Drag to reorder" aria-hidden="true">⠿</span>'+
+ '<button class="ic-outline-edit" data-edit="'+i+'">'+(q.image?'<img src="'+q.image+'" alt="">':'<span class="ic-outline-icon">'+(q.type==='slide'?'▧':'?')+'</span>')+
+ '<span><strong>'+(i+1)+' · '+esc(G.TYPES[q.type])+'</strong><span>'+esc(q.text||'Untitled item')+'</span></span></button>'+
+ '<button class="study-button" data-order="'+i+'" data-delta="-1" '+(!i?'disabled':'')+' aria-label="Move item '+(i+1)+' up">↑</button><button class="study-button" data-order="'+i+'" data-delta="1" '+(i===draftQuestions.length-1?'disabled':'')+' aria-label="Move item '+(i+1)+' down">↓</button></div>'+
+ '<button class="study-button ic-insert" data-insert="'+(i+1)+'">+ Add selected item here</button>').join('');
+ list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>document.querySelector('.ic-edit-card[data-i="'+b.dataset.edit+'"] textarea')?.focus());
+ list.querySelectorAll('[data-insert]').forEach(b=>b.onclick=()=>insertItem(+b.dataset.insert));
+ list.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>moveItem(+b.dataset.order,+b.dataset.order+Number(b.dataset.delta)));
+ list.querySelectorAll('[data-drag]').forEach(h=>{h.ondragstart=e=>{if(imageJobs){e.preventDefault();return;}draggedItem=+h.dataset.drag;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(draggedItem));};h.ondragend=()=>{draggedItem=null;list.querySelectorAll('.ic-drop-target').forEach(x=>x.classList.remove('ic-drop-target'));};});
+ list.querySelectorAll('[data-position]').forEach(row=>{row.ondragover=e=>{if(draggedItem!==null){e.preventDefault();e.dataTransfer.dropEffect='move';row.classList.add('ic-drop-target');}};row.ondragleave=()=>row.classList.remove('ic-drop-target');row.ondrop=e=>{e.preventDefault();if(draggedItem!==null){const from=draggedItem;draggedItem=null;moveItem(from,+row.dataset.position);}};});
+}
 function renderEditor(){
+ renderOutline();
  const list=$('#editor-list');
  list.innerHTML=draftQuestions.map((q,i)=>{
  const choices=['single','multiple','poll','order'].includes(q.type),gradable=['single','multiple'].includes(q.type);
@@ -46,13 +77,13 @@ function renderEditor(){
  list.querySelectorAll('.ic-edit-card').forEach(card=>{
  const i=+card.dataset.i,q=draftQuestions[i];
  card.querySelector('[data-remove]').onclick=()=>{draftQuestions.splice(i,1);renderEditor()};
- card.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const j=i+Number(b.dataset.move);[draftQuestions[i],draftQuestions[j]]=[draftQuestions[j],draftQuestions[i]];renderEditor()});
- card.querySelectorAll('[data-field]').forEach(x=>x.oninput=()=>q[x.dataset.field]=x.value);
+ card.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const j=i+Number(b.dataset.move);moveItem(i,j)});
+ card.querySelectorAll('[data-field]').forEach(x=>x.oninput=()=>{q[x.dataset.field]=x.value;if(x.dataset.field==='text')renderOutline()});
  card.querySelectorAll('[data-answer]').forEach(x=>x.oninput=()=>q.answers[+x.dataset.answer]=x.value);
  card.querySelectorAll('[data-correct]').forEach(x=>x.onchange=()=>{const n=+x.dataset.correct;q.correct=q.type==='single'?[n]:x.checked?[...q.correct.filter(k=>k!==n),n]:q.correct.filter(k=>k!==n)});
  if(card.querySelector('[data-accepted]'))card.querySelector('[data-accepted]').oninput=e=>q.accepted=e.target.value.split('\n').map(s=>s.trim()).filter(Boolean);
  card.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{if(b.dataset.choice==='add')q.answers.push('');else{q.answers.pop();q.correct=q.correct.filter(k=>k<q.answers.length)}renderEditor()});
- card.querySelector('[data-image]').onchange=async e=>{const f=e.target.files[0];if(!f)return;imageJobs++;$('#editor-error').textContent='Preparing image…';try{q.image=await prepareImage(f);$('#editor-error').textContent='Image ready. Add its description.';}catch(err){editorError(err)}finally{imageJobs--;renderEditor()}};
+ card.querySelector('[data-image]').onchange=async e=>{const f=e.target.files[0];if(!f)return;imageJobs++;setImageBusy(true);$('#editor-error').textContent='Preparing image…';try{q.image=await prepareImage(f);$('#editor-error').textContent='Image ready. Add its description.';}catch(err){editorError(err)}finally{imageJobs--;renderEditor();setImageBusy(false)}};
  const clear=card.querySelector('[data-clear-image]');if(clear)clear.onclick=()=>{q.image='';renderEditor()};
  });
 }
@@ -65,7 +96,24 @@ $('#host-start').onclick=()=>{draftQuestions=shuffled(filteredBank()).slice(0,+$
 $('#host-blank').onclick=()=>{draftQuestions=[G.newItem('slide')];renderEditor();view('editor')};
 $('#editor-back').onclick=()=>view('builder');
 $('#builder-resume').onclick=()=>{renderEditor();view('editor')};
-$('#editor-add').onclick=()=>{if(draftQuestions.length>=60){editorError('A session can contain up to 60 items.');return;}draftQuestions.push(G.newItem($('#editor-type').value));renderEditor();document.querySelector('.ic-edit-card:last-child textarea')?.focus()};
+$('#editor-add').onclick=()=>insertItem(draftQuestions.length);
+$('#bulk-slides').onchange=async e=>{
+ const files=Array.from(e.target.files||[]);e.target.value='';if(!files.length||imageJobs)return;
+ if(draftQuestions.length+files.length>60){editorError('These images would exceed 60 items. Choose fewer images. No slides were added.');return;}
+ imageJobs++;setImageBusy(true);
+ try{
+ const slides=[];
+ for(const [i,file] of files.entries()){
+ $('#editor-error').textContent='Preparing slide '+(i+1)+' of '+files.length+'…';
+ const title=file.name.replace(/\.[^.]+$/,'').slice(0,400)||'Slide '+(i+1);
+ const q={...G.newItem('slide'),text:title,imageAlt:title};
+ try{q.image=await prepareImage(file);}catch(err){throw Error(file.name+': '+err.message+' No slides were added.');}
+ slides.push(q);
+ if(new TextEncoder().encode(JSON.stringify({format:'hearth-gathering-hall',version:G.VERSION,items:[...draftQuestions,...slides]})).length>G.MAX_BYTES)throw Error('These slides would exceed the 10 MB presentation limit. Choose fewer images. No slides were added.');
+ }
+ draftQuestions.push(...slides);renderEditor();$('#editor-error').textContent=slides.length+' slides added in file-picker order. Arrange them below and check their image descriptions. Save Presentation to keep your work.';
+ }catch(err){editorError(err)}finally{imageJobs--;setImageBusy(false);}
+};
 function checkedDeck(){if(imageJobs)throw Error('Wait for image preparation to finish.');return G.validate(draftQuestions);}
 $('#deck-export').onclick=()=>{try{const items=checkedDeck();download(JSON.stringify({format:'hearth-gathering-hall',version:G.VERSION,items}),'application/json','hearth-presentation.json');$('#editor-error').textContent='Presentation downloaded. Keep this file to reopen and teach again.';}catch(e){editorError(e)}};
 $('#deck-import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>G.MAX_BYTES)throw Error('Choose a presentation smaller than 10 MB.');draftQuestions=G.parseDeck(await f.text());$('#import-error').textContent='';renderEditor();view('editor');}catch(err){$('#import-error').textContent=err.message}finally{e.target.value=''}};
@@ -171,3 +219,4 @@ function playerMsg(d){
 const params=new URLSearchParams(location.search);if(params.get('join')){$('#join-pin').value=params.get('join').replace(/\D/g,'').slice(0,6);$('#join-name').focus();}
 
 window.HearthlandsTeamSend=data=>{if(player.conn?.open)player.conn.send(data);};
+

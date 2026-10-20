@@ -14,3 +14,10 @@ body.dark-mode .ic-edit-head{color:#fbbf24}
 @media print{.ic-toolbar,.ic-foot,.ic-header>a{display:none}.ic-teaching-image{max-height:50vh}.ic-shell{width:100%;margin:0}}
 
 .ic-music-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0;padding:12px 16px;border:1px solid var(--border-color);border-radius:10px;background:var(--container-bg)}.ic-music-controls label{display:flex;align-items:center;gap:8px;font-size:.9rem}.ic-music-controls input[type=range]{width:100px}.ic-music-controls small{font-size:.75rem}.ic-music-controls p{flex-basis:100%;margin:0}.ic-music-controls p:empty{display:none}.ic-music-controls input[type=checkbox]{width:18px;height:18px}@media print{.ic-music-controls{display:none}}
+
+
+/* Compact lesson storyboard, with keyboard and touch arrow alternatives. */
+.ic-bulk-upload{display:block;margin:1rem 0;font-weight:700}.ic-bulk-upload input{display:block;margin-top:.5rem;max-width:100%}
+.ic-outline-row{display:flex;align-items:center;gap:.5rem;padding:.5rem;border:1px solid var(--border, #a99c80);border-radius:.6rem;background:var(--surface, #f5efdf)}
+.ic-outline-edit{display:flex;align-items:center;gap:.65rem;flex:1;min-width:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}.ic-outline-edit>span:last-child{min-width:0}.ic-outline-edit strong,.ic-outline-edit span span{display:block;overflow-wrap:anywhere}.ic-outline-edit img,.ic-outline-icon{width:72px;height:48px;object-fit:contain;flex-shrink:0}.ic-outline-icon{display:grid;place-items:center;font-size:1.8rem}.ic-drag{cursor:grab;font-size:1.7rem;padding:.3rem}.ic-drop-target{outline:3px solid #54847f}.ic-insert{display:block;margin:.4rem auto;font-size:.85rem}#editor-outline{margin-bottom:2rem}.ic-outline-row .study-button{padding:.4rem .6rem}.ic-outline-row button:focus-visible{outline:3px solid #54847f;outline-offset:2px}
+@media(max-width:480px){.ic-outline-row{gap:.2rem;padding:.3rem}.ic-outline-edit img,.ic-outline-icon{width:44px;height:36px}.ic-outline-edit{gap:.3rem}.ic-drag{padding:0}.ic-outline-edit strong{font-size:.85rem}}
