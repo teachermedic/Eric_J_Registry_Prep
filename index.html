@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="home-dashboard.css">
+    <link rel="stylesheet" href="blog-feature.css">
     <link rel="stylesheet" href="flashcard-study.css">
     <link rel="stylesheet" href="study-resources.css">
     
@@ -55,6 +56,7 @@
                         </div>
                     </div>
 
+                    <section id="blog-feature" class="blog-feature" aria-labelledby="blog-feature-heading"><div class="blog-feature-copy"><h2 id="blog-feature-heading">Eric J’s Field Notes</h2><p>Essays on medicine, teaching, and learning.</p><a href="https://ericjm.substack.com/" target="_blank" rel="noopener noreferrer">Read the blog ↗</a></div></section>
                     <section class="quiz-setup-group" aria-labelledby="quiz-setup-heading">
                     <h3 id="quiz-setup-heading">📝 Practice Questions & Exams</h3>
                     <p class="study-help">Choose a category and question count, then start Review or Exam Mode.</p>
@@ -347,31 +349,7 @@
     }
     </style>
 
-    <script>
-    async function loadSubstackPosts() {
-        const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fericjm.substack.com%2Ffeed%3FsectionId%3D267855';
-        const list = document.getElementById('substack-posts');
-        try {
-            const res = await fetch(apiUrl);
-            const data = await res.json();
-            if (!data.items || data.items.length === 0) {
-                list.innerHTML = '<li class="error">No posts found.</li>';
-                return;
-            }
-            const posts = data.items.slice(0, 5);
-            list.innerHTML = posts.map(post => `
-                <li>
-                    <a href="${post.link}" target="_blank" rel="noopener">${post.title}</a>
-                    <span class="post-date">${new Date(post.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                </li>
-            `).join('');
-        } catch (err) {
-            console.error('Substack feed failed:', err);
-            list.innerHTML = '<li class="error">Could not load posts.</li>';
-        }
-    }
-    loadSubstackPosts();
-    </script>
+
 
     <dialog id="resource-print-dialog" aria-label="Study sheet preview">
         <div class="resource-print-actions"><button id="resource-print" type="button" class="study-button">Print / Save as PDF</button> <button id="resource-close" type="button" class="study-button">Close Preview</button></div>
@@ -393,5 +371,7 @@
 <script src="study-badges.js"></script><script src="study-streak.js"></script>
 <script src="progress-backup.js"></script>
 <script src="home-dashboard.js"></script>
+<script src="blog-feature.js"></script>
 </body>
 </html>
+
