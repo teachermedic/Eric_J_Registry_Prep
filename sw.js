@@ -1,5 +1,7 @@
-const CACHE_NAME = 'field-notes-study-tools-v46';
+const CACHE_NAME = 'field-notes-study-tools-v47';
 const assets = [
+  './blog-posts.json',
+  './assets/blog/the-player-has-to-change.webp',
   './blog-feature.js',
   './blog-feature.css',
   './instructor-access.html',
@@ -109,7 +111,7 @@ self.addEventListener('install', evt => {
 self.addEventListener('fetch', evt => {
   // Published question additions must update without requiring a cache-version edit.
   const url = new URL(evt.request.url);
-  if (evt.request.method === 'GET' && url.origin === self.location.origin && (url.pathname.endsWith('/authored-questions.js') || url.pathname.endsWith('/instructor-access-config.js'))) {
+  if (evt.request.method === 'GET' && url.origin === self.location.origin && (url.pathname.endsWith('/blog-posts.json') || url.pathname.endsWith('/authored-questions.js') || url.pathname.endsWith('/instructor-access-config.js'))) {
     evt.respondWith((async () => {
       try {
         const response = await fetch(new Request(evt.request, {cache:'no-cache'}));
