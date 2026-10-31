@@ -1,5 +1,9 @@
-const CACHE_NAME = 'field-notes-study-tools-v50';
+const CACHE_NAME = 'field-notes-study-tools-v51';
 const assets = [
+  './hearth-trivia.html',
+  './hearth-trivia.css',
+  './hearth-trivia.js',
+  './hearth-trivia-engine.js',
   './blog-posts.json',
   './assets/blog/the-player-has-to-change.webp',
   './blog-feature.js',
@@ -134,6 +138,7 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+
 
 
 

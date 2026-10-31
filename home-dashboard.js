@@ -101,6 +101,7 @@
  group('Build your foundations',['flashcards.html','terminology-decks.html']);
  group('Understand the science',['anatomy-explorer.html','connection-trails.html']);
  group('Apply clinical reasoning',['change-finding.html','what-first.html']);
+ const trivia=node('section',null,'study-goal-group');trivia.append(node('h3','Try a trivia round'),tile('Hearth Trivia','Spin six EMS categories, learn from explanations, and collect category seals.','hearth-trivia.html'));explore.append(trivia);
  const plan=tile('Build My Study Plan','Plan your next study sessions.','study-plan.html');const planning=node('section',null,'study-goal-group');planning.append(node('h3','Organize your studying'),plan);explore.append(planning);
  const join=node('p',null,'study-join-link');const joinLink=node('a','Joining a class? Enter the Gathering Hall →');joinLink.href='instructor-corner.html';join.append(joinLink);
  const heading=panels.today.querySelector('h2'),intro=panels.today.querySelector('.dashboard-intro');
@@ -128,5 +129,6 @@
  const theme=get('theme-toggle');theme.setAttribute('aria-label','Toggle dark mode');get('theme-icon').setAttribute('aria-hidden','true');
  document.body.classList.add('dashboard-ready');
 })();
+
 
 
