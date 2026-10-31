@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v47';
+const CACHE_NAME = 'field-notes-study-tools-v48';
 const assets = [
   './blog-posts.json',
   './assets/blog/the-player-has-to-change.webp',
@@ -134,5 +134,6 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+
 
 
