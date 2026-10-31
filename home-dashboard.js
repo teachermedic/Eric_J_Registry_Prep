@@ -104,7 +104,7 @@
  const plan=tile('Build My Study Plan','Plan your next study sessions.','study-plan.html');const planning=node('section',null,'study-goal-group');planning.append(node('h3','Organize your studying'),plan);explore.append(planning);
  const join=node('p',null,'study-join-link');const joinLink=node('a','Joining a class? Enter the Gathering Hall →');joinLink.href='instructor-corner.html';join.append(joinLink);
  const heading=panels.today.querySelector('h2'),intro=panels.today.querySelector('.dashboard-intro');
- const blog=get('blog-feature');panels.today.replaceChildren(heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.append(blog);
+ const blog=get('blog-feature');panels.today.replaceChildren(heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.prepend(blog);
  const footer=node('div',null,'dashboard-footer');footer.append(setup.querySelector('.sponsor-banner'));
  // Keep the original visit-streak elements for existing quiz callbacks, out of the student dashboard.
  const oldStreak=get('streak-container');oldStreak.hidden=true;oldStreak.setAttribute('aria-hidden','true');
