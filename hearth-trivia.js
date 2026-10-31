@@ -1,5 +1,6 @@
 'use strict';
 (()=>{
+const embedded=new URLSearchParams(location.search).get('embed')==='1';if(embedded)document.body.classList.add('embedded');
 const T=window.HearthTrivia,$=id=>document.getElementById(id),node=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
 let saved=null,storage=true,stale=false,turn=0,lastQuestion=null;
 try{saved=localStorage.getItem(T.KEY);if(localStorage.getItem('ems_theme')==='dark')document.body.classList.add('dark');}catch{storage=false;}
@@ -37,5 +38,11 @@ $('trivia-round').onclick=()=>{if(stale)return;if(game.nextRound()){save();rende
 $('trivia-reset').onclick=()=>{if(stale||!confirm('Start a fresh trivia collection? This resets only trivia seals, round progress, and its missed-question list.'))return;game.reset();lastQuestion=null;save();render();$('trivia-spin').focus();};
 $('trivia-theme').onclick=()=>{document.body.classList.toggle('dark');try{localStorage.setItem('ems_theme',document.body.classList.contains('dark')?'dark':'light');}catch{}};
 window.addEventListener('storage',e=>{if(e.key===T.KEY||e.key===null){stale=true;render();}});
+if(embedded&&window.parent!==window){
+ const reportHeight=()=>window.parent.postMessage({type:'hearth-trivia-height',height:Math.ceil(document.querySelector('main').getBoundingClientRect().height)},location.origin);
+ new ResizeObserver(reportHeight).observe(document.querySelector('main'));window.addEventListener('load',reportHeight);
+ window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===window.parent&&event.data?.type==='hearth-trivia-theme'&&typeof event.data.dark==='boolean'){document.body.classList.toggle('dark',event.data.dark);reportHeight();}});
+}
 render();if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
+

@@ -101,11 +101,19 @@
  group('Build your foundations',['flashcards.html','terminology-decks.html']);
  group('Understand the science',['anatomy-explorer.html','connection-trails.html']);
  group('Apply clinical reasoning',['change-finding.html','what-first.html']);
- const trivia=node('section',null,'study-goal-group');trivia.append(node('h3','Try a trivia round'),tile('Hearth Trivia','Spin six EMS categories, learn from explanations, and collect category seals.','hearth-trivia.html'));explore.append(trivia);
+ const trivia=node('section',null,'home-trivia');trivia.setAttribute('aria-labelledby','home-trivia-heading');
+ const triviaTitle=node('h2','Hearth Trivia','dashboard-heading');triviaTitle.id='home-trivia-heading';
+ const triviaFull=node('a','Open game in its own page ↗','home-trivia-full');triviaFull.href='hearth-trivia.html';
+ const triviaFrame=node('iframe');triviaFrame.id='home-trivia-frame';triviaFrame.title='Play Hearth Trivia: category spinner, questions, and collectible seals';triviaFrame.src='hearth-trivia.html?embed=1';triviaFrame.loading='lazy';triviaFrame.height='1050';
+ trivia.append(triviaTitle,triviaFull,triviaFrame);
+ const syncTriviaTheme=()=>triviaFrame.contentWindow?.postMessage({type:'hearth-trivia-theme',dark:document.body.classList.contains('dark-mode')},location.origin);
+ triviaFrame.addEventListener('load',syncTriviaTheme);
+ window.addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==triviaFrame.contentWindow||event.data?.type!=='hearth-trivia-height')return;const height=event.data.height;if(Number.isFinite(height)&&height>=200&&height<=20000)triviaFrame.style.height=Math.ceil(height)+'px';});
+ new MutationObserver(syncTriviaTheme).observe(document.body,{attributes:true,attributeFilter:['class']});
  const plan=tile('Build My Study Plan','Plan your next study sessions.','study-plan.html');const planning=node('section',null,'study-goal-group');planning.append(node('h3','Organize your studying'),plan);explore.append(planning);
  const join=node('p',null,'study-join-link');const joinLink=node('a','Joining a class? Enter the Gathering Hall →');joinLink.href='instructor-corner.html';join.append(joinLink);
  const heading=panels.today.querySelector('h2'),intro=panels.today.querySelector('.dashboard-intro');
- const blog=get('blog-feature');panels.today.replaceChildren(heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.prepend(blog);
+ const blog=get('blog-feature');panels.today.replaceChildren(trivia,heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.prepend(blog);
  const footer=node('div',null,'dashboard-footer');footer.append(setup.querySelector('.sponsor-banner'));
  // Keep the original visit-streak elements for existing quiz callbacks, out of the student dashboard.
  const oldStreak=get('streak-container');oldStreak.hidden=true;oldStreak.setAttribute('aria-hidden','true');
@@ -129,6 +137,7 @@
  const theme=get('theme-toggle');theme.setAttribute('aria-label','Toggle dark mode');get('theme-icon').setAttribute('aria-hidden','true');
  document.body.classList.add('dashboard-ready');
 })();
+
 
 
 

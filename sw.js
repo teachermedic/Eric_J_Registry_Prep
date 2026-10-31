@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v51';
+const CACHE_NAME = 'field-notes-study-tools-v52';
 const assets = [
   './hearth-trivia.html',
   './hearth-trivia.css',
@@ -113,6 +113,12 @@ self.addEventListener('install', evt => {
 
 // Fetch Assets
 self.addEventListener('fetch', evt => {
+  // The embed query serves the same offline document as the standalone game.
+  const triviaURL = new URL(evt.request.url);
+  if (evt.request.method === 'GET' && triviaURL.origin === self.location.origin && triviaURL.pathname.endsWith('/hearth-trivia.html') && triviaURL.searchParams.get('embed') === '1') {
+    evt.respondWith(caches.match(triviaURL.origin + triviaURL.pathname).then(cached => cached || fetch(evt.request)));
+    return;
+  }
   // Published question additions must update without requiring a cache-version edit.
   const url = new URL(evt.request.url);
   if (evt.request.method === 'GET' && url.origin === self.location.origin && (url.pathname.endsWith('/blog-posts.json') || url.pathname.endsWith('/authored-questions.js') || url.pathname.endsWith('/instructor-access-config.js'))) {
@@ -138,6 +144,7 @@ self.addEventListener('activate', event => {
     keys.filter(key => key.startsWith('field-notes-') && key !== CACHE_NAME).map(key => caches.delete(key))
   )).then(() => self.clients.claim()));
 });
+
 
 
 

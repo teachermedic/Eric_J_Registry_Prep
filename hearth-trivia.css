@@ -4,3 +4,5 @@
 .play-layout>*{min-width:0}.seal{min-width:0;overflow-wrap:anywhere}.wheel-wrap{max-width:100%}
 @media(max-width:760px){.seals{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:360px){.seal{padding:9px 2px;font-size:.7rem}.seal strong{font-size:.65rem;white-space:nowrap}.seal span{font-size:.7rem;white-space:nowrap}}
+
+body.embedded{background:transparent}body.embedded main{max-width:none;padding:0;margin:0}body.embedded header,body.embedded .intro .eyebrow,body.embedded .intro h1{display:none}body.embedded .intro{margin:0 0 20px}body.embedded .intro>p:first-of-type{margin-top:0}body.embedded footer{padding-bottom:12px}
