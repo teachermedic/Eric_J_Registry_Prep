@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v49';
+const CACHE_NAME = 'field-notes-study-tools-v50';
 const assets = [
   './blog-posts.json',
   './assets/blog/the-player-has-to-change.webp',
