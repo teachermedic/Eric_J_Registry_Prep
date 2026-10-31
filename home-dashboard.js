@@ -9,16 +9,15 @@
  const nav=node('nav',null,'dashboard-nav');nav.setAttribute('aria-label','Student navigation');
  const panels={};
  for(const [id,title,help] of [
-  ['today','Welcome to the Hearth.','Pull up a chair. Continue your study session, revisit a card, or fit in ten minutes.'],
+  ['today','What will you study today?','Practice questions, revisit what you missed, or fit in ten minutes.'],
   ['classroom','The Gathering Hall','Join a live class, teach a lesson, or grow your team settlement.'],
-  ['study','The Study Hall','Questions, flashcards, and clinical challenges. A little practice for the road ahead.'],
   ['my-progress','Your Journey','Study history, plans, and accomplishment seals. Every small step counts.'],
   ['resources','The Archives','Research, articles, and printable notes for curious minds.']
  ]){
   const p=node('section',null,'dashboard-panel');p.id=id;p.hidden=true;
   const h=node('h2',title,'dashboard-heading');h.id=id+'-heading';h.tabIndex=-1;p.setAttribute('aria-labelledby',h.id);
   p.append(h,node('p',help,'dashboard-intro'));panels[id]=p;
-  const a=node('a');a.append(node('span',{'today':'The Hearth','study':'Study Hall','classroom':'Gathering Hall','my-progress':'Your Journey','resources':'The Archives'}[id]),node('small',{'today':'Today','study':'Study','classroom':'Live Class','my-progress':'My Progress','resources':'Resources'}[id]));a.href='#'+id;nav.append(a);
+  const a=node('a');a.append(node('span',{'today':'Study Hall','study':'Study Hall','classroom':'Gathering Hall','my-progress':'Your Journey','resources':'The Archives'}[id]),node('small',{'today':'Study','study':'Study','classroom':'Live Class','my-progress':'My Progress','resources':'Resources'}[id]));a.href='#'+id;nav.append(a);
  }
  const tile=(title,description,href,mark='→')=>{
   const a=node('a',null,'dashboard-tile');a.href=href;
@@ -59,48 +58,60 @@
   else grid.append(t);
  }
  grid.append(tile('The Connection Trails','Follow science to patient findings · EMT, AEMT, and Paramedic.','connection-trails.html'));
- old.remove();panels.study.append(grid,practiceBox);
+ old.remove();panels.today.append(grid,practiceBox);
  const library=get('study-library'),resume=get('resume-card');
- panels.today.append(get('ems-study-intro'));
- const gathering=node('section',null,'gathering-feature');gathering.setAttribute('aria-labelledby','gathering-feature-heading');gathering.append(node('span','LEARN TOGETHER','eyebrow'));const gh=node('h2','The Gathering Hall');gh.id='gathering-feature-heading';gathering.append(gh,node('p','Live questions, image presentations, fantasy characters, and team settlements.'));const gatheringLinks=node('div',null,'gathering-feature-links');for(const [label,url] of [['Join / host a live class','instructor-corner.html'],['Team progress','hearthlands.html'],['🔒 Question Workshop','question-workshop.html']]){const a=node('a',label);a.href=url;gatheringLinks.append(a);}gathering.append(gatheringLinks);panels.today.append(get('blog-feature'),gathering);
+ get('ems-study-intro').hidden=true;
  const welcome=node('div',null,'today-welcome');welcome.append(node('span','YOUR NEXT STEP','eyebrow'));
- const start=tile('Start studying','Choose questions, flashcards, or a clinical challenge.','#study','→');start.classList.add('tile-primary');start.id='today-start';
+ const start=grid.firstElementChild;start.remove();start.classList.add('tile-primary');start.id='today-start';
  const cardResume=tile('Continue your last deck','Pick up your saved flashcard session.','flashcards.html?resume=1','→');cardResume.classList.add('tile-primary');cardResume.hidden=true;
- welcome.append(resume,cardResume,start);panels.today.append(welcome);
+ welcome.append(resume,cardResume);welcome.hidden=true;panels.today.append(welcome);
  const todayGrid=node('div',null,'dashboard-grid today-grid');
- todayGrid.append(tile('I Have 10 Minutes','A short session with questions, cards, and confidence checks.','quick-study.html','10'));
+ todayGrid.append(start,tile('I Have 10 Minutes','A short session with questions, cards, and confidence checks.','quick-study.html','10'));
  const review=node('details',null,'today-review');review.id='today-review';const reviewSummary=node('summary','Review what I don’t know');review.append(reviewSummary,node('p','Choose clinical cards or terminology. Your choices are saved separately from exam scores.','study-help'));
  const reviewLinks=node('div',null,'review-links');review.append(reviewLinks);todayGrid.append(review);panels.today.append(todayGrid);
- const streak=get('study-streak'),streakPreview=node('a',null,'streak-preview');streakPreview.href='#my-progress';streakPreview.append(node('span','YOUR STUDY STREAK','eyebrow'));const streakText=node('strong');streakPreview.append(streakText,node('span','See daily goals & accomplishments →'));panels.today.append(streakPreview);
+ const streak=get('study-streak'),streakPreview=node('a',null,'streak-preview');streakPreview.href='#my-progress';streakPreview.append(node('span','YOUR STUDY STREAK','eyebrow'));const streakText=node('strong');streakPreview.append(streakText,node('span','See daily goals & accomplishments →'));panels['my-progress'].append(streakPreview);
  const reviewStats=()=>{
-  const state=window.CardStudy?.getState(),catalog=window.FIELD_NOTE_CARDS||[];if(!state)return;
+  const state=window.CardStudy?.getState()||{records:{},sessions:{}},catalog=window.FIELD_NOTE_CARDS||[];
   let total=0;reviewLinks.replaceChildren();
+  const missedText=get('saved-missed-button').textContent;
+  const missed=Number(missedText.match(/\((\d+)\)/)?.[1]||0);
+  reviewLinks.append(action('Missed questions',missed+' questions to revisit',()=>window.openStudyCollection('missed')));
+
   const savedKind=['clinical','terms'].find(kind=>state.sessions[kind]);
   cardResume.hidden=!resume.hidden||!savedKind;
   cardResume.href=(savedKind==='terms'?'terminology-decks.html':'flashcards.html')+'?resume=1';
   cardResume.querySelector('strong').textContent=savedKind==='terms'?'Continue terminology':'Continue your last deck';
-  start.hidden=!resume.hidden||!!savedKind;
+  start.hidden=false;welcome.hidden=resume.hidden&&cardResume.hidden;
   for(const kind of ['clinical','terms']){
    const count=catalog.filter(c=>c.kind===kind).filter(c=>state.records[c.id]?.difficult===true).length;total+=count;
    reviewLinks.append(tile(kind==='clinical'?'Clinical cards':'Terminology',`${count} ${count===1?'card':'cards'} marked Don’t Know`,(kind==='clinical'?'flashcards.html':'terminology-decks.html')+'?mode=difficult',String(count)));
   }
-  reviewSummary.textContent=`Review what I don’t know · ${total} ${total===1?'card':'cards'}`;
+  reviewSummary.textContent=`Review what I don’t know · ${missed} questions · ${total} cards`;
  };
- const syncResume=()=>{reviewStats();};syncResume();new MutationObserver(syncResume).observe(resume,{attributes:true,attributeFilter:['hidden']});
+ const syncResume=()=>{reviewStats();};syncResume();new MutationObserver(syncResume).observe(resume,{attributes:true,attributeFilter:['hidden']});new MutationObserver(syncResume).observe(get('saved-missed-button'),{childList:true,subtree:true,characterData:true});
  const syncStreak=()=>{streakText.textContent=streak.querySelector('.streak-total')?.textContent||'Start with one study day.';};syncStreak();new MutationObserver(syncStreak).observe(streak,{childList:true,subtree:true});
  library.querySelector('h3').textContent='Saved study work';
  const cardDetails=node('details',null,'card-progress-details');cardDetails.append(node('summary','Flashcard progress & exact review lists'),get('card-study-dashboard'));library.append(cardDetails);
  panels['my-progress'].append(library,streak,get('badge-case'),get('progress-backup'));
  panels.resources.append(get('study-resource-tools'));
  const posts=get('substack-sidebar');posts.classList.add('dashboard-posts');panels.resources.append(posts);
- const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='The Gathering Hall';instructor.querySelector('.study-help').textContent='Teach a live lesson, join with a room code, or create new questions in the locked Workshop.';for(const p of instructor.querySelectorAll('p'))if(p.querySelector('a[href="question-workshop.html"]'))p.remove();panels.classroom.append(instructor);const classGrid=node('div',null,'dashboard-grid');classGrid.append(tile('The Hearthlands','Name your team, play a quiz, and grow your island.','hearthlands.html'),tile('Question Workshop','Password prompt for creating, importing, and exporting questions.','question-workshop.html'));panels.classroom.append(classGrid);
+ const instructor=setup.querySelector('[aria-labelledby="instructor-tools-heading"]');instructor.querySelector('h3').textContent='Join or host a class';instructor.querySelector('.study-help').textContent='Teach a live lesson, join with a room code, or create new questions in the locked Workshop.';for(const p of instructor.querySelectorAll('p'))if(p.querySelector('a[href="question-workshop.html"]'))p.remove();panels.classroom.append(instructor);const classGrid=node('div',null,'dashboard-grid');classGrid.append(tile('The Hearthlands','Name your team, play a quiz, and grow your island.','hearthlands.html'),tile('Question Workshop','Password prompt for creating, importing, and exporting questions.','question-workshop.html'));panels.classroom.append(classGrid);
+ const explore=node('div',null,'study-explore');
+ const group=(title,urls)=>{const section=node('section',null,'study-goal-group');section.append(node('h3',title));const items=node('div',null,'dashboard-grid');for(const url of urls){const t=[...grid.children].find(x=>x.getAttribute('href')===url);if(t)items.append(t);}section.append(items);explore.append(section);};
+ group('Build your foundations',['flashcards.html','terminology-decks.html']);
+ group('Understand the science',['anatomy-explorer.html','connection-trails.html']);
+ group('Apply clinical reasoning',['change-finding.html','what-first.html']);
+ const plan=tile('Build My Study Plan','Plan your next study sessions.','study-plan.html');const planning=node('section',null,'study-goal-group');planning.append(node('h3','Organize your studying'),plan);explore.append(planning);
+ const join=node('p',null,'study-join-link');const joinLink=node('a','Joining a class? Enter the Gathering Hall →');joinLink.href='instructor-corner.html';join.append(joinLink);
+ const heading=panels.today.querySelector('h2'),intro=panels.today.querySelector('.dashboard-intro');
+ const blog=get('blog-feature');panels.today.replaceChildren(heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.append(blog);
  const footer=node('div',null,'dashboard-footer');footer.append(setup.querySelector('.sponsor-banner'));
  // Keep the original visit-streak elements for existing quiz callbacks, out of the student dashboard.
  const oldStreak=get('streak-container');oldStreak.hidden=true;oldStreak.setAttribute('aria-hidden','true');
  for(const child of [...setup.children])if(child!==oldStreak)child.remove();
  setup.prepend(nav,...Object.values(panels),footer);
  const activate=(focus=false)=>{
-  const id=location.hash.slice(1);const target=Object.hasOwn(panels,id)?id:'today';
+  const id=location.hash.slice(1);const target=id==='study'?'today':Object.hasOwn(panels,id)?id:'today';
   for(const [key,p] of Object.entries(panels))p.hidden=key!==target;
   for(const a of nav.children){if(a.hash==='#'+target)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}
   if(focus){panels[target].querySelector('h2').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
@@ -117,4 +128,5 @@
  const theme=get('theme-toggle');theme.setAttribute('aria-label','Toggle dark mode');get('theme-icon').setAttribute('aria-hidden','true');
  document.body.classList.add('dashboard-ready');
 })();
+
 
