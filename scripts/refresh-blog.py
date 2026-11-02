@@ -1,8 +1,10 @@
 """Refresh the published blog snapshot without a browser-side RSS proxy."""
 import json
+import os
 import re
 import sys
 import urllib.request
+from urllib.error import HTTPError, URLError
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
@@ -81,13 +83,13 @@ def parse_feed(xml):
         images += [n.get('url') for n in item.findall('{http://search.yahoo.com/mrss/}thumbnail')]
         images += content.images
         posts.append({'link': link, 'title': item.findtext('title') or 'Read the Field Notes', 'excerpt': excerpt[:220], 'image': next((safe_url(x) for x in images if safe_url(x)), ''), 'date': date})
-    return sorted(posts, key=lambda p: p['date'], reverse=True)[:5]
+    return sorted(posts, key=lambda p: p['date'], reverse=True)
 
 
 def select_snapshot(posts, previous):
     if not posts:
         raise ValueError('Feed has no valid posts; preserving the published card.')
-    old = previous.get('posts', [{}])[0]
+    old = (previous.get('posts') or [{}])[0]
     # The supplied article is the initial baseline. Do not replace it with a stale proxy/feed.
     if old.get('date'):
         if posts[0]['date'] < old['date']:
@@ -97,7 +99,7 @@ def select_snapshot(posts, previous):
     for p in posts:
         if p['link'] == old.get('link') and not p.get('image'):
             p['image'] = old.get('image', '')
-    return {'posts': posts}
+    return {'posts': posts[:5]}
 
 
 def read_url(url):
@@ -109,32 +111,104 @@ def read_url(url):
         return data.decode('utf-8')
 
 
-def main():
-    previous = json.loads(SNAPSHOT.read_text())
-    posts = parse_feed(read_url(BLOG + 'feed'))
-    snapshot = select_snapshot(posts, previous)
-    # Prefer the actual cover and short social description over the first body illustration.
-    try:
-        _, page = clean(read_url(posts[0]['link']))
-        cover = safe_url(page.meta.get('og:image'))
-        description, _ = clean(page.meta.get('og:description') or page.meta.get('description'))
-        if cover:
-            posts[0]['image'] = cover
-        if description:
-            posts[0]['excerpt'] = description[:220]
-    except Exception as exc:
-        print('Article metadata unavailable; keeping RSS metadata:', type(exc).__name__)
+def manual_snapshot(values, previous):
+    link = safe_url(values.get('url'), post=True)
+    title = (values.get('title') or '').strip()
+    excerpt = (values.get('description') or '').strip()
+    image = safe_url(values.get('image'))
+    if not link or not urlparse(link).path.startswith('/p/'):
+        raise ValueError('Enter the HTTPS Substack article URL under ericjm.substack.com/p/.')
+    if not title or len(title) > 300:
+        raise ValueError('Enter a post title of 1–300 characters.')
+    if not excerpt or len(excerpt) > 220:
+        raise ValueError('Enter a brief description of 1–220 characters.')
+    if not image:
+        raise ValueError('Enter the public HTTPS URL of this post’s image.')
+    date = ''
+    if values.get('date', '').strip():
+        try:
+            d = datetime.fromisoformat(values['date'].strip().replace('Z', '+00:00'))
+            if d.tzinfo is None:
+                raise ValueError()
+            date = d.astimezone(timezone.utc).isoformat()
+        except ValueError:
+            raise ValueError('Use a publication timestamp with timezone, for example 2026-10-30T12:00:00Z.')
+    post = {'link': link, 'title': title, 'excerpt': excerpt, 'image': image, 'date': date}
+    others = [p for p in previous.get('posts', []) if p.get('link', '').rstrip('/') != link.rstrip('/')]
+    return {'posts': [post, *others[:4]]}
+
+
+EXPECTED_FEED_ERRORS = (HTTPError, URLError, TimeoutError, ConnectionError, UnicodeError, ET.ParseError, ValueError)
+
+
+def refresh(snapshot_path=SNAPSHOT, read=read_url, manual=None):
+    # Invalid local data is a real error, not a successful skipped fetch.
+    original = snapshot_path.read_text(encoding='utf-8')
+    previous = json.loads(original)
+    if not isinstance(previous, dict) or not isinstance(previous.get('posts'), list):
+        raise ValueError('The saved blog snapshot is invalid.')
+    if manual:
+        snapshot = manual_snapshot(manual, previous)
+        message = 'Manual article preview saved.'
+    else:
+        try:
+            posts = parse_feed(read(BLOG + 'feed'))
+            snapshot = select_snapshot(posts, previous)
+        except EXPECTED_FEED_ERRORS as exc:
+            reason = 'HTTP ' + str(exc.code) if isinstance(exc, HTTPError) else str(exc)
+            return {'outcome': 'unavailable', 'changed': False,
+                    'message': 'Blog NOT updated: ' + reason + '. Existing article preserved. Use Run workflow with the post fields for a manual update.'}
+        # Metadata is optional: a failed article request does not discard valid feed data.
+        try:
+            _, page = clean(read(posts[0]['link']))
+            cover = safe_url(page.meta.get('og:image'))
+            description, _ = clean(page.meta.get('og:description') or page.meta.get('description'))
+            if cover:
+                snapshot['posts'][0]['image'] = cover
+            if description:
+                snapshot['posts'][0]['excerpt'] = description[:220]
+        except EXPECTED_FEED_ERRORS:
+            pass
+        message = 'Automatic feed check completed.'
     content = json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n'
-    if content != SNAPSHOT.read_text():
-        temp = SNAPSHOT.with_suffix('.tmp')
-        temp.write_text(content)
-        temp.replace(SNAPSHOT)
-    print('Blog snapshot ready:', posts[0]['title'])
+    changed = snapshot != previous
+    if changed:
+        temp = snapshot_path.with_suffix('.tmp')
+        temp.write_text(content, encoding='utf-8')
+        temp.replace(snapshot_path)
+    return {'outcome': 'updated' if changed else 'unchanged', 'changed': changed,
+            'message': message + (' Preview changed.' if changed else ' No change needed.')}
+
+
+def report(result):
+    # Do not put external text into workflow commands or interpolate it into a shell.
+    print(json.dumps(result, ensure_ascii=False))
+    if os.environ.get('GITHUB_OUTPUT'):
+        with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+            output.write('changed=' + str(result['changed']).lower() + '\n')
+            output.write('outcome=' + result['outcome'] + '\n')
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+            summary.write('### Blog preview refresh\n\n')
+            summary.write('Status: **' + result['outcome'] + '**\n\n')
+            # HTML escaping prevents upstream strings from becoming links/markup.
+            from html import escape
+            summary.write('<pre>' + escape(result['message']) + '</pre>\n')
+
+
+def main():
+    manual = None
+    if os.environ.get('BLOG_POST_URL', '').strip():
+        manual = {key: os.environ.get(env, '').strip() for key, env in {
+            'url': 'BLOG_POST_URL', 'title': 'BLOG_POST_TITLE',
+            'description': 'BLOG_POST_DESCRIPTION', 'image': 'BLOG_POST_IMAGE',
+            'date': 'BLOG_POST_DATE'}.items()}
+    report(refresh(manual=manual))
 
 
 if __name__ == '__main__':
     try:
         main()
     except Exception as exc:
-        print('Blog refresh stopped; existing preview preserved:', str(exc), file=sys.stderr)
+        print('Blog refresh error; existing preview preserved:', str(exc), file=sys.stderr)
         sys.exit(1)
