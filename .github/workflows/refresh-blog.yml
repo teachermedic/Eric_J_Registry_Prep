@@ -3,6 +3,27 @@ on:
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
+    inputs:
+      post_url:
+        description: 'Optional manual update: HTTPS article URL (leave blank to check RSS)'
+        required: false
+        type: string
+      post_title:
+        description: 'Manual update: article title'
+        required: false
+        type: string
+      post_description:
+        description: 'Manual update: brief description, at most 220 characters'
+        required: false
+        type: string
+      post_image:
+        description: 'Manual update: public HTTPS image URL from the article'
+        required: false
+        type: string
+      post_date:
+        description: 'Optional publication timestamp, e.g. 2026-10-30T12:00:00Z'
+        required: false
+        type: string
   push:
     branches: [main]
     paths:
@@ -24,9 +45,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Refresh snapshot
+      - name: Refresh snapshot or preserve current article
+        id: refresh
+        env:
+          BLOG_POST_URL: ${{ inputs.post_url }}
+          BLOG_POST_TITLE: ${{ inputs.post_title }}
+          BLOG_POST_DESCRIPTION: ${{ inputs.post_description }}
+          BLOG_POST_IMAGE: ${{ inputs.post_image }}
+          BLOG_POST_DATE: ${{ inputs.post_date }}
         run: python scripts/refresh-blog.py
       - name: Save changed preview
+        if: steps.refresh.outputs.changed == 'true'
+        id: save
         run: |
           if ! git diff --quiet -- blog-posts.json; then
             git config user.name 'github-actions[bot]'
@@ -34,9 +64,11 @@ jobs:
             git add blog-posts.json
             git commit -m 'Refresh latest Substack preview'
             git push origin HEAD:main
+            echo 'pushed=true' >> "$GITHUB_OUTPUT"
           fi
       # Commits using GITHUB_TOKEN do not trigger branch-based Pages builds.
       - name: Request Pages rebuild
+        if: steps.save.outputs.pushed == 'true' || (github.event_name == 'workflow_dispatch' && inputs.post_url != '' && steps.refresh.outputs.outcome != 'unavailable')
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
