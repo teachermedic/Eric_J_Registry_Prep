@@ -67,7 +67,7 @@
  welcome.append(resume,cardResume);welcome.hidden=true;panels.today.append(welcome);
  const todayGrid=node('div',null,'dashboard-grid today-grid');
  todayGrid.append(start,tile('I Have 10 Minutes','A short session with questions, cards, and confidence checks.','quick-study.html','10'));
- const review=node('details',null,'today-review');review.id='today-review';const reviewSummary=node('summary','Review what I don’t know');review.append(reviewSummary,node('p','Choose clinical cards or terminology. Your choices are saved separately from exam scores.','study-help'));
+ const review=node('details',null,'today-review');review.id='today-review';const reviewSummary=node('summary','Review what I don’t know');review.append(reviewSummary,node('p','Revisit missed questions, Don’t Know cards, and cards scheduled for review.','study-help'));
  const reviewLinks=node('div',null,'review-links');review.append(reviewLinks);todayGrid.append(review);panels.today.append(todayGrid);
  const streak=get('study-streak'),streakPreview=node('a',null,'streak-preview');streakPreview.href='#my-progress';streakPreview.append(node('span','YOUR STUDY STREAK','eyebrow'));const streakText=node('strong');streakPreview.append(streakText,node('span','See daily goals & accomplishments →'));panels['my-progress'].append(streakPreview);
  const reviewStats=()=>{
@@ -83,10 +83,12 @@
   cardResume.querySelector('strong').textContent=savedKind==='terms'?'Continue terminology':'Continue your last deck';
   start.hidden=false;welcome.hidden=resume.hidden&&cardResume.hidden;
   for(const kind of ['clinical','terms']){
-   const count=catalog.filter(c=>c.kind===kind).filter(c=>state.records[c.id]?.difficult===true).length;total+=count;
-   reviewLinks.append(tile(kind==='clinical'?'Clinical cards':'Terminology',`${count} ${count===1?'card':'cards'} marked Don’t Know`,(kind==='clinical'?'flashcards.html':'terminology-decks.html')+'?mode=difficult',String(count)));
+   const count=catalog.filter(c=>{const r=state.records[c.id];return c.kind===kind&&r?.rating&&Number.isFinite(r.due)&&r.due<=Date.now();}).length;total+=count;
+   reviewLinks.append(tile(kind==='clinical'?'Clinical cards':'Terminology',`${count} ${count===1?'card':'cards'} due now`,(kind==='clinical'?'flashcards.html':'terminology-decks.html')+'?mode=due',String(count)));
+   const unknown=catalog.filter(c=>c.kind===kind&&state.records[c.id]?.difficult===true).length;
+   if(unknown)reviewLinks.append(tile(kind==='clinical'?'Clinical · Don’t Know':'Terminology · Don’t Know',unknown+' marked Don’t Know',(kind==='clinical'?'flashcards.html':'terminology-decks.html')+'?mode=difficult'));
   }
-  reviewSummary.textContent=`Review what I don’t know · ${missed} questions · ${total} cards`;
+  reviewSummary.textContent=`Review Due · ${missed} missed questions · ${total} cards`;
  };
  const syncResume=()=>{reviewStats();};syncResume();new MutationObserver(syncResume).observe(resume,{attributes:true,attributeFilter:['hidden']});new MutationObserver(syncResume).observe(get('saved-missed-button'),{childList:true,subtree:true,characterData:true});
  const syncStreak=()=>{streakText.textContent=streak.querySelector('.streak-total')?.textContent||'Start with one study day.';};syncStreak();new MutationObserver(syncStreak).observe(streak,{childList:true,subtree:true});
@@ -101,11 +103,20 @@
  group('Build your foundations',['flashcards.html','terminology-decks.html']);
  group('Understand the science',['anatomy-explorer.html','connection-trails.html']);
  group('Apply clinical reasoning',['change-finding.html','what-first.html']);
+ explore.lastElementChild.id='clinical-reasoning';
+ todayGrid.insertBefore(tile('Flashcards','Recall clinical facts and terminology.','flashcards.html'),review);
+ todayGrid.insertBefore(tile('Clinical Reasoning','Practice decisions with cases and changing findings.','#clinical-reasoning'),review);
  const trivia=node('section',null,'home-trivia');trivia.setAttribute('aria-labelledby','home-trivia-heading');
+ const triviaToggle=node('details',null,'home-trivia-toggle');
+ const triviaSummary=node('summary',null,'home-trivia-summary');
+ const wheel=node('span','✦','home-trivia-wheel');wheel.setAttribute('aria-hidden','true');
+ triviaSummary.append(wheel,node('span','Play a round'));
  const triviaTitle=node('h2','Hearth Trivia','dashboard-heading');triviaTitle.id='home-trivia-heading';
  const triviaFull=node('a','Open game in its own page ↗','home-trivia-full');triviaFull.href='hearth-trivia.html';
- const triviaFrame=node('iframe');triviaFrame.id='home-trivia-frame';triviaFrame.title='Play Hearth Trivia: category spinner, questions, and collectible seals';triviaFrame.src='hearth-trivia.html?embed=1';triviaFrame.loading='lazy';triviaFrame.height='1050';
- trivia.append(triviaTitle,triviaFull,triviaFrame);
+ const triviaFrame=node('iframe');triviaFrame.id='home-trivia-frame';triviaFrame.title='Play Hearth Trivia: category spinner, questions, and collectible seals';triviaFrame.loading='lazy';triviaFrame.height='1050';
+ triviaToggle.append(triviaSummary,triviaFull,triviaFrame);
+ triviaToggle.addEventListener('toggle',()=>{if(triviaToggle.open&&!triviaFrame.hasAttribute('src'))triviaFrame.src='hearth-trivia.html?embed=1';});
+ trivia.append(triviaTitle,triviaToggle);
  const syncTriviaTheme=()=>triviaFrame.contentWindow?.postMessage({type:'hearth-trivia-theme',dark:document.body.classList.contains('dark-mode')},location.origin);
  triviaFrame.addEventListener('load',syncTriviaTheme);
  window.addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==triviaFrame.contentWindow||event.data?.type!=='hearth-trivia-height')return;const height=event.data.height;if(Number.isFinite(height)&&height>=200&&height<=20000)triviaFrame.style.height=Math.ceil(height)+'px';});
@@ -113,17 +124,18 @@
  const plan=tile('Build My Study Plan','Plan your next study sessions.','study-plan.html');const planning=node('section',null,'study-goal-group');planning.append(node('h3','Organize your studying'),plan);explore.append(planning);
  const join=node('p',null,'study-join-link');const joinLink=node('a','Joining a class? Enter the Gathering Hall →');joinLink.href='instructor-corner.html';join.append(joinLink);
  const heading=panels.today.querySelector('h2'),intro=panels.today.querySelector('.dashboard-intro');
- const blog=get('blog-feature');panels.today.replaceChildren(trivia,heading,intro,join,welcome,todayGrid,practiceBox,explore);if(blog)panels.today.prepend(blog);
+ const blog=get('blog-feature');panels.today.replaceChildren(welcome,heading,intro,todayGrid,practiceBox,join,trivia,explore);if(blog)panels.today.prepend(blog);
  const footer=node('div',null,'dashboard-footer');footer.append(setup.querySelector('.sponsor-banner'));
  // Keep the original visit-streak elements for existing quiz callbacks, out of the student dashboard.
  const oldStreak=get('streak-container');oldStreak.hidden=true;oldStreak.setAttribute('aria-hidden','true');
  for(const child of [...setup.children])if(child!==oldStreak)child.remove();
  setup.prepend(nav,...Object.values(panels),footer);
  const activate=(focus=false)=>{
-  const id=location.hash.slice(1);const target=id==='study'?'today':Object.hasOwn(panels,id)?id:'today';
+  const id=location.hash.slice(1);const target=(id==='study'||id==='clinical-reasoning')?'today':Object.hasOwn(panels,id)?id:'today';
   for(const [key,p] of Object.entries(panels))p.hidden=key!==target;
   for(const a of nav.children){if(a.hash==='#'+target)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}
-  if(focus){panels[target].querySelector('h2').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
+  if(id==='clinical-reasoning'){get(id).scrollIntoView();return;}
+  if(focus){get(target+'-heading').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
  };
  nav.addEventListener('click',e=>{const a=e.target.closest('a');if(!a||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();if(location.hash!==a.hash)history.pushState(null,'',a.hash);activate(true);});
  window.addEventListener('popstate',()=>activate(true));window.addEventListener('hashchange',()=>activate(true));activate();reviewStats();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'field-notes-study-tools-v52';
+const CACHE_NAME = 'field-notes-study-tools-v53';
 const assets = [
   './hearth-trivia.html',
   './hearth-trivia.css',

@@ -9,6 +9,12 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base,{waitUntil:'load'});
   assert.equal(await page.locator('#today').isVisible(),true);assert.equal(await page.locator('.dashboard-nav a').count(),4);assert.equal(await page.locator('#today-start').isVisible(),true);
   assert.equal(await page.locator('#home-trivia-frame').count(),1);
+  assert.equal(await page.locator('#home-trivia-frame').getAttribute('src'),null);
+  await page.locator('.home-trivia-summary').click();
+  await page.locator('#home-trivia-frame[src]').waitFor({state:'attached'});
+  assert.equal(await page.locator('#home-trivia-frame').getAttribute('src'),'hearth-trivia.html?embed=1');
+  await page.locator('.home-trivia-summary').click();
+  assert.equal(await page.locator('#today > :nth-child(2)').getAttribute('class'),'today-welcome');
   assert.equal(await page.locator('#today > :first-child').getAttribute('id'),'blog-feature');
   assert.deepEqual(await page.locator('#today .study-goal-group h3').allTextContents(),['Build your foundations','Understand the science','Apply clinical reasoning','Organize your studying']);
   assert.equal(await page.locator('#today a[href="connection-trails.html"]').count(),1);assert.equal(await page.locator('#today .gathering-feature').count(),0);assert.equal(await page.locator('#today .hearth-scene').count(),0);
